@@ -80,7 +80,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
 .btn:hover{background:var(--teal-d);transform:translateY(-1px)}
 .hero{padding:92px 0 72px;text-align:center}
 .hero h1{font-size:clamp(2.3rem,6vw,4.1rem);font-weight:900;letter-spacing:-.03em;line-height:1.06;margin:18px 0 22px}
-.hero h1 .hl{color:var(--teal)}
+.hero h1 
 .hero p.lead{color:var(--mut);font-size:1.06rem;max-width:720px;margin:0 auto 14px}
 .hero p.lead strong{color:var(--ink)}
 .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:30px 0 42px}
@@ -133,6 +133,11 @@ footer{border-top:1px solid var(--line);padding:60px 0 40px;background:var(--car
 .foot-bottom{font-size:.76rem;color:var(--mut);text-align:center;border-top:1px solid var(--line);padding-top:24px}
 @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}.grid,.trust{grid-template-columns:1fr 1fr}.models{grid-template-columns:1fr}}
 @media(max-width:620px){.steps,.grid,.trust{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr}.nav-links{display:none}}
+
+.grad{background:linear-gradient(180deg,#000 20%,#7a7a7a 55%,#b9b9b9 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hero h1{color:#05070a}
+.hero h1 .hl{background:linear-gradient(180deg,#05070a,#7a7a7a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
 </style>
 </head>
 <body>
@@ -151,11 +156,11 @@ footer{border-top:1px solid var(--line);padding:60px 0 40px;background:var(--car
 <section class="hero" id="top">
 <div class="wrap">
 <span class="eyebrow">Crypto-Native Real Estate · UAE</span>
-<h1>Buy UAE Property with Crypto.<br><span class="hl">Own It in Minutes.</span></h1>
+<h1>Buy <span class="grad">UAE</span> Property with <span class="grad">Crypto</span>.<br>Own It <span class="grad">in</span> Minutes.</h1>
 <p class="lead">BlockEstate is the UAE's first <strong>crypto-native real estate marketplace</strong>. Own verified residential and commercial property across the Emirates with USDT, BTC or ETH. Settle instantly in AED with a <strong>DLD-registered title deed</strong> in your name.</p>
 <p class="lead">No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in <strong>minutes, not months.</strong></p>
 <div class="cta-row">
-<a class="btn btn-lg" href="#cta">Own It Now</a>
+<a class="btn btn-lg" href="#cta">Buy With Crypto</a>
 <a class="btn btn-lg ghost" href="#how">See How It Works</a>
 </div>
 <div class="stats">
