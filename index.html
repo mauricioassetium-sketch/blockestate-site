@@ -475,14 +475,19 @@ function applyLang(lang){
   // recorrer elementos con data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const en = el.getAttribute('data-i18n');
+    // guardar el ingles original la primera vez
+    if(el.dataset.beEn == null){ el.dataset.beEn = el.innerHTML; }
     const tr = I18N[en] && I18N[en][lang];
     if(tr != null){ el.innerHTML = tr; }
+    else if(lang === 'en'){ el.innerHTML = el.dataset.beEn; }
   });
   // placeholders
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
     const en = el.getAttribute('data-i18n-ph');
+    if(el.dataset.beEnPh == null){ el.dataset.beEnPh = el.getAttribute('placeholder') || ''; }
     const tr = I18N[en] && I18N[en][lang];
     if(tr != null){ el.setAttribute('placeholder', tr); }
+    else if(lang === 'en'){ el.setAttribute('placeholder', el.dataset.beEnPh); }
   });
   // selectores de idioma
   document.querySelectorAll('.lang-sel').forEach(s=>{ s.value = lang; if(s.selectedOptions[0]) s.selectedOptions[0].textContent = LANGS[lang].flag+' '+LANGS[lang].label; });
