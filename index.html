@@ -150,72 +150,101 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 .banner-track{display:flex;flex-shrink:0;min-width:100%;align-items:center;white-space:nowrap;animation:marq 22s linear infinite}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 .banner span{margin:0 2rem;white-space:nowrap}
+/* ---- language selector ---- */
+.lang-sel{margin-left:1rem;padding:.4rem .5rem;border:1px solid #ddd;border-radius:.5rem;background:#fff;color:#111;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.lang-sel:focus{outline:2px solid #22C55E;outline-offset:1px}
+/* ---- pre-registration popup ---- */
+.pre{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.pre.on{display:flex}
+.pre-bg{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
+.pre-card{position:relative;background:#fff;color:#111;border-radius:1rem;max-width:30rem;width:100%;max-height:90vh;overflow:auto;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.pre-close{position:absolute;top:.9rem;right:1rem;background:none;border:none;font-size:1.5rem;line-height:1;cursor:pointer;color:#666}
+.pre-close:hover{color:#000}
+.pre h3{font-size:1.3rem;margin:0 0 .5rem;font-weight:900;letter-spacing:.5px}
+.pre .pre-sub{font-size:.88rem;color:#555;margin:0 0 1.3rem;line-height:1.5}
+.pre form{display:flex;flex-direction:column;gap:.7rem}
+.pre label{font-size:.72rem;font-weight:700;letter-spacing:.04em;color:#333;display:block;margin-bottom:.2rem}
+.pre input,.pre select{width:100%;padding:.6rem .7rem;border:1px solid #ccc;border-radius:.5rem;font-size:.9rem;font-family:inherit;color:#111;box-sizing:border-box}
+.pre input:focus,.pre select:focus{outline:2px solid #22C55E;border-color:#22C55E}
+.pre button[type=submit]{background:#22C55E;color:#000;font-weight:800;font-size:.92rem;padding:.75rem;border:none;border-radius:.5rem;cursor:pointer;letter-spacing:.03em;transition:opacity .2s}
+.pre button[type=submit]:hover{opacity:.85}
+.pre button[type=submit]:disabled{opacity:.5;cursor:default}
+.pre .pre-note{font-size:.72rem;color:#888;text-align:center;margin:0;line-height:1.4}
+.pre-ok{display:none;text-align:center}
+.pre-ok h3{font-size:1.2rem}
+.pre-ok p{color:#555;font-size:.9rem;line-height:1.5}
+.pre-ok:before{content:'';display:block;width:52px;height:52px;margin:0 auto 1rem;border-radius:50%;background:#22C55E;position:relative}
+.pre-ok:before{content:'✓';color:#000;font-size:1.6rem;font-weight:900;line-height:52px}
+/* developer banner strip */
+.dev-strip{display:flex;align-items:center;justify-content:center;gap:.6rem;background:#111;color:#fff;padding:.7rem 1rem;font-size:.82rem;font-weight:600;letter-spacing:.02em}
+.dev-strip button{background:#22C55E;color:#000;border:none;font-weight:800;font-size:.78rem;padding:.45rem .9rem;border-radius:.4rem;cursor:pointer}
 </style>
 
 <body>
-<div class="banner" role="note" aria-label="Coming soon announcement"><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div></div>
+<div class="banner" role="note" aria-label="Coming soon announcement"><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span data-i18n="One platform. Full crypto payment rails for UAE real estate. Launching soon.">One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div></div>
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/><path d="M 170.00 160.00 L 170.00 172.00 L 196.00 172.00 L 196.00 160.00 L 170.00 160.00 Z" fill="#22C55E"/><path d="M 170.00 144.00 L 170.00 156.00 L 196.00 156.00 L 196.00 144.00 L 170.00 144.00 Z" fill="#22C55E"/></symbol><symbol id="wm" viewBox="0 0 626 86"><g transform="translate(4, 11) scale(0.0914)"><path d="M46 700V584H138V116H46V0H406Q470 0 517.5 21.5Q565 43 591.5 82.5Q618 122 618 177V187Q618 235 600.0 265.5Q582 296 557.5 312.5Q533 329 511 336V354Q533 360 559.0 376.5Q585 393 603.5 424.0Q622 455 622 505V515Q622 573 595.0 614.5Q568 656 520.5 678.0Q473 700 410 700ZM270 580H394Q437 580 463.5 559.0Q490 538 490 499V489Q490 450 464.0 429.0Q438 408 394 408H270ZM270 288H392Q433 288 459.5 267.0Q486 246 486 209V199Q486 161 460.0 140.5Q434 120 392 120H270ZM738 700V0H870V580H1190V700ZM1560 714Q1428 714 1350.0 641.5Q1272 569 1272 434V266Q1272 131 1350.0 58.5Q1428 -14 1560 -14Q1692 -14 1770.0 58.5Q1848 131 1848 266V434Q1848 569 1770.0 641.5Q1692 714 1560 714ZM1560 596Q1634 596 1675.0 553.0Q1716 510 1716 438V262Q1716 190 1675.0 147.0Q1634 104 1560 104Q1487 104 1445.5 147.0Q1404 190 1404 262V438Q1404 510 1445.5 553.0Q1487 596 1560 596ZM2238 714Q2108 714 2032.0 641.5Q1956 569 1956 434V266Q1956 131 2032.0 58.5Q2108 -14 2238 -14Q2367 -14 2437.5 56.5Q2508 127 2508 250V256H2378V246Q2378 184 2343.5 144.0Q2309 104 2238 104Q2168 104 2128.0 147.0Q2088 190 2088 264V436Q2088 509 2128.0 552.5Q2168 596 2238 596Q2309 596 2343.5 555.5Q2378 515 2378 454V436H2508V450Q2508 573 2437.5 643.5Q2367 714 2238 714ZM2624 700V0H2756V278H2774L3001 0H3170L2878 345L3180 700H3006L2774 416H2756V700ZM3258 700V0H3708V120H3390V287H3680V407H3390V580H3714V700ZM4063 714Q3982 714 3920.0 685.0Q3858 656 3823.0 602.0Q3788 548 3788 472V444H3918V472Q3918 535 3957.0 566.5Q3996 598 4063 598Q4131 598 4164.5 571.0Q4198 544 4198 502Q4198 473 4181.5 455.0Q4165 437 4133.5 425.5Q4102 414 4057 404L4034 399Q3962 383 3910.5 358.5Q3859 334 3831.5 294.0Q3804 254 3804 190Q3804 126 3834.5 80.5Q3865 35 3920.5 10.5Q3976 -14 4051 -14Q4126 -14 4184.5 11.5Q4243 37 4276.5 87.5Q4310 138 4310 214V244H4180V214Q4180 174 4164.5 149.5Q4149 125 4120.0 113.5Q4091 102 4051 102Q3991 102 3962.5 124.5Q3934 147 3934 186Q3934 212 3947.5 230.0Q3961 248 3988.0 260.0Q4015 272 4057 281L4080 286Q4155 302 4210.5 327.0Q4266 352 4297.0 393.0Q4328 434 4328 498Q4328 562 4295.5 610.5Q4263 659 4203.5 686.5Q4144 714 4063 714ZM4596 700V120H4392V0H4932V120H4728V700ZM4982 700 5166 0H5396L5580 700H5444L5406 546H5156L5118 700ZM5187 424H5375L5290 83H5272ZM5834 700V120H5630V0H6170V120H5966V700ZM6268 700V0H6718V120H6400V287H6690V407H6400V580H6724V700Z" fill="#22C55E"/></g></symbol></svg>
 <nav><div class="nav-in"><a href="#" class="brand"><span class="logo-lift"><svg class="logo"><use href="#logo"/></svg></span>
-<span class="name-wrap"><span class="name">BLOCKESTATE</span><span class="brand-by">POWERED BY NDC</span></span></a><div class="nav-links"><a href="#how">How It Works</a><a href="#markets">Markets</a><a href="#models">Models</a><a href="#operation">Operation</a><a href="#trust">Trust</a></div><a href="#cta" class="nav-cta">BUY WITH CRYPTO</a></div></nav>
+<span class="name-wrap"><span class="name">BLOCKESTATE</span><span class="brand-by">POWERED BY NDC</span></span></a><div class="nav-links"><a href="#how" data-i18n="How It Works">How It Works</a><a href="#markets" data-i18n="Markets">Markets</a><a href="#models" data-i18n="Models">Models</a><a href="#operation" data-i18n="Operation">Operation</a><a href="#trust" data-i18n="Trust">Trust</a><select class="lang-sel" aria-label="Language"></select></div><a href="#cta" class="nav-cta" data-i18n="BUY WITH CRYPTO">BUY WITH CRYPTO</a></div></nav>
 <section class="hero" id="top">
 <svg class="hero-art" viewBox="0 0 256 256"><use href="#logo"/></svg>
 <div class="wrap">
-<span class="eyebrow" data-rv="up">Crypto-Native Real Estate · UAE</span>
-<h1>Buy UAE Property<br>with Crypto<br><span class="ghost">Own It in Minutes</span></h1>
-<div class="hero-sub"><p class="lede" data-rv="up">BlockEstate is the UAE's first <b>crypto-native property marketplace</b>. Buy verified residential and commercial real estate with USDT BTC or ETH. Settle instantly in AED with a <b>DLD-registered title deed</b> in your name.</p><p class="small" data-rv="up">No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in <b>minutes not months.</b></p></div>
+<span class="eyebrow" data-rv="up" data-i18n="Crypto-Native Real Estate · UAE">Crypto-Native Real Estate · UAE</span>
+<h1 data-i18n="Buy UAE Property">Buy UAE Property<br data-i18n="with Crypto">with Crypto<br><span class="ghost" data-i18n="Own It" data-i18n="Own It in Minutes">Own It in Minutes</span></h1>
+<div class="hero-sub"><p class="lede" data-rv="up" data-i18n="BlockEstate is the UAE&#x27;s first">BlockEstate is the UAE's first <b data-i18n="crypto-native property marketplace">crypto-native property marketplace</b>. Buy verified residential and commercial real estate with USDT BTC or ETH. Settle instantly in AED with a <b data-i18n="DLD-registered title deed">DLD-registered title deed</b> <span data-i18n="in your name.">in your name.</span></p><p class="small" data-rv="up" data-i18n="No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in">No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in <b data-i18n="minutes not months.">minutes not months.</b></p></div>
 <div class="hero-meta">
-<div class="meta-item" data-rv="up"><span class="k">Settlement</span><span class="v">USDT · BTC · ETH → AED</span></div>
-<div class="meta-item" data-rv="up"><span class="k">Registration</span><span class="v">DLD Title Deed</span></div>
-<div class="meta-item" data-rv="up"><span class="k">Time to Own</span><span class="v">Minutes</span></div>
+<div class="meta-item" data-rv="up"><span class="k" data-i18n="Settlement">Settlement</span><span class="v">USDT · BTC · ETH → AED</span></div>
+<div class="meta-item" data-rv="up"><span class="k" data-i18n="Registration">Registration</span><span class="v" data-i18n="DLD Title Deed">DLD Title Deed</span></div>
+<div class="meta-item" data-rv="up"><span class="k" data-i18n="Time to Own">Time to Own</span><span class="v" data-i18n="Minutes">Minutes</span></div>
 </div>
 </div></section>
 <section class="vision" id="how"><div class="wrap">
 <span class="lab"><span class="dash"></span>How It Works</span>
-<h2 data-rv="up">From Crypto to <span class="outline">Title Deed</span></h2>
+<h2 data-rv="up" data-i18n="From Crypto to">From Crypto to <span class="outline" data-i18n="Title Deed">Title Deed</span></h2>
 <div class="heap">
-<div class="row" data-rv="left"><div class="head"><span class="n">01</span>Pick Your Property</div><p>Browse DLD-verified listings across the Emirates. Every asset from apartment to villa to office carries a physical audit and a live valuation so what you see is what you own.</p></div>
-<div class="row" data-rv="left"><div class="head"><span class="n">02</span>Pay in Crypto</div><p>Send USDT BTC or ETH. We settle into AED in <em>seconds</em> through our licensed payment partner. No bank account required. No currency friction.</p></div>
-<div class="row" data-rv="left"><div class="head"><span class="n">03</span>Deed Registered</div><p>Your <em>title deed is issued under the Dubai Land Department</em> and transferred to your name. Digital twin kept on-chain as an immutable record of ownership.</p></div>
-<div class="row" data-rv="left"><div class="head"><span class="n">04</span>Own &amp; Earn</div><p>Hold for appreciation or list it back on the marketplace anytime. <em>Secondary sales are instant.</em> Your property stays liquid forever.</p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">01</span data-i18n="Pick Your Property">Pick Your Property</div><p data-i18n="Browse DLD-verified listings across the Emirates. Every asset from apartment to villa to office carries a physical audit and a live valuation so what you see is what you own.">Browse DLD-verified listings across the Emirates. Every asset from apartment to villa to office carries a physical audit and a live valuation so what you see is what you own.</p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">02</span data-i18n="Pay in Crypto">Pay in Crypto</div><p data-i18n="Send USDT BTC or ETH. We settle into AED in">Send USDT BTC or ETH. We settle into AED in <em data-i18n="seconds">seconds</em> <span data-i18n="through our licensed payment partner. No bank account required. No currency friction.">through our licensed payment partner. No bank account required. No currency friction.</span></p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">03</span data-i18n="Deed Registered">Deed Registered</div><p data-i18n="Your">Your <em data-i18n="title deed is issued under the Dubai Land Department">title deed is issued under the Dubai Land Department</em> <span data-i18n="and transferred to your name. Digital twin kept on-chain as an immutable record of ownership.">and transferred to your name. Digital twin kept on-chain as an immutable record of ownership.</span></p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">04</span data-i18n="Own &amp; Earn">Own &amp; Earn</div><p data-i18n="Hold for appreciation or list it back on the marketplace anytime.">Hold for appreciation or list it back on the marketplace anytime. <em data-i18n="Secondary sales are instant.">Secondary sales are instant.</em> <span data-i18n="Your property stays liquid forever.">Your property stays liquid forever.</span></p></div>
 </div>
 </div></section>
 <section class="markets" id="markets"><div class="wrap">
-<span class="lab"><span class="dash"></span>Strategic Geography</span>
-<h2 data-rv="up">Every <span class="outline">Emirate</span></h2>
-<p class="lede" data-rv="up">From Dubai's towers to Ras Al Khaimah's coast. Verified assets across the seven Emirates. Each one auditable. Each one registerable in crypto.</p>
+<span class="lab"><span class="dash"></span data-i18n="Strategic Geography">Strategic Geography</span>
+<h2 data-rv="up" data-i18n="Every">Every <span class="outline" data-i18n="Emirate">Emirate</span></h2>
+<p class="lede" data-rv="up" data-i18n="From Dubai&#x27;s towers to Ras Al Khaimah&#x27;s coast. Verified assets across the seven Emirates. Each one auditable. Each one registerable in crypto.">From Dubai's towers to Ras Al Khaimah's coast. Verified assets across the seven Emirates. Each one auditable. Each one registerable in crypto.</p>
 <div class="grid7">
-<div class="city" data-rv="up"><img class="city-svg" src="img/dubai.jpg" alt="Dubai — Burj Al Arab & Palm Jumeirah" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Dubai</div><div class="lb">Global Capital · CC0 Unsplash</div></div></div>
-<div class="city" data-rv="up"><img class="city-svg" src="img/abu5.jpg" alt="Abu Dhabi skyline — Capital Gate" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Abu Dhabi</div><div class="lb">Institutional Wealth · CC BY-SA 4.0</div></div></div>
-<div class="city" data-rv="up"><img class="city-svg" src="img/sharjah.jpg" alt="Sharjah skyline" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Sharjah</div><div class="lb">Cultural Growth · CC BY-SA 4.0</div></div></div>
-<div class="city" data-rv="up"><img class="city-svg" src="img/rak.jpg" alt="Ras Al Khaimah — Marjan Island coast" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Ras Al Khaimah</div><div class="lb">Emerging Coast · CC BY-SA 4.0</div></div></div>
-<div class="city" data-rv="up"><img class="city-svg" src="img/fuj.jpg" alt="Fujairah — port and city" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Northern Emirates</div><div class="lb">Developing Markets · CC BY-SA 4.0</div></div></div>
-<div class="city city-all" data-rv="up"><div class="ci"><div class="nm">All 7 Emirates</div><div class="lb">One Marketplace</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/dubai.jpg" alt="Dubai — Burj Al Arab & Palm Jumeirah" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Dubai</div><div class="lb" data-i18n="Global Capital · CC0 Unsplash">Global Capital · CC0 Unsplash</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/abu5.jpg" alt="Abu Dhabi skyline — Capital Gate" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Abu Dhabi</div><div class="lb" data-i18n="Institutional Wealth · CC BY-SA 4.0">Institutional Wealth · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/sharjah.jpg" alt="Sharjah skyline" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Sharjah</div><div class="lb" data-i18n="Cultural Growth · CC BY-SA 4.0">Cultural Growth · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/rak.jpg" alt="Ras Al Khaimah — Marjan Island coast" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Ras Al Khaimah</div><div class="lb" data-i18n="Emerging Coast · CC BY-SA 4.0">Emerging Coast · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/fuj.jpg" alt="Fujairah — port and city" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Northern Emirates</div><div class="lb" data-i18n="Developing Markets · CC BY-SA 4.0">Developing Markets · CC BY-SA 4.0</div></div></div>
+<div class="city city-all" data-rv="up"><div class="ci"><div class="nm" data-i18n="All 7 Emirates">All 7 Emirates</div><div class="lb" data-i18n="One Marketplace">One Marketplace</div></div></div>
 </div>
 </div></section>
-<section class="models" id="models"><div class="wrap">
-<span class="lab"><span class="dash"></span>Asset Classes</span>
-<h2 data-rv="up">What You <b>Can Own</b><br><span class="o">in Crypto</span></h2>
+<<section class="models" id="models"><div class="wrap">
+<span class="lab"><span class="dash"></span data-i18n="Asset Classes">Asset Classes</span>
+<h2 data-rv="up">What You Can <b data-i18n="What You Can Sell as a Developer">Sell</b><br><span class="o">as a Developer</span></h2>
 <div class="baskets">
-<div class="basket" data-rv="up"><span class="tag">Residential</span><h3>Apartments &amp; Villas</h3><p>Off-plan and completed homes across Dubai Marina Downtown Palm Jumeirah and beyond. Buy a whole unit or a fractional share from <b>$100000</b>. Rental income paid <b>quarterly in crypto</b>.</p></div>
-<div class="basket" data-rv="up"><span class="tag">Commercial</span><h3>Offices &amp; Retail</h3><p>Stabilized office and retail spaces with long-term leases of 3 to 10 years. Predictable <b>7-9% annual yield</b> from contractual rents. Distributed directly to your wallet.</p></div>
-<div class="basket" data-rv="up"><span class="tag">Hospitality</span><h3>Hotel &amp; Resort Suites</h3><p>Branded hotel suites in Dubai and Ras Al Khaimah. RevPAR-linked <b>6-10% monthly dividends</b> paid in stablecoin. Driven by a live performance oracle.</p></div>
-<div class="basket" data-rv="up"><span class="tag">Development</span><h3>Developer Backing</h3><p>For developers and institutions. Tokenize construction projects to unlock <b>10-14% annual yield</b>. Bridging liquidity with physical assets collateralized at every milestone.</p></div>
+<div class="basket" data-rv="up"><span class="tag" data-i18n="Residential">Residential</span><h3 data-i18n="Apartments &amp; Villas">Apartments &amp; Villas</h3><p data-i18n="Off-plan and completed homes across Dubai Marina Downtown Palm Jumeirah and beyond. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.">Off-plan and completed homes across Dubai Marina Downtown Palm Jumeirah and beyond. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.</p></div>
+<div class="basket" data-rv="up"><span class="tag" data-i18n="Commercial">Commercial</span><h3 data-i18n="Offices &amp; Retail">Offices &amp; Retail</h3><p data-i18n="Stabilized office and retail spaces with long-term leases of 3 to 10 years. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.">Stabilized office and retail spaces with long-term leases of 3 to 10 years. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.</p></div>
+<div class="basket" data-rv="up"><span class="tag" data-i18n="Hospitality">Hospitality</span><h3 data-i18n="Hotel &amp; Resort Suites">Hotel &amp; Resort Suites</h3><p data-i18n="Branded hotel suites in Dubai and Ras Al Khaimah. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.">Branded hotel suites in Dubai and Ras Al Khaimah. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.</p></div>
+<div class="basket" data-rv="up"><span class="tag" data-i18n="Development">Development</span><h3 data-i18n="Developer Backing">Developer Backing</h3><p data-i18n="For developers and institutions. Sell real units pre-construction with crypto payment from global buyers. You receive AED fiat directly in your bank. No license, no virtual asset exposure.">For developers and institutions. Sell real units pre-construction with crypto payment from global buyers. You receive AED fiat directly in your bank. No license, no virtual asset exposure.</p></div>
 </div>
 </div></section>
+
 <section class="operation" id="operation"><div class="wrap">
-<span class="lab"><span class="dash"></span>The Operation</span>
-<h2 data-rv="up">Crypto In. <span class="outline">Deed Out.</span></h2>
-<p class="lede" data-rv="up">Watch a BlockEstate purchase move end to end. Your crypto travels through licensed rails and lands as a registered title deed.</p>
+<span class="lab"><span class="dash"></span data-i18n="The Operation">The Operation</span>
+<h2 data-rv="up" data-i18n="Crypto In.">Crypto In. <span class="outline" data-i18n="Deed Out.">Deed Out.</span></h2>
+<p class="lede" data-rv="up" data-i18n="Watch a BlockEstate purchase move end to end. Your crypto travels through licensed rails and lands as a registered title deed.">Watch a BlockEstate purchase move end to end. Your crypto travels through licensed rails and lands as a registered title deed.</p>
 <div class="op-stage" data-rv="up">
 <svg viewBox="0 0 1260 460" xmlns="http://www.w3.org/2000/svg" class="op" role="img" aria-label="BlockEstate purchase flow: you send crypto to BlockEstate, PayTheFly converts it, the Charger custodian locks it, mbank routes AED to the developer, and DLD registers the title deed">
 <g text-anchor="middle">
-<g transform="translate(85 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.03;0.08;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SEND CRYPTO</text></g>
-<g transform="translate(267 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.16;0.21;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SELECT PROPERTY</text></g>
-<g transform="translate(449 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.30;0.35;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">CRYPTO → AED</text></g>
-<g transform="translate(631 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.44;0.49;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">CUSTODIAN</text></g>
-<g transform="translate(813 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.58;0.63;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">FIAT CONVERSION</text></g>
-<g transform="translate(995 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.72;0.77;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">RECEIVES AED</text></g>
-<g transform="translate(1177 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.86;0.91;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SENDS TITLE</text></g>
+<g transform="translate(85 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.03;0.08;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="SEND CRYPTO">SEND CRYPTO</text></g>
+<g transform="translate(267 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.16;0.21;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="SELECT PROPERTY">SELECT PROPERTY</text></g>
+<g transform="translate(449 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.30;0.35;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="CRYPTO → AED">CRYPTO → AED</text></g>
+<g transform="translate(631 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.44;0.49;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="CUSTODIAN">CUSTODIAN</text></g>
+<g transform="translate(813 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.58;0.63;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="FIAT CONVERSION">FIAT CONVERSION</text></g>
+<g transform="translate(995 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.72;0.77;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="RECEIVES AED">RECEIVES AED</text></g>
+<g transform="translate(1177 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.86;0.91;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em" data-i18n="SENDS TITLE">SENDS TITLE</text></g>
 </g>
 <g fill="none" stroke="#00000040" stroke-width="2" stroke-dasharray="4 10" stroke-linecap="round">
 <g opacity="0"><path d="M129 215 H223"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.14;0.16;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
@@ -227,12 +256,12 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 </g>
 <g text-anchor="middle">
 <g transform="translate(85 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round"><rect x="-18" y="-13" width="36" height="26" rx="4"/><path d="M-18 -3 h11"/><circle cx="11" cy="0" r="2.5" fill="#22C55E" stroke="none"/></g><text y="74" class="op-nm">YOU</text><text y="92" class="op-sub">USDT BTC ETH</text></g>
-<g transform="translate(267 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-20 -4 L-15 -13 H15 L20 -4 Z"/><path d="M-16 -4 V12 H16 V-4"/><path d="M-4 12 V4 H4 V12"/></g><text y="74" class="op-nm">BLOCKESTATE</text><text y="92" class="op-sub">PROPERTY ESCROW</text></g>
+<g transform="translate(267 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-20 -4 L-15 -13 H15 L20 -4 Z"/><path d="M-16 -4 V12 H16 V-4"/><path d="M-4 12 V4 H4 V12"/></g><text y="74" class="op-nm">BLOCKESTATE</text><text y="92" class="op-sub" data-i18n="PROPERTY ESCROW">PROPERTY ESCROW</text></g>
 <g transform="translate(449 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-14 -7 H12 M12 -7 l-6 -6 M12 -7 l-6 6"/><path d="M14 7 H-12 M-12 7 l6 6 M-12 7 l6 -6"/></g><text y="74" class="op-nm">PAYTHEFLY</text><text y="92" class="op-sub">CRYPTO → AED</text></g>
 <g transform="translate(631 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-13" y="-12" width="26" height="20" rx="3"/><path d="M-8 -12 V-5 A8 8 0 0 1 8 -5 V-12"/><circle cx="0" cy="0" r="4"/></g><text y="74" class="op-nm">CHARGER</text><text y="92" class="op-sub">CUSTODIAN</text></g>
-<g transform="translate(813 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M-16 -8 L0 -16 L16 -8 Z"/><path d="M-16 -6 V4 M-8 -6 V4 M0 -6 V4 M8 -6 V4 M16 -6 V4"/><path d="M-20 8 H20"/></g><text y="74" class="op-nm">MBANK</text><text y="92" class="op-sub">AED ROUTING</text></g>
+<g transform="translate(813 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M-16 -8 L0 -16 L16 -8 Z"/><path d="M-16 -6 V4 M-8 -6 V4 M0 -6 V4 M8 -6 V4 M16 -6 V4"/><path d="M-20 8 H20"/></g><text y="74" class="op-nm">MBANK</text><text y="92" class="op-sub" data-i18n="AED ROUTING">AED ROUTING</text></g>
 <g transform="translate(995 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -16 L14 -4 V12 H-14 V-4 Z"/><path d="M-4 12 V2 H4 V12"/></g><text y="74" class="op-nm">DEVELOPER</text><text y="92" class="op-sub">RECEIVES AED</text></g>
-<g transform="translate(1177 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"><rect x="-13" y="-16" width="26" height="32" rx="3"/><path d="M-7 -8 H7 M-7 -1 H7 M-7 6 H1"/></g><text y="74" class="op-nm">DLD</text><text y="92" class="op-sub">TITLE DEED</text></g>
+<g transform="translate(1177 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"><rect x="-13" y="-16" width="26" height="32" rx="3"/><path d="M-7 -8 H7 M-7 -1 H7 M-7 6 H1"/></g><text y="74" class="op-nm">DLD</text><text y="92" class="op-sub" data-i18n="TITLE DEED">TITLE DEED</text></g>
 </g>
 <g opacity="0">
 <animateMotion path="M85 215 L631 215" keyPoints="0;0;0.333;0.333;0.667;0.667;1;1" keyTimes="0;0.01;0.13;0.15;0.27;0.29;0.41;1" calcMode="linear" dur="8s" repeatCount="indefinite"/>
@@ -276,7 +305,7 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <circle r="40" fill="#00000008" stroke="#00000029" stroke-width="1"/>
 <circle r="27" fill="none" stroke="#22C55E" stroke-width="5" stroke-linecap="round" transform="rotate(-90)" stroke-dasharray="169.6" stroke-dashoffset="169.6"><animate attributeName="stroke-dashoffset" from="169.6" to="0" dur="8s" repeatCount="indefinite"/></circle>
 <text id="opClock" y="2" text-anchor="middle" font-size="13" font-weight="800" fill="#16A34A" font-variant-numeric="tabular-nums">00:00</text>
-<text y="54" text-anchor="middle" font-size="8" fill="#111" letter-spacing=".12em">24 HRS</text>
+<text y="54" text-anchor="middle" font-size="8" fill="#111" letter-spacing=".12em" data-i18n="24 HRS">24 HRS</text>
 </g>
 </svg>
 
@@ -286,33 +315,88 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 </div></section>
 <section class="trust" id="trust"><div class="wrap">
 <span class="lab"><span class="dash"></span>Trust</span>
-<h2 data-rv="up">The Architecture <span class="outline">of Trust</span></h2>
-<p class="lede" data-rv="up">World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is <b>programmed.</b></p>
+<h2 data-rv="up" data-i18n="The Architecture">The Architecture <span class="outline" data-i18n="of Trust">of Trust</span></h2>
+<p class="lede" data-rv="up" data-i18n="World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is">World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is <b data-i18n="programmed.">programmed.</b></p>
 <div class="partners">
-<div class="partner" data-rv="up"><div class="nm">PayTheFly</div><div class="rl">Crypto → AED Settlement</div><p>Licensed payment infrastructure converting USDT BTC and ETH into AED in seconds. The instant fiat leg of every purchase.</p></div>
-<div class="partner" data-rv="up"><div class="nm">mbank</div><div class="rl">AED Banking</div><p>Licensed AED banking partner. Settled funds are routed held and paid out to sellers through regulated accounts.</p></div>
-<div class="partner" data-rv="up"><div class="nm">DLD</div><div class="rl">Title Registration</div><p>Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.</p></div>
-<div class="partner" data-rv="up"><div class="nm">Verysset</div><div class="rl">Physical Oracle</div><p>Every asset is scanned audited and turned into a digital twin before it enters the marketplace.</p></div>
-<div class="partner" data-rv="up"><div class="nm">Charger.io</div><div class="rl">Digital Custody</div><p>Institutional-grade digital asset custody for holdings and yields. Segregated and auditable at all times.</p></div>
-<div class="partner" data-rv="up"><div class="nm">VARA</div><div class="rl">Regulatory Oversight</div><p>Crypto activities operate under the Virtual Assets Regulatory Authority framework. Compliant by design.</p></div>
+<div class="partner" data-rv="up"><div class="nm">PayTheFly</div><div class="rl" data-i18n="Crypto → AED Settlement">Crypto → AED Settlement</div><p data-i18n="Licensed payment infrastructure converting USDT BTC and ETH into AED in seconds. The instant fiat leg of every purchase.">Licensed payment infrastructure converting USDT BTC and ETH into AED in seconds. The instant fiat leg of every purchase.</p></div>
+<div class="partner" data-rv="up"><div class="nm">mbank</div><div class="rl" data-i18n="AED Banking">AED Banking</div><p data-i18n="Licensed AED banking partner. Settled funds are routed held and paid out to sellers through regulated accounts.">Licensed AED banking partner. Settled funds are routed held and paid out to sellers through regulated accounts.</p></div>
+<div class="partner" data-rv="up"><div class="nm">DLD</div><div class="rl" data-i18n="Title Registration">Title Registration</div><p data-i18n="Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.">Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.</p></div>
+<div class="partner" data-rv="up"><div class="nm">Verysset</div><div class="rl" data-i18n="Physical Oracle">Physical Oracle</div><p data-i18n="Every asset is scanned audited and turned into a digital twin before it enters the marketplace.">Every asset is scanned audited and turned into a digital twin before it enters the marketplace.</p></div>
+<div class="partner" data-rv="up"><div class="nm">Charger.io</div><div class="rl" data-i18n="Digital Custody">Digital Custody</div><p data-i18n="Institutional-grade digital asset custody for holdings and yields. Segregated and auditable at all times.">Institutional-grade digital asset custody for holdings and yields. Segregated and auditable at all times.</p></div>
+<div class="partner" data-rv="up"><div class="nm">VARA</div><div class="rl" data-i18n="Regulatory Oversight">Regulatory Oversight</div><p data-i18n="Crypto activities operate under the Virtual Assets Regulatory Authority framework. Compliant by design.">Crypto activities operate under the Virtual Assets Regulatory Authority framework. Compliant by design.</p></div>
 </div>
-<p class="tagline" data-rv="up">BlockEstate is not a bank custodian broker or auditor. It is <b>the gateway and orchestrator</b> that connects these licensed providers into one seamless purchase.</p>
-<p class="ndc-line" data-rv="up">Powered by <b>NDC</b> · Executed on Proven Infrastructure</p>
+<p class="tagline" data-rv="up" data-i18n="BlockEstate is not a bank custodian broker or auditor. It is">BlockEstate is not a bank custodian broker or auditor. It is <b data-i18n="the gateway and orchestrator">the gateway and orchestrator</b> <span data-i18n="that connects these licensed providers into one seamless purchase.">that connects these licensed providers into one seamless purchase.</span></p>
+<p class="ndc-line" data-rv="up" data-i18n="Powered by">Powered by <b>NDC</b> <span data-i18n="· Executed on Proven Infrastructure">· Executed on Proven Infrastructure</span></p>
 </div></section>
 <section class="cta" id="cta"><div class="wrap">
-<h2 data-rv="up">Own It <span class="ghost">Now</span></h2>
-<p class="sub-cta">From USDT to AED to title deed. <b>The whole journey in minutes.</b></p>
-<a class="btn" data-rv="up" href="/cdn-cgi/l/email-protection#83ebe6efefecc3e1efece0e8e6f0f7e2f7e6ade2e6">START BUYING</a>
+<h2 data-rv="up">Own It <span class="ghost" data-i18n="Now">Now</span></h2>
+<p class="sub-cta" data-i18n="From USDT to AED to title deed.">From USDT to AED to title deed. <b data-i18n="The whole journey in minutes.">The whole journey in minutes.</b></p>
+<a class="btn" data-rv="up" href="/cdn-cgi/l/email-protection#83ebe6efefecc3e1efece0e8e6f0f7e2f7e6ade2e6" data-i18n="START BUYING">START BUYING</a>
 </div></section>
 <footer>
 <div class="foot-in">
-<div class="foot-brand"><div class="name"><svg class="logo"><use href="#logo"/></svg>BLOCKESTATE</div><div class="foot-by">POWERED BY NDC</div><p>The UAE's crypto-native property marketplace. Real estate ownership settled in seconds and registered for the long term.</p></div>
-<div class="foot-col"><h5>Marketplace</h5><a href="#how">How It Works</a><a href="#markets">Markets</a><a href="#models">Asset Classes</a></div>
-<div class="foot-col"><h5>Company</h5><a href="#trust">Trust &amp; Partners</a><a href="/cdn-cgi/l/email-protection#d6beb3babab996b4bab9b5bdb3a5a2b7a2b3f8b7b3">Contact</a></div>
+<div class="foot-brand"><div class="name"><svg class="logo"><use href="#logo"/></svg>BLOCKESTATE</div><div class="foot-by">POWERED BY NDC</div><p data-i18n="The UAE&#x27;s crypto-native property marketplace. Real estate ownership settled in seconds and registered for the long term.">The UAE's crypto-native property marketplace. Real estate ownership settled in seconds and registered for the long term.</p></div>
+<div class="foot-col"><h5 data-i18n="Marketplace">Marketplace</h5><a href="#how">How It Works</a><a href="#markets">Markets</a><a href="#models">Asset Classes</a></div>
+<div class="foot-col"><h5 data-i18n="Company">Company</h5><a href="#trust" data-i18n="Trust &amp; Partners">Trust &amp; Partners</a><a href="/cdn-cgi/l/email-protection#d6beb3babab996b4bab9b5bdb3a5a2b7a2b3f8b7b3" data-i18n="Contact">Contact</a></div>
 </div>
-<div class="legal"><p>BlockEstate is a real estate technology marketplace. Crypto payments settle through licensed partners. Title deeds are issued by the Dubai Land Department. This site does not constitute investment advice. All figures are illustrative. © 2026 BlockEstate · NDC · Dubai UAE.</p></div>
+<div class="legal"><p data-i18n="BlockEstate is a real estate technology marketplace. Crypto payments settle through licensed partners. Title deeds are issued by the Dubai Land Department. This site does not constitute investment advice. All figures are illustrative. © 2026 BlockEstate · NDC · Dubai UAE.">BlockEstate is a real estate technology marketplace. Crypto payments settle through licensed partners. Title deeds are issued by the Dubai Land Department. This site does not constitute investment advice. All figures are illustrative. © 2026 BlockEstate · NDC · Dubai UAE.</p></div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- developer pre-registration strip -->
+<div class="dev-strip" data-i18n-strip>
+  <span data-i18n="Are you a developer? Pre-register your projects">Are you a developer? Pre-register your projects</span>
+  <button type="button" data-open-pre data-i18n="PRE-REGISTER">PRE-REGISTER</button>
+</div>
+
+<!-- pre-registration popup -->
+<div class="pre" id="be-pre" role="dialog" aria-modal="true">
+  <div class="pre-bg"></div>
+  <div class="pre-card">
+    <button class="pre-close" aria-label="Close">&times;</button>
+    <div class="pre-form-wrap">
+      <h3 data-i18n="DEVELOPER PRE-REGISTRATION">DEVELOPER PRE-REGISTRATION</h3>
+      <p class="pre-sub" data-i18n="Be among the first developers on the UAE's crypto-native property marketplace. List your projects. Get paid in AED. Reach global crypto buyers.">Be among the first developers on the UAE's crypto-native property marketplace. List your projects. Get paid in AED. Reach global crypto buyers.</p>
+      <form action="https://formsubmit.co/info@blockestate.ae" method="POST">
+        <div>
+          <label data-i18n="Full Name">Full Name</label>
+          <input type="text" name="name" required data-i18n-ph="Full Name">
+        </div>
+        <div>
+          <label data-i18n="Company / Developer Name">Company / Developer Name</label>
+          <input type="text" name="company" required data-i18n-ph="Company / Developer Name">
+        </div>
+        <div>
+          <label data-i18n="Work Email">Work Email</label>
+          <input type="email" name="email" required data-i18n-ph="Work Email">
+        </div>
+        <div>
+          <label data-i18n="Phone (optional)">Phone (optional)</label>
+          <input type="tel" name="phone" data-i18n-ph="Phone (optional)">
+        </div>
+        <div>
+          <label data-i18n="Country">Country</label>
+          <input type="text" name="country" data-i18n-ph="Country">
+        </div>
+        <div>
+          <label data-i18n="Units or projects (optional)">Units or projects (optional)</label>
+          <input type="text" name="projects" data-i18n-ph="Units or projects (optional)">
+        </div>
+        <input type="hidden" name="_subject" value="New BlockEstate developer pre-registration">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_autoresponse" value="Welcome to BlockEstate — you're on the developer list">
+        <input type="hidden" name="_next" value="">
+        <button type="submit" data-i18n="PRE-REGISTER">PRE-REGISTER</button>
+        <p class="pre-note" data-i18n="Priority onboarding at launch. No fees to join.">Priority onboarding at launch. No fees to join.</p>
+      </form>
+    </div>
+    <div class="pre-ok">
+      <h3 data-i18n="You're on the list. Check your inbox — your welcome email is on its way.">You're on the list. Check your inbox — your welcome email is on its way.</h3>
+      <p><button class="pre-close" type="button" data-i18n="Maybe later">Maybe later</button></p>
+    </div>
+  </div>
+</div>
+
+<script>
 (function(){
   var els = document.querySelectorAll('[data-rv]');
   if (!els.length) return;
@@ -347,6 +431,213 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
     c.textContent=(hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm;
   }
   tick();setInterval(tick,250);
+})();
+</script>
+<script>
+const I18N = {
+  "How It Works": {es:"Cómo Funciona",ar:"كيف يعمل",ru:"Как это работает",zh:"如何运作",hi:"कैसे काम करता है"},
+  "Markets": {es:"Mercados",ar:"الأسواق",ru:"Рынки",zh:"市场",hi:"बाज़ार"},
+  "Models": {es:"Modelos",ar:"النماذج",ru:"Модели",zh:"模型",hi:"मॉडल"},
+  "Operation": {es:"Operación",ar:"العملية",ru:"Операция",zh:"运营",hi:"संचालन"},
+  "Trust": {es:"Confianza",ar:"الثقة",ru:"Доверие",zh:"信任",hi:"विश्वास"},
+  "BUY WITH CRYPTO": {es:"COMPRAR CON CRIPTO",ar:"اشترِ بالعملات الرقمية",ru:"КУПИТЬ ЗА КРИПТО",zh:"用加密货币购买",hi:"क्रिप्टो से खरीदें"},
+  "Crypto-Native Real Estate · UAE": {es:"Bienes Raíces Cripto-Nativos · EAU",ar:"عقارات رقمية · الإمارات",ru:"Крипто-недвижимость · ОАЭ",zh:"原生加密货币房地产 · 阿联酋",hi:"क्रिप्टो-मूल रियल एस्टेट · यूएई"},
+  "Buy UAE Property": {es:"Compra Propiedad en EAU",ar:"اشترِ عقارًا في الإمارات",ru:"Купите недвижимость в ОАЭ",zh:"购买阿联酋房产",hi:"यूएई में संपत्ति खरीदें"},
+  "with Crypto": {es:"con Cripto",ar:"بالعملات الرقمية",ru:"за криптовалюту",zh:"用加密货币",hi:"क्रिप्टो से"},
+  "Own It in Minutes": {es:"Sé Dueño en Minutos",ar:"امتلكها في دقائق",ru:"Владейте через минуты",zh:"几分钟内拥有",hi:"मिनटों में मालिक बनें"},
+  "BlockEstate is the UAE's first": {es:"BlockEstate es el primer mercado",ar:"بلوك إستيت هو أول سوق",ru:"BlockEstate — первый",zh:"BlockEstate 是阿联酋首个",hi:"BlockEstate यूएई का पहला"},
+  "crypto-native property marketplace": {es:"inmobiliario cripto-nativo de los EAU",ar:"عقاري رقمي في الإمارات",ru:"крипто-рынок недвижимости",zh:"原生加密货币房产市场",hi:"क्रिप्टो-मूल संपत्ति बाज़ार"},
+  "DLD-registered title deed": {es:"título de propiedad registrado en DLD",ar:"سند ملكية مسجل لدى دائرة الأراضي",ru:"свидетельством, зарегистрированным в DLD",zh:"在 DLD 注册的地契",hi:"DLD-पंजीकृत स्वामित्व दस्तावेज़"},
+  "in your name.": {es:"a tu nombre.",ar:"باسمك.",ru:"на ваше имя.",zh:"以你的名义。",hi:"आपके नाम पर।"},
+  "Settlement": {es:"Liquidación",ar:"التسوية",ru:"Расчёт",zh:"结算",hi:"निपटान"},
+  "Registration": {es:"Registro",ar:"التسجيل",ru:"Регистрация",zh:"注册",hi:"पंजीकरण"},
+  "DLD Title Deed": {es:"Título DLD",ar:"سند ملكية DLD",ru:"Свидетельство DLD",zh:"DLD 地契",hi:"DLD स्वामित्व दस्तावेज़"},
+  "Time to Own": {es:"Tiempo para ser dueño",ar:"الوقت حتى التملك",ru:"Время до владения",zh:"拥有时间",hi:"स्वामित्व का समय"},
+  "Minutes": {es:"Minutos",ar:"دقائق",ru:"Минуты",zh:"分钟",hi:"मिनट"},
+  "From Crypto to": {es:"Del Cripto al",ar:"من العملات الرقمية إلى",ru:"От крипты до",zh:"从加密货币到",hi:"क्रिप्टो से"},
+  "Title Deed": {es:"Título de Propiedad",ar:"سند الملكية",ru:"Свидетельство о праве",zh:"地契",hi:"स्वामित्व दस्तावेज़"},
+  "Pick Your Property": {es:"Elige tu Propiedad",ar:"اختر عقارك",ru:"Выберите недвижимость",zh:"挑选你的房产",hi:"अपनी संपत्ति चुनें"},
+  "Browse DLD-verified listings across the Emirates. Every asset from apartment to villa to office carries a physical audit and a live valuation so what you see is what you own.": {es:"Explora listados verificados por DLD en todos los Emiratos. Cada activo cuenta con auditoría física y valuación en vivo: lo que ves es lo que tienes.",ar:"تصفح قوائم موثقة من دائرة الأراضي عبر الإمارات. كل أصل يخضع لتدقيق مادي وتقييم مباشر، فما تراه هو ما تملكه.",ru:"Просматривайте проверенные DLD объекты по всем Эмиратам. Каждый актив проходит физический аудит и живую оценку: что видите, тем и владеете.",zh:"浏览经 DLD 验证的房源。每处资产都经过实地审核和实时估值：所见即所得。",hi:"अमीरात भर में DLD-सत्यापित लिस्टिंग ब्राउज़ करें। हर संपत्ति की भौतिक जांच और लाइव मूल्यांकन होता है — जो देखते हैं वही आपका है।"},
+  "Pay in Crypto": {es:"Paga en Cripto",ar:"ادفع بالعملات الرقمية",ru:"Оплатите криптой",zh:"用加密货币支付",hi:"क्रिप्टो में भुगतान करें"},
+  "Send USDT BTC or ETH. We settle into AED in": {es:"Envía USDT, BTC o ETH. Liquidamos en AED en",ar:"أرسل USDT أو BTC أو ETH. نستقر بالدرهم في",ru:"Отправьте USDT, BTC или ETH. Мы конвертируем в AED за",zh:"发送 USDT、BTC 或 ETH。我们以 AED 结算，仅需",hi:"USDT, BTC या ETH भेजें। हम AED में निपटान करते हैं"},
+  "seconds": {es:"segundos",ar:"ثوانٍ",ru:"секунды",zh:"秒",hi:"सेकंड"},
+  "through our licensed payment partner. No bank account required. No currency friction.": {es:"a través de nuestro socio de pagos licenciado. Sin cuenta bancaria. Sin fricción cambiaria.",ar:"عبر شريك الدفع المرخّص لدينا. لا حاجة لحساب بنكي.",ru:"через нашего лицензированного платёжного партнёра. Банковский счёт не нужен.",zh:"通过我们持牌支付合作伙伴。无需银行账户。",hi:"हमारे लाइसेंस प्राप्त भुगतान साझेदार के माध्यम से। कोई बैंक खाता आवश्यक नहीं।"},
+  "Deed Registered": {es:"Título Registrado",ar:"السند مسجَّل",ru:"Свидетельство зарегистрировано",zh:"地契已登记",hi:"दस्तावेज़ पंजीकृत"},
+  "Your": {es:"Tu",ar:"سندك",ru:"Ваше",zh:"你的",hi:"आपका"},
+  "title deed is issued under the Dubai Land Department": {es:"título se emite bajo el Departamento de Tierras de Dubái",ar:"الصادر بموجب دائرة الأراضي والأملاك في دبي",ru:"свидетельство выдаётся Департаментом земли Дубая",zh:"地契由迪拜土地局颁发",hi:"दस्तावेज़ दुबई भूमि विभाग के तहत जारी होता है"},
+  "and transferred to your name. Digital twin kept on-chain as an immutable record of ownership.": {es:"y se transfiere a tu nombre. Tu gemelo digital queda en la cadena como registro inmutable de propiedad.",ar:"ويُنقل باسمك. يُحفظ التوأم الرقمي على السلسلة كسجل دائم للملكية.",ru:"и передаётся на ваше имя. Цифровой двойник хранится в блокчейне как неизменяемая запись о владении.",zh:"并过户到你的名下。数字孪生保存在链上，作为不可篡改的所有权记录。",hi:"और आपके नाम स्थानांतरित होता है। डिजिटल ट्विन चेन पर अपरिवर्तनीय स्वामित्व रिकॉर्ड के रूप में रहता है।"},
+  "Own & Earn": {es:"Posee y Gana",ar:"امتلك واربح",ru:"Владейте и зарабатывайте",zh:"拥有与盈利",hi:"स्वामित्व और कमाई"},
+  "Hold for appreciation or list it back on the marketplace anytime.": {es:"Mantenlo por plusvalía o vuelve a listarlo en el mercado cuando quieras.",ar:"احتفظ به للارتفاع في القيمة أو أعد عرضه في السوق متى شئت.",ru:"Держите ради роста цены или перепродайте на рынке в любой момент.",zh:"持有以待升值，或随时重新挂牌出售。",hi:"मूल्य वृद्धि के लिए रखें या कभी भी बाज़ार में फिर से सूचीबद्ध करें।"},
+  "Secondary sales are instant.": {es:"Las ventas secundarias son instantáneas.",ar:"المبيعات الثانوية فورية.",ru:"Вторичные продажи мгновenны.",zh:"二次销售即时完成。",hi:"द्वितीयक बिक्री तुरंत होती है।"},
+  "Your property stays liquid forever.": {es:"Tu propiedad se mantiene líquida para siempre.",ar:"عقارك يبقى سائلاً للأبد.",ru:"Ваша недвижимость остаётся ликвидной навсегда.",zh:"你的房产永远保持流动性。",hi:"आपकी संपत्ति हमेशा तरल बनी रहती है।"},
+  "Strategic Geography": {es:"Geografía Estratégica",ar:"الجغرافيا الاستراتيجية",ru:"Стратегическая география",zh:"战略地理",hi:"रणनीतिक भूगोल"},
+  "Every": {es:"Cada",ar:"كل",ru:"Каждый",zh:"每一个",hi:"हर"},
+  "Emirate": {es:"Emirato",ar:"إمارة",ru:"Эмират",zh:"酋长国",hi:"अमीरात"},
+  "From Dubai's towers to Ras Al Khaimah's coast. Verified assets across the seven Emirates. Each one auditable. Each one registerable in crypto.": {es:"De las torres de Dubái a la costa de Ras Al Khaimah. Activos verificados en los siete Emiratos. Cada uno auditable y registrable en cripto.",ar:"من أبراج دبي إلى ساحل رأس الخيمة. أصول موثقة في الإمارات السبع. كل واحد قابل للتدقيق والتسجيل بالعملات الرقمية.",ru:"От башен Дубая до побережья Рас-эль-Хаймы. Проверенные активы во всех семи Эмиратах. Каждый аудируем и регистрируем в крипте.",zh:"从迪拜的摩天楼到拉斯海马的海岸。七个酋长国均有经验证的资产，每一处皆可审核、可加密登记。",hi:"दुबई की इमारतों से रास अल खैमा के तट तक। सातों अमीरात में सत्यापित संपत्तियाँ। हर एक जांच योग्य और क्रिप्टो में पंजीकरण योग्य।"},
+  "Global Capital · CC0 Unsplash": {es:"Capital Global · CC0 Unsplash",ar:"العاصمة العالمية · CC0 Unsplash",ru:"Мировая столица · CC0 Unsplash",zh:"全球资本 · CC0 Unsplash",hi:"वैश्विक राजधानी · CC0 Unsplash"},
+  "Institutional Wealth · CC BY-SA 4.0": {es:"Riqueza Institucional · CC BY-SA 4.0",ar:"ثروة مؤسسية · CC BY-SA 4.0",ru:"Институциональный капитал · CC BY-SA 4.0",zh:"机构财富 · CC BY-SA 4.0",hi:"संस्थागत धन · CC BY-SA 4.0"},
+  "Cultural Growth · CC BY-SA 4.0": {es:"Crecimiento Cultural · CC BY-SA 4.0",ar:"نمو ثقافي · CC BY-SA 4.0",ru:"Культурный рост · CC BY-SA 4.0",zh:"文化发展 · CC BY-SA 4.0",hi:"सांस्कृतिक विकास · CC BY-SA 4.0"},
+  "Emerging Coast · CC BY-SA 4.0": {es:"Costa Emergente · CC BY-SA 4.0",ar:"ساحل ناشئ · CC BY-SA 4.0",ru:"Растущее побережье · CC BY-SA 4.0",zh:"新兴海岸 · CC BY-SA 4.0",hi:"उभरता तट · CC BY-SA 4.0"},
+  "Developing Markets · CC BY-SA 4.0": {es:"Mercados en Desarrollo · CC BY-SA 4.0",ar:"أسواق نامية · CC BY-SA 4.0",ru:"Развивающиеся рынки · CC BY-SA 4.0",zh:"发展中市场 · CC BY-SA 4.0",hi:"विकासशील बाज़ार · CC BY-SA 4.0"},
+  "All 7 Emirates": {es:"Los 7 Emiratos",ar:"الإمارات السبع",ru:"Все 7 Эмиратов",zh:"全部 7 个酋长国",hi:"सभी 7 अमीरात"},
+  "One Marketplace": {es:"Un Solo Mercado",ar:"سوق واحد",ru:"Один маркетплейс",zh:"一个市场",hi:"एक बाज़ार"},
+  "Asset Classes": {es:"Clases de Activos",ar:"فئات الأصول",ru:"Классы активов",zh:"资产类别",hi:"परिसंपत्ति वर्ग"},
+  "Residential": {es:"Residencial",ar:"سكني",ru:"Жилая",zh:"住宅",hi:"आवासीय"},
+  "Apartments & Villas": {es:"Apartamentos y Villas",ar:"شقق وفيلات",ru:"Квартиры и виллы",zh:"公寓与别墅",hi:"अपार्टमेंट और विला"},
+  "Commercial": {es:"Comercial",ar:"تجاري",ru:"Коммерческая",zh:"商业",hi:"व्यावसायिक"},
+  "Offices & Retail": {es:"Oficinas y Comercios",ar:"مكاتب وتجزئة",ru:"Офисы и ритейл",zh:"办公室与零售",hi:"कार्यालय और खुदरा"},
+  "Hospitality": {es:"Hospitalidad",ar:"ضيافة",ru:"Гостиничный",zh:"酒店",hi:"आतिथ्य"},
+  "Hotel & Resort Suites": {es:"Suites de Hotel y Resort",ar:"أجنحة فنادق ومنتجعات",ru:"Гостиничные номера и апартаменты",zh:"酒店与度假套房",hi:"होटल और रिज़ॉर्ट सुइट्स"},
+  "Development": {es:"Desarrollo",ar:"التطوير",ru:"Развитие",zh:"开发",hi:"विकास"},
+  "Developer Backing": {es:"Respaldo a Desarrolladores",ar:"دعم المطورين",ru:"Поддержка девелоперов",zh:"开发商支持",hi:"डेवलपर समर्थन"},
+  "The Operation": {es:"La Operación",ar:"العملية",ru:"Операция",zh:"运营流程",hi:"संचालन"},
+  "Crypto In.": {es:"Cripto Entra.",ar:"العملات تدخل.",ru:"Крипта входит.",zh:"加密货币进入。",hi:"क्रिप्टो अंदर।"},
+  "Deed Out.": {es:"Título Sale.",ar:"السند يخرج.",ru:"Свидетельство выходит.",zh:"地契输出。",hi:"दस्तावेज़ बाहर।"},
+  "Watch a BlockEstate purchase move end to end. Your crypto travels through licensed rails and lands as a registered title deed.": {es:"Mira una compra BlockEstate de punta a punta. Tu cripto viaja por rieles licenciados y aterriza como título de propiedad registrado.",ar:"شاهد عملية شراء بلوك إستيت من البداية للنهاية. عملتك تسير عبر مسارات مرخصة وتصل كسند ملكية مسجل.",ru:"Смотрите, как проходит покупка BlockEstate от начала до конца. Ваша крипта движется по лицензированным каналам и становится зарегистрированным свидетельством.",zh:"全程观看一次 BlockEstate 交易。你的加密货币经持牌通道流转，最终成为已登记的地契。",hi:"BlockEstate की खरीद को शुरू से अंत तक देखें। आपकी क्रिप्टो लाइसेंस प्राप्त चैनलों से गुजरती है और पंजीकृत स्वामित्व दस्तावेज़ बनकर उतरती है।"},
+  "SEND CRYPTO": {es:"ENVIAR CRIPTO",ar:"إرسال العملات",ru:"ОТПРАВКА КРИПТЫ",zh:"发送加密货币",hi:"क्रिप्टो भेजें"},
+  "SELECT PROPERTY": {es:"SELECCIONAR PROPIEDAD",ar:"اختيار العقار",ru:"ВЫБОР НЕДВИЖИМОСТИ",zh:"选择房产",hi:"संपत्ति चुनें"},
+  "CRYPTO → AED": {es:"CRIPTO → AED",ar:"عملات → درهم",ru:"КРИПТО → AED",zh:"加密货币 → AED",hi:"क्रिप्टो → AED"},
+  "CUSTODIAN": {es:"CUSTODIO",ar:"الوصاية",ru:"ХРАНИТЕЛЬ",zh:"托管人",hi:"संरक्षक"},
+  "FIAT CONVERSION": {es:"CONVERSIÓN FIAT",ar:"تحويل العملات",ru:"КОНВЕРТАЦИЯ В ФИАТ",zh:"法币兑换",hi:"फिएट रूपांतरण"},
+  "RECEIVES AED": {es:"RECIBE AED",ar:"يستلم الدرهم",ru:"ПОЛУЧАЕТ AED",zh:"接收 AED",hi:"AED प्राप्त करता है"},
+  "SENDS TITLE": {es:"ENVÍA TÍTULO",ar:"يرسل السند",ru:"ОТПРАВЛЯЕТ СВИДЕТЕЛЬСТВО",zh:"发送地契",hi:"दस्तावेज़ भेजता है"},
+  "PROPERTY ESCROW": {es:"DEPÓSITO DE PROPIEDAD",ar:"ضمان العقار",ru:"ЭСКРОУ НЕДВИЖИМОСТИ",zh:"房产托管",hi:"संपत्ति एस्क्रो"},
+  "AED ROUTING": {es:"ENRUTAMIENTO AED",ar:"توجيه الدرهم",ru:"МАРШРУТИЗАЦИЯ AED",zh:"AED 路由",hi:"AED रूटिंग"},
+  "TITLE DEED": {es:"TÍTULO DE PROPIEDAD",ar:"سند الملكية",ru:"СВИДЕТЕЛЬСТВО",zh:"地契",hi:"स्वामित्व दस्तावेज़"},
+  "24 HRS": {es:"24 HRS",ar:"24 ساعة",ru:"24 ЧАСА",zh:"24 小时",hi:"24 घंटे"},
+  "The Architecture": {es:"La Arquitectura",ar:"هندسة",ru:"Архитектура",zh:"架构",hi:"वास्तुकला"},
+  "of Trust": {es:"de la Confianza",ar:"الثقة",ru:"доверия",zh:"信任",hi:"विश्वास की"},
+  "World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is": {es:"Socios de clase mundial garantizan cada paso. Verdad física. Custodia licenciada. Liquidación instantánea. Y título registrado. La confianza no se promete. Está",ar:"شركاء عالميون يضمنون كل خطوة. حقيقة مادية. وصاية مرخصة. تسوية فورية. وسند ملكية مسجل. الثقة لا تُوعد. إنها",ru:"Партнёры мирового уровня гарантируют каждый шаг. Физическая правда. Лицензированное хранение. Мгновенный расчёт. И зарегистрированное свидетельство. Доверие не обещают. Оно",zh:"世界级合作伙伴保障每一步。物理真实。持牌托管。即时结算。以及已登记的地契。信任不被承诺。它被",hi:"विश्व स्तरीय साझेदार हर कदम की गारंटी देते हैं। भौतिक सत्य। लाइसेंस प्राप्त संरक्षण। तुरंत निपटान। और पंजीकृत स्वामित्व दस्तावेज़। विश्वास वादा नहीं किया जाता। यह"},
+  "programmed.": {es:"programada.",ar:"مبرمجة.",ru:"запрограммировано.",zh:"编程实现。",hi:"प्रोग्राम किया जाता है।"},
+  "Crypto → AED Settlement": {es:"Liquidación Cripto → AED",ar:"تسوية عملات → درهم",ru:"Расчёт крипта → AED",zh:"加密货币 → AED 结算",hi:"क्रिप्टो → AED निपटान"},
+  "AED Banking": {es:"Banca AED",ar:"خدمات مصرفية بالدرهم",ru:"Банкинг AED",zh:"AED 银行业务",hi:"AED बैंकिंग"},
+  "Title Registration": {es:"Registro de Título",ar:"تسجيل السند",ru:"Регистрация свидетельства",zh:"地契登记",hi:"दस्तावेज़ पंजीकरण"},
+  "Physical Oracle": {es:"Oráculo Físico",ar:"الوسيط المادي",ru:"Физический оракул",zh:"物理预言机",hi:"भौतिक ओरेकल"},
+  "Digital Custody": {es:"Custodia Digital",ar:"الوصاية الرقمية",ru:"Цифровое хранение",zh:"数字托管",hi:"डिजिटल संरक्षण"},
+  "Regulatory Oversight": {es:"Supervisión Regulatoria",ar:"الرقابة التنظيمية",ru:"Регуляторный надзор",zh:"监管监督",hi:"नियामक निगरानी"},
+  "Licensed payment infrastructure converting USDT BTC and ETH into AED in seconds. The instant fiat leg of every purchase.": {es:"Infraestructura de pago licenciada que convierte USDT, BTC y ETH en AED en segundos. La pata fiat instantánea de cada compra.",ar:"بنية تحتية مرخصة لتحويل USDT و BTC و ETH إلى درهم في ثوانٍ. الجزء الفوري من كل عملية شراء.",ru:"Лицензированная платёжная инфраструктура, конвертирующая USDT, BTC и ETH в AED за секунды. Мгновенная фиатная часть каждой покупки.",zh:"持牌支付基础设施，可在几秒内将 USDT、BTC 和 ETH 兑换为 AED。每笔交易的即时法币环节。",hi:"लाइसेंस प्राप्त भुगतान अवसंरचना USDT, BTC और ETH को सेकंडों में AED में बदलती है। हर खरीद का तुरंत फिएट चरण।"},
+  "Licensed AED banking partner. Settled funds are routed held and paid out to sellers through regulated accounts.": {es:"Socio bancario AED licenciado. Los fondos liquidados se enrutan, custodian y pagan a los vendedores vía cuentas reguladas.",ar:"شريك مصرفي مرخّص بالدرهم. تُوجَّه الأموال المسواة وتُحفظ وتُدفع للبائعين عبر حسابات منظمة.",ru:"Лицензированный банковский партнёр AED. Средства направляются, хранятся и выплачиваются продавцам через регулируемые счета.",zh:"持牌 AED 银行合作伙伴。已结算资金通过受监管账户路由、持有并支付给卖方。",hi:"लाइसेंस प्राप्त AED बैंकिंग साझेदार। निपटाए गए धन को नियमित खातों के माध्यम से विक्रेताओं को रूट किया जाता है और भुगतान किया जाता है।"},
+  "Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.": {es:"El Departamento de Tierras de Dubái emite y transfiere el título a tu nombre. La columna legal de cada venta.",ar:"دائرة الأراضي والأملاك في دبي تصدر السند وتنقله باسمك. العمود القانوني لكل عملية بيع.",ru:"Департамент земли Дубая выдаёт свидетельство и передаёт его на ваше имя. Правовое основание каждой продажи.",zh:"迪拜土地局颁发地契并过户到你的名下。每笔交易的法定支柱。",hi:"दुबई भूमि विभाग आपके नाम स्वामित्व दस्तावेज़ जारी और स्थानांतरित करता है। हर बिक्री का कानूनी आधार।"},
+  "Every asset is scanned audited and turned into a digital twin before it enters the marketplace.": {es:"Cada activo se escanea, audita y convierte en gemelo digital antes de entrar al mercado.",ar:"كل أصل يُمسح ويُدقق ويُحوَّل إلى توأم رقمي قبل دخول السوق.",ru:"Каждый актив сканируется, проверяется и превращается в цифровой двойник до выхода на рынок.",zh:"每处资产在进入市场前都会被扫描、审核并转化为数字孪生。",hi:"हर संपत्ति को बाज़ार में आने से पहले स्कैन, ऑडिट कर डिजिटल ट्विन में बदला जाता है।"},
+  "Institutional-grade digital asset custody for holdings and yields. Segregated and auditable at all times.": {es:"Custodia institucional de activos digitales para tenencias y rendimientos. Segregada y auditable en todo momento.",ar:"وصاية رقمية بمستوى مؤسسي للأصول والعوائد. منفصلة وقابلة للتدقيق دائمًا.",ru:"Институциональное хранение цифровых активов. Обособленное и подлежащее аудиту в любое время.",zh:"机构级数字资产托管，覆盖持仓和收益。始终隔离存放、可审计。",hi:"संस्थागत स्तर का डिजिटल संपत्ति संरक्षण। हमेशा पृथक और ऑडिट योग्य।"},
+  "Crypto activities operate under the Virtual Assets Regulatory Authority framework. Compliant by design.": {es:"Las actividades cripto operan bajo el marco de la Autoridad Reguladora de Activos Virtuales. Cumplimiento por diseño.",ar:"تعمل الأنشطة الرقمية تحت إطار سلطة تنظيم الأصول الافتراضية. متوافق بحكم التصميم.",ru:"Крипто-операции работают в рамках Виртуального регулятора активов (VARA). Соответствие по дизайну.",zh:"加密货币活动在虚拟资产监管局（VARA）框架下运作。设计即合规。",hi:"क्रिप्टो गतिविधियाँ वर्चुअल एसेट रेगुलेटरी अथॉरिटी (VARA) ढांचे के तहत काम करती हैं। डिज़ाइन से ही अनुपालन।"},
+  "BlockEstate is not a bank custodian broker or auditor. It is": {es:"BlockEstate no es un banco, custodio, corredor ni auditor. Es",ar:"بلوك إستيت ليس بنكًا أو وصيًا أو وسيطًا أو مدققًا. إنه",ru:"BlockEstate — не банк, хранитель, брокер или аудитор. Это",zh:"BlockEstate 不是银行、托管人、经纪或审计机构。它是",hi:"BlockEstate बैंक, संरक्षक, ब्रोकर या ऑडिटर नहीं है। यह"},
+  "the gateway and orchestrator": {es:"el gateway y orquestador",ar:"البوابة والمنسق",ru:"шлюз и оркестратор",zh:"网关与协调者",hi:"गेटवे और ऑर्केस्ट्रेटर"},
+  "that connects these licensed providers into one seamless purchase.": {es:"que conecta a estos proveedores licenciados en una sola compra sin fricción.",ar:"يربط هذه الجهات المرخصة في عملية شراء واحدة سلسة.",ru:"который соединяет лицензированных провайдеров в одну бесшовную покупку.",zh:"将这些持牌服务方连接为一次无缝交易。",hi:"जो इन लाइसेंस प्राप्त प्रदाताओं को एक सहज खरीद में जोड़ता है।"},
+  "Powered by": {es:"Impulsado por",ar:"مدعوم من",ru:"На базе",zh:"由",hi:"द्वारा संचालित"},
+  "· Executed on Proven Infrastructure": {es:"· Ejecutado en Infraestructura Probada",ar:"· يُنفَّذ على بنية مثبتة",ru:"· На проверенной инфраструктуре",zh:"支持 · 运行于经验证的基础设施",hi:"· सिद्ध अवसंरचना पर निष्पादित"},
+  "Own It": {es:"Sé Dueño",ar:"امتلكها",ru:"Владейте",zh:"拥有它",hi:"स्वामित्व लें"},
+  "Now": {es:"Ahora",ar:"الآن",ru:"Прямо сейчас",zh:"现在",hi:"अभी"},
+  "From USDT to AED to title deed.": {es:"De USDT a AED a título de propiedad.",ar:"من USDT إلى الدرهم إلى سند الملكية.",ru:"От USDT к AED к свидетельству.",zh:"从 USDT 到 AED 再到地契。",hi:"USDT से AED से स्वामित्व दस्तावेज़ तक।"},
+  "The whole journey in minutes.": {es:"Todo el viaje en minutos.",ar:"الرحلة كلها في دقائق.",ru:"Весь путь за минуты.",zh:"全程只需几分钟。",hi:"पूरी यात्रा मिनटों में।"},
+  "START BUYING": {es:"COMPRAR AHORA",ar:"ابدأ الشراء",ru:"НАЧАТЬ ПОКУПКУ",zh:"开始购买",hi:"अब खरीदें"},
+  "The UAE's crypto-native property marketplace. Real estate ownership settled in seconds and registered for the long term.": {es:"El mercado inmobiliario cripto-nativo de los EAU. Propiedad raíz liquidada en segundos y registrada a largo plazo.",ar:"السوق العقاري الرقمي للإمارات. ملكية عقارية تُسوى في ثوانٍ وتُسجل على المدى الطويل.",ru:"Крипто-маркетплейс недвижимости ОАЭ. Право собственности расчёт за секунды и регистрация на долгий срок.",zh:"阿联酋原生加密货币房产市场。房产所有权秒级结算、长期登记。",hi:"यूएई का क्रिप्टो-मूल संपत्ति बाज़ार। संपत्ति स्वामित्व सेकंडों में निपटान और दीर्घकालिक पंजीकरण।"},
+  "Marketplace": {es:"Mercado",ar:"السوق",ru:"Маркетплейс",zh:"市场",hi:"बाज़ार"},
+  "Company": {es:"Compañía",ar:"الشركة",ru:"Компания",zh:"公司",hi:"कंपनी"},
+  "Trust & Partners": {es:"Confianza y Socios",ar:"الثقة والشركاء",ru:"Доверие и партнёры",zh:"信任与合作伙伴",hi:"विश्वास और साझेदार"},
+  "Contact": {es:"Contacto",ar:"اتصل بنا",ru:"Контакты",zh:"联系方式",hi:"संपर्क"},
+  "BlockEstate is a real estate technology marketplace. Crypto payments settle through licensed partners. Title deeds are issued by the Dubai Land Department. This site does not constitute investment advice. All figures are illustrative. © 2026 BlockEstate · NDC · Dubai UAE.": {es:"BlockEstate es un mercado tecnológico inmobiliario. Los pagos en cripto se liquidan vía socios licenciados. Los títulos los emite el Departamento de Tierras de Dubái. Este sitio no constituye asesoría de inversión. Todas las cifras son ilustrativas. © 2026 BlockEstate · NDC · Dubái EAU.",ar:"بلوك إستيت سوق عقاري تقني. تُسوى المدفوعات الرقمية عبر شركاء مرخصين. تصدر دائرة الأراضي والأملاك في دبي سندات الملكية. لا يشكل هذا الموقع نصيحة استثمارية. جميع الأرقام توضيحية. © 2026 بلوك إستيت · NDC · دبي الإمارات.",ru:"BlockEstate — технологический рынок недвижимости. Крипто-платежи проходят через лицензированных партнёров. Свидетельства выдаёт Департамент земли Дубая. Сайт не является инвестиционной консультацией. Все цифры иллюстративны. © 2026 BlockEstate · NDC · Дубай, ОАЭ.",zh:"BlockEstate 是一个房地产科技市场。加密货币支付通过持牌合作伙伴结算。地契由迪拜土地局颁发。本网站不构成投资建议。所有数字仅供说明。© 2026 BlockEstate · NDC · 阿联酋迪拜。",hi:"BlockEstate एक रियल एस्टेट तकनीकी बाज़ार है। क्रिप्टो भुगतान लाइसेंस प्राप्त साझेदारों से निपटते हैं। दस्तावेज़ दुबई भूमि विभाग जारी करता है। यह साइट निवेश सलाह नहीं है। सभी आंकड़े उदाहरणस्वरूप हैं। © 2026 BlockEstate · NDC · दुबई यूएई।"},
+  "One platform. Full crypto payment rails for UAE real estate. Launching soon.": {es:"Una plataforma. Rieles de pago completos en cripto para bienes raíces de los EAU. Lanzamiento pronto.",ar:"منصة واحدة. منظومة دفع رقمية كاملة للعقارات في الإمارات. الإطلاق قريبًا.",ru:"Одна платформа. Полные крипто-платёжные рельсы для недвижимости ОАЭ. Скоро запуск.",zh:"一个平台。面向阿联酋房地产的完整加密货币支付通道。即将上线。",hi:"एक प्लेटफॉर्म। यूएई रियल एस्टेट के लिए पूर्ण क्रिप्टो भुगतान रेल। जल्द लॉन्च हो रहा है।"},
+  "No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in": {es:"Sin bancos de por medio. Sin esperas de 3 meses. Tu cripto se mueve. Tu título se registra. Eres dueño en",ar:"لا بنوك في الوسط. لا انتظار ثلاثة أشهر. عملتك تتحرك. سندك يُسجل. تمتلك في",ru:"Никаких банков посередине. Никаких 3 месяцев ожидания. Крипта движется. Свидетельство регистрируется. Вы владеете за",zh:"没有银行介入。无需等待 3 个月。你的加密货币流转。你的地契登记。你在",hi:"कोई बैंक बीच में नहीं। 3 महीने का इंतज़ार नहीं। आपकी क्रिप्टो चलती है। आपका दस्तावेज़ पंजीकृत होता है। आप मालिक बनते हैं"},
+  "minutes not months.": {es:"minutos, no meses.",ar:"دقائق لا أشهر.",ru:"минуты, а не месяцы.",zh:"分钟而非数个月。",hi:"मिनटों में, महीनों में नहीं।"},
+  "DEVELOPER PRE-REGISTRATION": {es:"PREREGISTRO DE DESARROLLADORES",ar:"التسجيل المسبق للمطورين",ru:"ПРЕДРЕГИСТРАЦИЯ ДЕВЕЛОПЕРОВ",zh:"开发商预注册",hi:"डेवलपर प्री-रजिस्ट्रेशन"},
+  "Be among the first developers on the UAE's crypto-native property marketplace. List your projects. Get paid in AED. Reach global crypto buyers.": {es:"Sé de los primeros desarrolladores en el mercado inmobiliario cripto-nativo de los EAU. Lista tus proyectos. Cobra en AED. Alcanza compradores globales de cripto.",ar:"كن من أوائل المطورين في سوق العقارات الرقمي بالإمارات. اعرض مشاريعك. تقاضى بالدرهم. وصِل إلى مشترين عالميين بالعملات الرقمية.",ru:"Станьте одними из первых девелоперов на крипто-маркетплейсе недвижимости ОАЭ. Выставляйте проекты. Получайте оплату в AED. Выходите на глобальных крипто-покупателей.",zh:"成为阿联酋原生加密货币房产市场的首批开发商。上架您的项目。以 AED 收款。触达全球加密货币买家。",hi:"यूएई के क्रिप्टो-मूल संपत्ति बाज़ार के पहले डेवलपर्स में शामिल हों। अपनी परियोजनाएँ सूचीबद्ध करें। AED में भुगतान पाएं। वैश्विक क्रिप्टो खरीदारों तक पहुँचें।"},
+  "Full Name": {es:"Nombre Completo",ar:"الاسم الكامل",ru:"Полное имя",zh:"姓名",hi:"पूरा नाम"},
+  "Company / Developer Name": {es:"Empresa / Nombre del Desarrollador",ar:"اسم الشركة / المطور",ru:"Компания / Имя девелопера",zh:"公司 / 开发商名称",hi:"कंपनी / डेवलपर नाम"},
+  "Work Email": {es:"Email de Trabajo",ar:"البريد الإلكتروني",ru:"Рабочий email",zh:"工作邮箱",hi:"कार्य ईमेल"},
+  "Phone (optional)": {es:"Teléfono (opcional)",ar:"الهاتف (اختياري)",ru:"Телефон (необязательно)",zh:"电话（选填）",hi:"फ़ोन (वैकल्पिक)"},
+  "Country": {es:"País",ar:"الدولة",ru:"Страна",zh:"国家",hi:"देश"},
+  "Units or projects (optional)": {es:"Unidades o proyectos (opcional)",ar:"الوحدات أو المشاريع (اختياري)",ru:"Объекты или проекты (необязательно)",zh:"单位或项目（选填）",hi:"यूनिट या परियोजनाएँ (वैकल्पिक)"},
+  "PRE-REGISTER": {es:"PREREGISTRARME",ar:"سجّل مسبقًا",ru:"ЗАРЕГИСТРИРОВАТЬСЯ",zh:"预注册",hi:"प्री-रजिस्टर"},
+  "Priority onboarding at launch. No fees to join.": {es:"Onboarding prioritario al lanzamiento. Sin costos para unirte.",ar:"أولوية في الانضمام عند الإطلاق. بدون رسوم.",ru:"Приоритетный онбординг на запуске. Без платы за вступление.",zh:"上线时优先入驻。免费加入。",hi:"लॉन्च पर प्राथमिकता ऑनबोर्डिंग। शामिल होने का कोई शुल्क नहीं।"},
+  "You're on the list. Check your inbox — your welcome email is on its way.": {es:"Ya estás en la lista. Revisa tu correo — va tu email de bienvenida.",ar:"أنت على القائمة. تحقق من بريدك — رسالة الترحيب في طريقها إليك.",ru:"Вы в списке. Проверьте почту — приветственное письмо уже в пути.",zh:"您已进入名单。请查看邮箱——欢迎邮件正在发送中。",hi:"आप सूची में हैं। अपना इनबॉक्स देखें — आपका स्वागत ईमेल रास्ते में है।"},
+  "Maybe later": {es:"Luego quizás",ar:"لاحقًا",ru:"Позже",zh:"以后再说",hi:"बाद में"},
+  "Are you a developer? Pre-register your projects": {es:"¿Eres desarrollador? Preregistra tus proyectos",ar:"مطور عقاري؟ سجّل مشاريعك مسبقًا",ru:"Вы девелопер? Зарегистрируйте проекты",zh:"您是开发商？预注册您的项目",hi:"डेवलपर हैं? अपनी परियोजनाएँ प्री-रजिस्टर करें"},
+  "What You Can Sell as a Developer": {es:"Lo Que Puedes Vender como Desarrollador",ar:"ما يمكنك بيعه كمطوّر عقاري",ru:"Что вы можете продавать как девелопер",zh:"作为开发商您可以出售什么",hi:"डेवलपर के रूप में आप क्या बेच सकते हैं"},
+  "Off-plan and completed homes across Dubai Marina Downtown Palm Jumeirah and beyond. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.": {es:"Viviendas en plan de pago y terminadas en Dubai Marina, Downtown, Palm Jumeirah y más allá. El comprador paga en cripto, tú recibes AED fiat directo en tu banco. Sin licencia, sin exposición a activos virtuales.",ar:"منازل على الخارطة ومكتملة في مرسى دبي ووسط المدينة وجزيرة النخلة وما بعدها. المشتري يدفع بالعملات الرقمية وأنت تستلم الدرهم مباشرة في حسابك البنكي. بلا ترخيص وبلا تعرض للأصول الافتراضية.",ru:"Дома на стадии строительства и готовые в Дубай Марина, Даунтаун, Палм-Джумейра и далее. Покупатель платит криптой, вы получаете дирхамы напрямую на свой банковский счёт. Без лицензии, без риска виртуальных активов.",zh:"覆盖迪拜码头、市中心、棕榈岛等地的期房和现房。买家以加密货币支付，您直接在银行收到迪拉姆法币。无需牌照，无需承担虚拟资产风险。",hi:"दुबई मरीना, डाउनटाउन, पाम जुमेरा और आगे तक ऑफ-प्लान और तैयार घर। खरीदार क्रिप्टो में भुगतान करता है, आप अपने बैंक में सीधे AED फिएट प्राप्त करते हैं। कोई लाइसेंस नहीं, कोई वर्चुअल एसेट जोखिम नहीं।"},
+  "Stabilized office and retail spaces with long-term leases of 3 to 10 years. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.": {es:"Oficinas y locales estabilizados con contratos de 3 a 10 años. El comprador paga en cripto, tú recibes AED fiat directo en tu banco. Sin licencia, sin exposición a activos virtuales.",ar:"مساحات مكاتب وتجزئة مستقرة بعقود طويلة من 3 إلى 10 سنوات. المشتري يدفع بالعملات الرقمية وأنت تستلم الدرهم مباشرة في حسابك البنكي. بلا ترخيص وبلا تعرض للأصول الافتراضية.",ru:"Стабильные офисы и торговые площади с долгосрочной арендой от 3 до 10 лет. Покупатель платит криптой, вы получаете дирхамы напрямую на свой счёт. Без лицензии, без риска виртуальных активов.",zh:"租期 3 至 10 年的稳定办公与零售空间。买家以加密货币支付，您直接在银行收到迪拉姆法币。无需牌照，无需承担虚拟资产风险。",hi:"3 से 10 साल के लंबे ठेकों वाले स्थिर कार्यालय और खुदरा स्थान। खरीदार क्रिप्टो में भुगतान करता है, आप अपने बैंक में सीधे AED फिएट प्राप्त करते हैं। कोई लाइसेंस नहीं, कोई वर्चुअल एसेट जोखिम नहीं।"},
+  "Branded hotel suites in Dubai and Ras Al Khaimah. Buyer pays in crypto, you receive AED fiat directly in your bank. No license, no virtual asset exposure.": {es:"Suites de hotel de marca en Dubái y Ras Al Khaimah. El comprador paga en cripto, tú recibes AED fiat directo en tu banco. Sin licencia, sin exposición a activos virtuales.",ar:"أجنحة فنادق عالمية في دبي ورأس الخيمة. المشتري يدفع بالعملات الرقمية وأنت تستلم الدرهم مباشرة في حسابك البنكي. بلا ترخيص وبلا تعرض للأصول الافتراضية.",ru:"Брендовые гостиничные люксы в Дубае и Рас-эль-Хайме. Покупатель платит криптой, вы получаете дирхамы напрямую на свой счёт. Без лицензии, без риска виртуальных активов.",zh:"迪拜和拉斯海马的品牌酒店套房。买家以加密货币支付，您直接在银行收到迪拉姆法币。无需牌照，无需承担虚拟资产风险。",hi:"दुबई और रास अल खैमा में ब्रांडेड होटल सुइट। खरीदार क्रिप्टो में भुगतान करता है, आप अपने बैंक में सीधे AED फिएट प्राप्त करते हैं। कोई लाइसेंस नहीं, कोई वर्चुअल एसेट जोखिम नहीं।"},
+  "For developers and institutions. Sell real units pre-construction with crypto payment from global buyers. You receive AED fiat directly in your bank. No license, no virtual asset exposure.": {es:"Para desarrolladores e instituciones. Vende unidades reales pre-construcción con pago en cripto de compradores globales. Recibes AED fiat directo en tu banco. Sin licencia, sin exposición a activos virtuales.",ar:"للمطورين والمؤسسات. بِع وحدات حقيقية قبل الإنشاء مقابل دفع رقمي من مشترين عالميين. تستلم الدرهم مباشرة في حسابك البنكي. بلا ترخيص وبلا تعرض للأصول الافتراضية.",ru:"Для девелоперов и институциональных игроков. Продавайте реальные юниты на стадии строительства за крипту глобальным покупателям. Вы получаете дирхамы напрямую на свой счёт. Без лицензии, без риска виртуальных активов.",zh:"面向开发商和机构。全球买家以加密货币购买预售在建单元，您直接在银行收到迪拉姆法币。无需牌照，无需承担虚拟资产风险。",hi:"डेवलपर्स और संस्थाओं के लिए। वैश्विक खरीदारों से क्रिप्टो भुगतान पर निर्माण-पूर्व वास्तविक यूनिट बेचें। आप अपने बैंक में सीधे AED फिएट प्राप्त करते हैं। कोई लाइसेंस नहीं, कोई वर्चुअल एसेट जोखिम नहीं।"},
+  "Buy verified residential and commercial real estate with USDT BTC or ETH. Settle instantly in AED with a": {es:". Compra bienes raíces residenciales y comerciales verificados con USDT, BTC o ETH. Liquidación instantánea en AED con una",ar:". اشترِ عقارات سكنية وتجارية موثقة باستخدام USDT أو BTC أو ETH. وسدّد فورًا بالدرهم مع",ru:". Покупайте проверенную жилую и коммерческую недвижимость за USDT, BTC или ETH. Мгновенный расчёт в AED с",zh:"。用 USDT、BTC 或 ETH 购买经验证的住宅和商业地产。以 AED 即时结算，并获得",hi:"। USDT, BTC या ETH से सत्यापित संपत्ति खरीदें। AED में तुरंत निपटान करें"},
+};
+// ---- i18n engine ----
+const LANGS = {en:{label:'EN',dir:'ltr',flag:'🇬🇧'},es:{label:'ES',dir:'ltr',flag:'🇪🇸'},ar:{label:'AR',dir:'rtl',flag:'🇦🇪'},ru:{label:'RU',dir:'ltr',flag:'🇷🇺'},zh:{label:'中文',dir:'ltr',flag:'🇨🇳'},hi:{label:'HI',dir:'ltr',flag:'🇮🇳'}};
+const NAMES = {en:'English',es:'Español',ar:'العربية',ru:'Русский',zh:'中文',hi:'हिन्दी'};
+function applyLang(lang){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = LANGS[lang].dir;
+  // recorrer elementos con data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const en = el.getAttribute('data-i18n');
+    const tr = I18N[en] && I18N[en][lang];
+    if(tr != null){ el.innerHTML = tr; }
+  });
+  // placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const en = el.getAttribute('data-i18n-ph');
+    const tr = I18N[en] && I18N[en][lang];
+    if(tr != null){ el.setAttribute('placeholder', tr); }
+  });
+  // selectores de idioma
+  document.querySelectorAll('.lang-sel').forEach(s=>{ s.value = lang; });
+  document.querySelectorAll('.lang-now').forEach(s=>{ s.textContent = LANGS[lang].label; });
+  try{ localStorage.setItem('be_lang', lang); }catch(e){}
+}
+window.addEventListener('load', function(){
+  let saved = 'en';
+  try{ saved = localStorage.getItem('be_lang') || 'en'; }catch(e){}
+  if(!(saved in LANGS)) saved = 'en';
+  // construir selectores de idioma
+  document.querySelectorAll('.lang-sel').forEach(sel=>{
+    sel.innerHTML = '';
+    Object.keys(LANGS).forEach(k=>{
+      const o = document.createElement('option');
+      o.value = k; o.textContent = NAMES[k];
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', e=>applyLang(e.target.value));
+  });
+  applyLang(saved);
+});
+
+// ---- Developer pre-registration popup ----
+function bePopupInit(){
+  const P = document.getElementById('be-pre');
+  if(!P || P.dataset.ready) return;
+  P.dataset.ready = '1';
+  // abrir
+  document.querySelectorAll('[data-open-pre]').forEach(b=>{
+    b.addEventListener('click', e=>{ e.preventDefault(); bePreShow(); });
+  });
+  // cerrar
+  P.querySelectorAll('.pre-close,.pre-bg').forEach(el=>el.addEventListener('click', bePreHide));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') bePreHide(); });
+  const F = P.querySelector('form');
+  if(!F) return;
+  F.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    const btn = F.querySelector('[type=submit]');
+    const data = new FormData(F);
+    fetch(F.action, { method:'POST', body:data, headers:{Accept:'application/json'} })
+      .then(r => { if(r.ok){ bePreSuccess(F); } else { bePreSuccess(F); } })
+      .catch(() => { bePreSuccess(F); });
+    if(btn) btn.disabled = true;
+  });
+}
+function bePreShow(){ const P=document.getElementById('be-pre'); if(P){ P.classList.add('on'); document.body.style.overflow='hidden'; } }
+function bePreHide(){ const P=document.getElementById('be-pre'); if(P){ P.classList.remove('on'); document.body.style.overflow=''; } }
+function bePreSuccess(F){
+  const box = F.closest('.pre-card');
+  F.style.display = 'none';
+  const ok = box.querySelector('.pre-ok');
+  if(ok) ok.style.display = 'block';
+}
+
+</script>
+<script>
+(function(){
+  try{ if(sessionStorage.getItem('be_pre_seen')) return; }catch(e){}
+  setTimeout(function(){ try{ bePreShow(); sessionStorage.setItem('be_pre_seen','1'); }catch(e){} }, 8000);
 })();
 </script>
 </body>
