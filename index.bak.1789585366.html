@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlockEstate · NDC · Own UAE Real Estate. Pay in Crypto.</title>
+<meta name="description" content="Buy verified UAE real estate with USDT BTC or ETH. Instant AED settlement with DLD-registered title deed. The UAE crypto-native property marketplace.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;border:0 solid;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{background:#ffffff;color:#111;font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+::selection{background:#22C55E;color:#000}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:72rem;margin:0 auto;padding:0 1.75rem}
+section{position:relative}
+.lab{color:#22C55E;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;display:block;margin-bottom:14px}
+.lab .dash{display:inline-block;height:1px;width:3rem;background:linear-gradient(90deg,#22C55E,transparent);vertical-align:middle;margin-right:.6rem}
+nav{position:fixed;top:40px;left:0;right:0;z-index:100;border-bottom:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.85);backdrop-filter:blur(14px)}
+.nav-in{max-width:72rem;margin:0 auto;padding:.9rem 1.75rem;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand .logo{width:32px;height:32px}
+.brand .name{font-size:16px;font-weight:900;letter-spacing:2px}
+.nav-links{display:flex;gap:1.6rem;align-items:center}
+.nav-links a{font-size:13px;color:rgba(0,0,0,.6);letter-spacing:.06em;transition:color .2s}
+.nav-links a:hover{color:#22C55E}
+.nav-cta{background:#22C55E;color:#000;font-weight:700;font-size:12px;letter-spacing:.04em;padding:.55rem 1.1rem;border-radius:.5rem;transition:opacity .2s}
+.nav-cta:hover{opacity:.85}
+.hero{padding:11.5rem 0 5rem;border-bottom:1px solid rgba(0,0,0,.06);overflow:hidden}
+.hero .eyebrow{color:#22C55E;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin-bottom:1.6rem}
+.hero h1{font-size:clamp(3rem,11vw,7.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.86}
+.hero h1 .ghost{background:linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,.1));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{display:flex;gap:2.5rem;margin-top:2.6rem;align-items:flex-start;max-width:64rem}
+.hero-sub .lede{font-size:15px;font-weight:300;line-height:1.6;color:rgba(0,0,0,.72);max-width:30rem}
+.hero-sub .lede b{color:#111;font-weight:500}
+.hero-sub .small{font-size:12px;color:rgba(0,0,0,.45);max-width:18rem;font-weight:300;line-height:1.55;border-left:1px solid #22C55E;padding-left:1.2rem}
+.hero-sub .small b{color:rgba(0,0,0,.8);font-weight:500}
+.hero-meta{display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(0,0,0,.06)}
+.meta-item{border-left:1px solid #22C55E;padding-left:1rem}
+.meta-item .k{font-size:10px;color:rgba(0,0,0,.4);letter-spacing:.3em;text-transform:uppercase;display:block;margin-bottom:4px}
+.meta-item .v{font-size:17px;font-weight:300;color:rgba(0,0,0,.9)}
+.hero-art{position:absolute;right:-3rem;top:6rem;width:44vw;max-width:520px;opacity:.16;pointer-events:none}
+.vision{padding:7rem 0}
+.vision h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1;margin-bottom:3rem}
+.vision h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
+.heap .row{padding:1.9rem 0;border-bottom:1px solid rgba(0,0,0,.09)}
+.heap .row .head{font-size:20px;font-weight:500;color:#111}
+.heap .row .head .n{color:#22C55E;font-weight:700;margin-right:.8rem;font-size:13px;letter-spacing:.2em}
+.heap .row p{margin-top:.7rem;font-size:14px;font-weight:300;color:rgba(0,0,0,.6);line-height:1.6;max-width:44rem}
+.heap .row p em{color:rgba(0,0,0,.85);text-decoration:underline;text-decoration-color:rgba(34,197,94,.4);text-underline-offset:4px;font-style:normal}
+
+.markets{padding:6rem 0}
+.markets h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1}
+.markets h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
+.markets .lede{margin-top:1.5rem;font-size:15px;font-weight:300;color:rgba(0,0,0,.6);max-width:36rem}
+.grid7{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.city{position:relative;border-radius:1rem;overflow:hidden;height:300px;background:#eee}
+.city img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1.05);transition:transform .5s,filter .5s}
+.city:hover img{transform:scale(1.06);filter:grayscale(0) brightness(1.1)}
+.city .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(255,255,255,.9),transparent 60%)}
+.city .ci{position:absolute;left:1.2rem;bottom:1.2rem;right:1.2rem}
+.city .ci .nm{font-size:20px;font-weight:700}
+.city .ci .lb{font-size:12px;color:rgba(0,0,0,.55);letter-spacing:.15em;text-transform:uppercase}
+.models{padding:6rem 0}
+.models h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:300;letter-spacing:-.03em;line-height:1.08;margin-bottom:3rem}
+.models h2 b{font-weight:800}
+.models h2 .o{color:rgba(0,0,0,.35)}
+.baskets{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.basket{border:1px solid rgba(0,0,0,.09);border-radius:1rem;padding:2rem;background:rgba(0,0,0,.02)}
+.basket .tag{color:#22C55E;font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase}
+.basket h3{font-size:22px;font-weight:700;margin:.8rem 0 .4rem}
+.basket .sub{font-size:12px;color:rgba(0,0,0,.45);margin-bottom:1rem;letter-spacing:.08em}
+.basket p{font-size:14px;font-weight:300;color:rgba(0,0,0,.68);line-height:1.65}
+.basket p b{color:#111}
+.steps{padding:6rem 0}
+.steps h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1}
+.steps h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+.flow .step{border:1px solid rgba(0,0,0,.09);border-radius:1rem;padding:2rem;background:rgba(0,0,0,.02)}
+.flow .step .n{color:#22C55E;font-size:13px;font-weight:700;letter-spacing:.2em}
+.flow .step h3{font-size:19px;font-weight:700;margin:.7rem 0}
+.flow .step p{font-size:13px;font-weight:300;color:rgba(0,0,0,.6);line-height:1.6}
+.trust{padding:6rem 0}
+.trust h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1}
+.trust .lede{margin-top:1.5rem;font-size:15px;font-weight:300;color:rgba(0,0,0,.6);max-width:36rem}
+.trust .tagline{margin-top:3rem;font-size:28px;font-weight:300;color:rgba(0,0,0,.9)}
+.trust .tagline b{color:#22C55E;font-weight:600}
+.partners{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
+.partner{border:1px solid rgba(0,0,0,.08);border-radius:.9rem;padding:1.5rem;background:rgba(0,0,0,.02)}
+.partner .nm{font-weight:700;font-size:15px;color:#111}
+.partner .rl{font-size:11px;color:rgba(0,0,0,.45);letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
+.partner p{font-size:12px;font-weight:300;color:rgba(0,0,0,.55);margin-top:8px;line-height:1.5}
+.cta{padding:6rem 0 7rem;text-align:center}
+.cta h2{font-size:clamp(2.4rem,7vw,5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.95}
+.cta h2 .ghost{background:linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,.1));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta .btn{display:inline-block;margin-top:2.5rem;background:#22C55E;color:#000;font-weight:700;font-size:14px;letter-spacing:.06em;padding:1rem 2.4rem;border-radius:.6rem;transition:opacity .2s}
+.cta .btn:hover{opacity:.85}
+footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
+.foot-in{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;max-width:72rem;margin:0 auto;padding:0 1.75rem}
+.foot-brand .name{font-size:18px;font-weight:900;letter-spacing:2px;display:flex;align-items:center;gap:.5rem}
+.foot-brand .name .logo{width:22px;height:22px}
+.foot-brand p{margin-top:1rem;font-size:13px;font-weight:300;color:rgba(0,0,0,.5);max-width:20rem;line-height:1.6}
+.foot-col h5{font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,0,0,.4);margin-bottom:1rem}
+.foot-col a{display:block;font-size:13px;color:rgba(0,0,0,.6);margin-bottom:.6rem;transition:color .2s}
+.foot-col a:hover{color:#111}
+.legal{border-top:1px solid rgba(0,0,0,.06);margin-top:3rem;padding-top:1.5rem;max-width:72rem;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;text-align:center}
+.legal p{font-size:11px;color:rgba(0,0,0,.35);line-height:1.6}
+@media(max-width:900px){.hero-art{display:none}.grid7{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.baskets{grid-template-columns:1fr}.partners{grid-template-columns:repeat(2,1fr)}.foot-in{grid-template-columns:1fr}.nav-links{display:none}}
+
+.operation{padding:6rem 0}
+.operation h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.95}
+.operation h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
+.operation .lede{margin-top:1.5rem;font-size:15px;font-weight:300;color:rgba(0,0,0,.6);max-width:36rem}
+.op-stage{margin-top:3rem;border:1px solid rgba(0,0,0,.09);border-radius:1rem;background:rgba(0,0,0,.02);padding:1.5rem;overflow:hidden}
+.op{width:100%;height:auto;display:block}
+.op-nm{font-size:13px;font-weight:700;fill:#111;letter-spacing:.08em}
+.op-sub{font-size:9px;font-weight:600;fill:rgba(0,0,0,.4);letter-spacing:.14em}
+.op text{font-family:"Inter",system-ui,sans-serif}
+.city-all{background:linear-gradient(135deg,#f4f5f6,#ffffff);display:flex;align-items:center;justify-content:center}
+.city-all .nm{color:#22C55E}
+.sub-cta{margin-top:1.5rem;font-size:15px;font-weight:300;color:rgba(0,0,0,.65)}
+.ndc-line{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(0,0,0,.08);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.45)}
+.ndc-line b{color:#22C55E;font-weight:800}
+
+
+.brand .name-wrap{display:flex;flex-direction:column;line-height:1.2}
+.brand-by{font-size:8px;font-weight:700;letter-spacing:.22em;color:#22C55E;margin-top:2px}
+.foot-by{font-size:9px;font-weight:700;letter-spacing:.22em;color:#22C55E;margin-top:.4rem}
+
+
+.city-svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1.05);transition:transform .5s,filter .5s}
+.city:hover .city-svg{transform:scale(1.06);filter:grayscale(0) brightness(1.1)}
+
+
+/* ---- scroll reveals ---- */
+[data-rv]{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+[data-rv="left"]{transform:translateX(-36px)}
+[data-rv].rv-on{opacity:1;transform:none}
+.rv-fast{transition-duration:.5s}
+@media (prefers-reduced-motion: reduce){[data-rv]{opacity:1;transform:none;transition:none}}
+
+.brand{position:relative}
+.logo-lift{display:inline-flex}
+
+.banner{position:fixed;top:0;left:0;right:0;z-index:200;background:#000;color:#fff;height:40px;display:flex;overflow:hidden;font-size:13px;letter-spacing:.08em;font-weight:600}
+.banner-track{display:flex;flex-shrink:0;min-width:100%;align-items:center;white-space:nowrap;animation:marq 22s linear infinite}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+.banner span{margin:0 2rem;white-space:nowrap}
+</style>
+
+<body>
+<div class="banner" role="note" aria-label="Coming soon announcement"><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div></div>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/><path d="M 170.00 160.00 L 170.00 172.00 L 196.00 172.00 L 196.00 160.00 L 170.00 160.00 Z" fill="#22C55E"/><path d="M 170.00 144.00 L 170.00 156.00 L 196.00 156.00 L 196.00 144.00 L 170.00 144.00 Z" fill="#22C55E"/></symbol><symbol id="wm" viewBox="0 0 626 86"><g transform="translate(4, 11) scale(0.0914)"><path d="M46 700V584H138V116H46V0H406Q470 0 517.5 21.5Q565 43 591.5 82.5Q618 122 618 177V187Q618 235 600.0 265.5Q582 296 557.5 312.5Q533 329 511 336V354Q533 360 559.0 376.5Q585 393 603.5 424.0Q622 455 622 505V515Q622 573 595.0 614.5Q568 656 520.5 678.0Q473 700 410 700ZM270 580H394Q437 580 463.5 559.0Q490 538 490 499V489Q490 450 464.0 429.0Q438 408 394 408H270ZM270 288H392Q433 288 459.5 267.0Q486 246 486 209V199Q486 161 460.0 140.5Q434 120 392 120H270ZM738 700V0H870V580H1190V700ZM1560 714Q1428 714 1350.0 641.5Q1272 569 1272 434V266Q1272 131 1350.0 58.5Q1428 -14 1560 -14Q1692 -14 1770.0 58.5Q1848 131 1848 266V434Q1848 569 1770.0 641.5Q1692 714 1560 714ZM1560 596Q1634 596 1675.0 553.0Q1716 510 1716 438V262Q1716 190 1675.0 147.0Q1634 104 1560 104Q1487 104 1445.5 147.0Q1404 190 1404 262V438Q1404 510 1445.5 553.0Q1487 596 1560 596ZM2238 714Q2108 714 2032.0 641.5Q1956 569 1956 434V266Q1956 131 2032.0 58.5Q2108 -14 2238 -14Q2367 -14 2437.5 56.5Q2508 127 2508 250V256H2378V246Q2378 184 2343.5 144.0Q2309 104 2238 104Q2168 104 2128.0 147.0Q2088 190 2088 264V436Q2088 509 2128.0 552.5Q2168 596 2238 596Q2309 596 2343.5 555.5Q2378 515 2378 454V436H2508V450Q2508 573 2437.5 643.5Q2367 714 2238 714ZM2624 700V0H2756V278H2774L3001 0H3170L2878 345L3180 700H3006L2774 416H2756V700ZM3258 700V0H3708V120H3390V287H3680V407H3390V580H3714V700ZM4063 714Q3982 714 3920.0 685.0Q3858 656 3823.0 602.0Q3788 548 3788 472V444H3918V472Q3918 535 3957.0 566.5Q3996 598 4063 598Q4131 598 4164.5 571.0Q4198 544 4198 502Q4198 473 4181.5 455.0Q4165 437 4133.5 425.5Q4102 414 4057 404L4034 399Q3962 383 3910.5 358.5Q3859 334 3831.5 294.0Q3804 254 3804 190Q3804 126 3834.5 80.5Q3865 35 3920.5 10.5Q3976 -14 4051 -14Q4126 -14 4184.5 11.5Q4243 37 4276.5 87.5Q4310 138 4310 214V244H4180V214Q4180 174 4164.5 149.5Q4149 125 4120.0 113.5Q4091 102 4051 102Q3991 102 3962.5 124.5Q3934 147 3934 186Q3934 212 3947.5 230.0Q3961 248 3988.0 260.0Q4015 272 4057 281L4080 286Q4155 302 4210.5 327.0Q4266 352 4297.0 393.0Q4328 434 4328 498Q4328 562 4295.5 610.5Q4263 659 4203.5 686.5Q4144 714 4063 714ZM4596 700V120H4392V0H4932V120H4728V700ZM4982 700 5166 0H5396L5580 700H5444L5406 546H5156L5118 700ZM5187 424H5375L5290 83H5272ZM5834 700V120H5630V0H6170V120H5966V700ZM6268 700V0H6718V120H6400V287H6690V407H6400V580H6724V700Z" fill="#22C55E"/></g></symbol></svg>
+<nav><div class="nav-in"><a href="#" class="brand"><span class="logo-lift"><svg class="logo"><use href="#logo"/></svg></span>
+<span class="name-wrap"><span class="name">BLOCKESTATE</span><span class="brand-by">POWERED BY NDC</span></span></a><div class="nav-links"><a href="#how">How It Works</a><a href="#markets">Markets</a><a href="#models">Models</a><a href="#operation">Operation</a><a href="#trust">Trust</a></div><a href="#cta" class="nav-cta">BUY WITH CRYPTO</a></div></nav>
+<section class="hero" id="top">
+<svg class="hero-art" viewBox="0 0 256 256"><use href="#logo"/></svg>
+<div class="wrap">
+<span class="eyebrow" data-rv="up">Crypto-Native Real Estate · UAE</span>
+<h1>Buy UAE Property<br>with Crypto<br><span class="ghost">Own It in Minutes</span></h1>
+<div class="hero-sub"><p class="lede" data-rv="up">BlockEstate is the UAE's first <b>crypto-native property marketplace</b>. Buy verified residential and commercial real estate with USDT BTC or ETH. Settle instantly in AED with a <b>DLD-registered title deed</b> in your name.</p><p class="small" data-rv="up">No banks in the middle. No 3-month wait. Your crypto moves. Your deed is registered. You own it in <b>minutes not months.</b></p></div>
+<div class="hero-meta">
+<div class="meta-item" data-rv="up"><span class="k">Settlement</span><span class="v">USDT · BTC · ETH → AED</span></div>
+<div class="meta-item" data-rv="up"><span class="k">Registration</span><span class="v">DLD Title Deed</span></div>
+<div class="meta-item" data-rv="up"><span class="k">Time to Own</span><span class="v">Minutes</span></div>
+</div>
+</div></section>
+<section class="vision" id="how"><div class="wrap">
+<span class="lab"><span class="dash"></span>How It Works</span>
+<h2 data-rv="up">From Crypto to <span class="outline">Title Deed</span></h2>
+<div class="heap">
+<div class="row" data-rv="left"><div class="head"><span class="n">01</span>Pick Your Property</div><p>Browse DLD-verified listings across the Emirates. Every asset from apartment to villa to office carries a physical audit and a live valuation so what you see is what you own.</p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">02</span>Pay in Crypto</div><p>Send USDT BTC or ETH. We settle into AED in <em>seconds</em> through our licensed payment partner. No bank account required. No currency friction.</p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">03</span>Deed Registered</div><p>Your <em>title deed is issued under the Dubai Land Department</em> and transferred to your name. Digital twin kept on-chain as an immutable record of ownership.</p></div>
+<div class="row" data-rv="left"><div class="head"><span class="n">04</span>Own &amp; Earn</div><p>Hold for appreciation or list it back on the marketplace anytime. <em>Secondary sales are instant.</em> Your property stays liquid forever.</p></div>
+</div>
+</div></section>
+<section class="markets" id="markets"><div class="wrap">
+<span class="lab"><span class="dash"></span>Strategic Geography</span>
+<h2 data-rv="up">Every <span class="outline">Emirate</span></h2>
+<p class="lede" data-rv="up">From Dubai's towers to Ras Al Khaimah's coast. Verified assets across the seven Emirates. Each one auditable. Each one registerable in crypto.</p>
+<div class="grid7">
+<div class="city" data-rv="up"><img class="city-svg" src="img/dubai.jpg" alt="Dubai — Burj Al Arab & Palm Jumeirah" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Dubai</div><div class="lb">Global Capital · CC0 Unsplash</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/abu5.jpg" alt="Abu Dhabi skyline — Capital Gate" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Abu Dhabi</div><div class="lb">Institutional Wealth · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/sharjah.jpg" alt="Sharjah skyline" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Sharjah</div><div class="lb">Cultural Growth · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/rak.jpg" alt="Ras Al Khaimah — Marjan Island coast" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Ras Al Khaimah</div><div class="lb">Emerging Coast · CC BY-SA 4.0</div></div></div>
+<div class="city" data-rv="up"><img class="city-svg" src="img/fuj.jpg" alt="Fujairah — port and city" loading="lazy"><div class="ov"></div><div class="ci"><div class="nm">Northern Emirates</div><div class="lb">Developing Markets · CC BY-SA 4.0</div></div></div>
+<div class="city city-all" data-rv="up"><div class="ci"><div class="nm">All 7 Emirates</div><div class="lb">One Marketplace</div></div></div>
+</div>
+</div></section>
+<section class="models" id="models"><div class="wrap">
+<span class="lab"><span class="dash"></span>Asset Classes</span>
+<h2 data-rv="up">What You <b>Can Own</b><br><span class="o">in Crypto</span></h2>
+<div class="baskets">
+<div class="basket" data-rv="up"><span class="tag">Residential</span><h3>Apartments &amp; Villas</h3><p>Off-plan and completed homes across Dubai Marina Downtown Palm Jumeirah and beyond. Buy a whole unit or a fractional share from <b>$100000</b>. Rental income paid <b>quarterly in crypto</b>.</p></div>
+<div class="basket" data-rv="up"><span class="tag">Commercial</span><h3>Offices &amp; Retail</h3><p>Stabilized office and retail spaces with long-term leases of 3 to 10 years. Predictable <b>7-9% annual yield</b> from contractual rents. Distributed directly to your wallet.</p></div>
+<div class="basket" data-rv="up"><span class="tag">Hospitality</span><h3>Hotel &amp; Resort Suites</h3><p>Branded hotel suites in Dubai and Ras Al Khaimah. RevPAR-linked <b>6-10% monthly dividends</b> paid in stablecoin. Driven by a live performance oracle.</p></div>
+<div class="basket" data-rv="up"><span class="tag">Development</span><h3>Developer Backing</h3><p>For developers and institutions. Tokenize construction projects to unlock <b>10-14% annual yield</b>. Bridging liquidity with physical assets collateralized at every milestone.</p></div>
+</div>
+</div></section>
+<section class="operation" id="operation"><div class="wrap">
+<span class="lab"><span class="dash"></span>The Operation</span>
+<h2 data-rv="up">Crypto In. <span class="outline">Deed Out.</span></h2>
+<p class="lede" data-rv="up">Watch a BlockEstate purchase move end to end. Your crypto travels through licensed rails and lands as a registered title deed.</p>
+<div class="op-stage" data-rv="up">
+<svg viewBox="0 0 1260 460" xmlns="http://www.w3.org/2000/svg" class="op" role="img" aria-label="BlockEstate purchase flow: you send crypto to BlockEstate, PayTheFly converts it, the Charger custodian locks it, mbank routes AED to the developer, and DLD registers the title deed">
+<g text-anchor="middle">
+<g transform="translate(85 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.03;0.08;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SEND CRYPTO</text></g>
+<g transform="translate(267 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.16;0.21;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SELECT PROPERTY</text></g>
+<g transform="translate(449 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.30;0.35;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">CRYPTO → AED</text></g>
+<g transform="translate(631 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.44;0.49;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">CUSTODIAN</text></g>
+<g transform="translate(813 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.58;0.63;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">FIAT CONVERSION</text></g>
+<g transform="translate(995 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.72;0.77;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">RECEIVES AED</text></g>
+<g transform="translate(1177 60)" opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.86;0.91;0.93;0.97;1" dur="8s" repeatCount="indefinite"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="#22C55E" opacity=".12"/><rect x="-72" y="-16" width="144" height="32" rx="16" fill="none" stroke="#22C55E" stroke-width="1.4"/><text y="3.5" font-size="10" font-weight="700" fill="#16A34A" letter-spacing=".06em">SENDS TITLE</text></g>
+</g>
+<g fill="none" stroke="#00000040" stroke-width="2" stroke-dasharray="4 10" stroke-linecap="round">
+<g opacity="0"><path d="M129 215 H223"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.14;0.16;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M311 215 H405"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.28;0.30;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M493 215 H587"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.42;0.44;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M675 215 H769"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.56;0.58;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M857 215 H951"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.70;0.72;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M1039 215 H1133"/><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.84;0.86;0.93;0.97;1" dur="8s" repeatCount="indefinite"/></g>
+</g>
+<g text-anchor="middle">
+<g transform="translate(85 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round"><rect x="-18" y="-13" width="36" height="26" rx="4"/><path d="M-18 -3 h11"/><circle cx="11" cy="0" r="2.5" fill="#22C55E" stroke="none"/></g><text y="74" class="op-nm">YOU</text><text y="92" class="op-sub">USDT BTC ETH</text></g>
+<g transform="translate(267 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-20 -4 L-15 -13 H15 L20 -4 Z"/><path d="M-16 -4 V12 H16 V-4"/><path d="M-4 12 V4 H4 V12"/></g><text y="74" class="op-nm">BLOCKESTATE</text><text y="92" class="op-sub">PROPERTY ESCROW</text></g>
+<g transform="translate(449 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-14 -7 H12 M12 -7 l-6 -6 M12 -7 l-6 6"/><path d="M14 7 H-12 M-12 7 l6 6 M-12 7 l6 -6"/></g><text y="74" class="op-nm">PAYTHEFLY</text><text y="92" class="op-sub">CRYPTO → AED</text></g>
+<g transform="translate(631 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="-13" y="-12" width="26" height="20" rx="3"/><path d="M-8 -12 V-5 A8 8 0 0 1 8 -5 V-12"/><circle cx="0" cy="0" r="4"/></g><text y="74" class="op-nm">CHARGER</text><text y="92" class="op-sub">CUSTODIAN</text></g>
+<g transform="translate(813 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M-16 -8 L0 -16 L16 -8 Z"/><path d="M-16 -6 V4 M-8 -6 V4 M0 -6 V4 M8 -6 V4 M16 -6 V4"/><path d="M-20 8 H20"/></g><text y="74" class="op-nm">MBANK</text><text y="92" class="op-sub">AED ROUTING</text></g>
+<g transform="translate(995 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -16 L14 -4 V12 H-14 V-4 Z"/><path d="M-4 12 V2 H4 V12"/></g><text y="74" class="op-nm">DEVELOPER</text><text y="92" class="op-sub">RECEIVES AED</text></g>
+<g transform="translate(1177 215)"><circle r="44" fill="#00000008" stroke="#00000029" stroke-width="1"/><g stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"><rect x="-13" y="-16" width="26" height="32" rx="3"/><path d="M-7 -8 H7 M-7 -1 H7 M-7 6 H1"/></g><text y="74" class="op-nm">DLD</text><text y="92" class="op-sub">TITLE DEED</text></g>
+</g>
+<g opacity="0">
+<animateMotion path="M85 215 L631 215" keyPoints="0;0;0.333;0.333;0.667;0.667;1;1" keyTimes="0;0.01;0.13;0.15;0.27;0.29;0.41;1" calcMode="linear" dur="8s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.02;0.41;0.44;1" dur="8s" repeatCount="indefinite"/>
+<g>
+<circle r="17" fill="#FBBF24" opacity=".22"><animate attributeName="r" values="14;19;14" dur="1.2s" repeatCount="indefinite"/></circle>
+<circle r="12" fill="#FBBF24"/>
+<circle r="12" fill="none" stroke="#B45309" stroke-width="1.5"/>
+<circle r="8.5" fill="none" stroke="#B45309" stroke-width="1" opacity=".7"/>
+<g stroke="#7C2D12" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-4 -5 V5"/><path d="M-4 -7 V-5"/><path d="M-1.3 -7 V-5"/><path d="M-4 5 V7"/><path d="M-1.3 5 V7"/><path d="M-4 -5 h2.5 a2.5 2.5 0 0 1 0 5 h-2.5"/><path d="M-4 0 h2.8 a2.2 2.2 0 0 1 0 4.5 h-2.8"/></g>
+</g>
+</g>
+<g opacity="0">
+<animateMotion path="M631 215 L813 215" keyPoints="0;0;1;1" keyTimes="0;0.44;0.55;1" calcMode="linear" dur="8s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.42;0.45;0.55;0.58;1" dur="8s" repeatCount="indefinite"/>
+<g>
+<circle r="16" fill="#22C55E" opacity=".18"><animate attributeName="r" values="13;18;13" dur="1.2s" repeatCount="indefinite"/></circle>
+<circle r="11" fill="#22C55E"/>
+<g stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"><rect x="-7" y="-6" width="14" height="11" rx="2"/><path d="M-4 -6 V-3 A4 4 0 0 1 4 -3 V-6"/></g>
+</g>
+</g>
+<g opacity="0">
+<animateMotion path="M813 215 L995 215" keyPoints="0;0;1;1" keyTimes="0;0.58;0.69;1" calcMode="linear" dur="8s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.56;0.59;0.69;0.72;1" dur="8s" repeatCount="indefinite"/>
+<g>
+<circle r="15" fill="#16A34A" opacity=".18"><animate attributeName="r" values="12;17;12" dur="1.2s" repeatCount="indefinite"/></circle>
+<rect x="-10" y="-6.5" width="20" height="13" rx="2" fill="#16A34A"/>
+<text y="2.2" text-anchor="middle" font-size="5.5" font-weight="800" fill="#ffffff">AED</text>
+</g>
+</g>
+<g opacity="0">
+<animateMotion path="M995 215 L1177 215" keyPoints="0;0;1;1" keyTimes="0;0.72;0.83;1" calcMode="linear" dur="8s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.70;0.73;0.93;0.97;1" dur="8s" repeatCount="indefinite"/>
+<g>
+<circle r="15" fill="#111111" opacity=".12"><animate attributeName="r" values="12;17;12" dur="1.2s" repeatCount="indefinite"/></circle>
+<rect x="-9" y="-12" width="18" height="24" rx="2" fill="#ffffff" stroke="#111" stroke-width="1.5"/>
+<g stroke="#111" stroke-width="1.4" stroke-linecap="round"><path d="M-5 -7 H5"/><path d="M-5 -2 H5"/><path d="M-5 3 H3"/><path d="M-5 8 H2"/></g>
+</g>
+</g>
+<g transform="translate(1177 390)">
+<circle r="40" fill="#00000008" stroke="#00000029" stroke-width="1"/>
+<circle r="27" fill="none" stroke="#22C55E" stroke-width="5" stroke-linecap="round" transform="rotate(-90)" stroke-dasharray="169.6" stroke-dashoffset="169.6"><animate attributeName="stroke-dashoffset" from="169.6" to="0" dur="8s" repeatCount="indefinite"/></circle>
+<text id="opClock" y="2" text-anchor="middle" font-size="13" font-weight="800" fill="#16A34A" font-variant-numeric="tabular-nums">00:00</text>
+<text y="54" text-anchor="middle" font-size="8" fill="#111" letter-spacing=".12em">24 HRS</text>
+</g>
+</svg>
+
+
+
+</div>
+</div></section>
+<section class="trust" id="trust"><div class="wrap">
+<span class="lab"><span class="dash"></span>Trust</span>
+<h2 data-rv="up">The Architecture <span class="outline">of Trust</span></h2>
+<p class="lede" data-rv="up">World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is <b>programmed.</b></p>
+<div class="partners">
+<div class="partner" data-rv="up"><div class="nm">PayTheFly</div><div class="rl">Crypto → AED Settlement</div><p>Licensed payment infrastructure converting USDT BTC and ETH into AED in seconds. The instant fiat leg of every purchase.</p></div>
+<div class="partner" data-rv="up"><div class="nm">mbank</div><div class="rl">AED Banking</div><p>Licensed AED banking partner. Settled funds are routed held and paid out to sellers through regulated accounts.</p></div>
+<div class="partner" data-rv="up"><div class="nm">DLD</div><div class="rl">Title Registration</div><p>Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.</p></div>
+<div class="partner" data-rv="up"><div class="nm">Verysset</div><div class="rl">Physical Oracle</div><p>Every asset is scanned audited and turned into a digital twin before it enters the marketplace.</p></div>
+<div class="partner" data-rv="up"><div class="nm">Charger.io</div><div class="rl">Digital Custody</div><p>Institutional-grade digital asset custody for holdings and yields. Segregated and auditable at all times.</p></div>
+<div class="partner" data-rv="up"><div class="nm">VARA</div><div class="rl">Regulatory Oversight</div><p>Crypto activities operate under the Virtual Assets Regulatory Authority framework. Compliant by design.</p></div>
+</div>
+<p class="tagline" data-rv="up">BlockEstate is not a bank custodian broker or auditor. It is <b>the gateway and orchestrator</b> that connects these licensed providers into one seamless purchase.</p>
+<p class="ndc-line" data-rv="up">Powered by <b>NDC</b> · Executed on Proven Infrastructure</p>
+</div></section>
+<section class="cta" id="cta"><div class="wrap">
+<h2 data-rv="up">Own It <span class="ghost">Now</span></h2>
+<p class="sub-cta">From USDT to AED to title deed. <b>The whole journey in minutes.</b></p>
+<a class="btn" data-rv="up" href="/cdn-cgi/l/email-protection#83ebe6efefecc3e1efece0e8e6f0f7e2f7e6ade2e6">START BUYING</a>
+</div></section>
+<footer>
+<div class="foot-in">
+<div class="foot-brand"><div class="name"><svg class="logo"><use href="#logo"/></svg>BLOCKESTATE</div><div class="foot-by">POWERED BY NDC</div><p>The UAE's crypto-native property marketplace. Real estate ownership settled in seconds and registered for the long term.</p></div>
+<div class="foot-col"><h5>Marketplace</h5><a href="#how">How It Works</a><a href="#markets">Markets</a><a href="#models">Asset Classes</a></div>
+<div class="foot-col"><h5>Company</h5><a href="#trust">Trust &amp; Partners</a><a href="/cdn-cgi/l/email-protection#d6beb3babab996b4bab9b5bdb3a5a2b7a2b3f8b7b3">Contact</a></div>
+</div>
+<div class="legal"><p>BlockEstate is a real estate technology marketplace. Crypto payments settle through licensed partners. Title deeds are issued by the Dubai Land Department. This site does not constitute investment advice. All figures are illustrative. © 2026 BlockEstate · NDC · Dubai UAE.</p></div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  var els = document.querySelectorAll('[data-rv]');
+  if (!els.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('rv-on'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      var siblings = el.parentElement ? Array.prototype.slice.call(el.parentElement.children).filter(function(c){ return c.hasAttribute && c.hasAttribute('data-rv'); }) : [];
+      var idx = siblings.indexOf(el);
+      var delay = Math.max(0, idx) * 90;
+      setTimeout(function(){ el.classList.add('rv-on'); }, delay);
+      io.unobserve(el);
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<script>
+(function(){
+  var c=document.getElementById('opClock');if(!c)return;
+  function tick(){
+    var f=(performance.now()/1000%8)/8; // 0..1 ciclo de 8s, sincronizado con la carga de pagina
+    var mins=Math.round(f*24*60);    // 0..1440 min = 24h
+    if(mins>=1440)mins=1439;
+    var hh=Math.floor(mins/60),mm=mins%60;
+    c.textContent=(hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm;
+  }
+  tick();setInterval(tick,250);
+})();
+</script>
+</body>
+
+</html>
