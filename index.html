@@ -6,10 +6,60 @@
 <title>BlockEstate · NDC · Own UAE Real Estate. Pay in Crypto.</title>
 <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#ffffff;--ink:#10222B;--mut:#5b6b72;--line:#e6ebee;--card:#f7fafb;--teal:#00b09b;--teal-d:#0a7d6f}
+:root{
+  /* === VERDE (marca) === */
+  --verde-principal:      #22C55E;
+  --verde-texto:          #16A34A;
+  --verde-profundo:       #052e16;
+  --verde-tenue-bg:       rgba(34,197,94,.12);
+  --verde-tenue-borde:    rgba(34,197,94,.25);
+
+  /* === NEGRO / GRAFITO === */
+  --negro-principal:      #0d0f12;
+  --negro-logo:           #10222B;
+  --negro-puro:           #000000;
+
+  /* === BLANCO / GRIS CLARO === */
+  --blanco:               #ffffff;
+  --blanco-hueso:         #fafafa;
+  --tarjeta-bg:           rgba(0,0,0,.015);
+
+  /* === GRISES (textos) === */
+  --texto-1:              #333333;
+  --texto-2:              #444444;
+  --texto-3:              #555555;
+  --texto-4:              #666666;
+  --texto-5:              #888888;
+  --texto-6:              #999999;
+
+  /* === BORDES === */
+  --borde-suave:          rgba(0,0,0,.08);
+  --borde-medio:          rgba(0,0,0,.10);
+  --borde-fuerte:         rgba(0,0,0,.15);
+
+  /* === AMARILLO / CRYPTO === */
+  --amarillo-crypto:      #FBBF24;
+  --ambar-oscuro:         #B45309;
+  --marron-simbolo:       #7C2D12;
+  --naranja-sello:        #F59E0B;
+
+  /* === ROJO (errores) === */
+  --rojo-error:           #EF4444;
+  --rojo-tenue:           rgba(239,68,68,.10);
+
+  /* === aliases que usa el sitio === */
+  --bg:                   var(--blanco);
+  --ink:                  var(--texto-1);
+  --mut:                  var(--texto-4);
+  --line:                 var(--borde-suave);
+  --card:                 var(--tarjeta-bg);
+  --teal:                 var(--verde-principal);
+  --teal-d:               var(--verde-texto);
+}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
@@ -171,13 +221,13 @@ footer{border-top:1px solid var(--line);padding:60px 0 40px;background:var(--car
 <path d="M862 130 H924"><animate attributeName="stroke-dashoffset" from="24" to="0" dur="1.4s" repeatCount="indefinite"/></path>
 </g>
 <g text-anchor="middle">
-<g transform="translate(48 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" stroke-width="2.2" fill="none" stroke-linecap="round"><rect x="-16" y="-12" width="32" height="22" rx="4"/><path d="M-16 -3 h10"/><circle cx="9" cy="0" r="2.2" fill="#00b09b" stroke="none"/></g><text y="62" class="op-nm">YOU</text><text y="76" class="op-sub">USDT BTC ETH</text></g>
-<g transform="translate(200 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -4 L-13 -12 H13 L18 -4 Z"/><path d="M-14 -4 V11 H14 V-4"/><path d="M-3 11 V4 H3 V11"/></g><text y="62" class="op-nm">BLOCKESTATE</text><text y="76" class="op-sub">PROPERTY ESCROW</text></g>
-<g transform="translate(352 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -6 H11 M11 -6 l-5 -5 M11 -6 l-5 5"/><path d="M12 6 H-11 M-11 6 l5 5 M-11 6 l5 -5"/></g><text y="62" class="op-nm">PAYTHEFLY</text><text y="76" class="op-sub">CRYPTO → AED</text></g>
-<g transform="translate(504 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M-14 -7 L0 -14 L14 -7 Z"/><path d="M-14 -5 V4 M-7 -5 V4 M0 -5 V4 M7 -5 V4 M14 -5 V4"/><path d="M-18 8 H18"/></g><text y="62" class="op-nm">CHARGER</text><text y="76" class="op-sub">DIGITAL CUSTODY</text></g>
-<g transform="translate(656 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" fill="none" stroke-linecap="round"><path d="M0 -14 L12 -3 V11 H-12 V-3 Z"/><path d="M-4 11 V2 H4 V11"/></g><text y="62" class="op-nm">MBANK</text><text y="76" class="op-sub">AED BANKING</text></g>
-<g transform="translate(808 130)"><circle r="36" fill="#00b09b1a" stroke="#00b09b55" stroke-width="1"/><g stroke="#00b09b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-9 -14 H9 V0 L14 8 H-14 L-9 0 Z"/><path d="M-9 -14 L-9 0"/></g><text y="62" class="op-nm">DEVELOPER</text><text y="76" class="op-sub">RECEIVES AED</text></g>
-<g transform="translate(960 130)"><circle r="36" fill="#00b09b0d" stroke="#00b09b55" stroke-width="1"/><g stroke="#10222B" stroke-width="2.2" fill="none" stroke-linecap="round"><rect x="-12" y="-14" width="24" height="28" rx="3"/><path d="M-6 -7 H6 M-6 0 H6 M-6 7 H1"/></g><text y="62" class="op-nm">DLD</text><text y="76" class="op-sub">TITLE DEED</text></g>
+<g transform="translate(48 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.2" fill="none" stroke-linecap="round"><rect x="-16" y="-12" width="32" height="22" rx="4"/><path d="M-16 -3 h10"/><circle cx="9" cy="0" r="2.2" fill="#22C55E" stroke="none"/></g><text y="62" class="op-nm">YOU</text><text y="76" class="op-sub">USDT BTC ETH</text></g>
+<g transform="translate(200 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 -4 L-13 -12 H13 L18 -4 Z"/><path d="M-14 -4 V11 H14 V-4"/><path d="M-3 11 V4 H3 V11"/></g><text y="62" class="op-nm">BLOCKESTATE</text><text y="76" class="op-sub">PROPERTY ESCROW</text></g>
+<g transform="translate(352 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-12 -6 H11 M11 -6 l-5 -5 M11 -6 l-5 5"/><path d="M12 6 H-11 M-11 6 l5 5 M-11 6 l5 -5"/></g><text y="62" class="op-nm">PAYTHEFLY</text><text y="76" class="op-sub">CRYPTO → AED</text></g>
+<g transform="translate(504 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M-14 -7 L0 -14 L14 -7 Z"/><path d="M-14 -5 V4 M-7 -5 V4 M0 -5 V4 M7 -5 V4 M14 -5 V4"/><path d="M-18 8 H18"/></g><text y="62" class="op-nm">CHARGER</text><text y="76" class="op-sub">DIGITAL CUSTODY</text></g>
+<g transform="translate(656 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" fill="none" stroke-linecap="round"><path d="M0 -14 L12 -3 V11 H-12 V-3 Z"/><path d="M-4 11 V2 H4 V11"/></g><text y="62" class="op-nm">MBANK</text><text y="76" class="op-sub">AED BANKING</text></g>
+<g transform="translate(808 130)"><circle r="36" fill="#22C55E1a" stroke="#22C55E55" stroke-width="1"/><g stroke="#22C55E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-9 -14 H9 V0 L14 8 H-14 L-9 0 Z"/><path d="M-9 -14 L-9 0"/></g><text y="62" class="op-nm">DEVELOPER</text><text y="76" class="op-sub">RECEIVES AED</text></g>
+<g transform="translate(960 130)"><circle r="36" fill="#22C55E0d" stroke="#22C55E55" stroke-width="1"/><g stroke="#10222B" stroke-width="2.2" fill="none" stroke-linecap="round"><rect x="-12" y="-14" width="24" height="28" rx="3"/><path d="M-6 -7 H6 M-6 0 H6 M-6 7 H1"/></g><text y="62" class="op-nm">DLD</text><text y="76" class="op-sub">TITLE DEED</text></g>
 </g>
 </svg>
 </div>
