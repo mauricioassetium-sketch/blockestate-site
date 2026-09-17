@@ -110,17 +110,18 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 .foot-col a:hover{color:#111}
 .legal{border-top:1px solid rgba(0,0,0,.06);margin-top:3rem;padding-top:1.5rem;max-width:72rem;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;text-align:center}
 .legal p{font-size:11px;color:rgba(0,0,0,.35);line-height:1.6}
-.plogos{margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(0,0,0,.06)}
-.pl-ttl{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,0,0,.4);display:block;margin-bottom:1.2rem}
-.plogos-grid{display:flex;flex-wrap:wrap;align-items:center;gap:2.5rem}
-.plogo{display:inline-flex;align-items:center;transition:transform .25s}
-.plogo img{height:34px;width:auto;filter:grayscale(100%) opacity(.55);transition:filter .25s}
+.plogos{margin-top:2.5rem}
+.pl-ttl{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,0,0,.4);display:block;margin-bottom:1.2rem;text-align:center}
+.plogos-box{background:#fafbfa;border:1px solid #e8eae8;border-radius:16px;padding:2rem 1.6rem;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.plogos-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:.9rem}
+.plogo{display:inline-flex;align-items:center;justify-content:center;min-height:64px;padding:.5rem 1.4rem;background:#fff;border:1px solid #eeefee;border-radius:12px;transition:border-color .22s,box-shadow .22s,transform .22s}
+.plogo img{height:30px;width:auto;filter:grayscale(100%) opacity(.55);transition:filter .22s}
 .plogo:hover img{filter:grayscale(0) opacity(1)}
-.plogo:hover{transform:translateY(-2px)}
+.plogo:hover{border-color:#e0e3e0;box-shadow:0 4px 14px rgba(0,0,0,.06);transform:translateY(-2px)}
 .lang-sel{appearance:none;-webkit-appearance:none;margin-left:1rem;padding:.5rem .6rem;border:1px solid #ddd;border-radius:.6rem;background:#fff;color:#111;font-size:12px;font-weight:600;cursor:pointer}
 .lang-sel:hover{border-color:#22C55E}
-@media(max-width:900px){.hero-art{display:none}.grid7{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.baskets{grid-template-columns:1fr}.partners{grid-template-columns:repeat(2,1fr)}.foot-in{grid-template-columns:1fr}.nav-links{display:none}.plogos-grid{gap:1.6rem}}
-@media(max-width:560px){.nav-in{padding:.7rem 1rem}.hero{padding:8rem 0 3.5rem}.hero h1{font-size:clamp(2.2rem,12vw,3rem)}.hero-meta{flex-direction:column;gap:1rem;margin-top:2rem}.grid7{grid-template-columns:1fr}.partners{grid-template-columns:1fr}.plogos-grid{justify-content:center;gap:1.4rem}.plogo img{height:28px}.trust h2{font-size:clamp(1.8rem,8vw,2.6rem)}.nav-cta{font-size:11px;padding:.5rem .8rem}.lang-sel{margin-left:.5rem}}
+@media(max-width:900px){.hero-art{display:none}.grid7{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.baskets{grid-template-columns:1fr}.partners{grid-template-columns:repeat(2,1fr)}.foot-in{grid-template-columns:1fr}.nav-links{display:none}.plogos-box{padding:1.6rem 1.1rem}.plogos-grid{gap:.75rem}}
+@media(max-width:560px){.nav-in{padding:.7rem 1rem}.hero{padding:8rem 0 3.5rem}.hero h1{font-size:clamp(2.2rem,12vw,3rem)}.hero-meta{flex-direction:column;gap:1rem;margin-top:2rem}.grid7{grid-template-columns:1fr}.partners{grid-template-columns:1fr}.plogos-box{padding:1.2rem .8rem}.plogos-grid{justify-content:center;gap:.65rem}.plogo{min-height:56px;padding:.45rem 1rem}.plogo img{height:24px}.trust h2{font-size:clamp(1.8rem,8vw,2.6rem)}.nav-cta{font-size:11px;padding:.5rem .8rem}.lang-sel{margin-left:.5rem}}
 
 .operation{padding:6rem 0}
 .operation h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.95}
@@ -350,12 +351,14 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <p class="ndc-line" data-rv="up" data-i18n="Powered by">Powered by <b>NDC</b> <span data-i18n="· Executed on Proven Infrastructure">· Executed on Proven Infrastructure</span></p>
 <div class="plogos" data-rv="up">
 <span class="pl-ttl" data-i18n="Our Partners">Our Partners</span>
+<div class="plogos-box">
 <div class="plogos-grid">
 <a class="plogo" href="https://paythefly.com/" target="_blank" rel="noopener" aria-label="PayTheFly"><img src="img/paythefly.svg" alt="PayTheFly"/></a>
 <a class="plogo" href="https://www.ndcglobal.ae/" target="_blank" rel="noopener" aria-label="NDC"><img src="img/ndc.svg" alt="NDC"/></a>
 <a class="plogo" href="https://aradina.net/" target="_blank" rel="noopener" aria-label="Aradina"><img src="img/aradina.svg" alt="Aradina"/></a>
 <a class="plogo" href="https://verysset.com/" target="_blank" rel="noopener" aria-label="VERYSSET"><img src="img/verysset.svg" alt="VERYSSET"/></a>
 <a class="plogo" href="https://www.enlightenedminds.io/" target="_blank" rel="noopener" aria-label="EnlightningMine"><img src="img/enlightenedminds.svg" alt="EnlightningMine"/></a>
+</div>
 </div>
 </div>
 </div></section>
