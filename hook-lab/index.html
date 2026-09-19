@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NDC · Gancho — Preview</title>
+<style>
+  :root{--bg:#0b1220;--grn:#22C55E}
+  *{margin:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:radial-gradient(120% 90% at 50% 32%,#1e2d40 0%,var(--bg) 60%,#060b14 100%);
+    color:#e6eef6;font-family:system-ui,-apple-system,sans-serif;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:20px;overflow:hidden}
+  .halo{position:fixed;left:50%;top:44%;width:min(74vmin,580px);height:min(74vmin,580px);
+    transform:translate(-50%,-50%);border-radius:50%;z-index:0;
+    background:radial-gradient(circle,rgba(34,197,94,.14) 0%,transparent 62%)}
+  img#hook{height:min(64vh,540px);position:relative;z-index:1;
+    filter:drop-shadow(0 18px 50px rgba(0,0,0,.55)) drop-shadow(0 0 28px rgba(34,197,94,.12))}
+  .cap{z-index:1;letter-spacing:.4em;font-size:13px;color:#8fa3b8;text-transform:uppercase}
+  .cap b{color:var(--grn);font-weight:800}
+  nav{z-index:1;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  button{background:#13202f;color:#d7e4ef;border:1px solid #24354b;padding:10px 18px;
+    border-radius:12px;font-size:14px;cursor:pointer;transition:background .2s,border-color .2s}
+  button:hover{background:#1a2c40;border-color:var(--grn)}
+  button.primary{background:var(--grn);color:#04230d;border-color:transparent;font-weight:700}
+  nav,.cap,.halo{transition:opacity .35s}
+  @keyframes rise{from{opacity:0;transform:translateY(90px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes splash{0%{opacity:0;transform:translateY(90px)}23%{opacity:1;transform:translateY(0)}77%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-22px)}}
+  img#hook.rise{animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both,idle 5.5s ease-in-out 1.1s infinite}
+  img#hook.splash{animation:splash 3s ease-in-out forwards}
+  body.splashmode{background:#000}
+  body.splashmode nav,body.splashmode .cap,body.splashmode .halo{opacity:0}
+</style>
+</head>
+<body>
+  <div class="halo"></div>
+  <img id="hook" class="rise" src="hook.png" alt="Gancho NDC">
+  <div class="cap"><b>NDC</b> · gancho</div>
+  <nav>
+    <button class="primary" onclick="play()">↻ Reproducir</button>
+    <button id="loopbtn" onclick="toggleLoop()">⏸ Pausar loop</button>
+    <button onclick="splash()">🎬 Splash 3 s</button>
+  </nav>
+<script>
+const hook=document.getElementById('hook'),loopbtn=document.getElementById('loopbtn');
+let loopTimer=null;
+function play(){hook.classList.remove('rise','splash');void hook.offsetWidth;hook.classList.add('rise');if(loopTimer!==null)schedule();}
+function schedule(){clearTimeout(loopTimer);loopTimer=setTimeout(play,7000);}
+function toggleLoop(){if(loopTimer!==null){clearTimeout(loopTimer);loopTimer=null;loopbtn.textContent='▶ Reanudar loop';}else{loopbtn.textContent='⏸ Pausar loop';schedule();}}
+function splash(){clearTimeout(loopTimer);document.body.classList.add('splashmode');hook.classList.remove('rise');void hook.offsetWidth;hook.classList.add('splash');setTimeout(()=>{document.body.classList.remove('splashmode');play();},3300);}
+schedule();
+</script>
+</body>
+</html>
