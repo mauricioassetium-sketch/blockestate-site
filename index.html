@@ -423,7 +423,7 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <div class="pre" id="be-pre" role="dialog" aria-modal="true">
   <div class="pre-bg"></div>
   <div class="pre-card">
-    <button class="pre-close" aria-label="Close">&times;</button>
+    <button type="button" class="pre-close" aria-label="Cerrar">&times;</button>
     <div class="pre-form-wrap">
       <h3 data-i18n="DEVELOPER PRE-REGISTRATION">DEVELOPER PRE-REGISTRATION</h3>
       <p class="pre-sub" data-i18n="Be among the first developers on the UAE's crypto-native property marketplace. List your projects. Get paid in AED. Reach global crypto buyers.">Be among the first developers on the UAE's crypto-native property marketplace. List your projects. Get paid in AED. Reach global crypto buyers.</p>
@@ -598,6 +598,17 @@ function bePopupInit(){
     const b = F.querySelector('[type=submit]');
     if(b) b.disabled = false;
   });
+}
+function bePreHide(){ var P=document.getElementById('be-pre'); if(P){P.classList.remove('on'); document.body.style.overflow='';} }
+/* Cierre a prueba de fallos: escucha en el documento, no en el boton.
+   Da igual cuando se cree el boton o quien lo envuelva: siempre cierra. */
+if(!window.bePreCloseDelegado){
+  window.bePreCloseDelegado = true;
+  document.addEventListener('click', function(e){
+    var t = e.target && e.target.closest ? e.target.closest('.pre-close, .pre-bg') : null;
+    if(t){ e.preventDefault(); e.stopPropagation(); bePreHide(); }
+  }, true);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'||e.key==='Esc'){ bePreHide(); } });
 }
 function bePreShow(){ const P=document.getElementById('be-pre'); if(P){ P.classList.add('on'); document.body.style.overflow='hidden'; } }
 function bePreHide(){ const P=document.getElementById('be-pre'); if(P){ P.classList.remove('on'); document.body.style.overflow=''; } }
