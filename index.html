@@ -214,8 +214,7 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 .bankpick h3{font-size:clamp(1.1rem,2.4vw,1.5rem);font-weight:900;letter-spacing:-.02em;margin-bottom:.55rem}
 .bankpick p{color:rgba(255,255,255,.62);font-size:.9rem;max-width:62ch;margin-bottom:1.1rem;line-height:1.6}
 .bpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}
-.bpcard{display:flex;flex-direction:column;gap:.3rem;border:1px solid rgba(255,255,255,.16);
-  border-radius:.7rem;padding:.9rem 1rem;background:rgba(255,255,255,.03);position:relative}
+.bpcard{display:flex;align-items:center;justify-content:center;min-height:112px;border:1px solid rgba(17,17,17,.10) !important;border-radius:14px;padding:1.2rem !important;background:#fff;box-shadow:0 1px 2px rgba(17,17,17,.04)}
 .bpcard .bnm{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
 .bpcard .bfl{font-size:.76rem;color:rgba(255,255,255,.55);line-height:1.45}
 .bpcard .btag{position:absolute;top:.75rem;right:.85rem;font-size:8.5px;font-weight:800;letter-spacing:.14em;
@@ -237,14 +236,12 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
   .vision .row p{margin:0;flex:1 1 100%;opacity:.72}
   /* tarjetas de banco: el borde y el texto eran BLANCOS sobre fondo blanco */
   .bpgrid{margin-top:1.6rem}
-  .bpcard{border:1px solid rgba(17,17,17,.10) !important;border-radius:14px;
-       padding:1.1rem 1rem 1.15rem !important;background:#fff;
-       box-shadow:0 1px 2px rgba(17,17,17,.04)}
+  .bpcard{display:flex;align-items:center;justify-content:center;min-height:112px;border:1px solid rgba(17,17,17,.10) !important;border-radius:14px;padding:1.2rem !important;background:#fff;box-shadow:0 1px 2px rgba(17,17,17,.04)}
   .bnm{color:#111}
   .bfl{color:rgba(17,17,17,.62) !important}
   .btag{color:#16A34A !important;background:rgba(34,197,94,.10) !important;
        border:0 !important;border-radius:999px;padding:.15rem .5rem}
-  .blogo img{opacity:.92}
+  .blogo img{max-height:54px;max-width:100%;width:auto;height:auto;object-fit:contain;display:block}
   /* FIN-FIX */
 </style>
 
@@ -303,10 +300,10 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <h3 data-i18n="Choose Your Bank — the Flow Follows">Choose Your Bank — the Flow Follows</h3>
 <p data-i18n="We work with four banks. You pick the one that suits your operation and the system routes the purchase accordingly — same platform, same crypto in, same AED to your account.">We work with four banks. You pick the one that suits your operation and the system routes the purchase accordingly — same platform, same crypto in, same AED to your account.</p>
 <div class="bpgrid">
-<div class="bpcard"><span class="bnm">mbank</span><span class="bfl" data-i18n="Single-bank off-ramp · title in business days">Single-bank off-ramp · title in business days</span><span class="btag">Flow 1</span></div>
-<div class="bpcard"><span class="bnm">HSBC</span><span class="bfl" data-i18n="Three-bank off-ramp in parallel · same-day title">Three-bank off-ramp in parallel · same-day title</span><span class="btag">Flow 2</span></div>
-<div class="bpcard"><span class="bnm">Zand Bank</span><span class="bfl" data-i18n="Three-bank off-ramp in parallel · same-day title">Three-bank off-ramp in parallel · same-day title</span><span class="btag">Flow 2</span></div>
-<div class="bpcard"><span class="bnm">Mashreq Bank</span><span class="bfl" data-i18n="Three-bank off-ramp in parallel · same-day title">Three-bank off-ramp in parallel · same-day title</span><span class="btag">Flow 2</span></div>
+<div class="bpcard"></div>
+<div class="bpcard"></div>
+<div class="bpcard"></div>
+<div class="bpcard"></div>
 </div>
 </div>
 </div></section>
