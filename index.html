@@ -221,6 +221,31 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 .bpcard .btag{position:absolute;top:.75rem;right:.85rem;font-size:8.5px;font-weight:800;letter-spacing:.14em;
   color:#22C55E;text-transform:uppercase}
 @media(max-width:700px){.bpgrid{grid-template-columns:1fr 1fr}}
+
+  /* FIX-BANCOS */
+  /* iconos de los pasos (se quedaron sin estilo) */
+  .sic{flex:0 0 38px;width:38px;height:38px;border-radius:50%;
+       background:rgba(34,197,94,.10);display:inline-flex;align-items:center;
+       justify-content:center;margin-right:.15rem;vertical-align:middle}
+  .sic svg{width:20px;height:20px;stroke:#22C55E;fill:none;stroke-width:1.6;
+       stroke-linecap:round;stroke-linejoin:round}
+  .vision .row{display:flex;flex-wrap:wrap;gap:.55rem 1rem;align-items:flex-start;
+       background:#fff;border:1px solid rgba(17,17,17,.08);border-radius:14px;
+       padding:1.1rem 1.2rem;text-align:left}
+  .vision .row .head{display:flex;align-items:center;gap:.6rem;margin:0;
+       width:calc(100% - 54px)}
+  .vision .row p{margin:0;flex:1 1 100%;opacity:.72}
+  /* tarjetas de banco: el borde y el texto eran BLANCOS sobre fondo blanco */
+  .bpgrid{margin-top:1.6rem}
+  .bpcard{border:1px solid rgba(17,17,17,.10) !important;border-radius:14px;
+       padding:1.1rem 1rem 1.15rem !important;background:#fff;
+       box-shadow:0 1px 2px rgba(17,17,17,.04)}
+  .bnm{color:#111}
+  .bfl{color:rgba(17,17,17,.62) !important}
+  .btag{color:#16A34A !important;background:rgba(34,197,94,.10) !important;
+       border:0 !important;border-radius:999px;padding:.15rem .5rem}
+  .blogo img{opacity:.92}
+  /* FIN-FIX */
 </style>
 
 </head>
