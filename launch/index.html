@@ -112,6 +112,15 @@
   .btn.buy{margin-left:.7rem;background:#22C55E;color:#111;border-color:#22C55E;font-weight:800}
   .btn.buy:hover{background:#16A34A;border-color:#16A34A;color:#fff;transform:translateY(-2px)}
   @media(max-width:560px){.btn.buy{margin-left:.4rem;padding-left:1rem;padding-right:1rem}}
+
+  /* BE-sociales */
+  .sociales{display:flex;gap:.7rem;align-items:center;justify-content:center;margin-top:1.1rem}
+  .soc{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);
+    transition:color .2s,background .2s,border-color .2s,transform .2s}
+  .soc svg{width:19px;height:19px}
+  .soc:hover{color:#111;background:#22C55E;border-color:#22C55E;transform:translateY(-2px)}
+  @media(max-width:560px){.sociales{gap:.5rem}.soc{width:36px;height:36px}.soc svg{width:17px;height:17px}}
 </style>
 </head>
 <body>
@@ -335,7 +344,7 @@
     </svg>
   </div>
   <a class="btn" href="#">NEWS</a>
-  <a class="btn buy" href="/#cta">START BUYING</a>
+  <div class="sociales"><a href="#" class="soc" aria-label="Linkedin" title="Linkedin"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M4.5 8.5H7V19H4.5zM5.75 4a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM9.5 8.5H12v1.4c.4-.7 1.3-1.5 2.7-1.5 2 0 3.3 1.2 3.3 3.9V19h-2.6v-6c0-1.4-.5-2.2-1.6-2.2-1 0-1.6.7-1.8 1.3V19H9.5z"/></svg></a><a href="#" class="soc" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" fill="none" stroke-width="1.9"/><circle cx="12" cy="12" r="3.9" fill="none" stroke-width="1.9"/><circle cx="17" cy="7" r="1.2"/></svg></a><a href="#" class="soc" aria-label="X" title="X"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M4 4h4.3l4.1 5.6L17.3 4H20l-6.1 6.9L20.4 20h-4.3l-4.4-6-4.9 6H4.2l6.4-7.4z"/></svg></a><a href="#" class="soc" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M13.4 20v-7h2.3l.4-2.7h-2.7V8.6c0-.8.2-1.3 1.4-1.3h1.5V4.9c-.3 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.6v2H8.4V13h2.3v7z"/></svg></a><a href="#" class="soc" aria-label="Tiktok" title="Tiktok"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M15.9 3.5c.4 2 1.6 3.2 3.6 3.4v2.5c-1.3.1-2.5-.3-3.7-1v5.9c0 4-3.2 6.3-6.4 5.6-2.6-.6-4.2-3.4-3.5-6 .6-2.2 2.6-3.6 4.9-3.3v2.6c-.4-.1-.9-.2-1.4-.1-1.2.2-1.9 1.2-1.7 2.4.2 1.1 1.2 1.9 2.3 1.7 1.1-.1 1.7-1 1.7-2.2V3.5z"/></svg></a></div>
   
 </main>
 </body>
