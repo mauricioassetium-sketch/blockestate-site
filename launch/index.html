@@ -44,7 +44,7 @@
       color:rgba(255,255,255,.55);
     }
     .scene{
-      flex:0 0 25vh;height:25vh;width:100%;
+      flex:0 0 60vh;height:60vh;width:100%;
       display:flex;align-items:center;justify-content:center;
     }
     .scene svg{width:100%;height:100%;display:block;overflow:hidden}
@@ -75,14 +75,18 @@
     .btn:active{transform:translateY(-1px)}
     .btn:focus-visible{outline:2px solid rgba(34,197,94,.6);outline-offset:4px}
     @media (max-height:640px){
-      .scene{flex-basis:25vh;height:25vh}
+      .scene{flex-basis:60vh;height:60vh}
       .head{font-size:clamp(16px,3vw,28px)}
     }
     @media (max-width:600px){
       .brand .name{letter-spacing:.2em;text-indent:.2em}
       .head{font-size:clamp(16px,4.6vw,24px)}
     }
-  </style>
+  
+  /* BE-verde: el verde de la casa en los trazos y el suelo */
+  #city line,#city path,#city rect{stroke-linecap:round;stroke-linejoin:round}
+  .ground,#city .ground{stroke:#22C55E !important;stroke-width:3 !important}
+</style>
 </head>
 <body>
 <main class="stage">
