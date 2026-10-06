@@ -1,1 +1,38 @@
+# ============================================================================
+# .gitignore del sitio público (blockestate.ae)
+#
+# ATENCIÓN: este repo es PÚBLICO y sus carpetas se sirven tal cual en el sitio.
+# Todo lo que esté aquí y se commitee queda publicado en internet. El
+# .gitignore solo protege lo que NO está ya en el repo: si un fichero ya está
+# versionado, hay que quitarlo con `git rm -r --cached` además de ignorarlo.
+# ============================================================================
+
+# --- Documentación interna: no debe estar en el repo público ----------------
+dev-docs/
+documento-privado/
+private-document/
+private-business-model/
+business-model-numbers/
+sandbox-m0/
+
+# --- Código de servidor: la API de altas y correo no es parte del sitio -----
+api/
+
+# --- Secretos y configuración local ----------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Datos personales: la base de registros NUNCA al repo -------------------
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Ruido de desarrollo ---------------------------------------------------
+node_modules/
+*.log
 index.bak.*
+.DS_Store
