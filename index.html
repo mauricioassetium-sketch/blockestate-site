@@ -525,7 +525,7 @@ function applyLang(lang){
   try{ localStorage.setItem('be_lang', lang); }catch(e){}
 }
 
-try{ window.BE_applyLang = applyLang; }catch(e){} window.addEventListener('load', function(){ let saved = 'en'; try{ saved = localStorage.getItem('be_lang') || 'en'; }catch(e){} if(!(saved in LANGS)) saved = 'en'; // construir selectores de idioma document.querySelectorAll('.lang-sel').forEach(sel=>{ if(sel.options.length>5) return; sel.innerHTML = ''; Object.keys(LANGS).forEach(k=>{ const o = document.createElement('option'); o.value = k; o.textContent = LANGS[k].flag + ' ' + NAMES[k]; sel.appendChild(o); }); sel.addEventListener('change', e=>applyLang(e.target.value)); }); applyLang(saved);
+try{ window.BE_applyLang = applyLang; }catch(e){} window.addEventListener('load', function(){ var saved = 'en'; /* SIEMPRE ingles por defecto */ if(!(saved in LANGS)) saved = 'en'; // construir selectores de idioma document.querySelectorAll('.lang-sel').forEach(sel=>{ if(sel.options.length>5) return; sel.innerHTML = ''; Object.keys(LANGS).forEach(k=>{ const o = document.createElement('option'); o.value = k; o.textContent = LANGS[k].flag + ' ' + NAMES[k]; sel.appendChild(o); }); sel.addEventListener('change', e=>applyLang(e.target.value)); }); applyLang(saved);
 }); // ---- Developer pre-registration popup ----
 function bePopupInit(){ const P = document.getElementById('be-pre'); if(!P || P.dataset.ready) return; P.dataset.ready = '1'; // abrir document.querySelectorAll('[data-open-pre]').forEach(b=>{ b.addEventListener('click', e=>{ e.preventDefault(); bePreShow(); }); }); // cerrar P.querySelectorAll('.pre-close,.pre-bg').forEach(el=>el.addEventListener('click', bePreHide)); document.addEventListener('keydown', e=>{ if(e.key==='Escape') bePreHide(); }); const F = P.querySelector('form'); if(!F) return; F.addEventListener('submit', function(ev){ ev.preventDefault(); const btn = F.querySelector('[type=submit]'); const rp = F.querySelector('[name="_replyto"]'); const em = F.querySelector('[name="email"]'); if(rp && em) rp.value = em.value; const data = new FormData(F); fetch(F.action, { method:'POST', body:data, headers:{Accept:'application/json'} }) .then(r => r.json() .then(j => bePreResult(F, !!j && String(j.success) === 'true')) .catch(() => bePreResult(F, false))) .catch(() => bePreResult(F, false)); if(btn) btn.disabled = true; }); const R = P.querySelector('.pre-retry'); if(R) R.addEventListener('click', function(){ const err = F.closest('.pre-card').querySelector('.pre-err'); if(err) err.style.display = 'none'; F.style.display = ''; const b = F.querySelector('[type=submit]'); if(b) b.disabled = false; });
 }
@@ -542,7 +542,7 @@ function bePreResult(F, ok){ const box = F.closest('.pre-card'); F.style.display
 })();
 </script>
 <script>/* BE_red_seguridad: si el arranque falla, traducir igual */
-(function(){ function va(){ try{ var g=localStorage.getItem('be_lang')||'en'; var f=window.BE_applyLang; if(f) f(g); }catch(e){} } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', va); else va(); window.addEventListener('load', va);
+(function(){ function va(){ try{ var f=window.BE_applyLang; if(f) f('en'); }catch(e){} } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', va); else va(); window.addEventListener('load', va);
 })();
 </script>
 <script>/* BE_I18N_COPIA */
@@ -592,7 +592,7 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
 (function(){
   function fija(){
     try{
-      var g = localStorage.getItem('be_lang') || 'en';
+      var g = 'en'; /* SIEMPRE ingles por defecto */
       var d = (g==='ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = g; document.documentElement.dir = d;
       if(document.body) document.body.dir = d;
@@ -622,6 +622,22 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
     e.preventDefault(); e.stopPropagation(); pon(b.getAttribute('data-role'));
   },true);
   window.addEventListener('load',function(){ setTimeout(function(){ pon('dev'); },300); });
+})();
+</script>
+<script>/* BE-ingles: la pagina abre SIEMPRE en ingles; el usuario puede cambiarlo */
+(function(){
+  function ingles(){
+    try{
+      document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr';
+      if(document.body) document.body.dir = 'ltr';
+      var f = window.BE_applyLang; if(f) f('en');
+      document.querySelectorAll('.lang-dd .lang-cur').forEach(function(x){ x.textContent='EN'; });
+      document.querySelectorAll('.lang-menu button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-lang')==='en'); });
+    }catch(e){}
+  }
+  ingles();
+  document.addEventListener('DOMContentLoaded', ingles);
+  window.addEventListener('load', function(){ ingles(); setTimeout(ingles, 400); });
 })();
 </script>
 </body> </html>
