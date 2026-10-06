@@ -270,6 +270,12 @@ function bePopupInit(){ const P = document.getElementById('be-pre'); if(!P || P.
 function bePreHide(){ var P=document.getElementById('be-pre'); if(P){P.classList.remove('on'); document.body.style.overflow='';} }
 /* Cierre a prueba de fallos: escucha en el documento, no en el boton. Da igual cuando se cree el boton o quien lo envuelva: siempre cierra. */
 if(!window.bePreCloseDelegado){ window.bePreCloseDelegado = true; document.addEventListener('click', function(e){ var t = e.target && e.target.closest ? e.target.closest('.pre-close, .pre-bg') : null; if(t){ e.preventDefault(); e.stopPropagation(); bePreHide(); } }, true); document.addEventListener('keydown', function(e){ if(e.key==='Escape'||e.key==='Esc'){ bePreHide(); } });
+  /* Abrir el popup: escucha en el documento, da igual cuando se ate el boton */
+  document.addEventListener('click', function(e){
+    var o = e.target && e.target.closest ? e.target.closest('[data-open-pre]') : null;
+    if(o){ e.preventDefault(); e.stopPropagation(); bePreShow(); }
+  }, true);
+
 }
 function bePreShow(){ const P=document.getElementById('be-pre'); if(P){ P.classList.add('on'); document.body.style.overflow='hidden'; } }
 function bePreHide(){ const P=document.getElementById('be-pre'); if(P){ P.classList.remove('on'); document.body.style.overflow=''; } }
