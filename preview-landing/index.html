@@ -330,10 +330,28 @@ try{ window.BE_LANGS = LANGS; }catch(e){}
 // ---- i18n engine ----
 const LANGS = {en:{label:'EN',dir:'ltr',flag:'🇬🇧'},es:{label:'ES',dir:'ltr',flag:'🇪🇸'},ar:{label:'AR',dir:'rtl',flag:'🇦🇪'},ru:{label:'RU',dir:'ltr',flag:'🇷🇺'},zh:{label:'中文',dir:'ltr',flag:'🇨🇳'},hi:{label:'HI',dir:'ltr',flag:'🇮🇳'}};
 const NAMES = {en:'English',es:'Español',ar:'العربية',ru:'Русский',zh:'中文',hi:'हिन्दी'};
-function applyLang(lang){ document.documentElement.lang = lang; document.documentElement.dir = LANGS[lang].dir; // recorrer elementos con data-i18n document.querySelectorAll('[data-i18n]').forEach(el=>{ const en = el.getAttribute('data-i18n'); // guardar el ingles original la primera vez if(el.dataset.beEn == null){ el.dataset.beEn = (el.namespaceURI && el.namespaceURI.indexOf('svg')>-1) ? el.textContent : el.innerHTML; } const tr = I18N[en] && I18N[en][lang]; var esSvg = el.namespaceURI && el.namespaceURI.indexOf('svg') > -1;
+function applyLang(lang){
+  document.documentElement.lang = lang;
+  try{ document.documentElement.dir = (lang==='ar') ? 'rtl' : 'ltr'; }catch(e){}
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var en = el.getAttribute('data-i18n');
+    var esSvg = el.namespaceURI && el.namespaceURI.indexOf('svg') > -1;
+    if(el.dataset.beEn == null){ el.dataset.beEn = esSvg ? el.textContent : el.innerHTML; }
+    var tr = I18N[en] && I18N[en][lang];
     if(tr != null){ if(esSvg){ el.textContent = tr; } else { el.innerHTML = tr; } }
-    else if(lang === 'en'){ if(esSvg){ el.textContent = el.dataset.beEn; } else { el.innerHTML = el.dataset.beEn; } } }); // placeholders document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const en = el.getAttribute('data-i18n-ph'); if(el.dataset.beEnPh == null){ el.dataset.beEnPh = el.getAttribute('placeholder') || ''; } const tr = I18N[en] && I18N[en][lang]; if(tr != null){ el.setAttribute('placeholder', tr); } else if(lang === 'en'){ el.setAttribute('placeholder', el.dataset.beEnPh); } }); // selectores de idioma document.querySelectorAll('.lang-sel').forEach(s=>{ s.value = lang; if(s.selectedOptions[0]) s.selectedOptions[0].textContent = LANGS[lang].flag+' '+LANGS[lang].label; }); document.querySelectorAll('.lang-now').forEach(s=>{ s.textContent = LANGS[lang].label; }); try{ localStorage.setItem('be_lang', lang); }catch(e){}
+    else if(lang === 'en'){ if(esSvg){ el.textContent = el.dataset.beEn; } else { el.innerHTML = el.dataset.beEn; } }
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var en = el.getAttribute('data-i18n-ph');
+    if(el.dataset.beEnPh == null){ el.dataset.beEnPh = el.getAttribute('placeholder') || ''; }
+    var tr = I18N[en] && I18N[en][lang];
+    if(tr != null){ el.setAttribute('placeholder', tr); }
+    else if(lang === 'en'){ el.setAttribute('placeholder', el.dataset.beEnPh); }
+  });
+  document.querySelectorAll('.lang-now').forEach(function(s){ s.textContent = LANGS[lang].label; });
+  try{ localStorage.setItem('be_lang', lang); }catch(e){}
 }
+
 try{ window.BE_applyLang = applyLang; }catch(e){} window.addEventListener('load', function(){ let saved = 'en'; try{ saved = localStorage.getItem('be_lang') || 'en'; }catch(e){} if(!(saved in LANGS)) saved = 'en'; // construir selectores de idioma document.querySelectorAll('.lang-sel').forEach(sel=>{ if(sel.options.length>5) return; sel.innerHTML = ''; Object.keys(LANGS).forEach(k=>{ const o = document.createElement('option'); o.value = k; o.textContent = LANGS[k].flag + ' ' + NAMES[k]; sel.appendChild(o); }); sel.addEventListener('change', e=>applyLang(e.target.value)); }); applyLang(saved);
 }); // ---- Developer pre-registration popup ----
 function bePopupInit(){ const P = document.getElementById('be-pre'); if(!P || P.dataset.ready) return; P.dataset.ready = '1'; // abrir document.querySelectorAll('[data-open-pre]').forEach(b=>{ b.addEventListener('click', e=>{ e.preventDefault(); bePreShow(); }); }); // cerrar P.querySelectorAll('.pre-close,.pre-bg').forEach(el=>el.addEventListener('click', bePreHide)); document.addEventListener('keydown', e=>{ if(e.key==='Escape') bePreHide(); }); const F = P.querySelector('form'); if(!F) return; F.addEventListener('submit', function(ev){ ev.preventDefault(); const btn = F.querySelector('[type=submit]'); const rp = F.querySelector('[name="_replyto"]'); const em = F.querySelector('[name="email"]'); if(rp && em) rp.value = em.value; const data = new FormData(F); fetch(F.action, { method:'POST', body:data, headers:{Accept:'application/json'} }).then(r => r.json().then(j => bePreResult(F, !!j && String(j.success) === 'true')).catch(() => bePreResult(F, false))).catch(() => bePreResult(F, false)); if(btn) btn.disabled = true; }); const R = P.querySelector('.pre-retry'); if(R) R.addEventListener('click', function(){ const err = F.closest('.pre-card').querySelector('.pre-err'); if(err) err.style.display = 'none'; F.style.display = ''; const b = F.querySelector('[type=submit]'); if(b) b.disabled = false; });
