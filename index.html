@@ -202,9 +202,9 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
   @media(max-width:800px){.lang-row{margin-left:.3rem}.lang-btn{padding:.3rem .38rem;font-size:10px}}
 
   /* BE-idiomas: nada se sale de la pantalla, en ningun idioma */
-  html,body{overflow-x:hidden;max-width:100%}
-  .hero h1{font-size:clamp(2.1rem,7.6vw,6rem);overflow-wrap:break-word;word-break:break-word;hyphens:auto;max-width:100%}
-  .hero .wrap,.wrap{padding-left:1.25rem;padding-right:1.25rem;box-sizing:border-box;max-width:100%}
+  html,body{overflow-x:hidden}
+  .hero h1{font-size:clamp(2.1rem,7.6vw,6rem);overflow-wrap:break-word;hyphens:auto}
+  
   /* los idiomas con palabras largas (ruso, arabe, hindi) bajan un escalon */
   html[lang="ru"] .hero h1,html[lang="ar"] .hero h1,html[lang="hi"] .hero h1{font-size:clamp(1.8rem,6.2vw,4.8rem)}
   html[lang="ru"] h2,html[lang="ar"] h2,html[lang="hi"] h2{font-size:clamp(1.5rem,4.4vw,2.8rem);overflow-wrap:break-word}
@@ -504,6 +504,40 @@ window.BE_I18N = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يعمل","
       return; }
     if(!dd){ document.querySelectorAll('.lang-dd.open').forEach(function(x){ x.classList.remove('open'); }); }
   }, true); window.BE_cerrar = cerrar; window.BE_abrir = abrir;
+})();
+</script>
+<script>/* BE-AUTOAJUSTE: encoge la letra hasta que el texto quepa, sin tocar margenes */
+(function(){
+  function ajusta(el){
+    if(!el) return;
+    var base = parseFloat(el.getAttribute('data-be-base') || '');
+    if(!isFinite(base) || base<=0){
+      base = parseFloat(getComputedStyle(el).fontSize) || 16;
+      el.setAttribute('data-be-base', String(base));
+    }
+    el.style.fontSize = '';
+    var cont = el.parentElement ? el.parentElement.clientWidth : 0;
+    if(!cont) return;
+    var size = base;
+    for(var i=0;i<40 && size>10;i++){
+      el.style.fontSize = size + 'px';
+      if(el.scrollWidth <= cont && el.getBoundingClientRect().width <= cont + 1) break;
+      size = size * 0.94;
+    }
+  }
+  function todo(){
+    document.querySelectorAll('.hero h1, .hero .ghost, section h2').forEach(ajusta);
+  }
+  var t=null;
+  function programa(){ clearTimeout(t); t=setTimeout(todo, 120); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', programa);
+  else programa();
+  window.addEventListener('load', programa);
+  window.addEventListener('resize', programa);
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.closest && e.target.closest('.lang-dd')) setTimeout(programa, 250);
+  }, true);
+  window.BE_autoajuste = programa;
 })();
 </script>
 </body> </html>
