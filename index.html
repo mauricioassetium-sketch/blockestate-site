@@ -44,7 +44,7 @@ nav{position:fixed;top:40px;left:0;right:0;z-index:100;border-bottom:1px solid r
 .meta-item{border-left:1px solid #22C55E;padding-left:1rem}
 .meta-item .k{font-size:10px;color:rgba(0,0,0,.4);letter-spacing:.3em;text-transform:uppercase;display:block;margin-bottom:4px}
 .meta-item .v{font-size:17px;font-weight:300;color:rgba(0,0,0,.9)}
-.hero-art{position:absolute;right:-2rem;top:5rem;width:28vw;max-width:330px;opacity:.14;pointer-events:none}
+.hero-art{position:absolute;right:-2rem;top:5rem;width:40vw;max-width:470px;opacity:.15;pointer-events:none}
 .vision{padding:7rem 0}
 .vision h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1;margin-bottom:3rem}
 .vision h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
@@ -203,7 +203,7 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 
   /* BE-idiomas: nada se sale de la pantalla, en ningun idioma */
   html,body{overflow-x:hidden}
-  .hero h1{font-size:clamp(2.1rem,7.6vw,6rem);overflow-wrap:break-word;hyphens:none}
+  .hero h1{font-size:clamp(2.1rem,7.6vw,6rem);overflow-wrap:break-word;hyphens:manual}
   
   /* los idiomas con palabras largas (ruso, arabe, hindi) bajan un escalon */
   html[lang="ru"] .hero h1,html[lang="ar"] .hero h1,html[lang="hi"] .hero h1,html[lang="zh"] .hero h1{font-size:clamp(1.8rem,6vw,4.6rem)}
@@ -269,8 +269,8 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
   html[dir="rtl"],html[dir="rtl"] body{direction:rtl;text-align:right}
 
   /* BE-titulares: que el texto se ajuste solo, sin tocar el diseno */
-  .hero h1,section h2,.basket h3{overflow-wrap:break-word;hyphens:none;max-width:100%}
-  .hero h1{font-size:clamp(2.4rem,8.4vw,6.4rem)}
+  .hero h1,section h2,.basket h3{overflow-wrap:break-word;hyphens:manual;max-width:100%}
+  .hero h1{font-size:clamp(2.2rem,7.4vw,5.6rem)}
   html[lang="ru"] .hero h1,html[lang="ar"] .hero h1,html[lang="hi"] .hero h1,html[lang="zh"] .hero h1{font-size:clamp(2rem,6.6vw,5.1rem)}
   html[lang="ru"] h2,html[lang="ar"] h2,html[lang="hi"] h2,html[lang="zh"] h2{font-size:clamp(1.5rem,4.2vw,2.7rem)}
   /* el titular del hero no se mete debajo del logo */
@@ -279,12 +279,21 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 
   /* BE-hueco-logo: el texto reserva el sitio del logo, no se le echa encima */
   @media(min-width:901px){
-    .hero .wrap{position:relative;padding-right:calc(min(28vw,330px) + 1.75rem);box-sizing:border-box}
+    .hero .wrap{position:relative;padding-right:calc(min(40vw,470px) * 0.42);box-sizing:border-box}
     .hero h1,.hero-sub,.hero-meta{max-width:100%}
   }
   @media(max-width:900px){
     .hero .wrap{padding-right:1.75rem}
     .hero-art{opacity:.08;width:46vw;right:-5rem;top:4rem}
+  }
+
+  /* BE-caida: el texto cae entero, sin partir palabras ni pisar el logo */
+  .hero h1,.hero h1 span,.hero h1 b{overflow-wrap:normal;word-break:normal;hyphens:manual}
+  .hero h1{max-width:100%}
+  .hero-sub,.hero-meta{max-width:100%}
+  @media(max-width:900px){
+    .hero .wrap{padding-right:1.75rem !important}
+    .hero h1{font-size:clamp(2rem,8vw,3rem)}
   }
 </style> </head>
 <body> <div class="banner" role="note" aria-label="Coming soon announcement"><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span data-i18n="One platform. Full crypto payment rails for UAE real estate. Launching soon.">One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div><div class="banner-track"><span>COMING SOON &nbsp;·&nbsp; POWERED BY NDC &times; PAYTHEFLY &times; ARADINA</span><span>One platform. Full crypto payment rails for UAE real estate. Launching soon.</span></div></div>
