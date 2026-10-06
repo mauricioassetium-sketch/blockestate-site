@@ -88,19 +88,25 @@
   .ground,#city .ground{stroke:#22C55E !important;stroke-width:3 !important}
 
   /* BE-centrado: el texto vuelve al medio y el icono encima del logo */
-  .brand .mark{display:block;width:clamp(38px,3.4vw,52px);height:auto;margin:0 auto 2px;
-    filter:brightness(0) invert(1);opacity:.95}
+  .brand .mark{display:block;width:clamp(34px,3.1vw,46px);height:auto;margin:0 auto 4px}
   main.stage>.head{display:block;text-align:center;margin:0 auto;
     max-width:min(94vw,56rem);padding:0 1.2rem;color:#fff}
   main.stage{display:flex;flex-direction:column;align-items:center}
   main.stage>.scene{width:100%}
   main.stage>.btn{align-self:center}
+
+  /* BE-subir: la ciudad y el boton, mas arriba */
+  main.stage{justify-content:flex-start;gap:clamp(10px,1.4vh,18px);padding-top:clamp(6px,1vh,14px);padding-bottom:clamp(6px,1vh,14px)}
+  main.stage>.scene{flex:0 0 auto;margin-bottom:0}
+  main.stage>.head{flex:0 0 auto}
+  main.stage>.btn{margin-top:clamp(4px,.8vh,10px)}
+  .brand{margin-bottom:clamp(4px,.8vh,10px)}
 </style>
 </head>
 <body>
 <main class="stage">
   <header class="brand">
-    <img class="mark" src="/img/logo-email.png" alt="BlockEstate" width="52" height="52">
+    <svg class="mark" viewBox="0 0 40 44" aria-hidden="true"><path d="M20 2 38 12v20L20 42 2 32V12Z" fill="none" stroke="#22C55E" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 2v20M20 22 38 12M20 22 2 12" stroke="#22C55E" stroke-width="2.4" stroke-linejoin="round" opacity=".75"/><path d="M20 22v20" stroke="#16A34A" stroke-width="2.4"/></svg>
     <span class="name">BLOCKESTATE</span>
     <span class="by">Powered by NDC</span>
   </header>
