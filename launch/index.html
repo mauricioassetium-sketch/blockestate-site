@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlockEstate | Launching soon</title>
+<meta name="description" content="BlockEstate is about to launch the biggest real estate platform that buys with cryptocurrency only, in the world. Are you ready?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:#000;color:#fff;
+      font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+    .stage{
+      position:relative;isolation:isolate;
+      height:100vh;height:100dvh;
+      display:flex;flex-direction:column;
+      padding:clamp(16px,3vh,40px) clamp(18px,4vw,72px) clamp(20px,3.4vh,46px);
+      gap:clamp(12px,2vh,26px);
+    }
+    .stage::before{
+      content:"";position:absolute;left:-10%;right:-10%;top:26%;height:52vh;z-index:-1;
+      background:radial-gradient(58% 62% at 50% 58%,rgba(34,197,94,.10),rgba(34,197,94,0) 72%);
+      pointer-events:none;
+    }
+    .brand{
+      flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+      gap:9px;text-align:center;
+    }
+    .brand .name{
+      font-size:clamp(19px,2.25vw,29px);font-weight:900;line-height:1;
+      letter-spacing:.30em;text-indent:.30em;color:#fff;
+    }
+    .brand .by{
+      font-size:clamp(8.5px,.72vw,10.5px);font-weight:600;line-height:1;
+      letter-spacing:.36em;text-indent:.36em;text-transform:uppercase;
+      color:rgba(255,255,255,.55);
+    }
+    .scene{
+      flex:0 0 40vh;height:40vh;width:100%;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .scene svg{width:100%;height:100%;display:block;overflow:visible}
+    .copy{
+      flex:1 1 auto;min-height:0;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:clamp(20px,3.4vh,42px);text-align:center;
+    }
+    .head{
+      margin:0;max-width:min(1180px,94vw);
+      text-transform:uppercase;font-weight:900;
+      font-size:clamp(19px,2.95vw,50px);
+      line-height:1.04;letter-spacing:-.02em;
+      color:#fff;text-wrap:balance;
+    }
+    .head .hl{color:#22C55E}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:clamp(14px,1.8vh,20px) clamp(40px,4.4vw,60px);
+      background:#22C55E;color:#000;text-decoration:none;
+      font-size:clamp(12px,.98vw,15px);font-weight:800;
+      letter-spacing:.24em;text-indent:.24em;text-transform:uppercase;
+      border-radius:14px;border:1px solid rgba(255,255,255,.12);
+      transition:transform .28s cubic-bezier(.2,.7,.3,1),background-color .28s ease;
+      will-change:transform;
+    }
+    .btn:hover{background:#16A34A;transform:translateY(-4px)}
+    .btn:active{transform:translateY(-1px)}
+    .btn:focus-visible{outline:2px solid rgba(34,197,94,.6);outline-offset:4px}
+    @media (max-height:640px){
+      .scene{flex-basis:34vh;height:34vh}
+      .head{font-size:clamp(16px,3vw,28px)}
+    }
+    @media (max-width:600px){
+      .brand .name{letter-spacing:.2em;text-indent:.2em}
+      .head{font-size:clamp(16px,4.6vw,24px)}
+    }
+  </style>
+</head>
+<body>
+<main class="stage">
+  <header class="brand">
+    <span class="name">BLOCKESTATE</span><span style="display:block;font-size:9px;letter-spacing:.28em;color:rgba(255,255,255,.45);margin-top:.5rem;font-weight:700">POWERED BY NDC</span>
+    <span class="by">Powered by NDC</span>
+  </header>
+  <div class="scene">
+    <svg class="city" viewBox="0 0 2450 560" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="An animated skyline of a city being built, with tower cranes, an excavator and a truck">
+      <title>BlockEstate - a city under construction</title>
+      <defs>
+        <linearGradient id="beamFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#22C55E" stop-opacity="0"/>
+          <stop offset="1" stop-color="#22C55E" stop-opacity=".16"/>
+        </linearGradient>
+      </defs>
+      <g class="ground">
+        <rect x="-3000" y="380" width="8000" height="90" fill="url(#beamFade)"/>
+        <line x1="-3000" y1="470" x2="5450" y2="470" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+        <line x1="0" y1="470" x2="0" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="200" y1="470" x2="200" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="400" y1="470" x2="400" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="600" y1="470" x2="600" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="800" y1="470" x2="800" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="1000" y1="470" x2="1000" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="1200" y1="470" x2="1200" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="1400" y1="470" x2="1400" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="1600" y1="470" x2="1600" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="1800" y1="470" x2="1800" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="2000" y1="470" x2="2000" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="2200" y1="470" x2="2200" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="2400" y1="470" x2="2400" y2="478" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+        <line x1="-3000" y1="528" x2="5450" y2="528" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+      </g>
+      <g class="city-build">
+        <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.97;0.998;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+        <!-- building 1: x=45.0 w=100 h=200 floors=8 start=2.0s -->
+        <g class="bld">
+          <g transform="translate(45.0,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.03333;0.04033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(45.0,445.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.04033;0.04733;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="100" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(45.0,420.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.04733;0.05433;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.83343;0.83943;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(45.0,395.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.05433;0.06133;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(45.0,370.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.06133;0.06833;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="100" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.72942;0.73542;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.82013;0.82613;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(45.0,345.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.06833;0.07533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.68957;0.69557;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.71096;0.71696;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(45.0,320.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.07533;0.08233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.69269;0.69869;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(45.0,295.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.08233;0.08933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="100" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="100" y2="-25.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.73948;0.74548;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.91243;0.91843;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 2: x=185.33 w=80 h=130 floors=5 start=4.3s -->
+        <g class="bld">
+          <g transform="translate(185.33,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.07167;0.07867;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="80" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(185.33,444.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.07867;0.08567;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="80" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="80" y2="-26.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.72252;0.7285200000000001;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(185.33,418.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.08567;0.09267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="80" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(185.33,392.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.09267;0.09967;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="80" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(185.33,366.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.09967;0.10667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="80" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="80" y2="-26.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-18.0" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85683;0.86283;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 3: x=305.66 w=130 h=300 floors=12 start=6.6s -->
+        <g class="bld">
+          <g transform="translate(305.66,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.11;0.117;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85301;0.85901;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(305.66,445.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.117;0.124;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="130" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.74489;0.7508900000000001;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,420.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.124;0.131;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90497;0.9109700000000001;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.67565;0.68165;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(305.66,395.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.131;0.138;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,370.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.138;0.145;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="130" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.81048;0.81648;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,345.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.145;0.152;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,320.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.152;0.159;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,295.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.159;0.166;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="130" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,270.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.166;0.173;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,245.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.173;0.18;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90461;0.91061;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85608;0.86208;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(305.66,220.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.18;0.187;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="130" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(305.66,195.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.187;0.194;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="130" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="130" y2="-25.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="23.4" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="83.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 4: x=475.99 w=90 h=170 floors=7 start=8.9s -->
+        <g class="bld">
+          <g transform="translate(475.99,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.14833;0.15533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85056;0.85656;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(475.99,445.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.15533;0.16233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.3" x2="90" y2="-24.3" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.87596;0.88196;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(475.99,421.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.16233;0.16933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(475.99,397.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.16933;0.17633;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(475.99,372.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.17633;0.18333;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.3" x2="90" y2="-24.3" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.77748;0.78348;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.81402;0.82002;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(475.99,348.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.18333;0.19033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.84301;0.84901;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89712;0.90312;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(475.99,324.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.19033;0.19733;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.3" width="90" height="24.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.3" x2="90" y2="-24.3" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.0" width="11.0" height="9.7" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.67034;0.67634;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 5: x=606.32 w=120 h=240 floors=10 start=11.2s -->
+        <g class="bld">
+          <g transform="translate(606.32,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.18667;0.19367;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,446.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.19367;0.20067;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.0" x2="120" y2="-24.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,422.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.20067;0.20767;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.86132;0.86732;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,398.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.20767;0.21467;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.78163;0.78763;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,374.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.21467;0.22167;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.0" x2="120" y2="-24.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,350.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.22167;0.22867;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85351;0.85951;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,326.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.22867;0.23567;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89172;0.89772;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,302.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.23567;0.24267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.0" x2="120" y2="-24.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92643;0.93243;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.73866;0.74466;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(606.32,278.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.24267;0.24967;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(606.32,254.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.24967;0.25667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.0" width="120" height="24.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.0" x2="120" y2="-24.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-16.8" width="11.0" height="9.6" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 6: x=766.65 w=100 h=360 floors=14 start=13.5s -->
+        <g class="bld">
+          <g transform="translate(766.65,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.225;0.232;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,444.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.232;0.239;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.7" x2="100" y2="-25.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90899;0.91499;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,418.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.239;0.246;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,392.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.246;0.253;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.79672;0.80272;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,367.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.253;0.26;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.7" x2="100" y2="-25.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,341.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.26;0.267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.68709;0.69309;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85216;0.85816;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,315.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.267;0.274;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90643;0.91243;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,290.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.274;0.281;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.7" x2="100" y2="-25.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,264.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.281;0.288;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.73046;0.73646;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,238.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.288;0.295;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.72618;0.73218;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.69623;0.70223;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,212.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.295;0.302;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.7" x2="100" y2="-25.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.87135;0.87735;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,187.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.302;0.309;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.72167;0.72767;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(766.65,161.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.309;0.316;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.80738;0.81338;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(766.65,135.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.316;0.323;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.7" width="100" height="25.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.7" x2="100" y2="-25.7" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.66673;0.67273;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 7: x=906.98 w=140 h=200 floors=8 start=15.8s -->
+        <g class="bld">
+          <g transform="translate(906.98,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.26333;0.27033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.67654;0.68254;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,445.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.27033;0.27733;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="140" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.80756;0.81356;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.80213;0.80813;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(906.98,420.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.27733;0.28433;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,395.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.28433;0.29133;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,370.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.29133;0.29833;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="140" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,345.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.29833;0.30533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,320.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.30533;0.31233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(906.98,295.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.31233;0.31933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="140" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="140" y2="-25.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 8: x=1087.31 w=90 h=150 floors=6 start=18.1s -->
+        <g class="bld">
+          <g transform="translate(1087.31,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.30167;0.30867;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.748;0.754;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1087.31,445.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.30867;0.31567;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="90" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1087.31,420.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.31567;0.32267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.84508;0.8510800000000001;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.85226;0.85826;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1087.31,395.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.32267;0.32967;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1087.31,370.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.32967;0.33667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="90" y2="-25.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.69518;0.70118;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1087.31,345.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.33667;0.34367;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.0" width="90" height="25.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.0" x2="90" y2="-25.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="16.2" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="57.6" y="-17.5" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 9: x=1217.64 w=150 h=310 floors=12 start=20.4s -->
+        <g class="bld">
+          <g transform="translate(1217.64,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.34;0.347;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,444.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.347;0.354;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.8" x2="150" y2="-25.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.79865;0.80465;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1217.64,418.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.354;0.361;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.73929;0.74529;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,392.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.361;0.368;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.78632;0.79232;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.77108;0.77708;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1217.64,366.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.368;0.375;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.8" x2="150" y2="-25.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.82925;0.83525;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,340.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.375;0.382;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,315.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.382;0.389;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90289;0.90889;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1217.64,289.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.389;0.396;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.8" x2="150" y2="-25.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,263.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.396;0.403;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.80812;0.81412;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1217.64,237.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.403;0.41;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,211.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.41;0.417;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.8" x2="150" y2="-25.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.6843;0.6903;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1217.64,185.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.417;0.424;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.8" width="150" height="25.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.8" x2="150" y2="-25.8" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="27.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.86047;0.86647;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="96.0" y="-17.9" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.67025;0.67625;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 10: x=1407.97 w=100 h=220 floors=9 start=22.7s -->
+        <g class="bld">
+          <g transform="translate(1407.97,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.37833;0.38533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.84429;0.85029;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,445.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.38533;0.39233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.4" x2="100" y2="-24.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.91556;0.92156;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92688;0.93288;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1407.97,421.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.39233;0.39933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,396.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.39933;0.40633;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,372.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.40633;0.41333;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.4" x2="100" y2="-24.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.84898;0.85498;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,347.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.41333;0.42033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,323.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.42033;0.42733;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,298.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.42733;0.43433;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.4" x2="100" y2="-24.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92256;0.92856;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1407.97,274.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.43433;0.44133;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-24.4" width="100" height="24.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-24.4" x2="100" y2="-24.4" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-17.1" width="11.0" height="9.8" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 11: x=1548.3 w=120 h=330 floors=13 start=25.0s -->
+        <g class="bld">
+          <g transform="translate(1548.3,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.41667;0.42367;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,444.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.42367;0.43067;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.4" x2="120" y2="-25.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.74949;0.75549;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1548.3,419.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.43067;0.43767;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.80027;0.80627;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,393.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.43767;0.44467;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92232;0.92832;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1548.3,368.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.44467;0.45167;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.4" x2="120" y2="-25.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.6755;0.6815;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1548.3,343.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.45167;0.45867;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.67552;0.68152;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,317.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.45867;0.46567;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,292.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.46567;0.47267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.4" x2="120" y2="-25.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.71896;0.72496;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.69989;0.70589;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1548.3,266.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.47267;0.47967;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,241.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.47967;0.48667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89272;0.89872;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.84629;0.85229;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1548.3,216.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.48667;0.49367;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.4" x2="120" y2="-25.4" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,190.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.49367;0.50067;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1548.3,165.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.50067;0.50767;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.4" width="120" height="25.4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.4" x2="120" y2="-25.4" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.7" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.86988;0.87588;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.7" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.82595;0.83195;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 12: x=1708.63 w=80 h=140 floors=6 start=27.3s -->
+        <g class="bld">
+          <g transform="translate(1708.63,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.455;0.462;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.73683;0.74283;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1708.63,446.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.462;0.469;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.3" x2="80" y2="-23.3" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1708.63,423.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.469;0.476;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1708.63,400.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.476;0.483;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1708.63,376.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.483;0.49;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.3" x2="80" y2="-23.3" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.79977;0.80577;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.72501;0.73101;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1708.63,353.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.49;0.497;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.3" width="80" height="23.3" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.3" x2="80" y2="-23.3" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="14.4" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="51.2" y="-16.3" width="11.0" height="9.3" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 13: x=1828.96 w=140 h=260 floors=10 start=29.6s -->
+        <g class="bld">
+          <g transform="translate(1828.96,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.49333;0.50033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,444.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.50033;0.50733;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="140" y2="-26.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,418.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.50733;0.51433;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,392.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.51433;0.52133;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,366.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.52133;0.52833;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="140" y2="-26.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.66885;0.67485;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.70695;0.71295;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(1828.96,340.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.52833;0.53533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,314.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.53533;0.54233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,288.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.54233;0.54933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="140" y2="-26.0" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,262.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.54933;0.55633;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(1828.96,236.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.55633;0.56333;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.0" width="140" height="26.0" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.0" x2="140" y2="-26.0" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="25.2" y="-18.0" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89285;0.89885;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="89.6" y="-18.0" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 14: x=2009.29 w=100 h=190 floors=8 start=31.9s -->
+        <g class="bld">
+          <g transform="translate(2009.29,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.53167;0.53867;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,446.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.53867;0.54567;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.8" x2="100" y2="-23.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.76978;0.77578;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2009.29,422.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.54567;0.55267;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,398.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.55267;0.55967;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,375.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.55967;0.56667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.8" x2="100" y2="-23.8" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,351.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.56667;0.57367;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,327.5)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.57367;0.58067;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2009.29,303.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.58067;0.58767;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-23.8" width="100" height="23.8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-23.8" x2="100" y2="-23.8" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="18.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="64.0" y="-16.6" width="11.0" height="9.5" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- building 15: x=2149.62 w=120 h=230 floors=9 start=34.2s -->
+        <g class="bld">
+          <g transform="translate(2149.62,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.57;0.577;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.68921;0.69521;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.62)" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.70636;0.71236;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2149.62,444.4)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.577;0.584;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.6" x2="120" y2="-25.6" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89555;0.90155;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2149.62,418.9)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.584;0.591;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.77336;0.77936;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2149.62,393.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.591;0.598;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2149.62,367.8)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.598;0.605;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.6" x2="120" y2="-25.6" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.77346;0.77946;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2149.62,342.2)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.605;0.612;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.90048;0.90648;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2149.62,316.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.612;0.619;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.70418;0.71018;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2149.62,291.1)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.619;0.626;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.6" x2="120" y2="-25.6" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92323;0.92923;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2149.62,265.6)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.626;0.633;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-25.6" width="120" height="25.6" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-25.6" x2="120" y2="-25.6" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="21.6" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.76197;0.76797;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="76.8" y="-17.8" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.70561;0.71161;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+        </g>
+        <!-- building 16: x=2309.95 w=95 h=160 floors=6 start=36.5s -->
+        <g class="bld">
+          <g transform="translate(2309.95,470.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.60833;0.61533;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2309.95,443.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.61533;0.62233;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.7" x2="95" y2="-26.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.89047;0.89647;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2309.95,416.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.62233;0.62933;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.70721;0.71321;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2309.95,390.0)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.62933;0.63633;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+          <g transform="translate(2309.95,363.3)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.63633;0.64333;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.7" x2="95" y2="-26.7" stroke="rgba(255,255,255,.05)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.92765;0.93365;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+            </g>
+          </g>
+          <g transform="translate(2309.95,336.7)">
+            <g>
+              <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.64333;0.65033;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              <rect x="0" y="-26.7" width="95" height="26.7" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="-26.7" x2="95" y2="-26.7" stroke="#22C55E" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+              <rect x="17.1" y="-18.3" width="11.0" height="10.0" fill="#22C55E" opacity="0" vector-effect="non-scaling-stroke">
+                <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.88239;0.88839;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+              </rect>
+              <rect x="60.8" y="-18.3" width="11.0" height="10.0" fill="rgba(255,255,255,.05)" vector-effect="non-scaling-stroke"/>
+            </g>
+          </g>
+        </g>
+        <!-- scaffolding on building 3 -->
+        <g>
+          <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.11;0.11833;0.20067;0.23067;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+          <rect x="296.66" y="170" width="9" height="300" fill="none" stroke="#16A34A" stroke-width="1"/>
+          <line x1="296.66" y1="470" x2="305.66" y2="470" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="450" x2="305.66" y2="450" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="430" x2="305.66" y2="430" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="410" x2="305.66" y2="410" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="390" x2="305.66" y2="390" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="370" x2="305.66" y2="370" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="350" x2="305.66" y2="350" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="330" x2="305.66" y2="330" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="310" x2="305.66" y2="310" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="290" x2="305.66" y2="290" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="270" x2="305.66" y2="270" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="250" x2="305.66" y2="250" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="230" x2="305.66" y2="230" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="210" x2="305.66" y2="210" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="190" x2="305.66" y2="190" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="296.66" y1="470" x2="305.66" y2="450" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="470" x2="296.66" y2="450" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="450" x2="305.66" y2="430" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="450" x2="296.66" y2="430" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="430" x2="305.66" y2="410" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="430" x2="296.66" y2="410" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="410" x2="305.66" y2="390" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="410" x2="296.66" y2="390" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="390" x2="305.66" y2="370" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="390" x2="296.66" y2="370" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="370" x2="305.66" y2="350" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="370" x2="296.66" y2="350" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="350" x2="305.66" y2="330" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="350" x2="296.66" y2="330" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="330" x2="305.66" y2="310" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="330" x2="296.66" y2="310" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="310" x2="305.66" y2="290" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="310" x2="296.66" y2="290" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="290" x2="305.66" y2="270" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="290" x2="296.66" y2="270" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="270" x2="305.66" y2="250" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="270" x2="296.66" y2="250" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="250" x2="305.66" y2="230" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="250" x2="296.66" y2="230" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="230" x2="305.66" y2="210" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="230" x2="296.66" y2="210" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="210" x2="305.66" y2="190" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="210" x2="296.66" y2="190" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="296.66" y1="190" x2="305.66" y2="170" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="305.66" y1="190" x2="296.66" y2="170" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+        </g>
+        <!-- scaffolding on building 11 -->
+        <g>
+          <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.41667;0.425;0.51433;0.54433;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+          <rect x="1539.3" y="140" width="9" height="330" fill="none" stroke="#16A34A" stroke-width="1"/>
+          <line x1="1539.3" y1="470" x2="1548.3" y2="470" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="450" x2="1548.3" y2="450" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="430" x2="1548.3" y2="430" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="410" x2="1548.3" y2="410" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="390" x2="1548.3" y2="390" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="370" x2="1548.3" y2="370" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="350" x2="1548.3" y2="350" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="330" x2="1548.3" y2="330" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="310" x2="1548.3" y2="310" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="290" x2="1548.3" y2="290" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="270" x2="1548.3" y2="270" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="250" x2="1548.3" y2="250" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="230" x2="1548.3" y2="230" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="210" x2="1548.3" y2="210" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="190" x2="1548.3" y2="190" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="170" x2="1548.3" y2="170" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="150" x2="1548.3" y2="150" stroke="rgba(34,197,94,.45)" stroke-width="1"/>
+          <line x1="1539.3" y1="470" x2="1548.3" y2="450" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="470" x2="1539.3" y2="450" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="450" x2="1548.3" y2="430" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="450" x2="1539.3" y2="430" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="430" x2="1548.3" y2="410" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="430" x2="1539.3" y2="410" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="410" x2="1548.3" y2="390" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="410" x2="1539.3" y2="390" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="390" x2="1548.3" y2="370" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="390" x2="1539.3" y2="370" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="370" x2="1548.3" y2="350" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="370" x2="1539.3" y2="350" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="350" x2="1548.3" y2="330" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="350" x2="1539.3" y2="330" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="330" x2="1548.3" y2="310" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="330" x2="1539.3" y2="310" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="310" x2="1548.3" y2="290" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="310" x2="1539.3" y2="290" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="290" x2="1548.3" y2="270" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="290" x2="1539.3" y2="270" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="270" x2="1548.3" y2="250" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="270" x2="1539.3" y2="250" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="250" x2="1548.3" y2="230" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="250" x2="1539.3" y2="230" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="230" x2="1548.3" y2="210" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="230" x2="1539.3" y2="210" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="210" x2="1548.3" y2="190" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="210" x2="1539.3" y2="190" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="190" x2="1548.3" y2="170" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="190" x2="1539.3" y2="170" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1539.3" y1="170" x2="1548.3" y2="150" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+          <line x1="1548.3" y1="170" x2="1539.3" y2="150" stroke="rgba(34,197,94,.28)" stroke-width="0.9"/>
+        </g>
+        <!-- tower crane 1 -->
+        <g transform="translate(456,470)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.00667;0.12333;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="-11" y="-14" width="22" height="14" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <rect x="-6" y="-330" width="12" height="330" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <path d="M -6 0 L 6 -26 L -6 -52 L 6 -78 L -6 -104 L 6 -130 L -6 -156 L 6 -182 L -6 -208 L 6 -234 L -6 -260 L 6 -286 L -6 -312 L -6 -330" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <g transform="translate(0,-330)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="0;34;-14;52;-30;0" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+                <line x1="0" y1="0" x2="168" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="0" x2="-74" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="-34" x2="0" y2="0" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <line x1="0" y1="-34" x2="168" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <line x1="0" y1="-34" x2="-74" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <rect x="-78" y="-9" width="14" height="18" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <circle cx="0" cy="-40" r="3" fill="#22C55E">
+                  <animate attributeName="opacity" values="1;.12;1" dur="2.4s" repeatCount="indefinite"/>
+                </circle>
+                <g transform="translate(104.2,0)">
+                  <rect x="-5" y="-4" width="10" height="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1"/>
+                  <line x1="0" y1="2" x2="0" y2="2">
+                    <animate attributeName="y2" values="0;0;86;86;0" keyTimes="0;0.08;0.42;0.62;1" dur="14s" repeatCount="indefinite" calcMode="linear"/>
+                  </line>
+                  <g>
+                    <animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 86;0 86;0 0" keyTimes="0;0.08;0.42;0.62;1" dur="14s" repeatCount="indefinite" calcMode="linear"/>
+                    <rect x="-7" y="0" width="14" height="8" fill="none" stroke="#22C55E" stroke-width="1.4"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <!-- tower crane 2 -->
+        <g transform="translate(1198,470)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.04333;0.17667;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="-11" y="-14" width="22" height="14" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <rect x="-6" y="-380" width="12" height="380" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <path d="M -6 0 L 6 -26 L -6 -52 L 6 -78 L -6 -104 L 6 -130 L -6 -156 L 6 -182 L -6 -208 L 6 -234 L -6 -260 L 6 -286 L -6 -312 L 6 -338 L -6 -364 L -6 -380" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <g transform="translate(0,-380)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="0;-26;40;-18;10;0" dur="45s" repeatCount="indefinite" calcMode="linear"/>
+                <line x1="0" y1="0" x2="186" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="0" x2="-80" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="-34" x2="0" y2="0" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <line x1="0" y1="-34" x2="186" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <line x1="0" y1="-34" x2="-80" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <rect x="-84" y="-9" width="14" height="18" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <circle cx="0" cy="-40" r="3" fill="#22C55E">
+                  <animate attributeName="opacity" values="1;.12;1" dur="2.4s" repeatCount="indefinite"/>
+                </circle>
+                <g transform="translate(115.3,0)">
+                  <rect x="-5" y="-4" width="10" height="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1"/>
+                  <line x1="0" y1="2" x2="0" y2="2">
+                    <animate attributeName="y2" values="0;0;104;104;0" keyTimes="0;0.08;0.42;0.62;1" dur="18s" repeatCount="indefinite" calcMode="linear"/>
+                  </line>
+                  <g>
+                    <animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 104;0 104;0 0" keyTimes="0;0.08;0.42;0.62;1" dur="18s" repeatCount="indefinite" calcMode="linear"/>
+                    <rect x="-7" y="0" width="14" height="8" fill="none" stroke="#22C55E" stroke-width="1.4"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <!-- tower crane 3 -->
+        <g transform="translate(1989,470)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.1;0.225;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="-11" y="-14" width="22" height="14" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <rect x="-6" y="-320" width="12" height="320" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+            <path d="M -6 0 L 6 -26 L -6 -52 L 6 -78 L -6 -104 L 6 -130 L -6 -156 L 6 -182 L -6 -208 L 6 -234 L -6 -260 L 6 -286 L -6 -312 L -6 -320" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <g transform="translate(0,-320)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="0;46;-22;30;-40;0" dur="30s" repeatCount="indefinite" calcMode="linear"/>
+                <line x1="0" y1="0" x2="176" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="0" x2="-78" y2="0" stroke="#22C55E" stroke-width="1.7" stroke-linecap="round"/>
+                <line x1="0" y1="-34" x2="0" y2="0" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <line x1="0" y1="-34" x2="176" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <line x1="0" y1="-34" x2="-78" y2="0" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+                <rect x="-82" y="-9" width="14" height="18" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+                <circle cx="0" cy="-40" r="3" fill="#22C55E">
+                  <animate attributeName="opacity" values="1;.12;1" dur="2.4s" repeatCount="indefinite"/>
+                </circle>
+                <g transform="translate(109.1,0)">
+                  <rect x="-5" y="-4" width="10" height="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1"/>
+                  <line x1="0" y1="2" x2="0" y2="2">
+                    <animate attributeName="y2" values="0;0;78;78;0" keyTimes="0;0.08;0.42;0.62;1" dur="12s" repeatCount="indefinite" calcMode="linear"/>
+                  </line>
+                  <g>
+                    <animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 78;0 78;0 0" keyTimes="0;0.08;0.42;0.62;1" dur="12s" repeatCount="indefinite" calcMode="linear"/>
+                    <rect x="-7" y="0" width="14" height="8" fill="none" stroke="#22C55E" stroke-width="1.4"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <!-- mobile crane -->
+        <g transform="translate(1420,522)">
+          <circle cx="-46" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <circle cx="-30" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <circle cx="30" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <circle cx="46" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <line x1="-56" y1="-15" x2="56" y2="-15" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <rect x="-50" y="-40" width="34" height="25" rx="3" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <path d="M 16 -15 L 16 -42 L 44 -42 L 52 -15 Z" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <line x1="16" y1="-30" x2="44" y2="-30" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+          <g transform="translate(-6,-40)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0;-52;-34;-62;-8;0" dur="26s" repeatCount="indefinite" calcMode="linear"/>
+              <line x1="0" y1="0" x2="152" y2="-98" stroke="#22C55E" stroke-width="2.4" stroke-linecap="round"/>
+              <line x1="0" y1="0" x2="96" y2="-62" stroke="rgba(255,255,255,.34)" stroke-width="2.2" stroke-linecap="round"/>
+              <g transform="translate(152,-98)">
+                <line x1="0" y1="0" x2="0" y2="0" stroke="rgba(255,255,255,.35)" stroke-width="1">
+                  <animate attributeName="y2" values="0;0;58;58;0" keyTimes="0;0.1;0.45;0.65;1" dur="16s" repeatCount="indefinite" calcMode="linear"/>
+                </line>
+                <g>
+                  <animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 58;0 58;0 0" keyTimes="0;0.1;0.45;0.65;1" dur="16s" repeatCount="indefinite" calcMode="linear"/>
+                  <rect x="-7" y="0" width="14" height="8" fill="none" stroke="#22C55E" stroke-width="1.4"/>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <!-- excavator -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="120 526;440 526;120 526" keyTimes="0;0.5;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+          <rect x="-42" y="-16" width="84" height="16" rx="8" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4"/>
+          <circle cx="-24" cy="-8" r="4.5" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+          <circle cx="0" cy="-8" r="4.5" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+          <circle cx="24" cy="-8" r="4.5" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="1"/>
+          <rect x="-26" y="-42" width="52" height="26" rx="4" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4"/>
+          <rect x="-26" y="-62" width="20" height="20" rx="3" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
+          <rect x="-21" y="-57" width="10" height="10" fill="rgba(34,197,94,.18)"/>
+          <g transform="translate(14,-40)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0;-26;-4;-32;0" dur="9s" repeatCount="indefinite" calcMode="linear"/>
+              <line x1="0" y1="0" x2="44" y2="-44" stroke="#22C55E" stroke-width="2.4" stroke-linecap="round"/>
+              <g transform="translate(44,-44)">
+                <g>
+                  <animateTransform attributeName="transform" type="rotate" values="0;54;8;60;0" dur="9s" repeatCount="indefinite" calcMode="linear"/>
+                  <line x1="0" y1="0" x2="22" y2="78" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M 22 78 l 14 -6 l 3 16 l -15 4 z" fill="none" stroke="#22C55E" stroke-width="1.6"/>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <!-- dump truck -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="-220 528;2670 528" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+          <circle cx="-56" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <circle cx="-40" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <circle cx="26" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <circle cx="42" cy="-8" r="7" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <line x1="-64" y1="-15" x2="58" y2="-15" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <path d="M -62 -16 L -62 -46 L 6 -46 L 14 -16 Z" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <path d="M 20 -16 L 20 -40 L 44 -40 L 52 -16 Z" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.3"/>
+          <line x1="20" y1="-30" x2="44" y2="-30" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+          <rect x="-56" y="-56" width="22" height="10" fill="none" stroke="#22C55E" stroke-width="1.2"/>
+          <rect x="-30" y="-56" width="22" height="10" fill="none" stroke="#22C55E" stroke-width="1.2"/>
+        </g>
+        <!-- stacked blocks -->
+        <g transform="translate(165,470)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.04333;0.05167;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="0" y="-15" width="18" height="15" fill="rgba(34,197,94,.08)" stroke="#16A34A" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <line x1="0" y1="-11" x2="18" y2="-11" stroke="rgba(34,197,94,.30)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g transform="translate(165,455)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.06167;0.07;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="0" y="-15" width="18" height="15" fill="rgba(34,197,94,.08)" stroke="#16A34A" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <line x1="0" y1="-11" x2="18" y2="-11" stroke="rgba(34,197,94,.30)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <g transform="translate(165,440)">
+          <g>
+            <animateTransform attributeName="transform" type="scale" values="1 0;1 0;1 1;1 1;1 0" keyTimes="0;0.08;0.08833;0.97;1" dur="60s" repeatCount="indefinite" calcMode="linear"/>
+            <rect x="0" y="-15" width="18" height="15" fill="rgba(34,197,94,.08)" stroke="#16A34A" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <line x1="0" y1="-11" x2="18" y2="-11" stroke="rgba(34,197,94,.30)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          </g>
+        </g>
+        <!-- site light -->
+        <g transform="translate(746,470)">
+          <line x1="0" y1="0" x2="0" y2="-74" stroke="rgba(255,255,255,.22)" stroke-width="1.2"/>
+          <circle cx="0" cy="-76" r="3.4" fill="#22C55E">
+            <animate attributeName="opacity" values=".25;1;.25" dur="6s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+        <!-- site light -->
+        <g transform="translate(2290,470)">
+          <line x1="0" y1="0" x2="0" y2="-74" stroke="rgba(255,255,255,.22)" stroke-width="1.2"/>
+          <circle cx="0" cy="-76" r="3.4" fill="#22C55E">
+            <animate attributeName="opacity" values=".25;1;.25" dur="6s" begin="7s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <section class="copy">
+    <h1 class="head">We are about to launch the biggest real estate platform that buys with cryptocurrency only, in the world. <span class="hl">Are you ready?</span></h1>
+    <a class="btn" href="#">NEWS</a>
+  </section>
+</main>
+</body>
+</html>
