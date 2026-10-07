@@ -345,6 +345,10 @@ p{margin:.6rem 0}
   box-shadow:0 4px 14px rgba(0,0,0,.18); backdrop-filter:blur(6px)}
 .tag.green{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff}
 .tag.coin{background:linear-gradient(135deg,var(--coin),var(--coin-deep)); color:#fff}
+/* the mark of Verysset, over the photograph: the checklist says who checked the asset */
+.tag.verysset{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff;
+  display:inline-flex; align-items:center; gap:.3rem}
+.verif svg,.badge svg{vertical-align:-1px}
 .heart{position:absolute; right:12px; top:12px; z-index:2; width:44px; height:44px; border-radius:50%;
   border:0; background:rgba(255,255,255,.96); cursor:pointer; font-size:1.05rem; line-height:1;
   display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.18);
@@ -925,7 +929,7 @@ function card(r) {
     <div class="photo">
       <a href="${enlace}" aria-label="${esc(r.titulo)}">${photoInner(r.foto_principal, r.tipo)}</a>
       <span class="tags">
-        ${r.distintivo?.badge_alcance ? '<span class="tag green">Verified</span>' : ''}
+        ${r.distintivo?.badge_alcance ? `<span class="tag verysset" title="Verified by Verysset">${ICONO_VERYSSET} Verysset</span>` : ''}
         ${r.distintivo?.promocionado ? `<span class="tag coin">${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
       </span>
       <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
@@ -938,7 +942,7 @@ function card(r) {
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
       <div class="zona">${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
-      ${r.distintivo?.badge_alcance ? `<div class="verif">Verified${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
+      ${r.distintivo?.badge_alcance ? `<div class="verif">${ICONO_VERYSSET} Verified by Verysset${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
       ${r.estado_obra === 'off_plan' && (r.entrega_prevista || r.plan_pagos) ? `
         <div class="obra">
           ${r.entrega_prevista ? `<div><span>Handover</span><b>${esc(r.entrega_prevista)}</b></div>` : ''}
@@ -1164,12 +1168,17 @@ function initPickers(raiz, { onPick, onAplicar, onContar } = {}) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarTodos(); });
 }
 
+/** The checklist mark of Verysset: what the badge on the photograph carries. */
+const ICONO_VERYSSET = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none"
+  stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+  aria-hidden="true"><polyline points="3 7 6 10 11 4"/><polyline points="3 17 6 20 11 14"/><line x1="15" y1="7" x2="21" y2="7"/><line x1="15" y1="17" x2="21" y2="17"/></svg>`;
+
 /** The badge of a listing: what it covers and until when, never a blank guarantee. */
 function badgeHtml(badge, procedencia) {
   if (!badge?.alcance) return '';
   const hasta = badge.vigencia ? ` until ${esc(date(badge.vigencia))}` : '';
   return `<span class="badge" title="${esc(procedencia ? `Evidence: ${procedencia}` : '')}">
-    Verified · ${esc(badge.alcance)}${hasta}</span>
+    ${ICONO_VERYSSET} Verysset · ${esc(badge.alcance)}${hasta}</span>
     ${badge.garantia_incondicional === false ? '<p class="note">A badge states the scope and the date of the evidence. It is not an unconditional guarantee.</p>' : ''}`;
 }
 
@@ -1719,7 +1728,7 @@ async function viewSearch(query) {
           <button type="button" data-mob="true" class="${f.amueblado === 'true' ? 'on' : ''}">Furnished</button>
           <button type="button" data-mob="false" class="${f.amueblado === 'false' ? 'on' : ''}">Unfurnished</button>
         </span>
-        <label class="switch">
+        <label class="switch" title="Verified by Verysset">
           <input type="checkbox" id="verif" ${f.orden === 'verificados' ? 'checked' : ''}>
           <span class="track" aria-hidden="true"></span>Show verified first
         </label>
