@@ -17,8 +17,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
 <style>
 /* BlockEstate · the buyer marketplace.
-   Brand tokens taken from blockestate.ae: white, ink, green, deep green, teal and the coin ambers;
-   Inter 300 to 900, headings in 900, fixed bar with a blur and the card treatment of the site. */
+   Brand tokens from blockestate.ae (white, ink, green, deep green, teal, coin ambers; Inter 300-900).
+   Layout follows the references Mauricio sent: a loud hero with the promise, a grid of emirates
+   overlapping its bottom edge, one tab bar for what we sell, a single row of controls on the search
+   page and cards that read price first. Simplicity is subtraction: what is not needed is not here. */
 
 :root{
   --white:#fff; --ink:#111; --ink-90:rgba(0,0,0,.9); --ink-72:rgba(0,0,0,.72);
@@ -28,193 +30,252 @@
   --line:rgba(0,0,0,.06); --line-2:rgba(0,0,0,.09); --card:rgba(0,0,0,.02);
   --radius:1rem; --radius-sm:.6rem; --wrap:1180px;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06);
-  --bar:64px;
+  --bar:60px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--white); color:var(--ink);
   font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
-  font-weight:400; line-height:1.55; font-size:16px;
-  text-rendering:optimizeLegibility;
+  font-weight:400; line-height:1.55; font-size:16px; text-rendering:optimizeLegibility;
 }
 ::selection{background:var(--green); color:#fff}
 img{max-width:100%; display:block}
 a{color:inherit; text-decoration:none}
 button,input,select{font:inherit; color:inherit}
-h1,h2,h3,h4{font-weight:900; letter-spacing:-.03em; line-height:1.06; margin:0}
-h1{font-size:clamp(1.9rem,5.2vw,3.4rem); text-transform:uppercase}
-h2{font-size:clamp(1.4rem,3.4vw,2.1rem); text-transform:uppercase}
-h3{font-size:1.12rem}
-h4{font-size:.8rem; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-45)}
+h1,h2,h3,h4{font-weight:900; letter-spacing:-.03em; line-height:1.05; margin:0}
+h1{font-size:clamp(1.7rem,4.6vw,2.9rem)}
+h2{font-size:clamp(1.25rem,2.6vw,1.7rem); text-transform:uppercase}
+h3{font-size:1.05rem}
+h4{font-size:.75rem; text-transform:uppercase; letter-spacing:.14em; color:var(--ink-45)}
 p{margin:.6rem 0}
 .muted{color:var(--ink-60)}
 .wrap{width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:18px}
-.main{min-height:60vh; padding-block:22px 64px}
+.main{min-height:60vh; padding-bottom:56px}
 .lab{display:flex; align-items:center; gap:.6rem; color:var(--green-deep);
-  font-size:11px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; margin-bottom:.7rem}
+  font-size:11px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; margin-bottom:.6rem}
 .lab .dash{flex:1; height:1px; background:linear-gradient(90deg,var(--green),transparent)}
+.sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  margin:32px 0 12px}
 
-/* ---------- bar ---------- */
-.top{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.86);
+/* ---------- bar: the mark, a search and three things ---------- */
+.top{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.9);
   backdrop-filter:blur(14px); border-bottom:1px solid var(--line)}
-.bar{display:flex; align-items:center; gap:14px; height:var(--bar)}
-.brand{display:flex; align-items:center; gap:.55rem; font-weight:900; letter-spacing:-.03em;
-  text-transform:uppercase; font-size:1.02rem; min-height:44px}
-.mark{width:30px; height:30px; flex:none}
+.bar{display:flex; align-items:center; gap:10px; height:var(--bar)}
+.brand{display:flex; align-items:center; gap:.5rem; font-weight:900; letter-spacing:-.03em;
+  text-transform:uppercase; font-size:1rem; min-height:44px; flex:none}
+.mark{width:28px; height:28px; flex:none}
 .mark.sm{width:22px; height:22px}
-.nav{margin-left:auto; display:flex; align-items:center; gap:4px}
-.nav a{min-height:44px; display:inline-flex; align-items:center; padding:0 .7rem; border-radius:.6rem;
-  font-size:.9rem; font-weight:500; color:var(--ink-72)}
-.nav a:hover{background:var(--card); color:var(--ink)}
-.nav a.on{color:var(--ink); font-weight:700}
-.nav .pill{background:var(--green); color:#fff; font-weight:700}
-.nav .pill:hover{background:var(--green-deep); color:#fff}
-.nav .who{font-size:.82rem; color:var(--ink-45); padding-inline:.5rem; white-space:nowrap}
-.badge-count{display:inline-block; min-width:18px; height:18px; margin-left:6px; padding:0 5px;
-  border-radius:9px; background:var(--green); color:#fff; font-size:11px; font-weight:700;
-  line-height:18px; text-align:center}
+.bar-search{flex:1; display:flex; min-width:0}
+.bar-search input{height:40px; border-radius:999px; background:var(--card); border-color:transparent}
+.bar-search input:focus{background:var(--white); border-color:var(--line-2)}
+.bar-actions{margin-left:auto; display:flex; align-items:center; gap:2px}
+.icon-btn{position:relative; width:44px; height:44px; display:inline-flex; align-items:center;
+  justify-content:center; border-radius:50%; border:1px solid transparent; background:transparent;
+  cursor:pointer; font-size:1.05rem; color:var(--ink-72)}
+.icon-btn:hover{background:var(--card); color:var(--ink)}
+.icon-btn.on{color:var(--ink); font-weight:700}
+.badge-count{position:absolute; top:6px; right:3px; min-width:17px; height:17px; padding:0 4px;
+  border-radius:9px; background:var(--green); color:#fff; font-size:10px; font-weight:700;
+  line-height:17px; text-align:center}
+.who{font-size:.85rem; color:var(--ink-45); padding-inline:.35rem; white-space:nowrap; max-width:12ch;
+  overflow:hidden; text-overflow:ellipsis}
+.menu{position:absolute; right:18px; top:calc(var(--bar) - 8px); background:var(--white);
+  border:1px solid var(--line-2); border-radius:var(--radius-sm); box-shadow:var(--shadow);
+  padding:6px; min-width:215px; z-index:50}
+.menu[hidden]{display:none}
+.menu a,.menu button{display:block; width:100%; text-align:left; padding:.6rem .7rem; border-radius:.5rem;
+  background:none; border:0; cursor:pointer; font-size:.92rem; min-height:44px}
+.menu a:hover,.menu button:hover{background:var(--card)}
+.menu hr{border:0; border-top:1px solid var(--line); margin:4px 0}
 
-/* ---------- hero ---------- */
-.hero{padding:34px 0 10px; border-bottom:1px solid var(--line)}
-.hero p.lead{font-size:clamp(1rem,1.6vw,1.15rem); color:var(--ink-72); max-width:62ch}
-.hero .steps{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 22px; padding:0; list-style:none}
-.hero .steps li{background:var(--card); border:1px solid var(--line-2); border-radius:999px;
-  padding:.4rem .8rem; font-size:.82rem; color:var(--ink-72)}
-.hero .steps b{font-weight:700; color:var(--ink)}
+/* ---------- hero: the promise, the search, and the emirates ---------- */
+.hero{background:var(--teal); color:#fff; padding:38px 0 46px; position:relative; overflow:hidden}
+.hero::after{content:""; position:absolute; inset:-30% -10% auto auto; width:62%; height:160%;
+  background:radial-gradient(closest-side,rgba(34,197,94,.3),transparent); pointer-events:none}
+.hero .inner{position:relative; z-index:1; max-width:760px}
+.hero .eyebrow{font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--green);
+  font-weight:700; margin-bottom:.7rem}
+.hero h1{text-transform:uppercase; max-width:20ch}
+.hero p{color:rgba(255,255,255,.78); max-width:56ch; margin-top:.65rem}
+.hero .trust{display:flex; gap:1.1rem; flex-wrap:wrap; margin:14px 0 0; padding:0; list-style:none;
+  color:rgba(255,255,255,.72); font-size:.83rem}
+.hero .trust li::before{content:"·"; color:var(--green); margin-right:.4rem; font-weight:900}
+.hero-search{display:grid; grid-template-columns:1fr auto; gap:8px; background:var(--white);
+  border-radius:999px; padding:6px; margin:20px 0 0; max-width:620px; box-shadow:var(--shadow)}
+.hero-search input{border:0; background:none; min-height:44px; padding-left:14px}
+.hero-search input:focus{outline:none}
+.hero-search .btn{border-radius:999px}
 
-/* ---------- search ---------- */
-.searchbar{display:grid; grid-template-columns:1fr auto; gap:8px; margin:16px 0 6px}
-input[type=text],input[type=search],input[type=email],input[type=password],input[type=number],select{
-  width:100%; padding:.7rem .8rem; border:1px solid var(--line-2); border-radius:var(--radius-sm);
-  background:var(--white); min-height:44px}
-input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+/* the emirate grid overlaps the bottom edge of the hero, as in the reference */
+.emi{position:relative; z-index:2; margin-top:-32px}
+.emi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+.emi-grid a{background:var(--white); border:1px solid var(--line-2); border-radius:var(--radius);
+  min-height:64px; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  gap:2px; font-weight:700; font-size:.9rem; box-shadow:var(--shadow); padding:.5rem; text-align:center}
+.emi-grid a:hover{border-color:var(--green); color:var(--green-deep)}
+.emi-grid a small{font-weight:500; color:var(--ink-45); font-size:.72rem; letter-spacing:.04em}
+
+/* ---------- tab bar: what we sell, in one line ---------- */
+.tabs{display:flex; gap:6px; overflow-x:auto; padding:6px 0 2px; margin-top:26px;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none; padding:.5rem .9rem; border-radius:999px; border:1px solid var(--line-2);
+  font-size:.88rem; font-weight:600; color:var(--ink-72); min-height:44px; display:inline-flex;
+  align-items:center; background:var(--white)}
+.tabs a:hover{background:var(--card)}
+.tabs a.on{background:var(--ink); border-color:var(--ink); color:#fff}
+
+/* ---------- controls: one row, four plus filters ---------- */
+.controls{display:flex; gap:8px; align-items:flex-start; margin:16px 0 0; overflow-x:auto;
+  padding-bottom:4px; scrollbar-width:none}
+.controls::-webkit-scrollbar{display:none}
+.control{flex:1 1 0; min-width:134px}
+.control label{display:block; font-size:.66rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-45); margin-bottom:2px}
+.control select,.control input{min-height:46px; border-radius:var(--radius-sm); background:var(--white)}
+.control.ancho{min-width:172px}
+.control .sub{font-size:.7rem; color:var(--ink-45); font-weight:500; margin-top:3px; display:block}
+.result-bar{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  margin:18px 0 4px}
+.result-bar .count{font-weight:700}
+.result-bar .tools{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px}
+.chip{border:1px solid var(--line-2); border-radius:999px; padding:.35rem .75rem; font-size:.82rem;
+  background:var(--white); cursor:pointer; min-height:44px; display:inline-flex; align-items:center}
+.chip.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+.link-btn{background:none; border:0; padding:0; cursor:pointer; font-size:.88rem; color:var(--ink-72);
+  text-decoration:underline; text-underline-offset:3px; min-height:44px}
+.link-btn:hover{color:var(--ink)}
+
+/* the sheet the secondary filters open in, on any screen */
+.sheet{position:fixed; inset:auto 0 0 0; z-index:60; background:var(--white);
+  border-radius:1.1rem 1.1rem 0 0; box-shadow:0 -8px 40px rgba(0,0,0,.18); max-height:86vh;
+  overflow:auto; padding:18px}
+.sheet[hidden]{display:none}
+.sheet .sheet-head{display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-bottom:10px; position:sticky; top:-18px; background:var(--white); padding-top:6px}
+.sheet .close{width:44px; height:44px; border-radius:50%; border:1px solid var(--line-2);
+  background:var(--card); cursor:pointer; font-size:1.1rem; line-height:1}
+.veil{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:55}
+.veil[hidden]{display:none}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.fields .full{grid-column:1/-1}
+
+/* ---------- cards: price first, photo on the left ---------- */
+.list{display:grid; gap:14px; margin-top:6px}
+.card{display:grid; grid-template-columns:40% 60%; border:1px solid var(--line-2);
+  border-radius:var(--radius); overflow:hidden; background:var(--white); transition:box-shadow .18s ease}
+.card:hover{box-shadow:var(--shadow)}
+.card .photo{position:relative; background:linear-gradient(135deg,rgba(16,34,43,.92),rgba(34,197,94,.55));
+  min-height:196px}
+.card .photo > a{position:absolute; inset:0; z-index:1}
+.card .photo img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+.card .photo .fallback{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.9); font-weight:900; text-transform:uppercase; font-size:.9rem;
+  letter-spacing:-.02em; padding:1rem; text-align:center}
+.card .body{padding:14px 16px; display:flex; flex-direction:column; gap:.4rem; min-width:0}
+.card .price{font-weight:900; font-size:1.32rem; letter-spacing:-.02em; line-height:1.1}
+.card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
+.card h3{font-size:1rem; font-weight:700; letter-spacing:-.01em}
+.card .specs{display:flex; gap:.9rem; flex-wrap:wrap; color:var(--ink-72); font-size:.86rem}
+.card .specs span::before{content:""; display:inline-block; width:5px; height:5px; border-radius:50%;
+  background:var(--green); margin-right:.4rem; vertical-align:middle}
+.card .zona{color:var(--ink-45); font-size:.86rem}
+.card .zona::before{content:"⌖"; margin-right:.35rem; color:var(--green)}
+.card .foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding-top:.6rem; border-top:1px solid var(--line)}
+.card .dev{font-size:.8rem; color:var(--ink-45); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.tags{position:absolute; left:10px; top:10px; display:flex; gap:6px; flex-wrap:wrap; z-index:2}
+.tag{background:rgba(255,255,255,.95); color:var(--ink); font-size:.68rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; padding:.22rem .5rem; border-radius:999px}
+.tag.green{background:var(--green); color:#fff}
+.tag.coin{background:var(--coin); color:var(--coin-dark)}
+.heart{position:absolute; right:10px; top:10px; z-index:2; width:44px; height:44px; border-radius:50%;
+  border:0; background:rgba(255,255,255,.94); cursor:pointer; font-size:1rem; line-height:1;
+  display:inline-flex; align-items:center; justify-content:center}
+.heart.on{background:var(--green); color:#fff}
+.badge{display:inline-flex; align-items:center; gap:.35rem; background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.35); color:var(--green-deep); border-radius:999px;
+  padding:.28rem .66rem; font-size:.76rem; font-weight:700}
+.empty{border:1px dashed var(--line-2); border-radius:var(--radius); padding:30px; text-align:center;
+  color:var(--ink-60); background:var(--card); margin-top:14px}
+
+/* ---------- unit page ---------- */
+.detail{display:grid; grid-template-columns:1.4fr .92fr; gap:26px; margin-top:14px}
+.gallery{border:1px solid var(--line-2); border-radius:var(--radius); overflow:hidden; background:var(--card)}
+.gallery .big{aspect-ratio:16/10; position:relative;
+  background:linear-gradient(135deg,rgba(16,34,43,.92),rgba(34,197,94,.55))}
+.gallery .big img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+.thumbs{display:flex; gap:8px; padding:8px; overflow-x:auto}
+.thumbs img{width:76px; height:56px; object-fit:cover; border-radius:.4rem; border:1px solid var(--line-2)}
+.panel{border:1px solid var(--line-2); border-radius:var(--radius); padding:18px; background:var(--card);
+  position:sticky; top:calc(var(--bar) + 14px)}
+.panel .price{font-size:1.8rem; font-weight:900; letter-spacing:-.02em}
+.kv{display:grid; grid-template-columns:auto 1fr; gap:.35rem .9rem; margin:.9rem 0; font-size:.92rem}
+.kv dt{color:var(--ink-45)} .kv dd{margin:0; text-align:right; font-weight:600}
+.note{font-size:.82rem; color:var(--ink-45); margin-top:.6rem}
+.amen{display:flex; flex-wrap:wrap; gap:8px; padding:0; list-style:none; margin:.6rem 0}
+.amen li{border:1px solid var(--line-2); border-radius:999px; padding:.25rem .65rem; font-size:.82rem;
+  background:var(--white)}
+.section{margin-top:30px; padding-top:20px; border-top:1px solid var(--line)}
+.steps-list{list-style:none; counter-reset:p; padding:0; margin:.6rem 0; display:grid; gap:6px}
+.steps-list li{counter-increment:p; display:flex; align-items:center; gap:.6rem; font-size:.9rem;
+  color:var(--ink-45)}
+.steps-list li::before{content:counter(p); flex:none; width:24px; height:24px; border-radius:50%;
+  border:1px solid var(--line-2); display:inline-flex; align-items:center; justify-content:center;
+  font-size:.72rem; font-weight:700; background:var(--white)}
+.steps-list li.hecho{color:var(--ink-72)}
+.steps-list li.hecho::before{content:'✓'; background:var(--green); border-color:var(--green); color:#fff}
+.steps-list li.aqui{color:var(--ink); font-weight:700}
+.steps-list li.aqui::before{background:var(--ink); border-color:var(--ink); color:#fff}
+
+/* ---------- buttons and forms ---------- */
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:.4rem; min-height:44px;
-  padding:.7rem 1.1rem; border-radius:999px; border:1px solid transparent; background:var(--ink);
+  padding:.65rem 1.1rem; border-radius:999px; border:1px solid transparent; background:var(--ink);
   color:#fff; font-weight:700; cursor:pointer; text-align:center}
 .btn:hover{background:#000}
 .btn.green{background:var(--green)} .btn.green:hover{background:var(--green-deep)}
 .btn.ghost{background:transparent; border-color:var(--line-2); color:var(--ink)}
 .btn.ghost:hover{background:var(--card)}
 .btn[disabled]{opacity:.55; cursor:not-allowed}
-.btn.sm{min-height:38px; padding:.4rem .8rem; font-size:.86rem}
-
-.filters{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;
-  margin:14px 0; padding:14px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius)}
-.filters label{display:block; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em;
-  color:var(--ink-45); font-weight:700; margin-bottom:.3rem}
-.filters .row{display:flex; gap:8px}
-.filters-actions{display:flex; align-items:flex-end; gap:8px; flex-wrap:wrap}
-.chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px}
-.chip{border:1px solid var(--line-2); border-radius:999px; padding:.35rem .7rem; font-size:.8rem;
-  background:var(--white); cursor:pointer; min-height:44px; display:inline-flex; align-items:center}
-.chip.on{background:var(--ink); color:#fff; border-color:var(--ink)}
-/* The bar carries long labels on a wide screen and short ones on a phone: five items plus the
-   session do not fit in 390 px, and a nav that does not fit pushes the whole page sideways. */
-.lg{display:inline} .sm2{display:none}
-
-/* ---------- results ---------- */
-.result-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-  flex-wrap:wrap; margin:18px 0 6px}
-.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:16px; margin-top:14px}
-.card{border:1px solid var(--line-2); border-radius:var(--radius); background:var(--card);
-  overflow:hidden; display:flex; flex-direction:column; transition:box-shadow .18s ease, transform .18s ease}
-.card:hover{box-shadow:var(--shadow); transform:translateY(-2px)}
-.photo{position:relative; aspect-ratio:4/3; background:
-  linear-gradient(135deg,rgba(16,34,43,.92),rgba(34,197,94,.55)); overflow:hidden}
-.photo img{width:100%; height:100%; object-fit:cover}
-.photo .fallback{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  color:rgba(255,255,255,.9); font-weight:900; letter-spacing:-.03em; text-transform:uppercase; font-size:.95rem;
-  text-align:center; padding:1rem}
-.tags{position:absolute; left:10px; top:10px; display:flex; gap:6px; flex-wrap:wrap; max-width:calc(100% - 20px)}
-.tag{background:rgba(255,255,255,.94); color:var(--ink); font-size:.7rem; font-weight:700;
-  text-transform:uppercase; letter-spacing:.08em; padding:.25rem .5rem; border-radius:999px}
-.tag.green{background:var(--green); color:#fff}
-.tag.coin{background:var(--coin); color:var(--coin-dark)}
-.card-body{padding:.9rem 1rem 1.1rem; display:flex; flex-direction:column; gap:.35rem; flex:1}
-.card h3{margin:0; font-size:1rem; font-weight:700; letter-spacing:-.01em}
-.price{font-weight:900; font-size:1.18rem; letter-spacing:-.02em}
-.specs{display:flex; gap:.7rem; flex-wrap:wrap; color:var(--ink-60); font-size:.84rem}
-.card-foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:8px;
-  padding-top:.7rem; border-top:1px solid var(--line)}
-.dev{font-size:.8rem; color:var(--ink-45)}
-.fav{background:transparent; border:1px solid var(--line-2); width:44px; height:44px; border-radius:50%;
-  display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.05rem}
-.fav.on{background:var(--green); border-color:var(--green); color:#fff}
-.empty{border:1px dashed var(--line-2); border-radius:var(--radius); padding:28px; text-align:center;
-  color:var(--ink-60); background:var(--card); margin-top:14px}
-
-/* ---------- unit detail ---------- */
-.detail{display:grid; grid-template-columns:1.35fr .95fr; gap:26px; margin-top:8px}
-.gallery{border:1px solid var(--line-2); border-radius:var(--radius); overflow:hidden; background:var(--card)}
-.gallery .big{aspect-ratio:16/10; position:relative; background:
-  linear-gradient(135deg,rgba(16,34,43,.92),rgba(34,197,94,.55))}
-.gallery .big img{width:100%; height:100%; object-fit:cover}
-.thumbs{display:flex; gap:8px; padding:8px; overflow-x:auto}
-.thumbs img{width:76px; height:56px; object-fit:cover; border-radius:.4rem; border:1px solid var(--line-2)}
-.panel{border:1px solid var(--line-2); border-radius:var(--radius); padding:18px; background:var(--card);
-  position:sticky; top:calc(var(--bar) + 14px)}
-.panel .price{font-size:1.7rem}
-.kv{display:grid; grid-template-columns:auto 1fr; gap:.35rem .9rem; margin:.9rem 0; font-size:.92rem}
-.kv dt{color:var(--ink-45)} .kv dd{margin:0; text-align:right; font-weight:600}
-.badge{display:inline-flex; align-items:center; gap:.4rem; background:rgba(34,197,94,.1);
-  border:1px solid rgba(34,197,94,.35); color:var(--green-deep); border-radius:999px;
-  padding:.3rem .7rem; font-size:.78rem; font-weight:700}
-.note{font-size:.82rem; color:var(--ink-45); margin-top:.6rem}
-.amen{display:flex; flex-wrap:wrap; gap:8px; padding:0; list-style:none; margin:.6rem 0}
-.amen li{border:1px solid var(--line-2); border-radius:999px; padding:.25rem .65rem; font-size:.82rem;
-  background:var(--white)}
-.section{margin-top:34px; padding-top:22px; border-top:1px solid var(--line)}
-
-/* ---------- forms / auth ---------- */
-.narrow{max-width:460px; margin:26px auto}
-.form-card{border:1px solid var(--line-2); border-radius:var(--radius); padding:22px; background:var(--card)}
+.btn.sm{min-height:38px; padding:.4rem .85rem; font-size:.86rem}
+input[type=text],input[type=search],input[type=email],input[type=password],input[type=number],select{
+  width:100%; padding:.65rem .8rem; border:1px solid var(--line-2); border-radius:var(--radius-sm);
+  background:var(--white); min-height:46px}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+.narrow{max-width:440px; margin:26px auto}
+.form-card{border:1px solid var(--line-2); border-radius:var(--radius); padding:20px; background:var(--card)}
 .form-card .field{margin-bottom:.85rem}
-.form-card label{display:block; font-size:.78rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:.08em; color:var(--ink-45); margin-bottom:.3rem}
+.form-card label{display:block; font-size:.72rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--ink-45); margin-bottom:.3rem}
 .msg{border-radius:var(--radius-sm); padding:.7rem .85rem; font-size:.9rem; margin:.7rem 0}
 .msg.err{background:rgba(220,38,38,.08); border:1px solid rgba(220,38,38,.3); color:#991b1b}
 .msg.ok{background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.35); color:var(--green-deep)}
 .msg.warn{background:rgba(251,191,36,.14); border:1px solid rgba(180,83,9,.3); color:var(--coin-dark)}
 
-/* ---------- lists (notifications, portfolio) ---------- */
-.list{display:grid; gap:12px; margin-top:14px}
+/* ---------- lists ---------- */
 .item{border:1px solid var(--line-2); border-radius:var(--radius); padding:14px 16px; background:var(--card);
   display:grid; gap:.3rem}
 .item.unread{border-left:4px solid var(--green)}
 .item .when{font-size:.78rem; color:var(--ink-45)}
 .row-between{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
 
-/* ---------- footer ---------- */
-.foot{border-top:1px solid var(--line); margin-top:40px; padding:30px 0 40px; background:var(--card)}
-.foot-grid{display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:26px}
+/* ---------- footer: two blocks, not six ---------- */
+.foot{border-top:1px solid var(--line); margin-top:44px; padding:26px 0 36px; background:var(--card)}
+.foot-grid{display:grid; grid-template-columns:1.8fr 1fr; gap:24px}
 .foot-brand{display:flex; align-items:center; gap:.5rem; font-weight:900; text-transform:uppercase;
-  letter-spacing:-.03em; margin-bottom:.5rem}
-.plain{list-style:none; padding:0; margin:.5rem 0; display:grid; gap:.35rem; font-size:.9rem}
+  letter-spacing:-.03em; margin-bottom:.4rem; font-size:.95rem}
+.plain{list-style:none; padding:0; margin:.4rem 0; display:grid; gap:.3rem; font-size:.9rem}
 .plain a{color:var(--ink-72)} .plain a:hover{color:var(--ink)}
-.legal{font-size:.78rem; color:var(--ink-45); margin-top:22px; max-width:80ch}
+.legal{font-size:.76rem; color:var(--ink-45); margin-top:20px; max-width:88ch}
 
-/* ---------- toast ---------- */
-.toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:60;
-  background:var(--teal); color:#fff; padding:.8rem 1.1rem; border-radius:999px; font-size:.9rem;
+.toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:70;
+  background:var(--teal); color:#fff; padding:.75rem 1.1rem; border-radius:999px; font-size:.9rem;
   box-shadow:var(--shadow); max-width:min(92vw,520px)}
 .toast.err{background:#991b1b} .toast.ok{background:var(--green-deep)}
-
-/* ---------- the funnel of one purchase ---------- */
-.steps-list{list-style:none; counter-reset:p; padding:0; margin:.6rem 0; display:grid; gap:6px}
-.steps-list li{counter-increment:p; display:flex; align-items:center; gap:.6rem; font-size:.9rem;
-  color:var(--ink-45)}
-.steps-list li::before{content:counter(p); flex:none; width:24px; height:24px; border-radius:50%;
-  border:1px solid var(--line-2); display:inline-flex; align-items:center; justify-content:center;
-  font-size:.72rem; font-weight:700; color:var(--ink-45); background:var(--white)}
-.steps-list li.hecho{color:var(--ink-72)}
-.steps-list li.hecho::before{content:'✓'; background:var(--green); border-color:var(--green); color:#fff}
-.steps-list li.aqui{color:var(--ink); font-weight:700}
-.steps-list li.aqui::before{background:var(--ink); border-color:var(--ink); color:#fff}
-
-/* ---------- loading ---------- */
-.load{display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); margin-top:16px}
-.sk{height:260px; border-radius:var(--radius); border:1px solid var(--line);
+.load{display:grid; gap:14px; margin-top:6px}
+.sk{height:196px; border-radius:var(--radius); border:1px solid var(--line);
   background:linear-gradient(100deg,var(--card) 30%,rgba(0,0,0,.055) 50%,var(--card) 70%);
   background-size:220% 100%; animation:sk 1.2s linear infinite}
 @keyframes sk{from{background-position:120% 0}to{background-position:-120% 0}}
@@ -223,36 +284,28 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid 
 @media (max-width:980px){
   .detail{grid-template-columns:1fr}
   .panel{position:static}
-  .foot-grid{grid-template-columns:1fr 1fr}
+  .emi-grid{grid-template-columns:repeat(3,1fr)}
 }
-@media (max-width:860px){
-  .brand-name{display:none}
-  .nav .who{display:none}
-}
-@media (max-width:700px){
-  .grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-  .searchbar{grid-template-columns:1fr}
-  .filters{grid-template-columns:1fr 1fr}
+@media (max-width:760px){
+  .card{grid-template-columns:1fr}
+  .card .photo{min-height:0; aspect-ratio:16/10}
   .foot-grid{grid-template-columns:1fr}
-  .lg{display:none} .sm2{display:inline}
-  .nav a{padding:0 .5rem; font-size:.82rem}
-  .nav .btn.sm{padding:.3rem .6rem}
+  .fields{grid-template-columns:1fr}
+  .who{display:none}
+  .hero{padding-top:26px; padding-bottom:40px}
+  .hero h1{font-size:1.6rem}
+  .emi-grid{grid-template-columns:repeat(2,1fr)}
+  .emi{margin-top:-24px}
+  /* On a phone the controls wrap into two columns instead of scrolling sideways: everything is
+     visible without dragging, which is the point of having few of them. */
+  .controls{flex-wrap:wrap; overflow:visible}
+  .control{flex:1 1 46%; min-width:0}
+  .control.ancho{flex:1 1 100%}
 }
 @media (max-width:430px){
-  /* On a small phone the bar cannot carry five items: the mark already goes to the catalogue, so
-     "Explore" steps aside and the rest stay reachable without pushing the page sideways. */
-  .nav [data-nav="home"]{display:none}
-  .nav a{padding:0 .45rem; font-size:.8rem}
-  .nav .pill{padding:0 .7rem}
-  .filters{grid-template-columns:1fr}
-  h1{font-size:1.75rem}
-}
-@media (max-width:360px){
-  /* The narrowest phones still in use: the bar gets one more notch tighter so nothing is cut off. */
-  .nav{gap:2px}
-  .nav a{padding:0 .35rem; font-size:.78rem}
-  .nav .btn.sm{padding:.25rem .5rem; font-size:.78rem}
-  .badge-count{margin-left:4px}
+  .brand span{display:none}
+  .bar-search{display:none}
+  .card .price{font-size:1.2rem}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
 
@@ -264,13 +317,7 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
 
 <header class="top">
-  <div class="wrap bar">
-    <a class="brand" href="#/" aria-label="BlockEstate, home">
-      <svg class="mark" viewBox="0 0 256 256" role="img" aria-hidden="true"><use href="#logo"/></svg>
-      <span class="brand-name">BlockEstate</span>
-    </a>
-    <nav class="nav" id="nav" aria-label="Main"></nav>
-  </div>
+  <div class="wrap bar" id="barra"></div>
 </header>
 
 <main id="view" class="wrap main" tabindex="-1"></main>
@@ -283,7 +330,9 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid 
           <svg class="mark sm" viewBox="0 0 256 256" role="img" aria-hidden="true"><use href="#logo"/></svg>
           <span>BlockEstate</span>
         </div>
-        <p class="muted">A marketplace of verified property in the United Arab Emirates. The buyer pays in crypto, the developer is paid in dirhams, and the title is registered with the Dubai Land Department in the buyer's name.</p>
+        <p class="muted" style="margin-top:.4rem">A marketplace of verified property in the United Arab
+          Emirates. The buyer pays in crypto, the developer is paid in dirhams, and the title is
+          registered with the Dubai Land Department in the buyer's name.</p>
       </div>
       <div>
         <h4>Browse</h4>
@@ -294,16 +343,10 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid 
           <li><a href="#/search?estado_obra=off_plan">Off plan</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Your account</h4>
-        <ul class="plain">
-          <li><a href="#/favorites">Favourites</a></li>
-          <li><a href="#/portfolio">My purchases</a></li>
-          <li><a href="#/notifications">Notifications</a></li>
-        </ul>
-      </div>
     </div>
-    <p class="legal">Every listing shows the scope and the date of the evidence behind its badge. A badge is not a guarantee of title, of completion or of a rate. Nothing here is investment or legal advice, and a price in crypto is an equivalent with an expiry, not a fixed price.</p>
+    <p class="legal">Every listing shows the scope and the date of the evidence behind its badge. A badge
+      is not a guarantee of title, of completion or of a rate. Nothing here is investment or legal
+      advice, and a price in crypto is an equivalent with an expiry, not a fixed price.</p>
   </div>
 </footer>
 
@@ -312,12 +355,12 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid 
 
 <script type="module">
 /* ---- Offline demo layer ---------------------------------------------------------------
-   The interface is the real one and the data is real, captured from the local platform. The
-   network calls are answered from that capture, so this file needs no server: the filters run in
-   the browser and favourites are kept in memory. Anything that moves money (identity check,
-   quotes, payment orders) needs the live platform and says so. */
+   The interface is the real one and the data is real, captured from the local platform. The network
+   calls are answered from that capture, so this file needs no server: the filters run in the browser
+   and favourites are kept in memory. Anything that moves money (identity check, quotes, payment
+   orders) needs the live platform and says so. */
 const DEMO = {"capturado": "2026-10-07T13:19:01.511Z", "sesion": {"usuario": {"id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "nombre": "Buyer Example", "rol": "comprador"}}, "rutas": {"/catalog/search": {"s": 200, "b": {"resultados": [{"listing_id": "0e3a295b-54c7-46f9-a343-68fbabf82284", "unidad_id": "7d2251f3-c5d9-456a-9e1f-9e27eab056e0", "titulo": "Unit 1 \u00b7 apartment in Downtown Dubai", "foto_principal": "https://cdn.blockestate.local/seed/unidad-1.jpg", "precio_fils": 150000000, "precio_aed": "AED 1,500,000.00", "habitaciones": 2, "banos": 2, "superficie_sqft": 1200, "zona": "Downtown Dubai", "emirato": "Dubai", "tipo": "apartment", "estado_obra": "ready", "amueblado": false, "proyecto": {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "nombre": "Aradina Hills"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": true, "etiqueta": "Promoted", "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "3d2eff27-9b1b-4959-a731-3c568a09d0b7", "unidad_id": "975879ca-f4d3-44e7-a0f8-ff7a4b645415", "titulo": "Unit 2 \u00b7 apartment in Downtown Dubai", "foto_principal": "https://cdn.blockestate.local/seed/unidad-2.jpg", "precio_fils": 220000000, "precio_aed": "AED 2,200,000.00", "habitaciones": 3, "banos": 3, "superficie_sqft": 1800, "zona": "Downtown Dubai", "emirato": "Dubai", "tipo": "apartment", "estado_obra": "ready", "amueblado": true, "proyecto": {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "nombre": "Aradina Hills"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": true, "etiqueta": "Promoted", "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "c5107a7b-53c0-4eb6-b705-6ced40fcbc90", "unidad_id": "0d8495f6-ff3c-4819-909d-fa2f5f1da609", "titulo": "Unit 7 \u00b7 hotel in Palm Jumeirah", "foto_principal": "https://cdn.blockestate.local/seed/unidad-7.jpg", "precio_fils": 300000000, "precio_aed": "AED 3,000,000.00", "habitaciones": 1, "banos": 1, "superficie_sqft": 500, "zona": "Palm Jumeirah", "emirato": "Dubai", "tipo": "hotel", "estado_obra": "ready", "amueblado": true, "proyecto": {"id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "nombre": "Palm Vista"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": false, "etiqueta": null, "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "fea3a4b5-aef3-45be-821b-c283ce9ea046", "unidad_id": "31b702d6-6636-47ff-a125-70517af72a35", "titulo": "Unit 6 \u00b7 villa in Palm Jumeirah", "foto_principal": "https://cdn.blockestate.local/seed/unidad-6.jpg", "precio_fils": 2400000000, "precio_aed": "AED 24,000,000.00", "habitaciones": 6, "banos": 7, "superficie_sqft": 8000, "zona": "Palm Jumeirah", "emirato": "Dubai", "tipo": "villa", "estado_obra": "off_plan", "amueblado": false, "proyecto": {"id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "nombre": "Palm Vista"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": false, "etiqueta": null, "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "07f2633f-cf8c-482b-9a18-421b9cf76cbf", "unidad_id": "ac55cb1c-7df8-41f4-830f-dbc3c417d3d0", "titulo": "Unit 5 \u00b7 villa in Palm Jumeirah", "foto_principal": "https://cdn.blockestate.local/seed/unidad-5.jpg", "precio_fils": 1850000000, "precio_aed": "AED 18,500,000.00", "habitaciones": 5, "banos": 6, "superficie_sqft": 6500, "zona": "Palm Jumeirah", "emirato": "Dubai", "tipo": "villa", "estado_obra": "ready", "amueblado": false, "proyecto": {"id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "nombre": "Palm Vista"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": false, "etiqueta": null, "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "ca4780fe-4b74-4ad7-a72c-cfea8df97e6a", "unidad_id": "5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee", "titulo": "Unit 4 \u00b7 retail in Business Bay", "foto_principal": "https://cdn.blockestate.local/seed/unidad-4.jpg", "precio_fils": 95000000, "precio_aed": "AED 950,000.00", "habitaciones": 0, "banos": 1, "superficie_sqft": 700, "zona": "Business Bay", "emirato": "Dubai", "tipo": "retail", "estado_obra": "ready", "amueblado": false, "proyecto": {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "nombre": "Aradina Hills"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": false, "etiqueta": null, "badge_alcance": "verified physical and legal asset (sandbox)"}}, {"listing_id": "8f74910b-96c5-4108-b47b-d3a8de607bfa", "unidad_id": "82f33a93-a391-4b9d-867c-807845e474ee", "titulo": "Unit 3 \u00b7 office in Business Bay", "foto_principal": "https://cdn.blockestate.local/seed/unidad-3.jpg", "precio_fils": 180000000, "precio_aed": "AED 1,800,000.00", "habitaciones": 0, "banos": 1, "superficie_sqft": 900, "zona": "Business Bay", "emirato": "Dubai", "tipo": "office", "estado_obra": "ready", "amueblado": true, "proyecto": {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "nombre": "Aradina Hills"}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments"}, "distintivo": {"estado": "approved", "promocionado": false, "etiqueta": null, "badge_alcance": "verified physical and legal asset (sandbox)"}}], "total": 7}}, "/catalog/projects": {"s": 200, "b": {"proyectos": [{"id": "a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52", "desarrollador_id": "5ead715f-c77b-467d-945a-0b07696afbe9", "nombre": "Marina Bay", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Dubai Marina", "estado": "published", "descripcion": "Off-plan apartments in the marina.", "creado_en": "2026-10-07T12:43:01.424Z", "desarrollador": "Marina Estates"}, {"id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Palm Vista", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "estado": "published", "descripcion": "Sea-front villas.", "creado_en": "2026-10-07T12:43:01.421Z", "desarrollador": "Aradina Developments"}, {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Hills", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Downtown Dubai", "estado": "published", "descripcion": "Residential tower in the centre.", "creado_en": "2026-10-07T12:43:01.417Z", "desarrollador": "Aradina Developments"}]}}, "/catalog/units/7d2251f3-c5d9-456a-9e1f-9e27eab056e0": {"s": 200, "b": {"unidad": {"id": "7d2251f3-c5d9-456a-9e1f-9e27eab056e0", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Downtown Dubai", "habitaciones": 2, "banos": 2, "superficie_sqft": 1200, "estado_obra": "ready", "amueblado": false, "precio_fils": 150000000, "disponibilidad": "held", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.427Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Aradina Hills", "proyecto_estado": "published", "amenidades": ["gym", "parking", "pool"]}, "listing": {"id": "0e3a295b-54c7-46f9-a343-68fbabf82284", "estado": "approved", "titulo": "Unit 1 \u00b7 apartment in Downtown Dubai", "promocionado": true}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/7d2251f3-c5d9-456a-9e1f-9e27eab056e0/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-1.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/975879ca-f4d3-44e7-a0f8-ff7a4b645415": {"s": 200, "b": {"unidad": {"id": "975879ca-f4d3-44e7-a0f8-ff7a4b645415", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Downtown Dubai", "habitaciones": 3, "banos": 3, "superficie_sqft": 1800, "estado_obra": "ready", "amueblado": true, "precio_fils": 220000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.442Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Aradina Hills", "proyecto_estado": "published", "amenidades": ["gym", "pool"]}, "listing": {"id": "3d2eff27-9b1b-4959-a731-3c568a09d0b7", "estado": "approved", "titulo": "Unit 2 \u00b7 apartment in Downtown Dubai", "promocionado": true}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/975879ca-f4d3-44e7-a0f8-ff7a4b645415/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-2.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/0d8495f6-ff3c-4819-909d-fa2f5f1da609": {"s": 200, "b": {"unidad": {"id": "0d8495f6-ff3c-4819-909d-fa2f5f1da609", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "hotel", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 1, "banos": 1, "superficie_sqft": 500, "estado_obra": "ready", "amueblado": true, "precio_fils": 300000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.499Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Palm Vista", "proyecto_estado": "published", "amenidades": ["community_hall", "pool"]}, "listing": {"id": "c5107a7b-53c0-4eb6-b705-6ced40fcbc90", "estado": "approved", "titulo": "Unit 7 \u00b7 hotel in Palm Jumeirah", "promocionado": false}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/0d8495f6-ff3c-4819-909d-fa2f5f1da609/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-7.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/31b702d6-6636-47ff-a125-70517af72a35": {"s": 200, "b": {"unidad": {"id": "31b702d6-6636-47ff-a125-70517af72a35", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "villa", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 6, "banos": 7, "superficie_sqft": 8000, "estado_obra": "off_plan", "amueblado": false, "precio_fils": 2400000000, "disponibilidad": "held", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.489Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Palm Vista", "proyecto_estado": "published", "amenidades": ["pool", "sea_view"]}, "listing": {"id": "fea3a4b5-aef3-45be-821b-c283ce9ea046", "estado": "approved", "titulo": "Unit 6 \u00b7 villa in Palm Jumeirah", "promocionado": false}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/31b702d6-6636-47ff-a125-70517af72a35/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-6.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/ac55cb1c-7df8-41f4-830f-dbc3c417d3d0": {"s": 200, "b": {"unidad": {"id": "ac55cb1c-7df8-41f4-830f-dbc3c417d3d0", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "villa", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 5, "banos": 6, "superficie_sqft": 6500, "estado_obra": "ready", "amueblado": false, "precio_fils": 1850000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.467Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Palm Vista", "proyecto_estado": "published", "amenidades": ["garden", "pool", "sea_view", "security_24h"]}, "listing": {"id": "07f2633f-cf8c-482b-9a18-421b9cf76cbf", "estado": "approved", "titulo": "Unit 5 \u00b7 villa in Palm Jumeirah", "promocionado": false}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/ac55cb1c-7df8-41f4-830f-dbc3c417d3d0/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-5.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee": {"s": 200, "b": {"unidad": {"id": "5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "retail", "emirato": "Dubai", "comunidad": "Business Bay", "habitaciones": 0, "banos": 1, "superficie_sqft": 700, "estado_obra": "ready", "amueblado": false, "precio_fils": 95000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.461Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Aradina Hills", "proyecto_estado": "published", "amenidades": ["parking"]}, "listing": {"id": "ca4780fe-4b74-4ad7-a72c-cfea8df97e6a", "estado": "approved", "titulo": "Unit 4 \u00b7 retail in Business Bay", "promocionado": false}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-4.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/units/82f33a93-a391-4b9d-867c-807845e474ee": {"s": 200, "b": {"unidad": {"id": "82f33a93-a391-4b9d-867c-807845e474ee", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "office", "emirato": "Dubai", "comunidad": "Business Bay", "habitaciones": 0, "banos": 1, "superficie_sqft": 900, "estado_obra": "ready", "amueblado": true, "precio_fils": 180000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.453Z", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "proyecto": "Aradina Hills", "proyecto_estado": "published", "amenidades": ["lift", "parking"]}, "listing": {"id": "8f74910b-96c5-4108-b47b-d3a8de607bfa", "estado": "approved", "titulo": "Unit 3 \u00b7 office in Business Bay", "promocionado": false}, "badge": {"alcance": "verified physical and legal asset (sandbox)", "vigencia": "2027-10-07T12:43:01.544Z", "garantia_incondicional": false}, "procedencia_verificacion": "ver_seed_0001"}}, "/catalog/units/82f33a93-a391-4b9d-867c-807845e474ee/media": {"s": 200, "b": {"fotos": ["https://cdn.blockestate.local/seed/unidad-3.jpg"], "video": null, "tour3d": null, "planos": []}}, "/catalog/projects/a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52": {"s": 200, "b": {"proyecto": {"id": "a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52", "nombre": "Marina Bay", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Dubai Marina", "estado": "published", "descripcion": "Off-plan apartments in the marina."}, "desarrollador": {"id": "5ead715f-c77b-467d-945a-0b07696afbe9", "nombre": "Marina Estates", "descripcion": null, "logo_url": null}, "unidades": [{"id": "1324678c-d9e4-4985-ae41-b8c96ab312b3", "proyecto_id": "a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Dubai Marina", "habitaciones": 1, "banos": 1, "superficie_sqft": 750, "estado_obra": "off_plan", "amueblado": false, "precio_fils": 90000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.510Z", "listing_id": "e12ff34f-5546-4fac-820c-0cede3eb998d", "listing_estado": "draft"}, {"id": "a564b0ee-e8bb-4e81-a265-dfa8799c7516", "proyecto_id": "a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Dubai Marina", "habitaciones": 2, "banos": 2, "superficie_sqft": 1100, "estado_obra": "off_plan", "amueblado": false, "precio_fils": 130000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.525Z", "listing_id": "71dd3ebb-d31b-4419-8cbb-b0712a96ddfb", "listing_estado": "draft"}, {"id": "432e66b0-b194-44b9-bc44-22658400d900", "proyecto_id": "a6bd50bd-c02f-400a-a28c-ff0dfa4f0a52", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Dubai Marina", "habitaciones": 4, "banos": 4, "superficie_sqft": 2200, "estado_obra": "ready", "amueblado": true, "precio_fils": 350000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.534Z", "listing_id": "adb174f5-2100-42fd-8d45-2ad2617c0b49", "listing_estado": "draft"}]}}, "/catalog/projects/cb4e06cc-80c0-4a69-878f-ccd17ea916d5": {"s": 200, "b": {"proyecto": {"id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "nombre": "Palm Vista", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "estado": "published", "descripcion": "Sea-front villas."}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments", "descripcion": null, "logo_url": null}, "unidades": [{"id": "0d8495f6-ff3c-4819-909d-fa2f5f1da609", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "hotel", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 1, "banos": 1, "superficie_sqft": 500, "estado_obra": "ready", "amueblado": true, "precio_fils": 300000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.499Z", "listing_id": "c5107a7b-53c0-4eb6-b705-6ced40fcbc90", "listing_estado": "approved"}, {"id": "ac55cb1c-7df8-41f4-830f-dbc3c417d3d0", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "villa", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 5, "banos": 6, "superficie_sqft": 6500, "estado_obra": "ready", "amueblado": false, "precio_fils": 1850000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.467Z", "listing_id": "07f2633f-cf8c-482b-9a18-421b9cf76cbf", "listing_estado": "approved"}, {"id": "31b702d6-6636-47ff-a125-70517af72a35", "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "tipo": "villa", "emirato": "Dubai", "comunidad": "Palm Jumeirah", "habitaciones": 6, "banos": 7, "superficie_sqft": 8000, "estado_obra": "off_plan", "amueblado": false, "precio_fils": 2400000000, "disponibilidad": "held", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.489Z", "listing_id": "fea3a4b5-aef3-45be-821b-c283ce9ea046", "listing_estado": "approved"}]}}, "/catalog/projects/bea7e403-117c-46f1-9186-40672ea558b7": {"s": 200, "b": {"proyecto": {"id": "bea7e403-117c-46f1-9186-40672ea558b7", "nombre": "Aradina Hills", "ciudad": "Dubai", "emirato": "Dubai", "comunidad": "Downtown Dubai", "estado": "published", "descripcion": "Residential tower in the centre."}, "desarrollador": {"id": "f4892863-611a-425a-813f-02077b61cf7d", "nombre": "Aradina Developments", "descripcion": null, "logo_url": null}, "unidades": [{"id": "5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "retail", "emirato": "Dubai", "comunidad": "Business Bay", "habitaciones": 0, "banos": 1, "superficie_sqft": 700, "estado_obra": "ready", "amueblado": false, "precio_fils": 95000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.461Z", "listing_id": "ca4780fe-4b74-4ad7-a72c-cfea8df97e6a", "listing_estado": "approved"}, {"id": "7d2251f3-c5d9-456a-9e1f-9e27eab056e0", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Downtown Dubai", "habitaciones": 2, "banos": 2, "superficie_sqft": 1200, "estado_obra": "ready", "amueblado": false, "precio_fils": 150000000, "disponibilidad": "held", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.427Z", "listing_id": "0e3a295b-54c7-46f9-a343-68fbabf82284", "listing_estado": "approved"}, {"id": "82f33a93-a391-4b9d-867c-807845e474ee", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "office", "emirato": "Dubai", "comunidad": "Business Bay", "habitaciones": 0, "banos": 1, "superficie_sqft": 900, "estado_obra": "ready", "amueblado": true, "precio_fils": 180000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.453Z", "listing_id": "8f74910b-96c5-4108-b47b-d3a8de607bfa", "listing_estado": "approved"}, {"id": "975879ca-f4d3-44e7-a0f8-ff7a4b645415", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "tipo": "apartment", "emirato": "Dubai", "comunidad": "Downtown Dubai", "habitaciones": 3, "banos": 3, "superficie_sqft": 1800, "estado_obra": "ready", "amueblado": true, "precio_fils": 220000000, "disponibilidad": "available", "operacion": "venta", "origen": "desarrollador", "creado_en": "2026-10-07T12:43:01.442Z", "listing_id": "3d2eff27-9b1b-4959-a731-3c568a09d0b7", "listing_estado": "approved"}]}}, "/me/favorites": {"s": 200, "b": {"total": 1, "unidades": [{"listing_id": "0e3a295b-54c7-46f9-a343-68fbabf82284", "unidad_id": "7d2251f3-c5d9-456a-9e1f-9e27eab056e0", "titulo": "Unit 1 \u00b7 apartment in Downtown Dubai", "estado": "approved", "promocionado": true, "promocion_etiqueta": "Promoted", "posicion": 1, "badge_alcance": "verified physical and legal asset (sandbox)", "badge_vigencia": "2027-10-07T12:43:01.544Z", "score": 82, "tipo": "apartment", "precio_fils": 150000000, "habitaciones": 2, "banos": 2, "superficie_sqft": 1200, "emirato": "Dubai", "comunidad": "Downtown Dubai", "estado_obra": "ready", "amueblado": false, "foto_principal": "https://cdn.blockestate.local/seed/unidad-1.jpg", "proyecto_id": "bea7e403-117c-46f1-9186-40672ea558b7", "proyecto": "Aradina Hills", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d", "desarrollador": "Aradina Developments"}]}}, "/me/portfolio": {"s": 200, "b": {"compras": [{"intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "estado": "payment_pending", "etiqueta": "Purchase in progress", "estado_registro": "none", "afirmacion_legal": false, "registrado_en": null, "referencia_dld": null, "precio_fils": 2400000000, "unidad": "villa", "habitaciones": 6, "superficie_sqft": 8000, "emirato": "Dubai", "proyecto": "Palm Vista", "ciudad": "Dubai"}, {"intencion_id": "90a9bf07-b66e-43c5-ab9d-481bd212c420", "estado": "held", "etiqueta": "Reserved", "estado_registro": "none", "afirmacion_legal": false, "registrado_en": null, "referencia_dld": null, "precio_fils": 150000000, "unidad": "apartment", "habitaciones": 2, "superficie_sqft": 1200, "emirato": "Dubai", "proyecto": "Aradina Hills", "ciudad": "Dubai"}], "total": 2}}, "/me/notifications": {"s": 200, "b": {"notificaciones": [{"id": "b46f655a-2cee-48cc-83e6-beed02707831", "tipo": "compra.pago_habilitado", "titulo": "Payment enabled", "cuerpo": "The payment link expires on its own: check the date before paying.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:08:23.972Z"}, {"id": "c4d42fbf-b49b-43a4-a95d-9540d232de21", "tipo": "compra.senal_confirmada", "titulo": "Reservation secured", "cuerpo": "Your deposit is confirmed and the unit is reserved in your name. The balance is next.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:07:19.223Z"}, {"id": "b136a56c-c04f-4385-8ca3-1ccabf7405a1", "tipo": "compra.senal_detectada", "titulo": "Reservation deposit detected", "cuerpo": "We have seen your deposit and are reconciling it. A webhook does not confirm a payment.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:07:19.184Z"}, {"id": "08b850fa-8591-4173-9e77-e27829edfe06", "tipo": "compra.senal_habilitada", "titulo": "Reservation deposit enabled", "cuerpo": "This first payment is the reservation deposit. The balance is paid afterwards, once it is confirmed.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:06:46.580Z"}, {"id": "9b397df4-37b6-4a7d-b938-d2585b838ff2", "tipo": "compra.cotizacion_lista", "titulo": "Quote ready", "cuerpo": "Your quote has an expiry and the rate is not guaranteed.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:06:43.064Z"}, {"id": "8f44f28a-57b0-415c-8425-488944d7a990", "tipo": "compra.kyc_aprobado", "titulo": "Identity verified", "cuerpo": "Your identity is verified. You can now request the quote.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:05:49.601Z"}, {"id": "add65daf-c69b-4e77-93cb-be97edfa7743", "tipo": "compra.kyc_en_curso", "titulo": "Identity verification in progress", "cuerpo": "We are verifying your identity. We will let you know as soon as there is a decision.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T13:04:26.225Z"}, {"id": "7f8fc75d-32f7-4dec-b0f8-c24350eaef87", "tipo": "compra.reservada", "titulo": "Reservation confirmed", "cuerpo": "Your reservation on villa in Palm Vista is active.", "datos": {"unidad": "villa", "proyecto": "Palm Vista", "precio_fils": 2400000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "leida_en": null, "creada_en": "2026-10-07T12:52:06.690Z"}, {"id": "f88a1f4e-b63a-41ea-9ada-0bf7d2aa7c2d", "tipo": "compra.reservada", "titulo": "Reservation confirmed", "cuerpo": "Your reservation on apartment en Aradina Hills is active.", "datos": {"unidad": "apartment", "proyecto": "Aradina Hills", "precio_fils": 150000000}, "sujeto_tipo": "intencion_compra", "sujeto_id": "90a9bf07-b66e-43c5-ab9d-481bd212c420", "leida_en": null, "creada_en": "2026-10-07T12:47:24.322Z"}], "total": 9, "sin_leer": 9}}, "/me/portfolio/23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d": {"s": 200, "b": {"intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "estado": "payment_pending", "etiqueta": "Purchase in progress", "estado_registro": "none", "afirmacion_legal": false, "registrado_en": null, "referencia_dld": null, "precio_fils": 2400000000, "unidad": "villa", "habitaciones": 6, "superficie_sqft": 8000, "emirato": "Dubai", "proyecto": "Palm Vista", "ciudad": "Dubai"}}, "/purchases/23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d": {"s": 200, "b": {"intencion": {"id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "comprador_id": "d4cb2ad2-f18b-4d79-849c-56fe1b433bef", "unidad_id": "31b702d6-6636-47ff-a125-70517af72a35", "hold_id": "463acda0-3928-4294-97b0-a2c518269de7", "precio_snapshot_fils": 2400000000, "descuento_pb": 0, "estado": "payment_pending", "canal": "direct", "creada_en": "2026-10-07T12:52:06.690Z", "actualizada_en": "2026-10-07T13:08:23.972Z", "registro_dld_referencia": null, "registrado_en": null, "deposito_pb": 1000, "deposito_fils": 240000000, "precio_fils": 2400000000, "proyecto_id": "cb4e06cc-80c0-4a69-878f-ccd17ea916d5", "desarrollador_id": "f4892863-611a-425a-813f-02077b61cf7d"}, "estado": "payment_pending", "historial": [{"id": 2, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "draft", "a": "held", "motivo": "reservation started on the hold", "actor_id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "ts": "2026-10-07T12:52:06.690Z"}, {"id": 3, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "held", "a": "kyc_pending", "motivo": "KYC case opened", "actor_id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "ts": "2026-10-07T13:04:26.225Z"}, {"id": 4, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "kyc_pending", "a": "kyc_approved", "motivo": "manual KYC approval by operations", "actor_id": null, "ts": "2026-10-07T13:05:49.601Z"}, {"id": 5, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "kyc_approved", "a": "quote_issued", "motivo": "crypto quote issued (deposit)", "actor_id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "ts": "2026-10-07T13:06:43.064Z"}, {"id": 6, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "quote_issued", "a": "deposit_pending", "motivo": "deposit payment order signed", "actor_id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "ts": "2026-10-07T13:06:46.580Z"}, {"id": 7, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "deposit_pending", "a": "deposit_detected", "motivo": "webhook firmado verificado y conciliado", "actor_id": null, "ts": "2026-10-07T13:07:19.184Z"}, {"id": 8, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "deposit_detected", "a": "deposit_confirmed", "motivo": "business prerequisites met", "actor_id": "729f3ba5-b607-460c-b59a-a3831515cb1a", "ts": "2026-10-07T13:07:19.223Z"}, {"id": 9, "intencion_id": "23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d", "de": "deposit_confirmed", "a": "payment_pending", "motivo": "balance payment order signed", "actor_id": "4b6728e1-a298-4c5b-890f-94a17d650c53", "ts": "2026-10-07T13:08:23.972Z"}], "kyc_estado": "approved", "etiqueta_portfolio": "Purchase in progress", "estado_registro": "none"}}, "/purchases/23a427ae-91bf-4bdb-b5dc-4f11e20d3e3d/kyc": {"s": 200, "b": {"estado": "approved", "excepcion": null, "decision_por": null}}}, "amenidades": {"7d2251f3-c5d9-456a-9e1f-9e27eab056e0": ["gym", "parking", "pool"], "975879ca-f4d3-44e7-a0f8-ff7a4b645415": ["gym", "pool"], "0d8495f6-ff3c-4819-909d-fa2f5f1da609": ["community_hall", "pool"], "31b702d6-6636-47ff-a125-70517af72a35": ["pool", "sea_view"], "ac55cb1c-7df8-41f4-830f-dbc3c417d3d0": ["garden", "pool", "sea_view", "security_24h"], "5ca70d05-27b1-4ccb-9f99-c26aeaa7f3ee": ["parking"], "82f33a93-a391-4b9d-867c-807845e474ee": ["lift", "parking"]}};
-DEMO.favs = new Set();                 // JSON cannot carry a Set, and the app expects one
+DEMO.favs = new Set();
 const Aviso = class extends Error {
   constructor(m) { super(m); this.status = 409; this.codigo = 'solo_plataforma_viva'; }
 };
@@ -357,7 +400,6 @@ window.fetch = async (url, opciones = {}) => {
   const path = rutaDemo(url);
   const q = new URLSearchParams(String(url).split('?')[1] ?? '');
   const r = DEMO.rutas;
-
   if (metodo === 'GET' && path === '/catalog/search') {
     const filtrados = filtrar(r['/catalog/search'].b.resultados, q);
     const desde = Number(q.get('offset') ?? 0);
@@ -388,8 +430,7 @@ window.fetch = async (url, opciones = {}) => {
   }
   throw new Aviso('Offline demo: this action needs the live platform.');
 };
-// The demo opens with the buyer's session already in place: the account area is what has to be seen,
-// and there is nobody to sign in against without a server.
+// The preview opens with the buyer's session in place: the account area is what has to be seen.
 try {
   localStorage.setItem('blockestate.session', JSON.stringify({
     sesion: 'demo-offline', usuario: DEMO.sesion.usuario, rol: 'comprador',
@@ -398,7 +439,7 @@ try {
 } catch (e) { /* a browser that blocks storage still shows the catalogue */ }
 window.__DEMO__ = DEMO;
 
-const view = () => document.getElementById('view');  // hoisted: four files declare the same one
+const view = () => document.getElementById('view');  // hoisted: several files declare it
 
 /* ===== js/config.js ===== */
 /**
@@ -678,38 +719,40 @@ const tipoLabel = (v) => label(TIPOS, v);
 const obraLabel = (v) => label(ESTADOS_OBRA, v);
 const amenLabel = (v) => label(AMENIDADES, v);
 
+/** The data row of a card: three figures, nothing else. */
 function specs(r) {
   const out = [];
   if (r.habitaciones) out.push(`${r.habitaciones} bed`);
   if (r.banos) out.push(`${r.banos} bath`);
   if (r.superficie_sqft) out.push(`${Number(r.superficie_sqft).toLocaleString('en-US')} sqft`);
-  out.push(obraLabel(r.estado_obra));
-  if (r.amueblado) out.push('Furnished');
   return out.map((s) => `<span>${esc(s)}</span>`).join('');
 }
 
-/** A listing card, exactly what the search returns. */
+/** A listing card: price first, then what it is, then the figures and where it is. */
 function card(r) {
   const fav = store.logged() && store.isFav(r.unidad_id);
+  const enlace = `#/unit/${esc(r.unidad_id)}`;
   return `
   <article class="card">
-    <a class="photo" href="#/unit/${esc(r.unidad_id)}" aria-label="${esc(r.titulo)}">
-      ${photoInner(r.foto_principal, r.tipo)}
+    <div class="photo">
+      <a href="${enlace}" aria-label="${esc(r.titulo)}">${photoInner(r.foto_principal, r.tipo)}</a>
       <span class="tags">
-        ${r.distintivo?.promocionado ? `<span class="tag coin">${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
         ${r.distintivo?.badge_alcance ? '<span class="tag green">Verified</span>' : ''}
+        ${r.distintivo?.promocionado ? `<span class="tag coin">${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
       </span>
-    </a>
-    <div class="card-body">
+      <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
+        title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
+        aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
+    </div>
+    <div class="body">
       <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
-      <h3><a href="#/unit/${esc(r.unidad_id)}">${esc(r.titulo)}</a></h3>
+      <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
+      <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
-      <p class="muted" style="margin:.2rem 0 0;font-size:.85rem">${esc(r.zona ?? '')}${r.zona ? ' · ' : ''}${esc(r.emirato)}</p>
-      <div class="card-foot">
+      <div class="zona">${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
+      <div class="foot">
         <span class="dev">${esc(r.desarrollador?.nombre ?? '')}</span>
-        <button class="fav${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}"
-          title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
-          aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
+        <a class="btn ghost sm" href="${enlace}">View</a>
       </div>
     </div>
   </article>`;
@@ -813,7 +856,8 @@ function render() {
 }
 
 /* ===== js/views/catalog.js ===== */
-/** The catalogue: the front page and the search with its filters. */
+/** The catalogue: the front page and the search. */
+
 
 
 
@@ -823,39 +867,61 @@ function render() {
 const opciones = (mapa, seleccion) => Object.entries(mapa)
   .map(([k, v]) => `<option value="${esc(k)}"${seleccion === k ? ' selected' : ''}>${esc(v)}</option>`)
   .join('');
+const lista = (resultados) => `<div class="list">${resultados.map(card).join('')}</div>`;
 
-function grid(resultados) {
-  return `<div class="grid">${resultados.map(card).join('')}</div>`;
-}
+/** The price ranges, as short bands instead of two boxes: one decision, one click. */
+const BANDAS = [
+  ['', 'Any'], ['0-1000000', 'Up to 1M'], ['1000000-2000000', '1M to 2M'],
+  ['2000000-5000000', '2M to 5M'], ['5000000-10000000', '5M to 10M'], ['10000000-', '10M and up'],
+];
+const bandaElegida = (min, max) => {
+  const v = `${min}-${max}`;
+  return BANDAS.some(([k]) => k === v) ? v : '';
+};
 
 /* ------------------------------------------------------------------ front page */
 
 async function viewCatalog() {
   view().innerHTML = `
     <section class="hero">
-      <div class="lab"><span>Buy property in the UAE</span><span class="dash"></span></div>
-      <h1>Verified property,<br>paid in crypto</h1>
-      <p class="lead">Apartments, villas and offices from licensed developers, verified before they are
-        listed. The buyer pays in crypto; the developer is paid in dirhams; the title is registered with
-        the Dubai Land Department in the buyer's name.</p>
-      <ul class="steps">
-        <li><b>1</b> Find a verified property</li>
-        <li><b>2</b> Reserve it for 14 days</li>
-        <li><b>3</b> Identity checked by hand</li>
-        <li><b>4</b> Pay in crypto</li>
-        <li><b>5</b> Title in your name</li>
-      </ul>
-      <form class="searchbar" id="buscador">
-        <input type="search" name="q" placeholder="Area, project or type of property" aria-label="Search the catalogue">
-        <button class="btn green" type="submit">Search</button>
-      </form>
-      <p class="muted" style="font-size:.85rem">Or browse by
-        <a href="#/search?tipo=apartment">apartments</a>,
-        <a href="#/search?tipo=villa">villas</a>,
-        <a href="#/search?orden=precio_asc">cheapest first</a>.</p>
+      <div class="wrap inner">
+        <div class="eyebrow">Buy property in the UAE</div>
+        <h1>Verified property,<br>paid in crypto</h1>
+        <p>Apartments, villas and offices from licensed developers, verified before they are listed.
+          You pay in crypto, the developer is paid in dirhams, and the title is registered in your name.</p>
+        <form class="hero-search" id="buscador">
+          <input type="search" name="q" placeholder="Area, project or type of property" aria-label="Search the catalogue">
+          <button class="btn green" type="submit">Search</button>
+        </form>
+        <ul class="trust">
+          <li>Verified before listing</li>
+          <li>Reserve for 14 days</li>
+          <li>Identity checked by hand</li>
+        </ul>
+      </div>
     </section>
-    <div id="destacados">${loading(3)}</div>
-    <div id="recientes">${loading(3)}</div>
+
+    <div class="wrap">
+      <div class="emi">
+        <div class="emi-grid">
+          ${EMIRATOS.map((e) => `<a href="#/search?emirato=${encodeURIComponent(e)}">
+            <span>${esc(e)}</span><small>properties</small></a>`).join('')}
+        </div>
+      </div>
+
+      <nav class="tabs" aria-label="What we sell">
+        <a class="on" href="#/search">All</a>
+        <a href="#/search?tipo=apartment">Apartments</a>
+        <a href="#/search?tipo=villa">Villas</a>
+        <a href="#/search?tipo=office">Offices</a>
+        <a href="#/search?tipo=retail">Retail</a>
+        <a href="#/search?estado_obra=off_plan">Off plan</a>
+      </nav>
+
+      <div id="destacados"></div>
+      <div id="recientes"></div>
+      <div id="proyectos"></div>
+    </div>
   `;
 
   view().querySelector('#buscador').addEventListener('submit', (e) => {
@@ -865,20 +931,29 @@ async function viewCatalog() {
   });
 
   try {
-    const proms = await Promise.all([
-      api.search({ solo_promocionados: true, limit: 3 }),
+    const [prom, rec, proys] = await Promise.all([
+      api.search({ solo_promocionados: true, limit: 2 }),
       api.search({ limit: 6, orden: 'destacados' }),
+      api.projects(),
     ]);
-    const [prom, rec] = proms;
+
     view().querySelector('#destacados').innerHTML = prom.resultados.length
-      ? `<div class="result-head"><div><div class="lab"><span>Promoted</span><span class="dash"></span></div>
-         <h2>Paid position, always marked</h2></div></div>${grid(prom.resultados)}`
+      ? `<div class="sec-head"><h2>Promoted</h2>
+           <span class="muted" style="font-size:.85rem">Paid position, always marked</span></div>
+         ${lista(prom.resultados)}`
       : '';
+
     view().querySelector('#recientes').innerHTML = rec.resultados.length
-      ? `<div class="result-head" style="margin-top:34px"><div><div class="lab"><span>Catalogue</span><span class="dash"></span></div>
-         <h2>What is available now</h2></div>
-         <a class="btn ghost sm" href="#/search">See all ${rec.total}</a></div>${grid(rec.resultados)}`
+      ? `<div class="sec-head"><h2>Available now</h2>
+           <a class="link-btn" href="#/search">See all ${rec.total}</a></div>${lista(rec.resultados)}`
       : empty('Nothing published yet', 'As soon as a developer publishes verified property, it shows here.');
+
+    view().querySelector('#proyectos').innerHTML = proys.proyectos?.length
+      ? `<div class="sec-head"><h2>By development</h2></div>
+         <div class="emi-grid">${proys.proyectos.slice(0, 4).map((p) => `
+           <a href="#/project/${esc(p.id)}"><span>${esc(p.nombre)}</span>
+             <small>${esc(p.comunidad ?? p.ciudad)}</small></a>`).join('')}</div>`
+      : '';
   } catch (err) {
     error('#recientes', err);
   }
@@ -889,14 +964,12 @@ async function viewCatalog() {
 const filtrosDe = (query) => ({
   q: query.get('q') ?? '',
   emirato: query.get('emirato') ?? '',
-  comunidad: query.get('comunidad') ?? '',
   tipo: query.get('tipo') ?? '',
-  habitaciones_min: query.get('habitaciones_min') ?? '',
+  banda: bandaElegida(query.get('precio_min') ?? '', query.get('precio_max') ?? ''),
+  hab: query.get('habitaciones_min') ?? '',
   banos_min: query.get('banos_min') ?? '',
   superficie_min: query.get('superficie_min') ?? '',
   superficie_max: query.get('superficie_max') ?? '',
-  precio_min: query.get('precio_min') ?? '',
-  precio_max: query.get('precio_max') ?? '',
   estado_obra: query.get('estado_obra') ?? '',
   amueblado: query.get('amueblado') ?? '',
   amenidades: (query.get('amenidades') ?? '').split(',').filter(Boolean),
@@ -906,109 +979,185 @@ const filtrosDe = (query) => ({
 let offset = 0;
 let total = 0;
 let ultimos = [];
+let filtrosActuales = {};
 
 async function viewSearch(query) {
   offset = 0;
   const f = filtrosDe(query);
 
   view().innerHTML = `
-    <div class="lab"><span>Search</span><span class="dash"></span></div>
-    <div class="result-head">
-      <h1 style="font-size:clamp(1.5rem,3.4vw,2.2rem)">Properties</h1>
-    </div>
-    <form class="filters" id="filtros">
-      <div style="grid-column:1/-1">
-        <label for="f-q">Search</label>
-        <input id="f-q" name="q" type="search" value="${esc(f.q)}" placeholder="Area, project or type of property">
-      </div>
-      <div>
-        <label for="f-emirato">Emirate</label>
-        <select id="f-emirato" name="emirato"><option value="">Any</option>
-          ${EMIRATOS.map((e) => `<option value="${esc(e)}"${f.emirato === e ? ' selected' : ''}>${esc(e)}</option>`).join('')}
-        </select>
-      </div>
-      <div>
-        <label for="f-tipo">Type</label>
-        <select id="f-tipo" name="tipo"><option value="">Any</option>${opciones(TIPOS, f.tipo)}</select>
-      </div>
-      <div>
-        <label for="f-obra">Build status</label>
-        <select id="f-obra" name="estado_obra"><option value="">Any</option>${opciones(ESTADOS_OBRA, f.estado_obra)}</select>
-      </div>
-      <div class="row">
-        <div style="flex:1"><label for="f-hab">Beds from</label>
-          <input id="f-hab" name="habitaciones_min" type="number" min="0" value="${esc(f.habitaciones_min)}"></div>
-        <div style="flex:1"><label for="f-ban">Baths from</label>
-          <input id="f-ban" name="banos_min" type="number" min="0" value="${esc(f.banos_min)}"></div>
-      </div>
-      <div class="row">
-        <div style="flex:1"><label for="f-smin">Size from (sqft)</label>
-          <input id="f-smin" name="superficie_min" type="number" min="0" value="${esc(f.superficie_min)}"></div>
-        <div style="flex:1"><label for="f-smax">to</label>
-          <input id="f-smax" name="superficie_max" type="number" min="0" value="${esc(f.superficie_max)}"></div>
-      </div>
-      <div class="row">
-        <div style="flex:1"><label for="f-pmin">Price from (AED)</label>
-          <input id="f-pmin" name="precio_min" type="number" min="0" step="1000" value="${esc(f.precio_min)}"></div>
-        <div style="flex:1"><label for="f-pmax">to</label>
-          <input id="f-pmax" name="precio_max" type="number" min="0" step="1000" value="${esc(f.precio_max)}"></div>
-      </div>
-      <div>
-        <label for="f-mob">Furnishing</label>
-        <select id="f-mob" name="amueblado"><option value="">Any</option>
-          <option value="true"${f.amueblado === 'true' ? ' selected' : ''}>Furnished</option>
-          <option value="false"${f.amueblado === 'false' ? ' selected' : ''}>Unfurnished</option>
-        </select>
-      </div>
-      <div>
-        <label for="f-orden">Order</label>
-        <select id="f-orden" name="orden"><option value="">Relevance</option>
-          <option value="precio_asc"${f.orden === 'precio_asc' ? ' selected' : ''}>Price, low to high</option>
-          <option value="precio_desc"${f.orden === 'precio_desc' ? ' selected' : ''}>Price, high to low</option>
-          <option value="destacados"${f.orden === 'destacados' ? ' selected' : ''}>Highlighted first</option>
-        </select>
-      </div>
-      <div style="grid-column:1/-1">
-        <label>Amenities</label>
-        <div class="chips" id="chips">
-          ${Object.entries(AMENIDADES).map(([k, v]) => `<button type="button" class="chip${f.amenidades.includes(k) ? ' on' : ''}" data-amen="${esc(k)}">${esc(v)}</button>`).join('')}
+    <div class="wrap">
+      <div class="controls">
+        <div class="control">
+          <label for="c-emirato">Location</label>
+          <select id="c-emirato" name="emirato">
+            <option value="">All emirates</option>
+            ${EMIRATOS.map((e) => `<option value="${esc(e)}"${f.emirato === e ? ' selected' : ''}>${esc(e)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="control">
+          <label for="c-tipo">Type</label>
+          <select id="c-tipo" name="tipo"><option value="">Any type</option>${opciones(TIPOS, f.tipo)}</select>
+        </div>
+        <div class="control">
+          <label for="c-banda">Price</label>
+          <select id="c-banda" name="banda">
+            ${BANDAS.map(([k, v]) => `<option value="${esc(k)}"${f.banda === k ? ' selected' : ''}>${esc(v)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="control">
+          <label for="c-hab">Bedrooms</label>
+          <select id="c-hab" name="hab">
+            <option value="">Any</option>
+            ${[1, 2, 3, 4, 5].map((n) => `<option value="${n}"${f.hab === String(n) ? ' selected' : ''}>${n}+</option>`).join('')}
+          </select>
+        </div>
+        <div class="control ancho" style="align-self:flex-start">
+          <label>&nbsp;</label>
+          <button class="btn ghost" id="mas-filtros" type="button" style="width:100%">Filters</button>
+          <span class="sub">Baths · size · furnishing · amenities</span>
         </div>
       </div>
-      <div class="filters-actions" style="grid-column:1/-1">
-        <button class="btn" type="submit">Apply filters</button>
-        <button class="btn ghost" type="button" id="limpiar">Clear</button>
+
+      <div id="chips-activos" class="chips"></div>
+
+      <div class="result-bar">
+        <span class="count" id="cuenta">Searching…</span>
+        <span class="tools">
+          <button class="link-btn" id="limpiar" type="button">Clear filters</button>
+          <span class="muted" style="font-size:.88rem">Sort
+            <select id="orden" style="width:auto;min-height:38px;padding:.3rem .5rem;display:inline-block;margin-left:.3rem">
+              <option value="">Highlighted</option>
+              <option value="precio_asc"${f.orden === 'precio_asc' ? ' selected' : ''}>Price, low to high</option>
+              <option value="precio_desc"${f.orden === 'precio_desc' ? ' selected' : ''}>Price, high to low</option>
+            </select>
+          </span>
+          <button class="link-btn" id="guardar" type="button">Save search</button>
+        </span>
       </div>
-    </form>
-    <div id="resultados">${loading()}</div>
+
+      <div id="resultados">${loading(4)}</div>
+    </div>
+
+    <div class="veil" id="veil" hidden></div>
+    <div class="sheet" id="hoja" hidden role="dialog" aria-label="More filters" aria-modal="true">
+      <div class="sheet-head">
+        <b>More filters</b>
+        <button class="close" id="cerrar-hoja" type="button" aria-label="Close">×</button>
+      </div>
+      <div class="fields">
+        <div><label for="s-banos">Baths from</label>
+          <input id="s-banos" name="banos_min" type="number" min="0" value="${esc(f.banos_min)}"></div>
+        <div><label for="s-obra">Build status</label>
+          <select id="s-obra" name="estado_obra"><option value="">Any</option>${opciones(ESTADOS_OBRA, f.estado_obra)}</select></div>
+        <div><label for="s-smin">Size from (sqft)</label>
+          <input id="s-smin" name="superficie_min" type="number" min="0" value="${esc(f.superficie_min)}"></div>
+        <div><label for="s-smax">Size to (sqft)</label>
+          <input id="s-smax" name="superficie_max" type="number" min="0" value="${esc(f.superficie_max)}"></div>
+        <div><label for="s-mob">Furnishing</label>
+          <select id="s-mob" name="amueblado"><option value="">Any</option>
+            <option value="true"${f.amueblado === 'true' ? ' selected' : ''}>Furnished</option>
+            <option value="false"${f.amueblado === 'false' ? ' selected' : ''}>Unfurnished</option>
+          </select></div>
+        <div><label for="s-q">Keyword</label>
+          <input id="s-q" name="q" type="search" value="${esc(f.q)}" placeholder="Project or area"></div>
+        <div class="full"><label>Amenities</label>
+          <div class="chips" id="chips">
+            ${Object.entries(AMENIDADES).map(([k, v]) => `<button type="button" class="chip${f.amenidades.includes(k) ? ' on' : ''}" data-amen="${esc(k)}">${esc(v)}</button>`).join('')}
+          </div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="btn green" id="aplicar" type="button" style="flex:1">Show results</button>
+        <button class="btn ghost" id="limpiar-hoja" type="button">Clear</button>
+      </div>
+    </div>
   `;
 
+  const hoja = view().querySelector('#hoja');
+  const veil = view().querySelector('#veil');
+  const abrir = () => { hoja.hidden = false; veil.hidden = false; };
+  const cerrar = () => { hoja.hidden = true; veil.hidden = true; };
+  view().querySelector('#mas-filtros').addEventListener('click', abrir);
+  view().querySelector('#cerrar-hoja').addEventListener('click', cerrar);
+  veil.addEventListener('click', cerrar);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrar(); });
   view().querySelector('#chips').addEventListener('click', (e) => {
     const c = e.target.closest?.('[data-amen]');
     if (c) c.classList.toggle('on');
   });
-  view().querySelector('#limpiar').addEventListener('click', () => go('/search'));
-  view().querySelector('#filtros').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const d = new FormData(e.target);
+
+  const construir = () => {
     const p = new URLSearchParams();
-    for (const [k, v] of d.entries()) if (String(v).trim() !== '') p.set(k, String(v).trim());
-    const amens = [...view().querySelectorAll('.chip.on')].map((c) => c.dataset.amen);
+    const leer = (sel) => view().querySelector(sel)?.value.trim() ?? '';
+    const emirato = leer('#c-emirato');
+    const tipo = leer('#c-tipo');
+    const banda = leer('#c-banda');
+    const hab = leer('#c-hab');
+    const banos = leer('#s-banos');
+    const sMin = leer('#s-smin');
+    const sMax = leer('#s-smax');
+    const obra = leer('#s-obra');
+    const mob = leer('#s-mob');
+    const q = leer('#s-q');
+    const orden = leer('#orden');
+    if (q) p.set('q', q);
+    if (emirato) p.set('emirato', emirato);
+    if (tipo) p.set('tipo', tipo);
+    if (banda) {
+      const [min, max] = banda.split('-');
+      if (min) p.set('precio_min', min);
+      if (max) p.set('precio_max', max);
+    }
+    if (hab) p.set('habitaciones_min', hab);
+    if (banos) p.set('banos_min', banos);
+    if (sMin) p.set('superficie_min', sMin);
+    if (sMax) p.set('superficie_max', sMax);
+    if (obra) p.set('estado_obra', obra);
+    if (mob) p.set('amueblado', mob);
+    if (orden) p.set('orden', orden);
+    const amens = [...view().querySelectorAll('#chips .chip.on')].map((c) => c.dataset.amen);
     if (amens.length) p.set('amenidades', amens.join(','));
-    go(`/search${p.toString() ? `?${p}` : ''}`);
+    return p;
+  };
+
+  const aplicar = (p) => go(`/search${p.toString() ? `?${p}` : ''}`);
+  for (const sel of ['#c-emirato', '#c-tipo', '#c-banda', '#c-hab', '#orden']) {
+    view().querySelector(sel).addEventListener('change', () => aplicar(construir()));
+  }
+  view().querySelector('#aplicar').addEventListener('click', () => { cerrar(); aplicar(construir()); });
+  view().querySelector('#limpiar').addEventListener('click', () => go('/search'));
+  view().querySelector('#limpiar-hoja').addEventListener('click', () => go('/search'));
+  view().querySelector('#guardar').addEventListener('click', async () => {
+    if (!store.logged()) { toast('Sign in to save a search.'); go('/login'); return; }
+    const p = construir();
+    const nombre = [p.get('tipo') ?? 'Properties', p.get('emirato') ?? 'UAE'].join(' · ');
+    try {
+      await api.savedSearch(nombre, Object.fromEntries(p.entries()));
+      toast('Search saved. Alerts arrive in a later release.', 'ok');
+    } catch (err) { toast(err.message, 'err'); }
   });
 
-  const filtros = {
-    ...f,
+  // the active filters, as chips the buyer can drop one by one
+  const activos = [
+    f.emirato && ['emirato', f.emirato], f.tipo && ['tipo', opciones(TIPOS, f.tipo).match(/>([^<]+)</)?.[1] ?? f.tipo],
+    f.hab && ['habitaciones_min', `${f.hab}+ beds`], f.estado_obra && ['estado_obra', f.estado_obra === 'ready' ? 'Ready' : 'Off plan'],
+    ...f.amenidades.map((a) => ['amenidades', AMENIDADES[a] ?? a]),
+  ].filter(Boolean);
+  view().querySelector('#chips-activos').innerHTML = activos.length
+    ? activos.map(([, t]) => `<span class="chip on">${esc(t)}</span>`).join('')
+    : '';
+
+  const { banda, hab, ...resto } = f;
+  filtrosActuales = {
+    ...resto,
     q: f.q || undefined,
     emirato: f.emirato || undefined,
     tipo: f.tipo || undefined,
     estado_obra: f.estado_obra || undefined,
-    habitaciones_min: f.habitaciones_min || undefined,
+    habitaciones_min: f.hab || undefined,
     banos_min: f.banos_min || undefined,
     superficie_min: f.superficie_min || undefined,
     superficie_max: f.superficie_max || undefined,
-    precio_min: f.precio_min || undefined,
-    precio_max: f.precio_max || undefined,
     amueblado: f.amueblado || undefined,
     amenidades: f.amenidades.length ? f.amenidades : undefined,
     orden: f.orden || undefined,
@@ -1017,37 +1166,42 @@ async function viewSearch(query) {
   };
 
   try {
-    const r = await api.search(filtros);
+    const r = await api.search(filtrosActuales);
     total = r.total;
     ultimos = r.resultados;
-    view().querySelector('#resultados').innerHTML = total === 0
-      ? empty('Nothing matches', 'Try a wider price range or another emirate.')
-      : `<div class="result-head"><p class="muted" style="margin:0">${total} propert${total === 1 ? 'y' : 'ies'}</p>
-         <span class="muted" style="font-size:.85rem">Prices are the contract price in dirhams.</span></div>
-         ${grid(ultimos)}
-         ${total > PAGE ? '<div style="text-align:center;margin-top:20px"><button class="btn ghost" id="mas">Show more</button></div>' : ''}`;
-    view().querySelector('#mas')?.addEventListener('click', cargarMas(filtros));
+    pintar();
   } catch (err) {
     error('#resultados', err);
   }
 }
 
-function cargarMas(filtros) {
-  return async (e) => {
-    const boton = e.currentTarget;
-    boton.disabled = true;
-    try {
-      offset += PAGE;
-      const r = await api.search({ ...filtros, offset });
-      ultimos = ultimos.concat(r.resultados);
-      view().querySelector('.grid').innerHTML = ultimos.map(card).join('');
-      if (ultimos.length >= total) boton.remove();
-      else boton.disabled = false;
-    } catch (err) {
-      boton.disabled = false;
-      error('#resultados', err);
-    }
-  };
+function pintar() {
+  const cuenta = view().querySelector('#cuenta');
+  const caja = view().querySelector('#resultados');
+  if (!cuenta || !caja) return;
+  if (total === 0) {
+    cuenta.textContent = 'No properties';
+    caja.innerHTML = empty('Nothing matches', 'Try a wider price band or another emirate.');
+    return;
+  }
+  cuenta.textContent = `1 – ${ultimos.length} of ${total} ${total === 1 ? 'property' : 'properties'}`;
+  caja.innerHTML = `${lista(ultimos)}
+    ${ultimos.length < total ? '<div style="text-align:center;margin-top:20px"><button class="btn ghost" id="mas">Show more</button></div>' : ''}`;
+  caja.querySelector('#mas')?.addEventListener('click', cargarMas);
+}
+
+async function cargarMas(e) {
+  const boton = e.currentTarget;
+  boton.disabled = true;
+  try {
+    offset += PAGE;
+    const r = await api.search({ ...filtrosActuales, offset });
+    ultimos = ultimos.concat(r.resultados);
+    pintar();
+  } catch (err) {
+    boton.disabled = false;
+    error('#resultados', err);
+  }
 }
 
 /* ===== js/views/me.js ===== */
@@ -1186,7 +1340,7 @@ async function viewFavorites() {
     view().querySelector('#lista').innerHTML = r.total === 0
       ? empty('No favourites yet', 'Save what interests you and come back to it later.',
           '<p style="margin-top:12px"><a class="btn green" href="#/search">Browse properties</a></p>')
-      : `<div class="grid">${r.unidades.map(card).join('')}</div>`;
+      : `<div class="list">${r.unidades.map(card).join('')}</div>`;
   } catch (err) {
     error('#lista', err);
   }
@@ -1624,14 +1778,22 @@ async function viewProject(id) {
       ${proyecto.descripcion ? `<p>${esc(proyecto.descripcion)}</p>` : ''}
       <p class="muted" style="font-size:.85rem">${unidades.length} propert${unidades.length === 1 ? 'y' : 'ies'} published.</p>
       ${unidades.length
-        ? `<div class="grid">${unidades.map((u) => `
+        ? `<div class="list">${unidades.map((u) => `
             <article class="card">
-              <a class="photo" href="#/unit/${esc(u.id)}">${photoInner(null, u.tipo)}
-                <span class="tags"><span class="tag">${esc(obraLabel(u.estado_obra))}</span></span></a>
-              <div class="card-body">
+              <div class="photo">
+                <a href="#/unit/${esc(u.id)}" aria-label="${esc(tipoLabel(u.tipo))}">${photoInner(null, u.tipo)}</a>
+                <span class="tags"><span class="tag">${esc(obraLabel(u.estado_obra))}</span></span>
+              </div>
+              <div class="body">
                 <div class="price">${esc(money(u.precio_fils))}</div>
+                <div class="tipo">${esc(tipoLabel(u.tipo))}</div>
                 <h3><a href="#/unit/${esc(u.id)}">${esc(tipoLabel(u.tipo))} in ${esc(u.comunidad ?? u.emirato)}</a></h3>
                 <div class="specs">${specs(u)}</div>
+                <div class="zona">${esc(u.comunidad ?? u.emirato)}, ${esc(u.emirato)}</div>
+                <div class="foot">
+                  <span class="dev"></span>
+                  <a class="btn ghost sm" href="#/unit/${esc(u.id)}">View</a>
+                </div>
               </div>
             </article>`).join('')}</div>`
         : empty('Nothing published in this project', 'The developer has not listed a unit here yet.')}
@@ -1645,8 +1807,9 @@ async function viewProject(id) {
 /**
  * BlockEstate · the buyer marketplace (PWA).
  *
- * Wires the navigation, the routes and the few global behaviours. Everything the buyer sees comes
- * from the API: this file only decides where each thing goes.
+ * Wires the bar, the routes and the few global behaviours. Everything the buyer sees comes from the
+ * API: this file only decides where each thing goes. The bar carries the mark, a search and the
+ * account — nothing else, because everything else is reachable from the account menu.
  */
 
 
@@ -1657,31 +1820,72 @@ async function viewProject(id) {
 
 
 
-const nav = () => document.getElementById('nav');
+const barra = () => document.getElementById('barra');
 
-/** The bar changes with the session: nothing of the buyer's is shown to someone who is not one. */
-function renderNav() {
-  const el = nav();
+/** The bar: the mark, a search, and one button that opens everything of the buyer's. */
+function renderBarra() {
+  const el = barra();
   if (!el) return;
   const logged = store.logged();
-  const quien = store.usuario();
   const favs = store.favs.size;
   const alertas = store.sin_leer ?? 0;
+
   el.innerHTML = `
-    <a href="#/" data-nav="home">Explore</a>
-    ${logged
-      ? `<a href="#/favorites" data-nav="fav"><span class="lg">Favourites</span><span class="sm2">Saved</span>${favs ? `<span class="badge-count">${favs}</span>` : ''}</a>
-         <a href="#/portfolio" data-nav="portfolio"><span class="lg">My purchases</span><span class="sm2">Purchases</span></a>
-         <a href="#/notifications" data-nav="notif"><span class="lg">Alerts</span><span class="sm2">Alerts</span>${alertas ? `<span class="badge-count">${alertas}</span>` : ''}</a>
-         <span class="who">${esc(quien?.nombre ?? '')}</span>
-         <button class="btn ghost sm" id="salir">Sign out</button>`
-      : `<a href="#/login" data-nav="login">Sign in</a>
-         <a class="pill" href="#/register" data-nav="register"><span class="lg">Create account</span><span class="sm2">Sign up</span></a>`}
+    <a class="brand" href="#/" aria-label="BlockEstate, home">
+      <svg class="mark" viewBox="0 0 256 256" role="img" aria-hidden="true"><use href="#logo"/></svg>
+      <span>BlockEstate</span>
+    </a>
+    <form class="bar-search" id="barra-buscar" role="search">
+      <input type="search" name="q" placeholder="Search area, project or type" aria-label="Search the catalogue">
+    </form>
+    <div class="bar-actions">
+      ${logged ? `
+        <a class="icon-btn${favs ? ' on' : ''}" href="#/favorites" title="Saved" aria-label="Saved">
+          ♥${favs ? `<span class="badge-count">${favs}</span>` : ''}</a>
+        <a class="icon-btn${alertas ? ' on' : ''}" href="#/notifications" title="Alerts" aria-label="Alerts">
+          ◔${alertas ? `<span class="badge-count">${alertas}</span>` : ''}</a>` : ''}
+      <button class="icon-btn" id="cuenta" type="button" aria-haspopup="true" aria-expanded="false"
+        title="Account" aria-label="Account">☰</button>
+    </div>
+    <div class="menu" id="menu-cuenta" hidden>
+      ${logged ? `
+        <span class="who" style="display:block;padding:.5rem .7rem">${esc(store.usuario()?.nombre ?? '')}</span>
+        <hr>
+        <a href="#/portfolio">My purchases</a>
+        <a href="#/favorites">Saved properties</a>
+        <a href="#/notifications">Alerts</a>
+        <hr>
+        <button id="salir" type="button">Sign out</button>`
+      : `<a href="#/login">Sign in</a>
+         <a href="#/register">Create account</a>`}
+    </div>
   `;
+
+  const menu = el.querySelector('#menu-cuenta');
+  const boton = el.querySelector('#cuenta');
+  boton.addEventListener('click', () => {
+    menu.hidden = !menu.hidden;
+    boton.setAttribute('aria-expanded', String(!menu.hidden));
+  });
+  // Anywhere else closes it: the menu must not stay open behind the buyer's back.
+  document.addEventListener('click', (e) => {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== boton) {
+      menu.hidden = true;
+      boton.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   el.querySelector('#salir')?.addEventListener('click', () => {
     store.clear();
+    menu.hidden = true;
     toast('Signed out.');
     go('/');
+  });
+
+  el.querySelector('#barra-buscar')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = e.target.q.value.trim();
+    go(`/search${q ? `?q=${encodeURIComponent(q)}` : ''}`);
   });
 }
 
@@ -1712,7 +1916,7 @@ document.addEventListener('click', async (e) => {
       boton.textContent = '★';
       toast('Saved to favourites.');
     }
-    renderNav();
+    renderBarra();
   } catch (err) {
     // A unit that leaves the catalogue cannot be saved: the API says so and we repeat it as is.
     toast(err.message, 'err');
@@ -1735,8 +1939,8 @@ notFound(() => {
   view().innerHTML = empty('Page not found', 'The link does not exist. Start from the catalogue.');
 });
 
-store.onChange(() => renderNav());
-renderNav();
+store.onChange(() => renderBarra());
+renderBarra();
 
 // The session is validated against the API before anything of the buyer's is shown.
 if (store.logged()) {
@@ -1745,7 +1949,7 @@ if (store.logged()) {
       const n = await api.notifications({ solo_no_leidas: true, limite: 1 });
       store.save({ sin_leer: n.sin_leer ?? n.total ?? 0 });
     } catch { /* the counter is a nicety, not the page */ }
-    renderNav();
+    renderBarra();
     if (!location.hash) go('/');
   });
 }
