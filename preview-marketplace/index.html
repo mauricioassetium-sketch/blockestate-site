@@ -216,13 +216,15 @@ p{margin:.6rem 0}
   font-weight:700; text-transform:uppercase}
 .pop-group:first-of-type{margin-top:.25rem}
 .pop-sep{border:0; border-top:1px solid var(--line); margin:.5rem .3rem}
-/* several values: a tick box on each row, and the footer that counts and applies */
-.popover[data-multi="1"] .pop-opt::after{content:""; flex:none; width:18px; height:18px;
-  border-radius:.35rem; border:1.5px solid var(--line-2); background:var(--white)}
-.popover[data-multi="1"] .pop-opt.on::after{border-color:var(--green);
-  background:linear-gradient(135deg,var(--green),var(--green-deep))
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
-    center/13px no-repeat}
+/* several values: round chips — a figure is a circle, a word a pill — and the footer that counts */
+.pop-chips{display:flex; flex-wrap:wrap; gap:8px; padding:.15rem .55rem .5rem}
+.pop-chip{min-width:46px; min-height:46px; padding:.2rem .7rem; border-radius:999px;
+  border:1px solid var(--line-2); background:var(--white); font-weight:700; font-size:.9rem;
+  letter-spacing:-.01em; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease}
+.pop-chip:hover{border-color:var(--ink-30); transform:translateY(-1px)}
+.pop-chip.on{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff;
+  border-color:var(--green); box-shadow:var(--shadow-green)}
 .pop-more{display:block; margin:.15rem .7rem .4rem; background:none; border:0; cursor:pointer;
   color:var(--green-deep); font-weight:700; font-size:.85rem; padding:.45rem 0; min-height:44px}
 .pop-more:hover{text-decoration:underline}
@@ -540,6 +542,8 @@ const filtrar = (lista, q) => {
   const habs = (g('habitaciones') ?? '').split(',').filter(Boolean);
   if (habs.length) out = out.filter((r) => habs.includes(String(r.habitaciones ?? 0)));
   if (g('banos_min')) out = out.filter((r) => (r.banos ?? 0) >= Number(g('banos_min')));
+  const banos = (g('banos') ?? '').split(',').filter(Boolean);
+  if (banos.length) out = out.filter((r) => banos.includes(String(r.banos ?? 0)));
   if (g('superficie_min')) out = out.filter((r) => (r.superficie_sqft ?? 0) >= Number(g('superficie_min')));
   if (g('superficie_max')) out = out.filter((r) => (r.superficie_sqft ?? 0) <= Number(g('superficie_max')));
   if (g('precio_min')) out = out.filter((r) => r.precio_fils >= Number(g('precio_min')) * 100);
@@ -980,16 +984,28 @@ function picker(id, {
   const marca = '<b aria-hidden="true">✓</b>';
   const fila = (o) => `
     <button class="pop-opt${elegidas.includes(o.valor) ? ' on' : ''}" type="button"
-      data-pick="${esc(id)}" data-val="${esc(o.valor)}" role="${multiple ? 'checkbox' : 'radio'}"
+      data-pick="${esc(id)}" data-val="${esc(o.valor)}" role="radio"
       aria-checked="${elegidas.includes(o.valor)}">
       <span>${esc(o.texto)}${o.nota ? `<small>${esc(o.nota)}</small>` : ''}</span>
-      ${multiple ? '' : elegidas.includes(o.valor) ? marca : ''}
+      ${elegidas.includes(o.valor) ? marca : ''}
     </button>`;
+  // Several values are chips — round for a figure, a pill for a word — which is the model of the
+  // reference and reads much faster than a column of tick boxes.
+  const chip = (o, clave) => `
+    <button class="pop-chip${elegidas.includes(o.valor) ? ' on' : ''}" type="button"
+      data-pick="${esc(id)}" data-val="${esc(o.valor)}" data-g="${esc(clave ?? '')}"
+      role="checkbox" aria-checked="${elegidas.includes(o.valor)}">${esc(o.texto)}</button>`;
 
   const opciones = (lista) => lista.map(fila).join('');
+  // With groups, the summary says what each figure is: "2 beds, 1 bath".
+  const conUnidad = (g, o) => {
+    const base = (g.titulo ?? '').toLowerCase().replace(/s$/, '');
+    if (!base || o.texto === 'Studio') return o.texto;
+    return `${o.texto} ${base}${o.valor === '0' || o.valor === '1' ? '' : 's'}`;
+  };
   const resumen = multiple
     ? (elegidas.filter(Boolean).length
-      ? grupos.flatMap((g) => g.opciones).filter((o) => elegidas.includes(o.valor)).map((o) => o.texto).join(', ')
+      ? grupos.flatMap((g) => g.opciones.filter((o) => elegidas.includes(o.valor)).map((o) => conUnidad(g, o))).join(', ')
       : vacio)
     : (grupos.flatMap((g) => g.opciones).find((o) => o.valor === valor)?.texto ?? vacio);
 
@@ -1008,13 +1024,15 @@ function picker(id, {
             <span>${esc(vacio)}</span>${valor === '' ? marca : ''}</button>`}
         ${grupos.map((g) => `
           ${g.titulo ? `<h4 class="pop-group">${esc(g.titulo)}</h4>` : '<hr class="pop-sep">'}
-          ${opciones(ocultas > 0 ? g.opciones.slice(0, -ocultas) : g.opciones)}
-          ${ocultas > 0 ? `<div class="pop-extra" hidden>${opciones(g.opciones.slice(-ocultas))}</div>
-            <button class="pop-more" type="button" data-mas>View more ↓</button>` : ''}`).join('')}
+          ${multiple
+            ? `<div class="pop-chips">${g.opciones.map((o) => chip(o, g.clave)).join('')}</div>`
+            : `${opciones(ocultas > 0 ? g.opciones.slice(0, -ocultas) : g.opciones)}
+               ${ocultas > 0 ? `<div class="pop-extra" hidden>${opciones(g.opciones.slice(-ocultas))}</div>
+                 <button class="pop-more" type="button" data-mas>View more ↓</button>` : ''}`}`).join('')}
         ${acciones ? `
           <div class="pop-foot">
+            <button class="btn ghost" type="button" data-limpiar="${esc(id)}">Reset</button>
             <button class="btn green" type="button" data-aplicar="${esc(id)}">Show results</button>
-            <button class="btn ghost" type="button" data-limpiar="${esc(id)}">Clear</button>
           </div>` : ''}
       </div>
     </div>`;
@@ -1516,7 +1534,7 @@ const filtrosDe = (query) => ({
   dev: query.get('desarrollador_id') ?? '',
   banda: bandaElegida(query.get('precio_min') ?? '', query.get('precio_max') ?? ''),
   habs: (query.get('habitaciones') ?? '').split(',').filter(Boolean),
-  banos_min: query.get('banos_min') ?? '',
+  banosSet: (query.get('banos') ?? '').split(',').filter(Boolean),
   superficie_min: query.get('superficie_min') ?? '',
   superficie_max: query.get('superficie_max') ?? '',
   estado_obra: query.get('estado_obra') ?? '',
@@ -1537,8 +1555,9 @@ let pickersListos = false;
 let contadorTimer;
 
 const leerPanel = (sel) => view().querySelector(sel)?.value.trim() ?? '';
-/** The values ticked inside a multi-select panel. */
-const leerSeleccion = (id) => [...view().querySelectorAll(`#pop-${id} .pop-opt.on`)]
+/** The values ticked inside a multi-select panel; with a group, only that group's. */
+const leerSeleccion = (id, grupo) => [...view().querySelectorAll(`#pop-${id} .pop-chip.on`)]
+  .filter((b) => !grupo || b.dataset.g === grupo)
   .map((b) => b.dataset.val).filter(Boolean);
 
 /** The filters the buyer has chosen, as the query the API understands. */
@@ -1553,15 +1572,15 @@ function construir() {
     if (min) p.set('precio_min', min);
     if (max) p.set('precio_max', max);
   }
-  const habs = leerSeleccion('hab');
+  const habs = leerSeleccion('dormitorios', 'camas');
   if (habs.length) p.set('habitaciones', habs.join(','));
-  const banos = leerPanel('#s-banos');
+  const banos = leerSeleccion('dormitorios', 'banos');
+  if (banos.length) p.set('banos', banos.join(','));
   const sMin = leerPanel('#s-smin');
   const sMax = leerPanel('#s-smax');
   const obra = leerPanel('#s-obra');
   const dev = leerPanel('#s-dev');
   const mob = leerPanel('#s-mob');
-  if (banos) p.set('banos_min', banos);
   if (sMin) p.set('superficie_min', sMin);
   if (sMax) p.set('superficie_max', sMax);
   if (obra) p.set('estado_obra', obra);
@@ -1599,12 +1618,16 @@ async function viewSearch(query) {
           label: 'Price', vacio: 'Any price', valor: f.banda,
           grupos: [{ opciones: BANDAS.map(([v, t]) => ({ valor: v, texto: t })) }],
         })}
-        ${picker('hab', {
-          label: 'Bedrooms', vacio: 'Any', valor: f.habs, multiple: true, acciones: true, ocultas: 2,
-          grupos: [{ opciones: [
-            { valor: '0', texto: 'Studio' },
-            ...[1, 2, 3, 4, 5, 6, 7].map((n) => ({ valor: String(n), texto: `${n} bed${n > 1 ? 's' : ''}` })),
-          ] }],
+        ${picker('dormitorios', {
+          label: 'Beds & Baths', vacio: 'Any', valor: [...f.habs, ...f.banosSet],
+          multiple: true, acciones: true,
+          grupos: [
+            { clave: 'camas', titulo: 'Beds', opciones: [
+              { valor: '0', texto: 'Studio' },
+              ...[1, 2, 3, 4, 5, 6, 7].map((n) => ({ valor: String(n), texto: String(n) })),
+            ] },
+            { clave: 'banos', titulo: 'Baths', opciones: [1, 2, 3, 4, 5, 6].map((n) => ({ valor: String(n), texto: String(n) })) },
+          ],
         })}
         <div class="control ancho" style="align-self:flex-start">
           <label>&nbsp;</label>
@@ -1632,8 +1655,6 @@ async function viewSearch(query) {
                 <input id="s-smin" name="superficie_min" type="number" min="0" value="${esc(f.superficie_min)}"></div>
               <div><label for="s-smax">Size to (sqft)</label>
                 <input id="s-smax" name="superficie_max" type="number" min="0" value="${esc(f.superficie_max)}"></div>
-              <div><label for="s-banos">Baths from</label>
-                <input id="s-banos" name="banos_min" type="number" min="0" value="${esc(f.banos_min)}"></div>
 
               <h4 class="pop-group">More</h4>
               <div><label for="s-q">Keyword</label>
@@ -1709,10 +1730,10 @@ async function viewSearch(query) {
       // The multi-select applies with its own button, which says how many results it will show.
       onAplicar: () => aplicar(construir()),
       onContar: (id) => {
-        if (id !== 'hab') return;
+        if (id !== 'dormitorios') return;
         clearTimeout(contadorTimer);
         contadorTimer = setTimeout(async () => {
-          const boton = view().querySelector('#pop-hab [data-aplicar]');
+          const boton = view().querySelector('#pop-dormitorios [data-aplicar]');
           if (!boton) return;
           try {
             const r = await api.search({ ...Object.fromEntries(construir().entries()), limit: 1 });
@@ -1753,7 +1774,8 @@ async function viewSearch(query) {
       f.comunidad && f.comunidad,
       f.tipo && (TIPOS[f.tipo] ?? f.tipo),
       f.dev && nombreDev,
-      f.habs.length && `${f.habs.join(', ')} bed${f.habs.length > 1 ? 's' : ''}`,
+      f.habs.length && `${f.habs.join(', ')} bed${f.habs.length > 1 || f.habs[0] !== '1' ? 's' : ''}`,
+      f.banosSet.length && `${f.banosSet.join(', ')} bath${f.banosSet.length > 1 || f.banosSet[0] !== '1' ? 's' : ''}`,
       f.estado_obra && (f.estado_obra === 'ready' ? 'Ready' : 'Off plan'),
       ...f.amenidades.map((a) => AMENIDADES[a] ?? a),
     ].filter(Boolean);
@@ -1776,7 +1798,7 @@ async function viewSearch(query) {
     tipo: f.tipo || undefined,
     estado_obra: f.estado_obra || undefined,
     habitaciones: f.habs.length ? f.habs : undefined,
-    banos_min: f.banos_min || undefined,
+    banos: f.banosSet.length ? f.banosSet : undefined,
     superficie_min: f.superficie_min || undefined,
     superficie_max: f.superficie_max || undefined,
     amueblado: f.amueblado || undefined,
