@@ -1270,6 +1270,118 @@ async function pintarRail(contenedor) {
   }
 }
 
+/* ===== js/views/map.js ===== */
+/**
+ * The map of the results.
+ *
+ * Each card with coordinates gets a **price marker**; hovering a card raises its marker and clicking
+ * a marker highlights its card. Leaflet and the tiles come from the network, so they are loaded the
+ * first time the map is opened — and if there is no connection, the map says so instead of pretending
+ * to be a map.
+ */
+const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
+let libreria = null;
+
+function cargarLeaflet() {
+  if (libreria) return libreria;
+  libreria = new Promise((ok, fallo) => {
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = `${LEAFLET}leaflet.css`;
+    document.head.appendChild(css);
+    const js = document.createElement('script');
+    js.src = `${LEAFLET}leaflet.js`;
+    js.onload = () => (window.L ? ok(window.L) : fallo(new Error('The map library did not load.')));
+    js.onerror = () => fallo(new Error('The map could not be loaded: no connection with the map service.'));
+    document.head.appendChild(js);
+  });
+  return libreria;
+}
+
+/** A price as short as it can be read: AED 1.5M, AED 950K. */
+function precioCorto(fils) {
+  const n = Number(fils ?? 0) / 100;
+  const corto = n >= 1e6 ? `AED ${(n / 1e6).toFixed(n % 1e6 ? 1 : 0)}M` : `AED ${Math.round(n / 1e3)}K`;
+  return corto.replace(/\.0M$/, 'M');
+}
+
+let mapa = null;
+let capa = null;
+const marcadores = new Map();
+
+async function pintarMapa(contenedor, resultados, { alElegir } = {}) {
+  const el = typeof contenedor === 'string' ? document.querySelector(contenedor) : contenedor;
+  if (!el) return;
+  const conPunto = (resultados ?? []).filter((r) => r.latitud !== null && r.longitud !== null);
+
+  if (!conPunto.length) {
+    el.innerHTML = `<div class="mapa-aviso">No property in this result carries a location yet, so there
+      is nothing to place on the map.</div>`;
+    return;
+  }
+
+  let L;
+  try {
+    L = await cargarLeaflet();
+  } catch (err) {
+    el.innerHTML = `<div class="mapa-aviso">${err.message}</div>`;
+    return;
+  }
+
+  if (!mapa) {
+    el.innerHTML = '';
+    mapa = L.map(el, { zoomControl: true, attributionControl: true }).setView(
+      [conPunto[0].latitud, conPunto[0].longitud], 11,
+    );
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap',
+    }).addTo(mapa);
+    capa = L.layerGroup().addTo(mapa);
+  } else {
+    el.innerHTML = '';
+    mapa.invalidateSize();
+  }
+
+  capa.clearLayers();
+  marcadores.clear();
+  const puntos = [];
+
+  for (const r of conPunto) {
+    const icono = L.divIcon({
+      className: 'marca',
+      html: `<span>${precioCorto(r.precio_fils)}</span>`,
+      iconSize: [0, 0],
+      iconAnchor: [0, 0],
+    });
+    const m = L.marker([r.latitud, r.longitud], { icon: icono, title: r.titulo }).addTo(capa);
+    m.on('click', () => alElegir?.(r.unidad_id));
+    m.on('mouseover', () => resaltar(r.unidad_id, true));
+    m.on('mouseout', () => resaltar(r.unidad_id, false));
+    marcadores.set(r.unidad_id, m);
+    puntos.push([r.latitud, r.longitud]);
+  }
+
+  // The whole result, in view.
+  mapa.fitBounds(puntos, { padding: [40, 40], maxZoom: 14 });
+  // Leaflet measures the container when it is created; inside a grid it may need a nudge.
+  setTimeout(() => mapa?.invalidateSize(), 60);
+}
+
+/** Raises the marker of a card, or marks the chosen one. */
+function resaltar(unidadId, on) {
+  const m = marcadores.get(unidadId);
+  const nodo = m?.getElement();
+  if (!nodo) return;
+  nodo.classList.toggle('on', Boolean(on));
+}
+
+function centrarEn(unidadId) {
+  const m = marcadores.get(unidadId);
+  if (m && mapa) mapa.panTo(m.getLatLng(), { animate: true });
+  resaltar(unidadId, true);
+}
+
 /* ===== js/views/catalog.js ===== */
 /** The catalogue: the front page and the search. */
 
