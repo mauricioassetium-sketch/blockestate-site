@@ -151,15 +151,46 @@ p{margin:.6rem 0}
 /* the panel of a control opens next to it, and on a phone it comes up from the bottom */
 .popover{position:absolute; z-index:50; top:calc(100% + 8px); left:0; width:min(560px,92vw);
   background:var(--white); border:1px solid var(--line-2); border-radius:var(--radius);
-  box-shadow:var(--shadow); padding:16px; max-height:76vh; overflow:auto}
+  box-shadow:var(--shadow); padding:10px; max-height:70vh; overflow:auto}
 .popover[hidden]{display:none}
-.popover .pop-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px}
+.popover .pop-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;
+  padding:.2rem .4rem}
 .popover .close{width:44px; height:44px; border-radius:50%; border:1px solid var(--line-2);
   background:var(--card); cursor:pointer; font-size:1.1rem; line-height:1}
 .veil{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:45}
 .veil[hidden]{display:none}
 .fields{display:grid; grid-template-columns:1fr 1fr; gap:12px}
 .fields .full{grid-column:1/-1}
+.fields .pop-group{grid-column:1/-1; margin:.6rem .2rem .3rem}
+.fields .pop-group:first-of-type{margin-top:.1rem}
+
+/* ---------- the control and its panel ---------- */
+.ctrl{width:100%; min-height:46px; display:flex; align-items:center; justify-content:space-between;
+  gap:.5rem; padding:.55rem .8rem; border:1px solid var(--line-2); border-radius:var(--radius-sm);
+  background:var(--white); cursor:pointer; text-align:left; font-size:.92rem}
+.ctrl:hover{border-color:var(--ink-30)}
+.ctrl[aria-expanded="true"]{border-color:var(--green); box-shadow:0 0 0 3px rgba(34,197,94,.14)}
+.ctrl > span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ctrl i{font-style:normal; color:var(--ink-45); font-size:.72rem}
+.control .popover{width:min(340px,92vw)}
+.control.ancho .popover{width:min(560px,92vw)}
+.pop-opt{width:100%; display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  padding:.6rem .7rem; border:0; background:none; border-radius:.55rem; cursor:pointer; text-align:left;
+  min-height:44px; font-size:.92rem; color:var(--ink)}
+.pop-opt:hover{background:var(--card)}
+.pop-opt.on{background:rgba(34,197,94,.1); color:var(--green-deep); font-weight:700}
+.pop-opt small{display:block; color:var(--ink-45); font-size:.76rem; font-weight:500; font-style:normal}
+.pop-opt.on small{color:var(--green-deep)}
+.pop-opt b{color:var(--green-deep)}
+.pop-group{margin:.75rem .7rem .25rem; color:var(--ink-45); font-size:.64rem; letter-spacing:.14em;
+  font-weight:700; text-transform:uppercase}
+.pop-group:first-of-type{margin-top:.25rem}
+.pop-sep{border:0; border-top:1px solid var(--line); margin:.5rem .3rem}
+/* the compact variant lives inside the results bar, with no label above it */
+.control.compacto{flex:0 0 auto; min-width:0}
+.control.compacto .ctrl{min-height:38px; padding:.3rem .6rem; font-size:.88rem; border-color:transparent;
+  gap:.35rem}
+.control.compacto .ctrl:hover{background:var(--card); border-color:var(--line-2)}
 
 /* ---------- the rail: who is behind the catalogue ---------- */
 .lay{display:grid; grid-template-columns:minmax(0,1fr) 316px; gap:26px; align-items:start}
@@ -828,6 +859,72 @@ function error(container, err) {
   el.innerHTML = `<div class="msg err">${esc(err?.message ?? 'Something went wrong.')}</div>`;
 }
 
+/* ------------------------------------------------------------------ pickers
+   A control that opens a panel next to it with the options in labelled groups, the chosen one
+   marked, one panel open at a time and everything closed with Escape or a click outside. That is
+   the pattern of the references: a control is not a native list of twenty, it is a door. */
+
+/** One control and its panel. `grupos` is [{titulo, opciones: [{valor, texto, nota?}]}]. */
+function picker(id, { label, vacio = 'Any', grupos = [], valor = '', compacto = false } = {}) {
+  const todas = grupos.flatMap((g) => g.opciones);
+  const elegida = todas.find((o) => o.valor === valor);
+  const marca = '<b aria-hidden="true">✓</b>';
+  const fila = (o) => `
+    <button class="pop-opt${o.valor === valor ? ' on' : ''}" type="button"
+      data-pick="${esc(id)}" data-val="${esc(o.valor)}">
+      <span>${esc(o.texto)}${o.nota ? `<small>${esc(o.nota)}</small>` : ''}</span>
+      ${o.valor === valor ? marca : ''}
+    </button>`;
+
+  return `
+    <div class="control${compacto ? ' compacto' : ''}">
+      ${label ? `<label>${esc(label)}</label>` : ''}
+      <button class="ctrl" type="button" data-open="${esc(id)}" aria-expanded="false"
+        aria-controls="pop-${esc(id)}">
+        <span>${esc(elegida?.texto ?? vacio)}</span><i aria-hidden="true">▾</i>
+      </button>
+      <div class="popover" id="pop-${esc(id)}" hidden role="dialog" aria-label="${esc(label ?? id)}">
+        <button class="pop-opt${valor === '' ? ' on' : ''}" type="button"
+          data-pick="${esc(id)}" data-val=""><span>${esc(vacio)}</span>${valor === '' ? marca : ''}</button>
+        ${grupos.map((g) => `
+          ${g.titulo ? `<h4 class="pop-group">${esc(g.titulo)}</h4>` : '<hr class="pop-sep">'}
+          ${g.opciones.map(fila).join('')}`).join('')}
+      </div>
+    </div>`;
+}
+
+/** Wires every picker inside `raiz`. `onPick(id, valor)` decides what to do with the choice. */
+function initPickers(raiz, { onPick } = {}) {
+  const cerrarTodos = (menos) => {
+    for (const p of raiz.querySelectorAll('.popover')) {
+      if (p === menos) continue;
+      p.hidden = true;
+      p.closest('.control')?.querySelector('[data-open]')?.setAttribute('aria-expanded', 'false');
+    }
+  };
+  raiz.addEventListener('click', (e) => {
+    const abridor = e.target.closest?.('[data-open]');
+    if (abridor) {
+      const panel = raiz.querySelector(`#pop-${abridor.dataset.open}`);
+      if (!panel) return;
+      const estabaAbierto = !panel.hidden;
+      cerrarTodos(panel);
+      panel.hidden = estabaAbierto;
+      abridor.setAttribute('aria-expanded', String(!estabaAbierto));
+      return;
+    }
+    const opcion = e.target.closest?.('[data-pick]');
+    if (opcion) {
+      const { pick, val } = opcion.dataset;
+      cerrarTodos();
+      onPick?.(pick, val);
+      return;
+    }
+    if (!e.target.closest?.('.popover')) cerrarTodos();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarTodos(); });
+}
+
 /** The badge of a listing: what it covers and until when, never a blank guarantee. */
 function badgeHtml(badge, procedencia) {
   if (!badge?.alcance) return '';
@@ -1139,40 +1236,73 @@ let offset = 0;
 let total = 0;
 let ultimos = [];
 let filtrosActuales = {};
+// The state of the controls that are pickers (the panel's fields are read from the DOM).
+let estado = { emirato: '', tipo: '', banda: '', hab: '', orden: '' };
+let pickersListos = false;
+
+const leerPanel = (sel) => view().querySelector(sel)?.value.trim() ?? '';
+
+/** The filters the buyer has chosen, as the query the API understands. */
+function construir() {
+  const p = new URLSearchParams();
+  const q = leerPanel('#s-q');
+  if (q) p.set('q', q);
+  if (estado.emirato) p.set('emirato', estado.emirato);
+  if (estado.tipo) p.set('tipo', estado.tipo);
+  if (estado.banda) {
+    const [min, max] = estado.banda.split('-');
+    if (min) p.set('precio_min', min);
+    if (max) p.set('precio_max', max);
+  }
+  if (estado.hab) p.set('habitaciones_min', estado.hab);
+  const banos = leerPanel('#s-banos');
+  const sMin = leerPanel('#s-smin');
+  const sMax = leerPanel('#s-smax');
+  const obra = leerPanel('#s-obra');
+  const dev = leerPanel('#s-dev');
+  const mob = leerPanel('#s-mob');
+  if (banos) p.set('banos_min', banos);
+  if (sMin) p.set('superficie_min', sMin);
+  if (sMax) p.set('superficie_max', sMax);
+  if (obra) p.set('estado_obra', obra);
+  if (dev) p.set('desarrollador_id', dev);
+  if (mob) p.set('amueblado', mob);
+  if (estado.orden) p.set('orden', estado.orden);
+  const amens = [...view().querySelectorAll('#chips .chip.on')].map((c) => c.dataset.amen);
+  if (amens.length) p.set('amenidades', amens.join(','));
+  return p;
+}
 
 async function viewSearch(query) {
   offset = 0;
   const f = filtrosDe(query);
+  estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, hab: f.hab, orden: f.orden };
 
   view().innerHTML = `
     <div class="wrap">
       ${tabsHtml(query)}
 
       <div class="controls">
-        <div class="control">
-          <label for="c-emirato">Location</label>
-          <select id="c-emirato" name="emirato">
-            <option value="">All emirates</option>
-            ${EMIRATOS.map((e) => `<option value="${esc(e)}"${f.emirato === e ? ' selected' : ''}>${esc(e)}</option>`).join('')}
-          </select>
-        </div>
-        <div class="control">
-          <label for="c-tipo">Type</label>
-          <select id="c-tipo" name="tipo"><option value="">Any type</option>${opciones(TIPOS, f.tipo)}</select>
-        </div>
-        <div class="control">
-          <label for="c-banda">Price</label>
-          <select id="c-banda" name="banda">
-            ${BANDAS.map(([k, v]) => `<option value="${esc(k)}"${f.banda === k ? ' selected' : ''}>${esc(v)}</option>`).join('')}
-          </select>
-        </div>
-        <div class="control">
-          <label for="c-hab">Bedrooms</label>
-          <select id="c-hab" name="hab">
-            <option value="">Any</option>
-            ${[1, 2, 3, 4, 5].map((n) => `<option value="${n}"${f.hab === String(n) ? ' selected' : ''}>${n}+</option>`).join('')}
-          </select>
-        </div>
+        ${picker('emirato', {
+          label: 'Location', vacio: 'All emirates', valor: f.emirato,
+          grupos: [{ opciones: EMIRATOS.map((e) => ({ valor: e, texto: e })) }],
+        })}
+        ${picker('tipo', {
+          label: 'Type', vacio: 'Any type', valor: f.tipo,
+          grupos: [
+            { titulo: 'Residential', opciones: [{ valor: 'apartment', texto: 'Apartment' }, { valor: 'villa', texto: 'Villa' }] },
+            { titulo: 'Commercial', opciones: [{ valor: 'office', texto: 'Office' }, { valor: 'retail', texto: 'Retail' }] },
+            { titulo: 'Other', opciones: [{ valor: 'hotel', texto: 'Hotel' }] },
+          ],
+        })}
+        ${picker('banda', {
+          label: 'Price', vacio: 'Any price', valor: f.banda,
+          grupos: [{ opciones: BANDAS.map(([v, t]) => ({ valor: v, texto: t })) }],
+        })}
+        ${picker('hab', {
+          label: 'Bedrooms', vacio: 'Any', valor: f.hab,
+          grupos: [{ opciones: [1, 2, 3, 4, 5].map((n) => ({ valor: String(n), texto: `${n} or more` })) }],
+        })}
         <div class="control ancho" style="align-self:flex-start">
           <label>&nbsp;</label>
           <button class="btn ghost" id="mas-filtros" type="button" style="width:100%"
@@ -1185,24 +1315,31 @@ async function viewSearch(query) {
               <button class="close" id="cerrar-pop" type="button" aria-label="Close">×</button>
             </div>
             <div class="fields">
-              <div><label for="s-banos">Baths from</label>
-                <input id="s-banos" name="banos_min" type="number" min="0" value="${esc(f.banos_min)}"></div>
+              <h4 class="pop-group">Property</h4>
               <div><label for="s-obra">Build status</label>
                 <select id="s-obra" name="estado_obra"><option value="">Any</option>${opciones(ESTADOS_OBRA, f.estado_obra)}</select></div>
-              <div><label for="s-smin">Size from (sqft)</label>
-                <input id="s-smin" name="superficie_min" type="number" min="0" value="${esc(f.superficie_min)}"></div>
-              <div><label for="s-smax">Size to (sqft)</label>
-                <input id="s-smax" name="superficie_max" type="number" min="0" value="${esc(f.superficie_max)}"></div>
               <div><label for="s-mob">Furnishing</label>
                 <select id="s-mob" name="amueblado"><option value="">Any</option>
                   <option value="true"${f.amueblado === 'true' ? ' selected' : ''}>Furnished</option>
                   <option value="false"${f.amueblado === 'false' ? ' selected' : ''}>Unfurnished</option>
                 </select></div>
+
+              <h4 class="pop-group">Size</h4>
+              <div><label for="s-smin">Size from (sqft)</label>
+                <input id="s-smin" name="superficie_min" type="number" min="0" value="${esc(f.superficie_min)}"></div>
+              <div><label for="s-smax">Size to (sqft)</label>
+                <input id="s-smax" name="superficie_max" type="number" min="0" value="${esc(f.superficie_max)}"></div>
+              <div><label for="s-banos">Baths from</label>
+                <input id="s-banos" name="banos_min" type="number" min="0" value="${esc(f.banos_min)}"></div>
+
+              <h4 class="pop-group">More</h4>
               <div><label for="s-q">Keyword</label>
                 <input id="s-q" name="q" type="search" value="${esc(f.q)}" placeholder="Project or area"></div>
-              <div class="full"><label for="s-dev">Developer</label>
+              <div><label for="s-dev">Developer</label>
                 <select id="s-dev" name="desarrollador_id"><option value="">Any developer</option></select></div>
-              <div class="full"><label>Amenities</label>
+
+              <h4 class="pop-group">Amenities</h4>
+              <div class="full">
                 <div class="chips" id="chips">
                   ${Object.entries(AMENIDADES).map(([k, v]) => `<button type="button" class="chip${f.amenidades.includes(k) ? ' on' : ''}" data-amen="${esc(k)}">${esc(v)}</button>`).join('')}
                 </div></div>
@@ -1220,15 +1357,15 @@ async function viewSearch(query) {
       <div class="result-bar">
         <span class="count" id="cuenta">Searching…</span>
         <span class="tools">
-          <button class="link-btn" id="limpiar" type="button">Clear filters</button>
-          <span class="muted" style="font-size:.88rem">Sort
-            <select id="orden" style="width:auto;min-height:38px;padding:.3rem .5rem;display:inline-block;margin-left:.3rem">
-              <option value="">Highlighted</option>
-              <option value="precio_asc"${f.orden === 'precio_asc' ? ' selected' : ''}>Price, low to high</option>
-              <option value="precio_desc"${f.orden === 'precio_desc' ? ' selected' : ''}>Price, high to low</option>
-            </select>
-          </span>
-          <button class="link-btn" id="guardar" type="button">Save search</button>
+        <button class="link-btn" id="limpiar" type="button">Clear filters</button>
+        ${picker('orden', {
+          compacto: true, vacio: 'Sort: highlighted', valor: f.orden,
+          grupos: [{ opciones: [
+            { valor: 'precio_asc', texto: 'Price, low to high' },
+            { valor: 'precio_desc', texto: 'Price, high to low' },
+          ] }],
+        })}
+        <button class="link-btn" id="guardar" type="button">Save search</button>
         </span>
       </div>
 
@@ -1271,45 +1408,16 @@ async function viewSearch(query) {
     if (c) c.classList.toggle('on');
   });
 
-  const construir = () => {
-    const p = new URLSearchParams();
-    const leer = (sel) => view().querySelector(sel)?.value.trim() ?? '';
-    const emirato = leer('#c-emirato');
-    const tipo = leer('#c-tipo');
-    const banda = leer('#c-banda');
-    const hab = leer('#c-hab');
-    const banos = leer('#s-banos');
-    const sMin = leer('#s-smin');
-    const sMax = leer('#s-smax');
-    const obra = leer('#s-obra');
-    const mob = leer('#s-mob');
-    const q = leer('#s-q');
-    const dev = leer('#s-dev');
-    const orden = leer('#orden');
-    if (q) p.set('q', q);
-    if (emirato) p.set('emirato', emirato);
-    if (tipo) p.set('tipo', tipo);
-    if (banda) {
-      const [min, max] = banda.split('-');
-      if (min) p.set('precio_min', min);
-      if (max) p.set('precio_max', max);
-    }
-    if (hab) p.set('habitaciones_min', hab);
-    if (banos) p.set('banos_min', banos);
-    if (sMin) p.set('superficie_min', sMin);
-    if (sMax) p.set('superficie_max', sMax);
-    if (obra) p.set('estado_obra', obra);
-    if (dev) p.set('desarrollador_id', dev);
-    if (mob) p.set('amueblado', mob);
-    if (orden) p.set('orden', orden);
-    const amens = [...view().querySelectorAll('#chips .chip.on')].map((c) => c.dataset.amen);
-    if (amens.length) p.set('amenidades', amens.join(','));
-    return p;
-  };
-
   const aplicar = (p) => go(`/search${p.toString() ? `?${p}` : ''}`);
-  for (const sel of ['#c-emirato', '#c-tipo', '#c-banda', '#c-hab', '#orden']) {
-    view().querySelector(sel).addEventListener('change', () => aplicar(construir()));
+  // The pickers apply on click through the state this view keeps, and close themselves.
+  if (!pickersListos) {
+    initPickers(view(), {
+      onPick: (id, val) => {
+        estado[id] = val;
+        aplicar(construir());
+      },
+    });
+    pickersListos = true;
   }
   view().querySelector('#aplicar').addEventListener('click', () => { cerrar(); aplicar(construir()); });
   view().querySelector('#limpiar').addEventListener('click', () => go('/search'));
@@ -1343,8 +1451,12 @@ async function viewSearch(query) {
   pintarChips([]);
 
   const { banda, hab, dev, ...resto } = f;
+  // The band is a control of the screen; the API wants the two figures it means.
+  const [bandaMin, bandaMax] = (f.banda || '').split('-');
   filtrosActuales = {
     ...resto,
+    precio_min: bandaMin || undefined,
+    precio_max: bandaMax || undefined,
     q: f.q || undefined,
     emirato: f.emirato || undefined,
     comunidad: f.comunidad || undefined,
