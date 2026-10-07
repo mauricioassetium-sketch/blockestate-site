@@ -527,6 +527,9 @@ const filtrar = (lista, q) => {
   const orden = g('orden');
   if (orden === 'precio_asc') out.sort((a, b) => a.precio_fils - b.precio_fils);
   else if (orden === 'precio_desc') out.sort((a, b) => b.precio_fils - a.precio_fils);
+  else if (orden === 'verificados') out.sort((a, b) => Number(Boolean(b.distintivo.badge_alcance)) - Number(Boolean(a.distintivo.badge_alcance)));
+  // 'recientes' and 'antiguos' need the publication date, which the card does not carry: the capture
+  // keeps the order the API returned.
   else out.sort((a, b) => Number(b.distintivo.promocionado) - Number(a.distintivo.promocionado));
   return out;
 };
@@ -1521,10 +1524,13 @@ async function viewSearch(query) {
         <span class="tools">
         <button class="link-btn" id="limpiar" type="button">Clear filters</button>
         ${picker('orden', {
-          compacto: true, vacio: 'Sort: highlighted', valor: f.orden,
+          compacto: true, vacio: 'Popular', valor: f.orden,
           grupos: [{ opciones: [
-            { valor: 'precio_asc', texto: 'Price, low to high' },
-            { valor: 'precio_desc', texto: 'Price, high to low' },
+            { valor: 'verificados', texto: 'Verified first' },
+            { valor: 'recientes', texto: 'Newest to oldest' },
+            { valor: 'antiguos', texto: 'Oldest to newest' },
+            { valor: 'precio_desc', texto: 'Price highest to lowest' },
+            { valor: 'precio_asc', texto: 'Price lowest to highest' },
           ] }],
         })}
         <button class="link-btn" id="guardar" type="button">Save search</button>
