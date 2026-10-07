@@ -245,11 +245,24 @@ p{margin:.6rem 0}
 .control.compacto .ctrl:hover{background:var(--card); border-color:var(--line-2)}
 
 /* ---------- the map ---------- */
-.vista{display:inline-flex; gap:2px; padding:3px; border:1px solid var(--line-2); border-radius:999px;
+/* the segmented control (list/map, furnishing) and the switch */
+.vista,.seg{display:inline-flex; gap:2px; padding:3px; border:1px solid var(--line-2); border-radius:999px;
   background:var(--card)}
-.vista button{border:0; background:none; cursor:pointer; padding:.35rem .8rem; border-radius:999px;
+.vista button,.seg button{border:0; background:none; cursor:pointer; padding:.35rem .8rem; border-radius:999px;
   font-size:.85rem; font-weight:600; color:var(--ink-72); min-height:36px}
-.vista button.on{background:var(--white); color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.vista button.on,.seg button.on{background:var(--white); color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.switch{display:inline-flex; align-items:center; gap:.5rem; font-size:.85rem; font-weight:600;
+  color:var(--ink-72); cursor:pointer; min-height:44px}
+.switch input{position:absolute; opacity:0; width:0; height:0}
+.switch .track{width:44px; height:26px; border-radius:999px; background:var(--line-2); position:relative;
+  transition:background .18s ease; flex:none}
+.switch .track::after{content:""; position:absolute; top:3px; left:3px; width:20px; height:20px;
+  border-radius:50%; background:var(--white); box-shadow:0 1px 3px rgba(0,0,0,.28);
+  transition:transform .18s ease}
+.switch input:checked + .track{background:linear-gradient(135deg,var(--green),var(--green-deep))}
+.switch input:checked + .track::after{transform:translateX(18px)}
+.switch input:focus-visible + .track{outline:2px solid var(--green); outline-offset:2px}
+.switch:hover{color:var(--ink)}
 .lay.mapa{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
 .mapa{position:sticky; top:calc(var(--bar) + 14px); height:min(78vh,720px); border:1px solid var(--line-2);
   border-radius:1.1rem; overflow:hidden; background:var(--card); z-index:1}
@@ -284,6 +297,7 @@ p{margin:.6rem 0}
   flex:none; overflow:hidden; background:var(--teal);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.14), 0 4px 12px rgba(16,34,43,.18)}
 .logo img{width:100%; height:100%; object-fit:contain; background:#fff}
+.logo.sm{width:28px; height:28px; border-radius:.5rem; font-size:.68rem}
 .dev-row .meta{min-width:0}
 .dev-row b{display:block; font-size:.9rem; font-weight:700; white-space:nowrap; overflow:hidden;
   text-overflow:ellipsis; letter-spacing:-.01em}
@@ -924,14 +938,14 @@ function card(r) {
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
       <div class="zona">${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
-      ${r.distintivo?.badge_alcance ? `<div class="verif">Verified${r.distintivo.badge_vigencia ? ` until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
+      ${r.distintivo?.badge_alcance ? `<div class="verif">Verified${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
       ${r.estado_obra === 'off_plan' && (r.entrega_prevista || r.plan_pagos) ? `
         <div class="obra">
           ${r.entrega_prevista ? `<div><span>Handover</span><b>${esc(r.entrega_prevista)}</b></div>` : ''}
           ${r.plan_pagos ? `<div><span>Payment plan</span><b>${esc(r.plan_pagos)}</b></div>` : ''}
         </div>` : ''}
       <div class="foot">
-        <span class="dev">${esc(r.desarrollador?.nombre ?? '')}</span>
+        <span class="dev">${logoHtml(r.desarrollador?.nombre, r.desarrollador?.logo_url, true)}${esc(r.desarrollador?.nombre ?? '')}</span>
         <a class="btn ghost sm" href="${enlace}">View</a>
       </div>
     </div>
@@ -969,6 +983,26 @@ function error(container, err) {
   const el = typeof container === 'string' ? document.querySelector(container) : container;
   if (!el) return;
   el.innerHTML = `<div class="msg err">${esc(err?.message ?? 'Something went wrong.')}</div>`;
+}
+
+/* ------------------------------------------------------------------ the developer's mark
+   Two initials on a colour derived from the name, or the logo they uploaded during onboarding. */
+
+function monograma(nombre) {
+  const limpio = String(nombre ?? '').trim();
+  const iniciales = limpio.split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase() || '·';
+  const colores = ['#10222B', '#16A34A', '#166534', '#0F172A', '#134E4A', '#1F2937'];
+  let h = 0;
+  for (const c of limpio) h = (h * 31 + c.charCodeAt(0)) % 997;
+  return { iniciales, fondo: colores[h % colores.length] };
+}
+
+function logoHtml(nombre, logoUrl, chico = false) {
+  if (logoUrl) {
+    return `<span class="logo${chico ? ' sm' : ''}"><img src="${esc(logoUrl)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+  }
+  const { iniciales, fondo } = monograma(nombre);
+  return `<span class="logo${chico ? ' sm' : ''}" style="background:${fondo}" aria-hidden="true">${esc(iniciales)}</span>`;
 }
 
 /* ------------------------------------------------------------------ pickers
@@ -1206,23 +1240,7 @@ function render() {
 
 
 
-/** A mark from the name: two initials on a colour derived from the name itself. */
-function monograma(nombre) {
-  const limpio = String(nombre ?? '').trim();
-  const iniciales = limpio.split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase() || '·';
-  const colores = ['#10222B', '#16A34A', '#166534', '#0F172A', '#134E4A', '#1F2937'];
-  let h = 0;
-  for (const c of limpio) h = (h * 31 + c.charCodeAt(0)) % 997;
-  return { iniciales, fondo: colores[h % colores.length] };
-}
-
-function logoHtml(nombre, logoUrl) {
-  if (logoUrl) {
-    return `<span class="logo"><img src="${esc(logoUrl)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
-  }
-  const { iniciales, fondo } = monograma(nombre);
-  return `<span class="logo" style="background:${fondo}" aria-hidden="true">${esc(iniciales)}</span>`;
-}
+/** A mark from the name lives in `ui.js`: the card and the rail share it. */
 
 let cache = null;
 /** Fetched once per session: the rail is the same on every screen. */
@@ -1557,7 +1575,7 @@ let total = 0;
 let ultimos = [];
 let filtrosActuales = {};
 // The state of the controls that are pickers (the panel's fields are read from the DOM).
-let estado = { emirato: '', tipo: '', banda: '', orden: '', vista: 'lista' };
+let estado = { emirato: '', tipo: '', banda: '', orden: '', vista: 'lista', mob: '' };
 let pickersListos = false;
 let contadorTimer;
 
@@ -1587,7 +1605,8 @@ function construir() {
   const sMax = leerPanel('#s-smax');
   const obra = leerPanel('#s-obra');
   const dev = leerPanel('#s-dev');
-  const mob = leerPanel('#s-mob');
+  // The furnishing lives in the segmented control of the results bar, not in this panel.
+  const mob = estado.mob;
   if (sMin) p.set('superficie_min', sMin);
   if (sMax) p.set('superficie_max', sMax);
   if (obra) p.set('estado_obra', obra);
@@ -1602,7 +1621,7 @@ function construir() {
 async function viewSearch(query) {
   offset = 0;
   const f = filtrosDe(query);
-  estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, orden: f.orden, vista: f.vista };
+  estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, orden: f.orden, vista: f.vista, mob: f.amueblado };
 
   view().innerHTML = `
     <div class="wrap">
@@ -1651,11 +1670,6 @@ async function viewSearch(query) {
               <h4 class="pop-group">Property</h4>
               <div><label for="s-obra">Build status</label>
                 <select id="s-obra" name="estado_obra"><option value="">Any</option>${opciones(ESTADOS_OBRA, f.estado_obra)}</select></div>
-              <div><label for="s-mob">Furnishing</label>
-                <select id="s-mob" name="amueblado"><option value="">Any</option>
-                  <option value="true"${f.amueblado === 'true' ? ' selected' : ''}>Furnished</option>
-                  <option value="false"${f.amueblado === 'false' ? ' selected' : ''}>Unfurnished</option>
-                </select></div>
 
               <h4 class="pop-group">Size</h4>
               <div><label for="s-smin">Size from (sqft)</label>
@@ -1700,6 +1714,15 @@ async function viewSearch(query) {
           ] }],
         })}
         <button class="link-btn" id="guardar" type="button">Save search</button>
+        <span class="seg" role="group" aria-label="Furnishing">
+          <button type="button" data-mob="" class="${f.amueblado === '' ? 'on' : ''}">All</button>
+          <button type="button" data-mob="true" class="${f.amueblado === 'true' ? 'on' : ''}">Furnished</button>
+          <button type="button" data-mob="false" class="${f.amueblado === 'false' ? 'on' : ''}">Unfurnished</button>
+        </span>
+        <label class="switch">
+          <input type="checkbox" id="verif" ${f.orden === 'verificados' ? 'checked' : ''}>
+          <span class="track" aria-hidden="true"></span>Show verified first
+        </label>
         <span class="vista" role="group" aria-label="How to see the results">
           <button type="button" data-vista="lista" class="${f.vista === 'lista' ? 'on' : ''}">List</button>
           <button type="button" data-vista="mapa" class="${f.vista === 'mapa' ? 'on' : ''}">Map</button>
@@ -1763,6 +1786,21 @@ async function viewSearch(query) {
       aplicar(p);
     });
   }
+  // Furnishing, as a segmented control, and the switch that puts the verified first.
+  for (const b of view().querySelectorAll('[data-mob]')) {
+    b.addEventListener('click', () => {
+      const p = construir();
+      if (b.dataset.mob) p.set('amueblado', b.dataset.mob);
+      else p.delete('amueblado');
+      aplicar(p);
+    });
+  }
+  view().querySelector('#verif').addEventListener('change', (e) => {
+    const p = construir();
+    if (e.target.checked) p.set('orden', 'verificados');
+    else p.delete('orden');
+    aplicar(p);
+  });
   view().querySelector('#guardar').addEventListener('click', async () => {
     if (!store.logged()) { toast('Sign in to save a search.'); go('/login'); return; }
     const p = construir();
@@ -1785,6 +1823,7 @@ async function viewSearch(query) {
       f.habs.length && { clave: 'habitaciones', texto: `${f.habs.join(', ')} bed${f.habs.length > 1 || f.habs[0] !== '1' ? 's' : ''}` },
       f.banosSet.length && { clave: 'banos', texto: `${f.banosSet.join(', ')} bath${f.banosSet.length > 1 || f.banosSet[0] !== '1' ? 's' : ''}` },
       f.estado_obra && { clave: 'estado_obra', texto: f.estado_obra === 'ready' ? 'Ready' : 'Off plan' },
+      f.amueblado && { clave: 'amueblado', texto: f.amueblado === 'true' ? 'Furnished' : 'Unfurnished' },
       ...f.amenidades.map((a) => ({ clave: 'amenidades', valor: a, texto: AMENIDADES[a] ?? a })),
     ].filter(Boolean);
     view().querySelector('#chips-activos').innerHTML = activos.length
