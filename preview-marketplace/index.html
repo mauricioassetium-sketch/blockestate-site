@@ -172,8 +172,15 @@ p{margin:.6rem 0}
 .result-bar .tools{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
 .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px}
 .chip{border:1px solid var(--line-2); border-radius:999px; padding:.35rem .75rem; font-size:.82rem;
-  background:var(--white); cursor:pointer; min-height:44px; display:inline-flex; align-items:center}
+  background:var(--white); cursor:pointer; min-height:44px; display:inline-flex; align-items:center;
+  gap:.35rem; transition:background .15s ease, border-color .15s ease}
 .chip.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+.chip.on:hover{background:#000}
+/* the × of an active filter: it shows when the pointer is on it, and always on a touch screen */
+.chip .x{font-style:normal; font-size:1rem; line-height:1; opacity:0; width:0; overflow:hidden;
+  transition:opacity .15s ease, width .15s ease, margin-left .15s ease}
+.chip:hover .x,.chip:focus-visible .x{opacity:1; width:auto; margin-left:.15rem}
+@media (hover:none){.chip .x{opacity:.85; width:auto; margin-left:.15rem}}
 .link-btn{background:none; border:0; padding:0; cursor:pointer; font-size:.88rem; color:var(--ink-72);
   text-decoration:underline; text-underline-offset:3px; min-height:44px}
 .link-btn:hover{color:var(--ink)}
@@ -1766,24 +1773,41 @@ async function viewSearch(query) {
     } catch (err) { toast(err.message, 'err'); }
   });
 
-  // the active filters, as chips the buyer can drop one by one
+  // the active filters, as pills the buyer can close: the × appears on hover, and on a phone it is
+  // always there (a finger has no hover).
   const pintarChips = (devs) => {
     const nombreDev = devs.find((d) => d.id === f.dev)?.nombre ?? 'Developer';
     const activos = [
-      f.emirato && f.emirato,
-      f.comunidad && f.comunidad,
-      f.tipo && (TIPOS[f.tipo] ?? f.tipo),
-      f.dev && nombreDev,
-      f.habs.length && `${f.habs.join(', ')} bed${f.habs.length > 1 || f.habs[0] !== '1' ? 's' : ''}`,
-      f.banosSet.length && `${f.banosSet.join(', ')} bath${f.banosSet.length > 1 || f.banosSet[0] !== '1' ? 's' : ''}`,
-      f.estado_obra && (f.estado_obra === 'ready' ? 'Ready' : 'Off plan'),
-      ...f.amenidades.map((a) => AMENIDADES[a] ?? a),
+      f.emirato && { clave: 'emirato', texto: f.emirato },
+      f.comunidad && { clave: 'comunidad', texto: f.comunidad },
+      f.tipo && { clave: 'tipo', texto: TIPOS[f.tipo] ?? f.tipo },
+      f.dev && { clave: 'desarrollador_id', texto: nombreDev },
+      f.habs.length && { clave: 'habitaciones', texto: `${f.habs.join(', ')} bed${f.habs.length > 1 || f.habs[0] !== '1' ? 's' : ''}` },
+      f.banosSet.length && { clave: 'banos', texto: `${f.banosSet.join(', ')} bath${f.banosSet.length > 1 || f.banosSet[0] !== '1' ? 's' : ''}` },
+      f.estado_obra && { clave: 'estado_obra', texto: f.estado_obra === 'ready' ? 'Ready' : 'Off plan' },
+      ...f.amenidades.map((a) => ({ clave: 'amenidades', valor: a, texto: AMENIDADES[a] ?? a })),
     ].filter(Boolean);
     view().querySelector('#chips-activos').innerHTML = activos.length
-      ? activos.map((t) => `<span class="chip on">${esc(t)}</span>`).join('')
+      ? activos.map((c) => `<button class="chip on" type="button" data-quitar="${esc(c.clave)}"${c.valor ? ` data-val="${esc(c.valor)}"` : ''}
+          ><span>${esc(c.texto)}</span><i class="x" aria-hidden="true">×</i></button>`).join('')
       : '';
   };
   pintarChips([]);
+
+  // Closing a pill: the same search without that filter, and everything else kept.
+  view().querySelector('#chips-activos').addEventListener('click', (e) => {
+    const pill = e.target.closest?.('[data-quitar]');
+    if (!pill) return;
+    const p = construir();
+    if (pill.dataset.quitar === 'amenidades') {
+      const quedan = (p.get('amenidades') ?? '').split(',').filter((a) => a && a !== pill.dataset.val);
+      if (quedan.length) p.set('amenidades', quedan.join(','));
+      else p.delete('amenidades');
+    } else {
+      p.delete(pill.dataset.quitar);
+    }
+    aplicar(p);
+  });
 
   const { banda, hab, dev, ...resto } = f;
   // The band is a control of the screen; the API wants the two figures it means.
