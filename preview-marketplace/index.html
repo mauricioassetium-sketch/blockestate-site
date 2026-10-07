@@ -25,38 +25,48 @@
 :root{
   --white:#fff; --ink:#111; --ink-90:rgba(0,0,0,.9); --ink-72:rgba(0,0,0,.72);
   --ink-60:rgba(0,0,0,.6); --ink-45:rgba(0,0,0,.45); --ink-30:rgba(0,0,0,.3);
-  --green:#22C55E; --green-deep:#16A34A; --teal:#10222B;
+  --green:#22C55E; --green-deep:#16A34A; --green-dark:#15803D; --teal:#10222B; --teal-2:#16303C;
   --coin:#FBBF24; --coin-deep:#B45309; --coin-dark:#7C2D12;
   --line:rgba(0,0,0,.06); --line-2:rgba(0,0,0,.09); --card:rgba(0,0,0,.02);
   --radius:1rem; --radius-sm:.6rem; --wrap:1180px;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.04), 0 24px 60px rgba(0,0,0,.12);
+  --shadow-green:0 8px 24px rgba(34,197,94,.28);
+  --ring:0 0 0 3px rgba(34,197,94,.16);
   --bar:60px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
 body{
   margin:0; background:var(--white); color:var(--ink);
   font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
-  font-weight:400; line-height:1.55; font-size:16px; text-rendering:optimizeLegibility;
+  font-weight:400; line-height:1.55; font-size:16px;
+  text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--green); color:#fff}
 img{max-width:100%; display:block}
 a{color:inherit; text-decoration:none}
 button,input,select{font:inherit; color:inherit}
-h1,h2,h3,h4{font-weight:900; letter-spacing:-.03em; line-height:1.05; margin:0}
-h1{font-size:clamp(1.7rem,4.6vw,2.9rem)}
-h2{font-size:clamp(1.25rem,2.6vw,1.7rem); text-transform:uppercase}
-h3{font-size:1.05rem}
+h1,h2,h3,h4{font-weight:900; letter-spacing:-.035em; line-height:1.03; margin:0}
+h1{font-size:clamp(2rem,5.4vw,3.5rem)}
+h2{font-size:clamp(1.35rem,2.8vw,1.9rem); text-transform:uppercase}
+h3{font-size:1.05rem; letter-spacing:-.02em}
 h4{font-size:.75rem; text-transform:uppercase; letter-spacing:.14em; color:var(--ink-45)}
 p{margin:.6rem 0}
+/* prices and figures line up when they share a column */
+.money,.price,.count,td,dd{font-variant-numeric:tabular-nums}
 .muted{color:var(--ink-60)}
 .wrap{width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:18px}
-.main{min-height:60vh; padding-bottom:56px}
+.main{min-height:60vh; padding-bottom:64px}
 .lab{display:flex; align-items:center; gap:.6rem; color:var(--green-deep);
-  font-size:11px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; margin-bottom:.6rem}
-.lab .dash{flex:1; height:1px; background:linear-gradient(90deg,var(--green),transparent)}
-.sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap;
-  margin:32px 0 12px}
+  font-size:11px; font-weight:700; letter-spacing:.32em; text-transform:uppercase; margin-bottom:.5rem}
+.lab .dash{flex:1; height:1px; background:linear-gradient(90deg,var(--green),rgba(34,197,94,0))}
+/* the two-tone headline of the site: the second half in a green gradient, clipped to the text */
+.two-tone{background:linear-gradient(92deg,var(--green) 0%,#4ade80 55%,var(--green-deep) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.sec-head{display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  margin:38px 0 14px; padding-bottom:12px; border-bottom:1px solid var(--line)}
+.sec-head h2{letter-spacing:-.03em}
 
 /* ---------- bar: the mark, a search and three things ---------- */
 .top{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.9);
@@ -90,41 +100,60 @@ p{margin:.6rem 0}
 .menu hr{border:0; border-top:1px solid var(--line); margin:4px 0}
 
 /* ---------- hero: the promise, the search, and the emirates ---------- */
-.hero{background:var(--teal); color:#fff; padding:38px 0 46px; position:relative; overflow:hidden}
-.hero::after{content:""; position:absolute; inset:-30% -10% auto auto; width:62%; height:160%;
-  background:radial-gradient(closest-side,rgba(34,197,94,.3),transparent); pointer-events:none}
-.hero .inner{position:relative; z-index:1; max-width:760px}
-.hero .eyebrow{font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--green);
-  font-weight:700; margin-bottom:.7rem}
-.hero h1{text-transform:uppercase; max-width:20ch}
-.hero p{color:rgba(255,255,255,.78); max-width:56ch; margin-top:.65rem}
-.hero .trust{display:flex; gap:1.1rem; flex-wrap:wrap; margin:14px 0 0; padding:0; list-style:none;
-  color:rgba(255,255,255,.72); font-size:.83rem}
-.hero .trust li::before{content:"·"; color:var(--green); margin-right:.4rem; font-weight:900}
+.hero{background:
+    radial-gradient(120% 90% at 88% -10%, rgba(34,197,94,.34) 0%, rgba(34,197,94,0) 62%),
+    radial-gradient(80% 70% at 12% 120%, rgba(34,197,94,.16) 0%, rgba(34,197,94,0) 60%),
+    linear-gradient(160deg,var(--teal) 0%, var(--teal-2) 55%, #0c1b22 100%);
+  color:#fff; padding:56px 0 64px; position:relative; overflow:hidden}
+/* a fine geometric weave, the motif of the site, kept almost invisible */
+.hero::before{content:""; position:absolute; inset:0; opacity:.16; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px);
+  background-size:56px 56px; mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 78%)}
+.hero::after{content:""; position:absolute; inset:auto -8% -55% auto; width:56%; height:120%;
+  background:radial-gradient(closest-side,rgba(34,197,94,.22),transparent); pointer-events:none}
+.hero .inner{position:relative; z-index:1; max-width:820px}
+.hero .eyebrow{display:inline-flex; align-items:center; gap:.5rem; font-size:11px; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--green); font-weight:700; margin-bottom:.9rem}
+.hero .eyebrow::before{content:""; width:26px; height:2px; background:var(--green); border-radius:2px}
+.hero h1{text-transform:uppercase; max-width:22ch; text-shadow:0 2px 30px rgba(0,0,0,.25)}
+.hero p{color:rgba(255,255,255,.8); max-width:56ch; margin-top:.9rem; font-size:clamp(.98rem,1.5vw,1.12rem)}
+.hero .trust{display:flex; gap:.5rem; flex-wrap:wrap; margin:20px 0 0; padding:0; list-style:none}
+.hero .trust li{display:inline-flex; align-items:center; gap:.45rem; font-size:.82rem;
+  color:rgba(255,255,255,.92); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+  padding:.4rem .7rem; border-radius:999px; backdrop-filter:blur(6px)}
+.hero .trust li::before{content:"✓"; color:var(--green); font-weight:900}
 .hero-search{display:grid; grid-template-columns:1fr auto; gap:8px; background:var(--white);
-  border-radius:999px; padding:6px; margin:20px 0 0; max-width:620px; box-shadow:var(--shadow)}
-.hero-search input{border:0; background:none; min-height:44px; padding-left:14px}
+  border-radius:999px; padding:7px; margin:26px 0 0; max-width:640px; box-shadow:var(--shadow-lg)}
+.hero-search input{border:0; background:none; min-height:48px; padding-left:16px; font-size:1rem}
 .hero-search input:focus{outline:none}
-.hero-search .btn{border-radius:999px}
+.hero-search .btn{border-radius:999px; padding-inline:1.4rem; box-shadow:var(--shadow-green)}
 
 /* the emirate grid overlaps the bottom edge of the hero, as in the reference */
-.emi{position:relative; z-index:2; margin-top:-32px}
+.emi{position:relative; z-index:2; margin-top:-38px}
 .emi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
-.emi-grid a{background:var(--white); border:1px solid var(--line-2); border-radius:var(--radius);
-  min-height:64px; display:flex; flex-direction:column; justify-content:center; align-items:center;
-  gap:2px; font-weight:700; font-size:.9rem; box-shadow:var(--shadow); padding:.5rem; text-align:center}
-.emi-grid a:hover{border-color:var(--green); color:var(--green-deep)}
+.emi-grid a{position:relative; background:var(--white); border:1px solid var(--line-2);
+  border-radius:var(--radius); min-height:72px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:2px; font-weight:800; font-size:.95rem; letter-spacing:-.02em;
+  box-shadow:var(--shadow); padding:.6rem; text-align:center; overflow:hidden;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+.emi-grid a::after{content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg,var(--green),var(--green-deep)); transform:scaleX(0);
+  transform-origin:left; transition:transform .2s ease}
+.emi-grid a:hover{transform:translateY(-2px); border-color:rgba(34,197,94,.5); box-shadow:var(--shadow-lg)}
+.emi-grid a:hover::after{transform:scaleX(1)}
 .emi-grid a small{font-weight:500; color:var(--ink-45); font-size:.72rem; letter-spacing:.04em}
 
 /* ---------- tab bar: what we sell, in one line ---------- */
-.tabs{display:flex; gap:6px; overflow-x:auto; padding:6px 0 2px; margin-top:26px;
+.tabs{display:flex; gap:6px; overflow-x:auto; padding:6px 0 2px; margin-top:30px;
   scrollbar-width:none; -webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:none; padding:.5rem .9rem; border-radius:999px; border:1px solid var(--line-2);
+.tabs a{flex:none; padding:.5rem .95rem; border-radius:999px; border:1px solid var(--line-2);
   font-size:.88rem; font-weight:600; color:var(--ink-72); min-height:44px; display:inline-flex;
-  align-items:center; background:var(--white)}
-.tabs a:hover{background:var(--card)}
-.tabs a.on{background:var(--ink); border-color:var(--ink); color:#fff}
+  align-items:center; background:var(--white); transition:background .15s ease, color .15s ease}
+.tabs a:hover{background:var(--card); color:var(--ink)}
+.tabs a.on{background:var(--ink); border-color:var(--ink); color:#fff; box-shadow:0 6px 18px rgba(0,0,0,.18)}
 
 /* ---------- controls: one row, four plus filters ---------- */
 /* The row wraps; it does NOT scroll sideways. `overflow-x:auto` here made the browser clip the
@@ -187,6 +216,19 @@ p{margin:.6rem 0}
   font-weight:700; text-transform:uppercase}
 .pop-group:first-of-type{margin-top:.25rem}
 .pop-sep{border:0; border-top:1px solid var(--line); margin:.5rem .3rem}
+/* several values: a tick box on each row, and the footer that counts and applies */
+.popover[data-multi="1"] .pop-opt::after{content:""; flex:none; width:18px; height:18px;
+  border-radius:.35rem; border:1.5px solid var(--line-2); background:var(--white)}
+.popover[data-multi="1"] .pop-opt.on::after{border-color:var(--green);
+  background:linear-gradient(135deg,var(--green),var(--green-deep))
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
+    center/13px no-repeat}
+.pop-more{display:block; margin:.15rem .7rem .4rem; background:none; border:0; cursor:pointer;
+  color:var(--green-deep); font-weight:700; font-size:.85rem; padding:.45rem 0; min-height:44px}
+.pop-more:hover{text-decoration:underline}
+.pop-foot{display:flex; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid var(--line);
+  position:sticky; bottom:-10px; background:var(--white)}
+.pop-foot .btn{flex:1}
 /* the compact variant lives inside the results bar, with no label above it */
 .control.compacto{flex:0 0 auto; min-width:0}
 .control.compacto .ctrl{min-height:38px; padding:.3rem .6rem; font-size:.88rem; border-color:transparent;
@@ -194,68 +236,90 @@ p{margin:.6rem 0}
 .control.compacto .ctrl:hover{background:var(--card); border-color:var(--line-2)}
 
 /* ---------- the rail: who is behind the catalogue ---------- */
-.lay{display:grid; grid-template-columns:minmax(0,1fr) 316px; gap:26px; align-items:start}
+.lay{display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:28px; align-items:start}
 .rail{position:sticky; top:calc(var(--bar) + 14px); display:grid; gap:16px}
-.rail-box{border:1px solid var(--line-2); border-radius:var(--radius); background:var(--card); padding:12px}
-.rail-box > h3{margin:0 0 .5rem .3rem}
-.dev-row{display:flex; align-items:center; gap:10px; padding:.45rem .3rem; border-radius:.6rem; min-height:48px}
-.dev-row:hover{background:var(--white)}
-.logo{width:38px; height:38px; border-radius:.6rem; display:inline-flex; align-items:center;
+.rail-box{border:1px solid var(--line-2); border-radius:1.1rem; padding:14px 12px 12px;
+  background:linear-gradient(180deg,rgba(0,0,0,.025),rgba(0,0,0,0))}
+.rail-box > h3{display:flex; align-items:center; gap:.55rem; margin:0 0 .7rem .35rem;
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-45); font-weight:800}
+.rail-box > h3::after{content:""; flex:1; height:1px;
+  background:linear-gradient(90deg,var(--line-2),transparent)}
+.dev-row{display:flex; align-items:center; gap:10px; padding:.5rem .45rem; border-radius:.7rem;
+  min-height:48px; transition:background .15s ease, box-shadow .15s ease}
+.dev-row:hover{background:var(--white); box-shadow:var(--shadow)}
+.logo{width:38px; height:38px; border-radius:.7rem; display:inline-flex; align-items:center;
   justify-content:center; font-weight:900; font-size:.8rem; letter-spacing:-.02em; color:#fff;
-  flex:none; overflow:hidden; background:var(--teal)}
+  flex:none; overflow:hidden; background:var(--teal);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14), 0 4px 12px rgba(16,34,43,.18)}
 .logo img{width:100%; height:100%; object-fit:contain; background:#fff}
 .dev-row .meta{min-width:0}
 .dev-row b{display:block; font-size:.9rem; font-weight:700; white-space:nowrap; overflow:hidden;
-  text-overflow:ellipsis}
+  text-overflow:ellipsis; letter-spacing:-.01em}
 .dev-row span{font-size:.76rem; color:var(--ink-45)}
 
 /* ---------- cards: price first, photo on the left ---------- */
-.list{display:grid; gap:14px; margin-top:6px}
+.list{display:grid; gap:16px; margin-top:8px}
 .card{display:grid; grid-template-columns:40% 60%; border:1px solid var(--line-2);
-  border-radius:var(--radius); overflow:hidden; background:var(--white); transition:box-shadow .18s ease}
-.card:hover{box-shadow:var(--shadow)}
+  border-radius:1.1rem; overflow:hidden; background:var(--white); position:relative;
+  transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease}
+.card:hover{box-shadow:var(--shadow-lg); transform:translateY(-2px); border-color:rgba(34,197,94,.35)}
 .card .photo{position:relative; background:linear-gradient(135deg,rgba(16,34,43,.92),rgba(34,197,94,.55));
-  min-height:196px}
+  min-height:200px; overflow:hidden}
 .card .photo > a{position:absolute; inset:0; z-index:1}
-.card .photo img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+.card .photo img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;
+  transition:transform .5s ease}
+.card:hover .photo img{transform:scale(1.04)}
+/* a soft veil so the badges always read over any photograph */
+.card .photo::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 42%)}
 .card .photo .fallback{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  color:rgba(255,255,255,.9); font-weight:900; text-transform:uppercase; font-size:.9rem;
+  color:rgba(255,255,255,.92); font-weight:900; text-transform:uppercase; font-size:.9rem;
   letter-spacing:-.02em; padding:1rem; text-align:center}
-.card .body{padding:14px 16px; display:flex; flex-direction:column; gap:.4rem; min-width:0}
-.card .price{font-weight:900; font-size:1.32rem; letter-spacing:-.02em; line-height:1.1}
+.card .body{padding:16px 18px; display:flex; flex-direction:column; gap:.42rem; min-width:0}
+.card .price{font-weight:900; font-size:1.45rem; letter-spacing:-.035em; line-height:1.05}
 .card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
-.card h3{font-size:1rem; font-weight:700; letter-spacing:-.01em}
-.card .specs{display:flex; gap:.9rem; flex-wrap:wrap; color:var(--ink-72); font-size:.86rem}
-.card .specs span::before{content:""; display:inline-block; width:5px; height:5px; border-radius:50%;
-  background:var(--green); margin-right:.4rem; vertical-align:middle}
-.card .zona{color:var(--ink-45); font-size:.86rem}
-.card .zona::before{content:"⌖"; margin-right:.35rem; color:var(--green)}
-.verif{font-size:.8rem; color:var(--green-deep); font-weight:600}
-.verif::before{content:"✓"; margin-right:.35rem; font-weight:900}
-.obra{display:flex; gap:8px; margin-top:.15rem}
-.obra > div{flex:1; border:1px solid var(--line-2); border-radius:.5rem; padding:.35rem .55rem;
-  background:var(--white)}
-.obra span{display:block; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
-  color:var(--ink-45); font-weight:700}
-.obra b{font-size:.88rem; letter-spacing:-.01em}
+.card h3{font-size:1.02rem; font-weight:700; letter-spacing:-.02em}
+.card h3 a:hover{color:var(--green-deep)}
+.card .specs{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink-72); font-size:.86rem}
+.card .specs span{display:inline-flex; align-items:center}
+.card .specs span::before{content:""; display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--green-deep)); margin-right:.45rem}
+.card .zona{color:var(--ink-45); font-size:.86rem; display:flex; align-items:center; gap:.35rem}
+.card .zona::before{content:"⌖"; color:var(--green); font-size:.95rem}
 .card .verif{margin-top:.1rem}
+.card .obra{margin-top:.2rem}
 .card .foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding-top:.6rem; border-top:1px solid var(--line)}
-.card .dev{font-size:.8rem; color:var(--ink-45); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.tags{position:absolute; left:10px; top:10px; display:flex; gap:6px; flex-wrap:wrap; z-index:2}
-.tag{background:rgba(255,255,255,.95); color:var(--ink); font-size:.68rem; font-weight:700;
-  text-transform:uppercase; letter-spacing:.08em; padding:.22rem .5rem; border-radius:999px}
-.tag.green{background:var(--green); color:#fff}
-.tag.coin{background:var(--coin); color:var(--coin-dark)}
-.heart{position:absolute; right:10px; top:10px; z-index:2; width:44px; height:44px; border-radius:50%;
-  border:0; background:rgba(255,255,255,.94); cursor:pointer; font-size:1rem; line-height:1;
-  display:inline-flex; align-items:center; justify-content:center}
-.heart.on{background:var(--green); color:#fff}
-.badge{display:inline-flex; align-items:center; gap:.35rem; background:rgba(34,197,94,.1);
-  border:1px solid rgba(34,197,94,.35); color:var(--green-deep); border-radius:999px;
-  padding:.28rem .66rem; font-size:.76rem; font-weight:700}
-.empty{border:1px dashed var(--line-2); border-radius:var(--radius); padding:30px; text-align:center;
+  padding-top:.7rem; border-top:1px solid var(--line)}
+.card .dev{font-size:.8rem; color:var(--ink-45); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  display:flex; align-items:center; gap:.4rem}
+.card .dev::before{content:""; width:6px; height:6px; border-radius:2px; background:var(--ink-30)}
+.tags{position:absolute; left:12px; top:12px; display:flex; gap:6px; flex-wrap:wrap; z-index:2}
+.tag{background:rgba(255,255,255,.96); color:var(--ink); font-size:.66rem; font-weight:800;
+  text-transform:uppercase; letter-spacing:.1em; padding:.28rem .55rem; border-radius:999px;
+  box-shadow:0 4px 14px rgba(0,0,0,.18); backdrop-filter:blur(6px)}
+.tag.green{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff}
+.tag.coin{background:linear-gradient(135deg,var(--coin),var(--coin-deep)); color:#fff}
+.heart{position:absolute; right:12px; top:12px; z-index:2; width:44px; height:44px; border-radius:50%;
+  border:0; background:rgba(255,255,255,.96); cursor:pointer; font-size:1.05rem; line-height:1;
+  display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.18);
+  transition:transform .15s ease, background .15s ease}
+.heart:hover{transform:scale(1.06)}
+.heart.on{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff}
+.badge{display:inline-flex; align-items:center; gap:.35rem; background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.38); color:var(--green-deep); border-radius:999px;
+  padding:.3rem .7rem; font-size:.76rem; font-weight:700}
+.empty{border:1px dashed var(--line-2); border-radius:var(--radius); padding:34px; text-align:center;
   color:var(--ink-60); background:var(--card); margin-top:14px}
+
+/* the verification line and the new-build boxes are shared by the card and the unit page */
+.verif{font-size:.82rem; color:var(--green-deep); font-weight:700}
+.verif::before{content:"✓"; margin-right:.35rem; font-weight:900}
+.obra{display:flex; gap:8px}
+.obra > div{flex:1; border:1px solid rgba(34,197,94,.28); border-radius:.65rem; padding:.4rem .6rem;
+  background:linear-gradient(180deg,rgba(34,197,94,.07),rgba(34,197,94,.02))}
+.obra span{display:block; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-deep); font-weight:800}
+.obra b{font-size:.9rem; letter-spacing:-.02em}
 
 /* ---------- unit page ---------- */
 .detail{display:grid; grid-template-columns:1.4fr .92fr; gap:26px; margin-top:14px}
@@ -288,18 +352,25 @@ p{margin:.6rem 0}
 
 /* ---------- buttons and forms ---------- */
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:.4rem; min-height:44px;
-  padding:.65rem 1.1rem; border-radius:999px; border:1px solid transparent; background:var(--ink);
-  color:#fff; font-weight:700; cursor:pointer; text-align:center}
-.btn:hover{background:#000}
-.btn.green{background:var(--green)} .btn.green:hover{background:var(--green-deep)}
-.btn.ghost{background:transparent; border-color:var(--line-2); color:var(--ink)}
-.btn.ghost:hover{background:var(--card)}
-.btn[disabled]{opacity:.55; cursor:not-allowed}
+  padding:.65rem 1.15rem; border-radius:999px; border:1px solid transparent;
+  background:linear-gradient(180deg,#1c1c1c,#000); color:#fff; font-weight:700; cursor:pointer;
+  text-align:center; letter-spacing:-.01em;
+  box-shadow:0 6px 18px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.1);
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease}
+.btn:hover{transform:translateY(-1px); box-shadow:0 10px 26px rgba(0,0,0,.2)}
+.btn.green{background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%);
+  box-shadow:var(--shadow-green), inset 0 1px 0 rgba(255,255,255,.28)}
+.btn.green:hover{background:linear-gradient(135deg,#26d366,var(--green-deep))}
+.btn.ghost{background:var(--white); border-color:var(--line-2); color:var(--ink); box-shadow:none}
+.btn.ghost:hover{background:var(--card); border-color:var(--ink-30)}
+.btn[disabled]{opacity:.5; cursor:not-allowed; transform:none}
 .btn.sm{min-height:38px; padding:.4rem .85rem; font-size:.86rem}
 input[type=text],input[type=search],input[type=email],input[type=password],input[type=number],select{
   width:100%; padding:.65rem .8rem; border:1px solid var(--line-2); border-radius:var(--radius-sm);
-  background:var(--white); min-height:46px}
+  background:var(--white); min-height:46px; transition:border-color .15s ease, box-shadow .15s ease}
+input:hover,select:hover{border-color:var(--ink-30)}
 input:focus,select:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+input:focus,select:focus{border-color:var(--green); box-shadow:var(--ring)}
 .narrow{max-width:440px; margin:26px auto}
 .form-card{border:1px solid var(--line-2); border-radius:var(--radius); padding:20px; background:var(--card)}
 .form-card .field{margin-bottom:.85rem}
@@ -443,6 +514,8 @@ const filtrar = (lista, q) => {
   for (const k of ['emirato', 'tipo', 'estado_obra']) if (g(k)) out = out.filter((r) => String(r[k]) === g(k));
   if (g('amueblado')) out = out.filter((r) => String(r.amueblado) === g('amueblado'));
   if (g('habitaciones_min')) out = out.filter((r) => (r.habitaciones ?? 0) >= Number(g('habitaciones_min')));
+  const habs = (g('habitaciones') ?? '').split(',').filter(Boolean);
+  if (habs.length) out = out.filter((r) => habs.includes(String(r.habitaciones ?? 0)));
   if (g('banos_min')) out = out.filter((r) => (r.banos ?? 0) >= Number(g('banos_min')));
   if (g('superficie_min')) out = out.filter((r) => (r.superficie_sqft ?? 0) >= Number(g('superficie_min')));
   if (g('superficie_max')) out = out.filter((r) => (r.superficie_sqft ?? 0) <= Number(g('superficie_max')));
@@ -866,45 +939,97 @@ function error(container, err) {
    marked, one panel open at a time and everything closed with Escape or a click outside. That is
    the pattern of the references: a control is not a native list of twenty, it is a door. */
 
-/** One control and its panel. `grupos` is [{titulo, opciones: [{valor, texto, nota?}]}]. */
-function picker(id, { label, vacio = 'Any', grupos = [], valor = '', compacto = false } = {}) {
-  const todas = grupos.flatMap((g) => g.opciones);
-  const elegida = todas.find((o) => o.valor === valor);
+/**
+ * One control and its panel. `grupos` is [{titulo, opciones: [{valor, texto, nota?}]}].
+ *
+ * `multiple` turns it into a picker of several values (the panel stays open and the choice is
+ * applied with the button of the footer, which says how many results it will show). `ocultas` keeps
+ * the panel short and reveals the rest with a "View more" row.
+ */
+function picker(id, {
+  label, vacio = 'Any', grupos = [], valor = '', compacto = false,
+  multiple = false, ocultas = 0, acciones = false,
+} = {}) {
+  const elegidas = Array.isArray(valor) ? valor : [valor];
   const marca = '<b aria-hidden="true">✓</b>';
   const fila = (o) => `
-    <button class="pop-opt${o.valor === valor ? ' on' : ''}" type="button"
-      data-pick="${esc(id)}" data-val="${esc(o.valor)}">
+    <button class="pop-opt${elegidas.includes(o.valor) ? ' on' : ''}" type="button"
+      data-pick="${esc(id)}" data-val="${esc(o.valor)}" role="${multiple ? 'checkbox' : 'radio'}"
+      aria-checked="${elegidas.includes(o.valor)}">
       <span>${esc(o.texto)}${o.nota ? `<small>${esc(o.nota)}</small>` : ''}</span>
-      ${o.valor === valor ? marca : ''}
+      ${multiple ? '' : elegidas.includes(o.valor) ? marca : ''}
     </button>`;
+
+  const opciones = (lista) => lista.map(fila).join('');
+  const resumen = multiple
+    ? (elegidas.filter(Boolean).length
+      ? grupos.flatMap((g) => g.opciones).filter((o) => elegidas.includes(o.valor)).map((o) => o.texto).join(', ')
+      : vacio)
+    : (grupos.flatMap((g) => g.opciones).find((o) => o.valor === valor)?.texto ?? vacio);
 
   return `
     <div class="control${compacto ? ' compacto' : ''}">
       ${label ? `<label>${esc(label)}</label>` : ''}
       <button class="ctrl" type="button" data-open="${esc(id)}" aria-expanded="false"
         aria-controls="pop-${esc(id)}">
-        <span>${esc(elegida?.texto ?? vacio)}</span><i aria-hidden="true">▾</i>
+        <span>${esc(resumen)}</span><i aria-hidden="true">▾</i>
       </button>
-      <div class="popover" id="pop-${esc(id)}" hidden role="dialog" aria-label="${esc(label ?? id)}">
-        <button class="pop-opt${valor === '' ? ' on' : ''}" type="button"
-          data-pick="${esc(id)}" data-val=""><span>${esc(vacio)}</span>${valor === '' ? marca : ''}</button>
+      <div class="popover" id="pop-${esc(id)}" hidden role="dialog" aria-label="${esc(label ?? id)}"
+        data-multi="${multiple ? '1' : '0'}">
+        ${multiple ? '' : `
+          <button class="pop-opt${valor === '' ? ' on' : ''}" type="button"
+            data-pick="${esc(id)}" data-val="" role="radio" aria-checked="${valor === ''}">
+            <span>${esc(vacio)}</span>${valor === '' ? marca : ''}</button>`}
         ${grupos.map((g) => `
           ${g.titulo ? `<h4 class="pop-group">${esc(g.titulo)}</h4>` : '<hr class="pop-sep">'}
-          ${g.opciones.map(fila).join('')}`).join('')}
+          ${opciones(ocultas > 0 ? g.opciones.slice(0, -ocultas) : g.opciones)}
+          ${ocultas > 0 ? `<div class="pop-extra" hidden>${opciones(g.opciones.slice(-ocultas))}</div>
+            <button class="pop-more" type="button" data-mas>View more ↓</button>` : ''}`).join('')}
+        ${acciones ? `
+          <div class="pop-foot">
+            <button class="btn green" type="button" data-aplicar="${esc(id)}">Show results</button>
+            <button class="btn ghost" type="button" data-limpiar="${esc(id)}">Clear</button>
+          </div>` : ''}
       </div>
     </div>`;
 }
 
 /** Wires every picker inside `raiz`. `onPick(id, valor)` decides what to do with the choice. */
-function initPickers(raiz, { onPick } = {}) {
+function initPickers(raiz, { onPick, onAplicar, onContar } = {}) {
+  // The veil is only used when a panel behaves as a bottom sheet (a phone).
+  let velo = document.querySelector('.veil');
+  if (!velo) {
+    velo = document.createElement('div');
+    velo.className = 'veil';
+    velo.hidden = true;
+    document.body.appendChild(velo);
+  }
+
   const cerrarTodos = (menos) => {
     for (const p of raiz.querySelectorAll('.popover')) {
       if (p === menos) continue;
       p.hidden = true;
       p.closest('.control')?.querySelector('[data-open]')?.setAttribute('aria-expanded', 'false');
     }
+    if (!menos) velo.hidden = true;
   };
+
   raiz.addEventListener('click', (e) => {
+    // A close button inside a panel, or the apply button that also closes it.
+    if (e.target.closest?.('[data-cerrar]')) {
+      cerrarTodos();
+      return;
+    }
+    // "View more": the rest of the options of that group.
+    const mas = e.target.closest?.('[data-mas]');
+    if (mas) {
+      const extra = mas.parentElement.querySelector('.pop-extra');
+      if (extra) {
+        extra.hidden = false;
+        mas.remove();
+      }
+      return;
+    }
     const abridor = e.target.closest?.('[data-open]');
     if (abridor) {
       const panel = raiz.querySelector(`#pop-${abridor.dataset.open}`);
@@ -913,17 +1038,44 @@ function initPickers(raiz, { onPick } = {}) {
       cerrarTodos(panel);
       panel.hidden = estabaAbierto;
       abridor.setAttribute('aria-expanded', String(!estabaAbierto));
+      velo.hidden = !(estabaAbierto === false && getComputedStyle(panel).position === 'fixed');
+      if (!panel.hidden) onContar?.(abridor.dataset.open);
       return;
     }
     const opcion = e.target.closest?.('[data-pick]');
     if (opcion) {
       const { pick, val } = opcion.dataset;
+      const panel = raiz.querySelector(`#pop-${pick}`);
+      if (panel?.dataset.multi === '1') {
+        // Several values: the row toggles, the panel stays open and the footer counts.
+        opcion.classList.toggle('on');
+        opcion.setAttribute('aria-checked', String(opcion.classList.contains('on')));
+        onContar?.(pick);
+        return;
+      }
       cerrarTodos();
       onPick?.(pick, val);
       return;
     }
+    if (e.target.closest?.('[data-limpiar]')) {
+      const panel = raiz.querySelector(`#pop-${e.target.closest('[data-limpiar]').dataset.limpiar}`);
+      panel?.querySelectorAll('.pop-opt.on').forEach((b) => {
+        b.classList.remove('on');
+        b.setAttribute('aria-checked', 'false');
+      });
+      onAplicar?.(e.target.closest('[data-limpiar]').dataset.limpiar);
+      return;
+    }
+    if (e.target.closest?.('[data-aplicar]')) {
+      const id = e.target.closest('[data-aplicar]').dataset.aplicar;
+      cerrarTodos();
+      onAplicar?.(id);
+      return;
+    }
     if (!e.target.closest?.('.popover')) cerrarTodos();
   });
+
+  velo.addEventListener('click', () => cerrarTodos());
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarTodos(); });
 }
 
@@ -1224,7 +1376,7 @@ const filtrosDe = (query) => ({
   tipo: query.get('tipo') ?? '',
   dev: query.get('desarrollador_id') ?? '',
   banda: bandaElegida(query.get('precio_min') ?? '', query.get('precio_max') ?? ''),
-  hab: query.get('habitaciones_min') ?? '',
+  habs: (query.get('habitaciones') ?? '').split(',').filter(Boolean),
   banos_min: query.get('banos_min') ?? '',
   superficie_min: query.get('superficie_min') ?? '',
   superficie_max: query.get('superficie_max') ?? '',
@@ -1239,10 +1391,14 @@ let total = 0;
 let ultimos = [];
 let filtrosActuales = {};
 // The state of the controls that are pickers (the panel's fields are read from the DOM).
-let estado = { emirato: '', tipo: '', banda: '', hab: '', orden: '' };
+let estado = { emirato: '', tipo: '', banda: '', orden: '' };
 let pickersListos = false;
+let contadorTimer;
 
 const leerPanel = (sel) => view().querySelector(sel)?.value.trim() ?? '';
+/** The values ticked inside a multi-select panel. */
+const leerSeleccion = (id) => [...view().querySelectorAll(`#pop-${id} .pop-opt.on`)]
+  .map((b) => b.dataset.val).filter(Boolean);
 
 /** The filters the buyer has chosen, as the query the API understands. */
 function construir() {
@@ -1256,7 +1412,8 @@ function construir() {
     if (min) p.set('precio_min', min);
     if (max) p.set('precio_max', max);
   }
-  if (estado.hab) p.set('habitaciones_min', estado.hab);
+  const habs = leerSeleccion('hab');
+  if (habs.length) p.set('habitaciones', habs.join(','));
   const banos = leerPanel('#s-banos');
   const sMin = leerPanel('#s-smin');
   const sMax = leerPanel('#s-smax');
@@ -1278,7 +1435,7 @@ function construir() {
 async function viewSearch(query) {
   offset = 0;
   const f = filtrosDe(query);
-  estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, hab: f.hab, orden: f.orden };
+  estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, orden: f.orden };
 
   view().innerHTML = `
     <div class="wrap">
@@ -1302,19 +1459,22 @@ async function viewSearch(query) {
           grupos: [{ opciones: BANDAS.map(([v, t]) => ({ valor: v, texto: t })) }],
         })}
         ${picker('hab', {
-          label: 'Bedrooms', vacio: 'Any', valor: f.hab,
-          grupos: [{ opciones: [1, 2, 3, 4, 5].map((n) => ({ valor: String(n), texto: `${n} or more` })) }],
+          label: 'Bedrooms', vacio: 'Any', valor: f.habs, multiple: true, acciones: true, ocultas: 2,
+          grupos: [{ opciones: [
+            { valor: '0', texto: 'Studio' },
+            ...[1, 2, 3, 4, 5, 6, 7].map((n) => ({ valor: String(n), texto: `${n} bed${n > 1 ? 's' : ''}` })),
+          ] }],
         })}
         <div class="control ancho" style="align-self:flex-start">
           <label>&nbsp;</label>
           <button class="btn ghost" id="mas-filtros" type="button" style="width:100%"
-            aria-expanded="false" aria-controls="pop">Filters</button>
+            data-open="filtros" aria-expanded="false" aria-controls="pop-filtros">Filters</button>
           <span class="sub">Baths · size · furnishing · amenities</span>
 
-          <div class="popover" id="pop" hidden role="dialog" aria-label="More filters">
+          <div class="popover" id="pop-filtros" hidden role="dialog" aria-label="More filters">
             <div class="pop-head">
               <b>More filters</b>
-              <button class="close" id="cerrar-pop" type="button" aria-label="Close">×</button>
+              <button class="close" type="button" data-cerrar aria-label="Close">×</button>
             </div>
             <div class="fields">
               <h4 class="pop-group">Property</h4>
@@ -1347,8 +1507,8 @@ async function viewSearch(query) {
                 </div></div>
             </div>
             <div style="display:flex;gap:10px;margin-top:16px">
-              <button class="btn green" id="aplicar" type="button" style="flex:1">Show results</button>
-              <button class="btn ghost" id="limpiar-hoja" type="button">Clear</button>
+              <button class="btn green" id="aplicar" type="button" style="flex:1" data-cerrar>Show results</button>
+              <button class="btn ghost" id="limpiar-hoja" type="button" data-cerrar>Clear</button>
             </div>
           </div>
         </div>
@@ -1380,31 +1540,8 @@ async function viewSearch(query) {
     </div>
   `;
 
-  const hoja = view().querySelector('#pop');
-  const veil = document.createElement('div');
-  veil.className = 'veil';
-  veil.hidden = true;
-  document.body.appendChild(veil);
-  const abrir = () => {
-    hoja.hidden = false;
-    view().querySelector('#mas-filtros')?.setAttribute('aria-expanded', 'true');
-    // A veil only when the panel is a bottom sheet (a phone); on a wide screen it hangs by the control.
-    if (getComputedStyle(hoja).position === 'fixed') veil.hidden = false;
-  };
-  const cerrar = () => {
-    hoja.hidden = true;
-    veil.hidden = true;
-    view().querySelector('#mas-filtros')?.setAttribute('aria-expanded', 'false');
-  };
-  view().querySelector('#mas-filtros').addEventListener('click', () => (hoja.hidden ? abrir() : cerrar()));
-  view().querySelector('#cerrar-pop').addEventListener('click', cerrar);
-  veil.addEventListener('click', cerrar);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrar(); });
-  // Clicking anywhere outside the panel closes it, wherever the click lands.
-  document.addEventListener('click', (e) => {
-    if (hoja.hidden) return;
-    if (!hoja.contains(e.target) && !e.target.closest?.('#mas-filtros')) cerrar();
-  });
+  // The panels of the controls (including the one of Filters) are opened, closed and veiled by
+  // `initPickers`: here only the chips of the panel need a listener of their own.
   view().querySelector('#chips').addEventListener('click', (e) => {
     const c = e.target.closest?.('[data-amen]');
     if (c) c.classList.toggle('on');
@@ -1418,10 +1555,24 @@ async function viewSearch(query) {
         estado[id] = val;
         aplicar(construir());
       },
+      // The multi-select applies with its own button, which says how many results it will show.
+      onAplicar: () => aplicar(construir()),
+      onContar: (id) => {
+        if (id !== 'hab') return;
+        clearTimeout(contadorTimer);
+        contadorTimer = setTimeout(async () => {
+          const boton = view().querySelector('#pop-hab [data-aplicar]');
+          if (!boton) return;
+          try {
+            const r = await api.search({ ...Object.fromEntries(construir().entries()), limit: 1 });
+            boton.textContent = `Show ${r.total} result${r.total === 1 ? '' : 's'}`;
+          } catch { /* the figure is a nicety: the button still says what it does */ }
+        }, 260);
+      },
     });
     pickersListos = true;
   }
-  view().querySelector('#aplicar').addEventListener('click', () => { cerrar(); aplicar(construir()); });
+  view().querySelector('#aplicar').addEventListener('click', () => aplicar(construir()));
   view().querySelector('#limpiar').addEventListener('click', () => go('/search'));
   view().querySelector('#limpiar-hoja').addEventListener('click', () => go('/search'));
   view().querySelector('#guardar').addEventListener('click', async () => {
@@ -1442,7 +1593,7 @@ async function viewSearch(query) {
       f.comunidad && f.comunidad,
       f.tipo && (TIPOS[f.tipo] ?? f.tipo),
       f.dev && nombreDev,
-      f.hab && `${f.hab}+ beds`,
+      f.habs.length && `${f.habs.join(', ')} bed${f.habs.length > 1 ? 's' : ''}`,
       f.estado_obra && (f.estado_obra === 'ready' ? 'Ready' : 'Off plan'),
       ...f.amenidades.map((a) => AMENIDADES[a] ?? a),
     ].filter(Boolean);
@@ -1464,7 +1615,7 @@ async function viewSearch(query) {
     comunidad: f.comunidad || undefined,
     tipo: f.tipo || undefined,
     estado_obra: f.estado_obra || undefined,
-    habitaciones_min: f.hab || undefined,
+    habitaciones: f.habs.length ? f.habs : undefined,
     banos_min: f.banos_min || undefined,
     superficie_min: f.superficie_min || undefined,
     superficie_max: f.superficie_max || undefined,
