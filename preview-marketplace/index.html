@@ -877,6 +877,87 @@ function render() {
   if (noEncontrada) return noEncontrada({ params: {}, query });
 }
 
+/* ===== js/views/rail.js ===== */
+/**
+ * The rail on the right: who is behind the catalogue.
+ *
+ * Two blocks, both fed by the API and both about what is published — a developer's name appears only
+ * when they have stock in the catalogue, which is what makes the list worth reading. The logo is the
+ * one the developer uploaded during onboarding; until there is one, the name carries its own mark
+ * (initials) instead of an invented image.
+ */
+
+
+
+/** A mark from the name: two initials on a colour derived from the name itself. */
+function monograma(nombre) {
+  const limpio = String(nombre ?? '').trim();
+  const iniciales = limpio.split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase() || '·';
+  const colores = ['#10222B', '#16A34A', '#166534', '#0F172A', '#134E4A', '#1F2937'];
+  let h = 0;
+  for (const c of limpio) h = (h * 31 + c.charCodeAt(0)) % 997;
+  return { iniciales, fondo: colores[h % colores.length] };
+}
+
+function logoHtml(nombre, logoUrl) {
+  if (logoUrl) {
+    return `<span class="logo"><img src="${esc(logoUrl)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+  }
+  const { iniciales, fondo } = monograma(nombre);
+  return `<span class="logo" style="background:${fondo}" aria-hidden="true">${esc(iniciales)}</span>`;
+}
+
+let cache = null;
+/** Fetched once per session: the rail is the same on every screen. */
+async function datosRail() {
+  if (!cache) cache = await api.developers();
+  return cache;
+}
+
+async function pintarRail(contenedor) {
+  const el = typeof contenedor === 'string' ? document.querySelector(contenedor) : contenedor;
+  if (!el) return null;
+  try {
+    const { desarrolladores, proyectos } = await datosRail();
+    const devs = desarrolladores ?? [];
+    const proys = proyectos ?? [];
+
+    el.innerHTML = `
+      <div class="rail-box">
+        <h3>Developers</h3>
+        ${devs.length
+          ? devs.map((d) => `
+            <a class="dev-row" href="#/search?desarrollador_id=${esc(d.id)}">
+              ${logoHtml(d.nombre, d.logo_url)}
+              <span class="meta">
+                <b>${esc(d.nombre)}</b>
+                <span>${d.propiedades} propert${d.propiedades === 1 ? 'y' : 'ies'}${d.desde_aed ? ` · from ${esc(d.desde_aed)}` : ''}</span>
+              </span>
+            </a>`).join('')
+          : '<p class="muted" style="font-size:.85rem">No developer has published yet.</p>'}
+      </div>
+      ${proys.length ? `
+      <div class="rail-box">
+        <h3>Significant projects</h3>
+        ${proys.map((p) => `
+          <a class="dev-row" href="#/project/${esc(p.id)}">
+            ${logoHtml(p.desarrollador, p.desarrollador_logo)}
+            <span class="meta">
+              <b>${esc(p.nombre)}</b>
+              <span>${esc(p.comunidad ?? p.ciudad)} · ${p.propiedades}${p.desde_aed ? ` · from ${esc(p.desde_aed)}` : ''}</span>
+            </span>
+          </a>`).join('')}
+      </div>` : ''}
+      <p class="note" style="font-size:.75rem">Only developers with property published in the
+        marketplace appear here. Their mark is the one they upload when they are onboarded.</p>
+    `;
+    return { desarrolladores: devs, proyectos: proys };
+  } catch (err) {
+    el.innerHTML = `<div class="msg err">${esc(err?.message ?? 'The rail could not be loaded.')}</div>`;
+    return null;
+  }
+}
+
 /* ===== js/views/catalog.js ===== */
 /** The catalogue: the front page and the search. */
 
