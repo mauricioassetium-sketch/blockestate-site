@@ -327,11 +327,10 @@ p{margin:.6rem 0}
 .card h3{font-size:1.02rem; font-weight:700; letter-spacing:-.02em}
 .card h3 a:hover{color:var(--green-deep)}
 .card .specs{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink-72); font-size:.86rem}
-.card .specs span{display:inline-flex; align-items:center}
-.card .specs span::before{content:""; display:inline-block; width:6px; height:6px; border-radius:50%;
-  background:linear-gradient(135deg,var(--green),var(--green-deep)); margin-right:.45rem}
+.card .specs span{display:inline-flex; align-items:center; gap:.35rem}
+.card .specs svg{color:var(--green-deep); flex:none}
 .card .zona{color:var(--ink-45); font-size:.86rem; display:flex; align-items:center; gap:.35rem}
-.card .zona::before{content:"⌖"; color:var(--green); font-size:.95rem}
+.card .zona svg{color:var(--green); flex:none}
 .card .verif{margin-top:.1rem}
 .card .obra{margin-top:.2rem}
 .card .foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -344,11 +343,17 @@ p{margin:.6rem 0}
   text-transform:uppercase; letter-spacing:.1em; padding:.28rem .55rem; border-radius:999px;
   box-shadow:0 4px 14px rgba(0,0,0,.18); backdrop-filter:blur(6px)}
 .tag.green{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff}
-.tag.coin{background:linear-gradient(135deg,var(--coin),var(--coin-deep)); color:#fff}
-/* the mark of Verysset, over the photograph: the checklist says who checked the asset */
-.tag.verysset{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff;
-  display:inline-flex; align-items:center; gap:.3rem}
-.verif svg,.badge svg{vertical-align:-1px}
+.tag.coin{background:linear-gradient(135deg,var(--coin),var(--coin-deep)); color:#fff;
+  display:inline-flex; align-items:center; gap:.25rem}
+/* the mark of Verysset, over the photograph: a dark pill with the approved stamp and the name */
+.sello-ico{width:18px; height:18px; border-radius:50%; flex:none; display:inline-flex;
+  align-items:center; justify-content:center; background:var(--green); box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+.tag.verysset{background:var(--teal); color:#fff; display:inline-flex; align-items:center; gap:.35rem;
+  padding:.2rem .55rem .2rem .25rem; font-weight:800; letter-spacing:.06em}
+.badge.verysset{background:var(--teal); border-color:var(--teal); color:#fff; gap:.4rem;
+  padding:.28rem .7rem .28rem .3rem; font-weight:800; letter-spacing:.06em}
+.verif .sello-ico{width:16px; height:16px; box-shadow:0 0 0 1.5px rgba(34,197,94,.25)}
+.verif svg,.badge svg{vertical-align:0}
 .heart{position:absolute; right:12px; top:12px; z-index:2; width:44px; height:44px; border-radius:50%;
   border:0; background:rgba(255,255,255,.96); cursor:pointer; font-size:1.05rem; line-height:1;
   display:inline-flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.18);
@@ -362,14 +367,16 @@ p{margin:.6rem 0}
   color:var(--ink-60); background:var(--card); margin-top:14px}
 
 /* the verification line and the new-build boxes are shared by the card and the unit page */
-.verif{font-size:.82rem; color:var(--green-deep); font-weight:700}
-.verif::before{content:"✓"; margin-right:.35rem; font-weight:900}
-.obra{display:flex; gap:8px}
+.verif{font-size:.82rem; color:var(--green-deep); font-weight:700; display:flex; align-items:center;
+  gap:.35rem}
+.obra{display:flex; gap:8px; margin-top:.15rem}
 .obra > div{flex:1; border:1px solid rgba(34,197,94,.28); border-radius:.65rem; padding:.4rem .6rem;
-  background:linear-gradient(180deg,rgba(34,197,94,.07),rgba(34,197,94,.02))}
-.obra span{display:block; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+  background:linear-gradient(180deg,rgba(34,197,94,.07),rgba(34,197,94,.02));
+  display:flex; flex-wrap:wrap; align-items:center; gap:.3rem}
+.obra svg{color:var(--green-deep); flex:none}
+.obra span{font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
   color:var(--green-deep); font-weight:800}
-.obra b{font-size:.9rem; letter-spacing:-.02em}
+.obra b{font-size:.9rem; letter-spacing:-.02em; flex-basis:100%}
 
 /* ---------- unit page ---------- */
 .detail{display:grid; grid-template-columns:1.4fr .92fr; gap:26px; margin-top:14px}
@@ -911,13 +918,14 @@ const tipoLabel = (v) => label(TIPOS, v);
 const obraLabel = (v) => label(ESTADOS_OBRA, v);
 const amenLabel = (v) => label(AMENIDADES, v);
 
-/** The data row of a card: three figures, nothing else. */
+/** The data row of a card: three figures, each with its icon. */
 function specs(r) {
   const out = [];
-  if (r.habitaciones) out.push(`${r.habitaciones} bed`);
-  if (r.banos) out.push(`${r.banos} bath`);
-  if (r.superficie_sqft) out.push(`${Number(r.superficie_sqft).toLocaleString('en-US')} sqft`);
-  return out.map((s) => `<span>${esc(s)}</span>`).join('');
+  if (r.habitaciones) out.push([ICO.cama, `${r.habitaciones} bed${r.habitaciones > 1 ? 's' : ''}`]);
+  else if (r.tipo === 'apartment' || r.tipo === 'office') out.push([ICO.cama, 'Studio']);
+  if (r.banos) out.push([ICO.bano, `${r.banos} bath${r.banos > 1 ? 's' : ''}`]);
+  if (r.superficie_sqft) out.push([ICO.area, `${Number(r.superficie_sqft).toLocaleString('en-US')} sqft`]);
+  return out.map(([ico, t]) => `<span>${ico}${esc(t)}</span>`).join('');
 }
 
 /** A listing card: price first, then what it is, then the figures and where it is. */
@@ -929,8 +937,8 @@ function card(r) {
     <div class="photo">
       <a href="${enlace}" aria-label="${esc(r.titulo)}">${photoInner(r.foto_principal, r.tipo)}</a>
       <span class="tags">
-        ${r.distintivo?.badge_alcance ? `<span class="tag verysset" title="Verified by Verysset">${ICONO_VERYSSET} Verysset</span>` : ''}
-        ${r.distintivo?.promocionado ? `<span class="tag coin">${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
+        ${r.distintivo?.badge_alcance ? `<span class="tag verysset" title="Verified by Verysset">${iconoAprobado()} Verysset</span>` : ''}
+        ${r.distintivo?.promocionado ? `<span class="tag coin">${ICO.promocion}${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
       </span>
       <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
         title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
@@ -941,12 +949,12 @@ function card(r) {
       <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
-      <div class="zona">${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
-      ${r.distintivo?.badge_alcance ? `<div class="verif">${ICONO_VERYSSET} Verified by Verysset${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
+      <div class="zona">${ICO.pin}${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
+      ${r.distintivo?.badge_alcance ? `<div class="verif">${iconoAprobado()} Verified by Verysset${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
       ${r.estado_obra === 'off_plan' && (r.entrega_prevista || r.plan_pagos) ? `
         <div class="obra">
-          ${r.entrega_prevista ? `<div><span>Handover</span><b>${esc(r.entrega_prevista)}</b></div>` : ''}
-          ${r.plan_pagos ? `<div><span>Payment plan</span><b>${esc(r.plan_pagos)}</b></div>` : ''}
+          ${r.entrega_prevista ? `<div>${ICO.obra}<span>Handover</span><b>${esc(r.entrega_prevista)}</b></div>` : ''}
+          ${r.plan_pagos ? `<div>${ICO.plan}<span>Payment plan</span><b>${esc(r.plan_pagos)}</b></div>` : ''}
         </div>` : ''}
       <div class="foot">
         <span class="dev">${logoHtml(r.desarrollador?.nombre, r.desarrollador?.logo_url, true)}${esc(r.desarrollador?.nombre ?? '')}</span>
@@ -1168,18 +1176,34 @@ function initPickers(raiz, { onPick, onAplicar, onContar } = {}) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarTodos(); });
 }
 
-/** The checklist mark of Verysset: what the badge on the photograph carries. */
-const ICONO_VERYSSET = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none"
-  stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
-  aria-hidden="true"><polyline points="3 7 6 10 11 4"/><polyline points="3 17 6 20 11 14"/><line x1="15" y1="7" x2="21" y2="7"/><line x1="15" y1="17" x2="21" y2="17"/></svg>`;
+/* ------------------------------------------------------------------ the icons of a card
+   One set of line icons, drawn here so the card does not depend on a font or a network. */
+const ICO = {
+  cama: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 18h18"/><path d="M7 10V7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3"/></svg>',
+  bano: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3z"/><path d="M6 12V6a2 2 0 0 1 4 0"/><path d="M9 5h3"/></svg>',
+  area: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 15l6-6"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+  obra: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 21V8l6-4 6 4v13"/><path d="M10 21v-5h4v5"/></svg>',
+  plan: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>',
+  promocion: '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.5L12 17l-5.9 3.1 1.2-6.5L2.5 9l6.6-.9z"/></svg>',
+};
+
+/** The approved mark of Verysset: a round stamp with the tick, like the placa of the reference. */
+function iconoAprobado() {
+  return `<span class="sello-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="11" height="11"
+    fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"
+    ><polyline points="20 6 9 17 4 12"/></svg></span>`;
+}
 
 /** The badge of a listing: what it covers and until when, never a blank guarantee. */
 function badgeHtml(badge, procedencia) {
   if (!badge?.alcance) return '';
   const hasta = badge.vigencia ? ` until ${esc(date(badge.vigencia))}` : '';
-  return `<span class="badge" title="${esc(procedencia ? `Evidence: ${procedencia}` : '')}">
-    ${ICONO_VERYSSET} Verysset · ${esc(badge.alcance)}${hasta}</span>
-    ${badge.garantia_incondicional === false ? '<p class="note">A badge states the scope and the date of the evidence. It is not an unconditional guarantee.</p>' : ''}`;
+  const validado = badge.validado_en ? `Checked on ${esc(date(badge.validado_en))}. ` : '';
+  return `<span class="badge verysset" title="${esc(procedencia ? `Evidence: ${procedencia}` : '')}">
+    ${iconoAprobado()} Verysset</span>
+    <p class="note">${validado}Scope: ${esc(badge.alcance)}${hasta}.
+    ${badge.garantia_incondicional === false ? 'A badge states the scope and the date of the evidence. It is not an unconditional guarantee.' : ''}</p>`;
 }
 
 /* ===== js/router.js ===== */
