@@ -869,6 +869,36 @@ const opciones = (mapa, seleccion) => Object.entries(mapa)
   .join('');
 const lista = (resultados) => `<div class="list">${resultados.map(card).join('')}</div>`;
 
+/**
+ * The bar of what we sell. It belongs to BOTH screens and it never drops the rest of the filters:
+ * picking an emirate and then a type keeps the emirate, and the bar stays on the page. That was the
+ * bug: it only lived on the front page, so choosing an emirate made it disappear.
+ */
+const TABS = [
+  ['All', {}],
+  ['Apartments', { tipo: 'apartment' }],
+  ['Villas', { tipo: 'villa' }],
+  ['Offices', { tipo: 'office' }],
+  ['Retail', { tipo: 'retail' }],
+  ['Off plan', { estado_obra: 'off_plan' }],
+];
+
+function tabsHtml(query) {
+  const tipo = query.get('tipo') ?? '';
+  const obra = query.get('estado_obra') ?? '';
+  const enlaces = TABS.map(([texto, extra]) => {
+    const activo = extra.tipo
+      ? tipo === extra.tipo && !obra
+      : extra.estado_obra ? obra === extra.estado_obra : !tipo && !obra;
+    const p = new URLSearchParams(query);
+    p.delete('tipo');
+    p.delete('estado_obra');
+    for (const [k, v] of Object.entries(extra)) p.set(k, v);
+    return `<a class="${activo ? 'on' : ''}" href="#/search${p.toString() ? `?${p}` : ''}">${esc(texto)}</a>`;
+  });
+  return `<nav class="tabs" aria-label="What we sell">${enlaces.join('')}</nav>`;
+}
+
 /** The price ranges, as short bands instead of two boxes: one decision, one click. */
 const BANDAS = [
   ['', 'Any'], ['0-1000000', 'Up to 1M'], ['1000000-2000000', '1M to 2M'],
@@ -909,14 +939,7 @@ async function viewCatalog() {
         </div>
       </div>
 
-      <nav class="tabs" aria-label="What we sell">
-        <a class="on" href="#/search">All</a>
-        <a href="#/search?tipo=apartment">Apartments</a>
-        <a href="#/search?tipo=villa">Villas</a>
-        <a href="#/search?tipo=office">Offices</a>
-        <a href="#/search?tipo=retail">Retail</a>
-        <a href="#/search?estado_obra=off_plan">Off plan</a>
-      </nav>
+      ${tabsHtml(new URLSearchParams())}
 
       <div id="destacados"></div>
       <div id="recientes"></div>
@@ -987,6 +1010,8 @@ async function viewSearch(query) {
 
   view().innerHTML = `
     <div class="wrap">
+      ${tabsHtml(query)}
+
       <div class="controls">
         <div class="control">
           <label for="c-emirato">Location</label>
