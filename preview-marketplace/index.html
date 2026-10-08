@@ -645,6 +645,39 @@ body.sin-scroll{overflow:hidden}
   .gal-flecha{display:none}
 }
 
+/* ---------- the sheet, in modules ----------
+   The reference reads in blocks: the figures that decide a first look in large type, and then one
+   block per subject — the unit, what is legal, what is around it — each with its heading and icon. */
+.modulos{display:grid; gap:12px; margin-top:1rem}
+.mod{border:1px solid var(--line-2); border-radius:1rem; background:var(--white); padding:.85rem 1rem}
+.mod > header{display:flex; align-items:center; gap:.5rem; margin-bottom:.1rem}
+.mod > header svg{color:var(--green-dark); flex:none}
+.mod > header h4{margin:0}
+.modulos-dos{display:grid; gap:12px}
+@media (min-width:760px){ .modulos-dos{grid-template-columns:1fr 1fr} }
+
+/* The figures of a first look: the icon big, the figure in bold, the word underneath. */
+.destacados{display:flex; flex-wrap:wrap; gap:10px; padding:.85rem; background:var(--card)}
+.dest{flex:1 1 118px; min-width:112px; display:flex; flex-direction:column; gap:.1rem;
+  padding:.6rem .75rem; border-radius:.85rem; background:var(--white); border:1px solid var(--line-2)}
+.dest-ico{display:block; color:var(--green-dark); margin-bottom:.15rem}
+.dest b{font-size:1.12rem; font-weight:900; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.dest-lab{font-size:.64rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--ink-45)}
+
+/* The rows of a module: the label with its icon, the value right-aligned and lined up. */
+.filas{display:grid; grid-template-columns:auto 1fr; gap:.4rem .9rem; margin:.45rem 0 0; font-size:.9rem}
+.filas dt{display:flex; align-items:center; gap:.5rem; color:var(--ink-60)}
+.filas dt svg{flex:none; color:var(--ink-45)}
+.filas dd{margin:0; text-align:right; font-weight:600}
+
+/* How far the works are, drawn: a bar and the figure the developer declares. */
+.progreso{margin:.7rem 0 .1rem}
+.barra{height:7px; border-radius:999px; background:var(--line-2); overflow:hidden}
+.barra i{display:block; height:100%; border-radius:999px;
+  background:linear-gradient(90deg,var(--green) 0%,var(--green-deep) 100%)}
+.progreso .note{margin-top:.35rem}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-07. Filters and favourites work here; anything that moves money needs the live platform.</div>
@@ -2911,6 +2944,87 @@ async function viewUnit(id) {
     }
     const filasHtml = filas.map(([icono, k, v]) => `<dt>${ico(icono, 15)}<span>${esc(k)}</span></dt><dd>${esc(v)}</dd>`).join('');
 
+    // The four or five figures that decide the first look, in large type: the rooms, the baths, the
+    // area and what comes with them. A figure nobody declared is left out, never drawn as a zero.
+    const destacados = [
+      ['cama', d.habitaciones ? String(d.habitaciones) : 'Not specified', d.habitaciones === 1 ? 'bedroom' : 'bedrooms'],
+      ['bano', d.banos ? String(d.banos) : 'Not specified', d.banos === 1 ? 'bathroom' : 'bathrooms'],
+      ['area', d.superficie_sqft ? Number(d.superficie_sqft).toLocaleString('en-US') : 'Not specified', 'sqft built-up'],
+      ...(d.balcon_sqft ? [['balcon', Number(d.balcon_sqft).toLocaleString('en-US'), 'sqft balcony']] : []),
+      ...(d.plazas_parking !== null && d.plazas_parking !== undefined
+        ? [['parking', String(d.plazas_parking), d.plazas_parking === 1 ? 'parking space' : 'parking spaces']] : []),
+    ];
+
+    // The sheet reads in modules — each one a block with its own heading and icon — instead of one
+    // long list where a permit and a bedroom weigh the same.
+    const modulo = (icono, titulo, filasModulo, extra = '') => {
+      if (!filasModulo.length && !extra) return '';
+      const cuerpo = filasModulo.length
+        ? `<dl class="filas">${filasModulo.map(([i, k, v]) =>
+            `<dt>${ico(i, 15)}<span>${esc(k)}</span></dt><dd>${esc(v)}</dd>`).join('')}</dl>`
+        : '';
+      return `<section class="mod">
+        <header>${ico(icono, 16)}<h4>${esc(titulo)}</h4></header>
+        ${cuerpo}${extra}</section>`;
+    };
+
+    const avancePb = pr && pr.avance_pb !== null && pr.avance_pb !== undefined ? pr.avance_pb : null;
+    const progreso = avancePb === null ? '' : `
+      <div class="progreso">
+        <div class="barra" role="img" aria-label="${esc(String(avancePb / 100))}% complete">
+          <i style="width:${Math.min(100, avancePb / 100)}%"></i>
+        </div>
+        <span class="note">${esc(String(avancePb / 100))}% of the works, as the developer declares it</span>
+      </div>`;
+
+    const moduloEdificio = ed ? modulo('edificio', 'The building', [
+      ...(ed.plantas ? [['edificio', 'Floors', String(ed.plantas)]] : []),
+      ...(ed.ascensores !== null && ed.ascensores !== undefined ? [['ascensor', 'Elevators', String(ed.ascensores)]] : []),
+      ...(ed.piscinas !== null && ed.piscinas !== undefined ? [['piscina', 'Swimming pools', String(ed.piscinas)]] : []),
+      ...(ed.plazas_parking !== null && ed.plazas_parking !== undefined ? [['parking', 'Parking spaces', String(ed.plazas_parking)]] : []),
+      ...(ed.superficie_sqft ? [['area', 'Building area', `${Number(ed.superficie_sqft).toLocaleString('en-US')} sqft`]] : []),
+    ]) : '';
+
+    const moduloProyecto = modulo('avance', 'The development', [
+      ...(proy?.proyecto?.nombre ? [['obra', 'Project', proy.proyecto.nombre]] : []),
+      ...(proy?.desarrollador?.nombre ? [['edificio', 'Developer', proy.desarrollador.nombre]] : []),
+      ['promocion', 'Status', ESTADO_LABEL[proy?.proyecto?.estado] ?? proy?.proyecto?.estado ?? ''],
+      ...(pr?.inspeccion_en ? [['inspeccion', 'Last inspected', date(pr.inspeccion_en)]] : []),
+      ...(pr?.entrega_prevista ? [['entrega', 'Handover', pr.entrega_prevista]] : []),
+    ], progreso);
+
+    const modulosHtml = `
+      <div class="modulos">
+        <section class="mod destacados">
+          ${destacados.map(([i, v, k]) =>
+            `<div class="dest"><span class="dest-ico">${ico(i, 26)}</span><b>${esc(v)}</b><span class="dest-lab">${esc(k)}</span></div>`).join('')}
+        </section>
+
+        ${modulo('obra', 'Property information', [
+          ['obra', 'Type', tipoLabel(d.tipo)],
+          ['edificio', 'Build status', obraLabel(d.estado_obra)],
+          ['sofa', 'Furnishing', d.amueblado ? 'Furnished' : 'Unfurnished'],
+          ['uso', 'Operation', 'Sale'],
+          ...(d.plan_pagos ? [['fecha', 'Payment plan', d.plan_pagos]] : []),
+          ...(d.entrega_prevista ? [['entrega', 'Handover of the unit', d.entrega_prevista]] : []),
+        ])}
+
+        ${modulo('llave', 'Ownership and listing', [
+          ...(d.tenencia ? [['llave', 'Tenure', TENENCIA_LABEL[d.tenencia] ?? d.tenencia]] : []),
+          ...(d.uso ? [['uso', 'Use', USO_LABEL[d.uso] ?? d.uso]] : []),
+          ...(u.listing?.referencia ? [['almohadilla', 'Reference', u.listing.referencia]] : []),
+          ...(u.listing?.publicado_en ? [['fecha', 'Added on', date(u.listing.publicado_en)]] : []),
+          ...(u.listing?.permiso_numero
+            ? [['permiso', 'Advertising permit', [u.listing.permiso_autoridad, u.listing.permiso_numero].filter(Boolean).join(' · ')]] : []),
+        ])}
+
+        ${modulo('promocion', 'Amenities', [], d.amenidades?.length
+          ? `<ul class="amen">${d.amenidades.map((a) => `<li>${esc(amenLabel(a))}</li>`).join('')}</ul>` : '')}
+
+        ${(moduloEdificio || moduloProyecto) ? `<div class="modulos-dos">${moduloEdificio}${moduloProyecto}</div>` : ''}
+      </div>`;
+
+
     caja.innerHTML = `
       <div class="detail">
         <div>
@@ -2927,9 +3041,7 @@ async function viewUnit(id) {
             <h2 style="font-size:1.3rem">${esc(u.listing?.titulo ?? `${tipoLabel(d.tipo)} in ${d.comunidad ?? d.emirato}`)}</h2>
             <p class="muted">${esc(d.comunidad ? `${d.comunidad} · ${d.emirato}` : d.emirato)} ·
               <a href="#/project/${esc(d.proyecto_id)}">${esc(d.proyecto ?? 'Project')}</a></p>
-            <dl class="kv con-ico">${filasHtml}</dl>
-            ${d.amenidades?.length ? `<h4 style="margin-top:1rem">Amenities</h4>
-              <ul class="amen">${d.amenidades.map((a) => `<li>${esc(amenLabel(a))}</li>`).join('')}</ul>` : ''}
+            ${modulosHtml}
           </div>
         </div>
 
