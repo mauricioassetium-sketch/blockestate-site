@@ -2286,7 +2286,7 @@ function card(r) {
       <div class="foot">
         <span class="dev">${logoHtml(r.desarrollador?.nombre, r.desarrollador?.logo_url, true)}${esc(r.desarrollador?.nombre ?? '')}</span>
         ${r.desarrollador?.contacto ? `<span class="dev-puertas en-fila">
-          ${r.desarrollador.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="whatsapp" href="${esc(r.desarrollador.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(r.desarrollador.nombre)} on WhatsApp"><img class="marca" src="img/canales/whatsapp.svg" alt="WhatsApp" loading="lazy"><span>WhatsApp</span></a>` : ''}
+          ${r.desarrollador.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="whatsapp" href="${esc(r.desarrollador.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(r.desarrollador.nombre)} on WhatsApp"><img class="marca" src="img/canales/whatsapp.png" alt="WhatsApp" loading="lazy"><span>WhatsApp</span></a>` : ''}
           ${r.desarrollador.contacto.telegram ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="telegram" href="${esc(r.desarrollador.contacto.telegram)}" title="Ask on Telegram" aria-label="Ask ${esc(r.desarrollador.nombre)} on Telegram"><img class="marca" src="img/canales/telegram.png" alt="Telegram" loading="lazy"><span>Telegram</span></a>` : ''}
           ${r.desarrollador.contacto.correo ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="correo" href="mailto:${esc(r.desarrollador.contacto.correo)}" title="Send an email" aria-label="Email ${esc(r.desarrollador.nombre)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5A2.5 2.5 0 014.5 4h15A2.5 2.5 0 0122 6.5v11a2.5 2.5 0 01-2.5 2.5h-15A2.5 2.5 0 012 17.5v-11zm2.2-.5L12 12.3 19.8 6H4.2zM20 7.6l-7.4 6a1 1 0 01-1.2 0L4 7.6v9.9c0 .3.2.5.5.5h15c.3 0 .5-.2.5-.5V7.6z"/></svg><span>Email</span></a>` : ''}
         </span>` : ''}
@@ -2718,7 +2718,7 @@ async function pintarRail(contenedor) {
                 </span>
               </a>
               ${d.contacto ? `<span class="dev-puertas">
-                ${d.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(d.nombre)}" data-canal="whatsapp" href="${esc(d.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(d.nombre)} on WhatsApp"><img class="marca" src="img/canales/whatsapp.svg" alt="WhatsApp" loading="lazy"><span>WhatsApp</span></a>` : ''}
+                ${d.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(d.nombre)}" data-canal="whatsapp" href="${esc(d.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(d.nombre)} on WhatsApp"><img class="marca" src="img/canales/whatsapp.png" alt="WhatsApp" loading="lazy"><span>WhatsApp</span></a>` : ''}
                 ${d.contacto.telegram ? `<a class="puerta" data-dev="${esc(d.nombre)}" data-canal="telegram" href="${esc(d.contacto.telegram)}" title="Ask on Telegram" aria-label="Ask ${esc(d.nombre)} on Telegram"><img class="marca" src="img/canales/telegram.png" alt="Telegram" loading="lazy"><span>Telegram</span></a>` : ''}
                 ${d.contacto.correo ? `<a class="puerta" href="mailto:${esc(d.contacto.correo)}" title="Send an email" aria-label="Email ${esc(d.nombre)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5A2.5 2.5 0 014.5 4h15A2.5 2.5 0 0122 6.5v11a2.5 2.5 0 01-2.5 2.5h-15A2.5 2.5 0 012 17.5v-11zm2.2-.5L12 12.3 19.8 6H4.2zM20 7.6l-7.4 6a1 1 0 01-1.2 0L4 7.6v9.9c0 .3.2.5.5.5h15c.3 0 .5-.2.5-.5V7.6z"/></svg></a>` : ''}
               </span>` : ''}
