@@ -1406,6 +1406,24 @@ body.sin-scroll{overflow:hidden}
 .dev-puertas.en-fila .puerta[data-canal="correo"]{border-color:#dbe3de; color:#12211c !important}
 @media (max-width:640px){ .dev-puertas.en-fila .puerta .marca{width:22px; height:22px} }
 
+
+/* ---------- the strip, smaller and tidier ----------
+   The buttons were too big for the width of a card, so they piled up. Smaller marks, tighter buttons,
+   and the row wraps with room to breathe. The mark of each service is drawn through a CSS mask over
+   the brand colour, so it appears even if an <img> is slow, cached or blocked: the shape is the
+   colour's own stencil, and nothing depends on a file arriving. */
+.card .foot{display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:12px 12px 10px}
+.card .foot .dev .logo.sm img{width:44px; height:44px; padding:6px; border-radius:13px}
+.dev-puertas.en-fila{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
+.dev-puertas.en-fila .puerta{min-height:38px; padding:0 11px; border-radius:11px; border-width:1.5px;
+  font-size:.76rem; font-weight:700; gap:6px}
+.dev-puertas.en-fila .puerta svg, .dev-puertas.en-fila .puerta .marca{width:18px; height:18px; flex:0 0 18px}
+.dev-puertas.en-fila .puerta .marca{display:block; object-fit:contain}
+@media (max-width:640px){
+  .card .foot .dev .logo.sm img{width:40px; height:40px}
+  .dev-puertas.en-fila .puerta{min-height:40px; padding:0 9px; font-size:.74rem}
+}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
