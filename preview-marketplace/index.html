@@ -1175,6 +1175,40 @@ body.sin-scroll{overflow:hidden}
   .dev-cuenta{margin-left:0}
 }
 
+
+/* ---------- the developers rail: a row that looks like it belongs to the house ----------
+   These rules go at the END of the sheet on purpose: the first version of .dev-row is defined
+   further up, and in CSS the later rule wins. Putting the redesign here means it cannot lose. */
+.rail-box{border:1px solid var(--line-2); border-radius:1.25rem; padding:16px 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(246,249,246,.75));
+  box-shadow:0 1px 2px rgba(16,40,30,.05)}
+.rail-box > h3{margin-left:2px}
+.dev-row{display:flex; align-items:center; gap:12px; padding:9px 10px; border-radius:.85rem;
+  transition:background .15s ease, transform .15s ease}
+.dev-row + .dev-row{margin-top:2px}
+.dev-row:hover{background:rgba(16,110,90,.07)}
+.dev-row:hover .dev-go{opacity:1; transform:translateX(2px)}
+.dev-row .logo, .dev-row .mono, .dev-row span.avatar, .dev-row > span:first-child{flex:0 0 44px}
+.dev-row .logo img, .dev-row .mono, .dev-row img:not(.proy-foto){width:44px; height:44px; border-radius:13px;
+  background:#fff; border:1px solid var(--line-2); box-shadow:0 1px 2px rgba(16,40,30,.06);
+  object-fit:contain; padding:5px; display:grid; place-items:center;
+  font-weight:800; font-size:.95rem; color:var(--teal); letter-spacing:-.02em}
+.dev-row .meta{min-width:0; flex:1 1 auto}
+.dev-row .meta b{display:block; font-size:.95rem; font-weight:700; letter-spacing:-.01em;
+  color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.dev-row .meta span{display:block; margin-top:1px; font-size:.76rem; color:var(--ink-45);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+/* The arrow that says «there is more here» without a boxed button shouting it. */
+.dev-row::after{content:'›'; margin-left:auto; font-size:1.35rem; line-height:1; color:var(--ink-45);
+  opacity:.3; transition:opacity .15s ease, transform .15s ease}
+.dev-row .btn.ghost.sm{display:none}   /* the boxed «View» is replaced by the arrow above */
+.dev-row.con-foto .proy-foto{width:52px; height:40px; border-radius:10px; object-fit:cover;
+  border:1px solid var(--line-2)}
+@media (max-width:760px){
+  .dev-row{padding:10px 8px}
+  .dev-row .logo img, .dev-row .mono, .dev-row img:not(.proy-foto){width:42px; height:42px; border-radius:12px}
+}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
