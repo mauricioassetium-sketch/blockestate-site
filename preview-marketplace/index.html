@@ -360,10 +360,20 @@ html,body{overflow-x:clip}
   letter-spacing:-.02em; padding:1rem; text-align:center}
 .card .body{padding:16px 18px; display:flex; flex-direction:column; gap:.42rem; min-width:0}
 .card .price{font-weight:900; font-size:1.45rem; letter-spacing:-.035em; line-height:1.15}
-/* The crypto line under a price: smaller, quieter, and never without its «indicative». */
-.price-crypto{margin-top:1px; font-size:.8rem; font-weight:600; color:var(--ink-45);
+/* The two lines of a price: the crypto first — what the buyer pays with — and the contract price in
+   dirhams under it. The second is never hidden: it is the one that counts (BR-001). */
+.price-cripto{display:flex; align-items:baseline; gap:.4rem; flex-wrap:wrap}
+.price-cripto b{font-size:1.05rem; font-weight:800; letter-spacing:-.02em; color:var(--green-deep);
   font-variant-numeric:tabular-nums}
-.price-crypto i{font-style:normal; font-weight:500; font-size:.72rem; opacity:.85}
+.price-cripto i{font-style:normal; font-size:.7rem; font-weight:600; color:var(--ink-45)}
+/* One choice for the whole site, in the bar. */
+.sel-activo{display:inline-flex; align-items:center; gap:4px; padding:2px 2px 2px 8px;
+  border:1px solid var(--line-2); border-radius:999px; background:var(--card)}
+.sel-activo span{font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-45)}
+.sel-activo button{min-height:28px; padding:0 .6rem; border:0; border-radius:999px; background:none;
+  font:inherit; font-size:.75rem; font-weight:700; color:var(--ink-60); cursor:pointer}
+.sel-activo button.on{background:var(--teal); color:#fff}
 .card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
 .card h3{font-size:1.02rem; font-weight:700; letter-spacing:-.02em}
 .card h3 a:hover{color:var(--green-deep)}
@@ -1554,11 +1564,29 @@ function leer() {
     return {
       usdt: numero(crudo.usdt),
       bnb: numero(crudo.bnb),
+      ver: crudo.ver ?? null,
       visto: crudo.visto ?? null,
     };
   } catch {
     return { usdt: null, bnb: null, visto: null };
   }
+}
+
+/** The assets a price can be read in, and the choice the reader made. */
+const ACTIVOS_VER = ['USDT', 'BNB'];
+
+/**
+ * Which asset the reader wants to see. Stored with the rates, because it is the same decision: how
+ * this platform talks about money in crypto.
+ */
+function activoElegido() {
+  return estadoCambio.ver && ACTIVOS_VER.includes(estadoCambio.ver) ? estadoCambio.ver : 'USDT';
+}
+
+function elegirActivo(activo) {
+  estadoCambio = { ...estadoCambio, ver: ACTIVOS_VER.includes(activo) ? activo : 'USDT' };
+  try { localStorage.setItem(CLAVE, JSON.stringify(estadoCambio)); } catch { /* sigue calculando */ }
+  return estadoCambio;
 }
 
 /** AED per unit of the asset. `null` means «not known», and an unknown rate shows nothing at all. */
@@ -1623,6 +1651,18 @@ function equivalenteTexto(fils, { aCorto = false } = {}) {
   return aCorto ? trozos.join(' · ') : `≈ ${trozos.join(' · ')} · indicative, at your rate`;
 }
 
+/**
+ * The two lines of a price, in the order the buyer reads them: first what it costs in the currency
+ * they pay with, then the contract price in dirhams. The asset in front is the one the reader chose,
+ * and the selector travels with the first line.
+ */
+function cifraCripto(fila) {
+  const activo = activoElegido();
+  const v = equivalencia(filsDe(fila), activo);
+  if (v === null) return '';
+  return `${cifra(v, activo === 'USDT' ? 0 : 2)} ${activo}`;
+}
+
 /** The same figure, spelled out for a sheet: what was converted, at what rate, and when. */
 function detalleConversion(fils, activo) {
   const t = tasa(activo);
@@ -1633,6 +1673,7 @@ function detalleConversion(fils, activo) {
 
 /* ===== js/ui.js ===== */
 /** Small view helpers: escaping, money, cards, toasts. No framework, no build step. */
+
 
 
 
@@ -1693,6 +1734,35 @@ function specs(r) {
 }
 
 /** A listing card: price first, then what it is, then the figures and where it is. */
+/**
+ * The asset selector. It lives in the bar of the site and not in every card: a price that changes
+ * currency per card would be a price nobody could compare. One choice, everywhere.
+ */
+function selectorActivo() {
+  const activo = activoElegido();
+  return `<div class="sel-activo" role="group" aria-label="Show prices in">
+    <span>Prices in</span>
+    ${ACTIVOS_VER.map((a) => `<button type="button" class="${a === activo ? 'on' : ''}"
+      data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}</div>`;
+}
+
+/** Wires it wherever it was painted: one listener per page, by delegation. */
+function initSelectorActivo() {
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest?.('[data-activo]');
+    if (!b) return;
+    elegirActivo(b.dataset.activo);
+    // The bar lives outside the view, so it is marked here and the view is repainted: the choice and
+    // the prices it changes must never disagree on screen.
+    document.querySelectorAll('[data-activo]').forEach((o) => {
+      const on = o.dataset.activo === b.dataset.activo;
+      o.classList.toggle('on', on);
+      o.setAttribute('aria-pressed', String(on));
+    });
+    render();
+  });
+}
+
 function card(r) {
   const fav = store.logged() && store.isFav(r.unidad_id);
   const enlace = `#/unit/${esc(r.unidad_id)}`;
@@ -1709,10 +1779,10 @@ function card(r) {
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
     </div>
     <div class="body">
+      ${cifraCripto(r)
+        ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b>
+           <i>indicative · ${esc(activoElegido())}</i></div>` : ''}
       <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
-      ${equivalenteTexto(filsDe(r), { aCorto: true })
-        ? `<div class="price-crypto">≈ ${esc(equivalenteTexto(filsDe(r), { aCorto: true }))}
-           <i>indicative</i></div>` : ''}
       <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
@@ -5734,6 +5804,7 @@ function renderBarra() {
       <input type="search" name="q" placeholder="Search area, project or type" aria-label="Search the catalogue">
     </form>
     <div class="bar-actions">
+      <div class="bar-activo">${selectorActivo()}</div>
       ${logged ? `
         <a class="icon-btn${favs ? ' on' : ''}" href="#/favorites" title="Saved" aria-label="Saved">
           ♥${favs ? `<span class="badge-count">${favs}</span>` : ''}</a>
@@ -5877,6 +5948,7 @@ if (store.logged()) {
   });
 }
 
+initSelectorActivo();
 start();
 
 // The service worker makes the shell work offline; the API is never cached.
