@@ -654,6 +654,7 @@ body.sin-scroll{overflow:hidden}
 .gtab:hover{background:rgba(255,255,255,.08); color:#fff}
 .gtab.on{background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%); color:#04140c}
 .gtab.on i{opacity:.75}
+.thumbs .tb.on{border-color:var(--teal); box-shadow:0 0 0 2px rgba(16,110,90,.28); opacity:1}
 .medios-sel{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0}
 .medios-sel .ms{display:inline-flex; align-items:center; gap:7px; min-height:42px; padding:0 14px;
   border:1px solid var(--line-2); border-radius:999px; background:var(--card); font:inherit;
@@ -4156,15 +4157,31 @@ async function viewUnit(id) {
     });
     // Choosing what to see. Each button opens the viewer at the first item of its kind, which is
     // what «selector de fotos, vídeo, planos y 360» means in practice: one tap and you are there.
+    const ponerGrande = (i) => {
+      const marco = caja.querySelector('#grande');
+      if (!marco || !fotos[i]) return;
+      const sello = marco.querySelector('.abrir-gal');
+      marco.innerHTML = photoInner(fotos[i], d.tipo) + (sello ? sello.outerHTML : '');
+      marco.dataset.i = String(i);
+      caja.querySelectorAll('.thumbs .tb').forEach((b, n) => {
+        const on = n === i;
+        b.classList.toggle('on', on);
+        if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+      });
+    };
+    caja.querySelectorAll('.thumbs .tb').forEach((b, n) => {
+      if (n === 0) { b.classList.add('on'); b.setAttribute('aria-current', 'true'); }
+    });
     caja.querySelector('.medios-sel')?.addEventListener('click', (e) => {
       const b = e.target.closest?.('[data-medio]');
       if (!b) return;
       const fotosN = fotos.length;
       const trasVideo = fotosN + (media.video ? 1 : 0);
+      caja.querySelectorAll('.medios-sel .ms').forEach((o) => o.classList.toggle('on', o === b));
+      if (b.dataset.medio === 'foto') { ponerGrande(0); return; }
       const inicio = b.dataset.medio === 'video' ? fotosN
         : b.dataset.medio === 'tour3d' ? trasVideo
-        : b.dataset.medio === 'plano' ? trasVideo + (media.tour3d ? 1 : 0)
-        : 0;
+        : trasVideo + (media.tour3d ? 1 : 0);
       abrir(inicio);
     });
     const grande = caja.querySelector('#grande');
@@ -4172,9 +4189,13 @@ async function viewUnit(id) {
     grande?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(0); }
     });
+    // Tapping a thumbnail swaps the big picture IN PLACE. It used to open the full-screen viewer,
+    // which is not what a strip of thumbnails under a photo means anywhere: there you pick which
+    // picture you are looking at, and the picture changes. The viewer is still behind the big
+    // picture itself and behind the «view all» badge.
     caja.querySelector('.thumbs')?.addEventListener('click', (e) => {
       const t = e.target.closest?.('.tb');
-      if (t) abrir(Number(t.dataset.i));
+      if (t) ponerGrande(Number(t.dataset.i));
     });
 
     // The badge is the door to the report: pressing it opens what Verysset verified, where the
