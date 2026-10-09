@@ -1295,28 +1295,35 @@ body.sin-scroll{overflow:hidden}
 @media (max-width:560px){.canales .canal{flex:1 1 100%; min-height:52px}}
 
 
-/* ---------- the card cannot be wider than the phone ----------
-   Found by measuring: at 390 px the listing cards were 545 px wide, so the right-hand end — where the
-   contact doors are — sat outside the screen. The cause is the classic one: a grid item that holds an
-   image refuses to shrink below that image's own width unless it is told it may. Everything that can
-   hold a picture gets `min-width:0`, and the pictures are capped at their container. */
-.list, .lay, .lay > *, .card, .card > *, .detail, .detail > *, .rail, .rail-box{min-width:0}
-.card img, .card .photo img, .proy-foto, .quien-vende img, .dev-row img{max-width:100%}
-.list{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(300px, 100%), 1fr))}
-.lay{grid-template-columns:minmax(0, 1fr) 320px}
-@media (max-width:980px){.lay{grid-template-columns:minmax(0, 1fr)}}
-html, body{max-width:100%; overflow-x:clip}
-@media (max-width:560px){
-  .card .foot{gap:8px}
-  .card .foot .dev{flex:1 1 100%}
-  .dev-puertas.en-fila{flex:1 1 100%; justify-content:flex-start}
-}
-
-
 /* The footer of a card, last word: the mark, the name, and the ways in. No «View» — the whole card
    is already the way in, and a boxed button next to four round ones only competes with them. */
 .card .foot .btn.ghost.sm{display:none}
 .card .foot{justify-content:space-between}
+
+
+/* ---------- the strip of the agency and its channels ----------
+   Only this strip changes. The shape, the size and the grid of the cards are left exactly as they
+   were: the logo of whoever sells now leads the strip, and the channels are labelled buttons with
+   their name beside the icon, the way the reference shows them. */
+.card .foot{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:space-between}
+.card .foot .dev{display:flex; align-items:center; gap:10px; min-width:0; flex:1 1 auto;
+  font-weight:800; font-size:.88rem; letter-spacing:-.01em}
+.card .foot .dev .logo, .card .foot .dev img, .card .foot .dev .mono{width:44px; height:44px;
+  border-radius:13px; flex:0 0 44px; padding:6px; background:#fff; border:1px solid var(--line-2);
+  object-fit:contain; display:grid; place-items:center; font-weight:800; font-size:.82rem; color:var(--teal)}
+.card .foot .btn.ghost.sm{display:none}
+.dev-puertas.en-fila{display:flex; gap:8px; flex:0 0 auto}
+.dev-puertas.en-fila .puerta{display:inline-flex; align-items:center; gap:7px; width:auto; height:auto;
+  min-height:40px; padding:0 12px; border-radius:.65rem; border:1px solid var(--line-2);
+  background:var(--card); color:var(--ink-70); font-size:.82rem; font-weight:700}
+.dev-puertas.en-fila .puerta:hover{border-color:var(--teal); color:var(--teal)}
+.dev-puertas.en-fila .puerta.wa{border-color:rgba(16,110,90,.45); color:var(--teal);
+  background:linear-gradient(135deg,rgba(16,110,90,.10),rgba(16,110,90,.03))}
+.dev-puertas.en-fila .puerta svg{width:16px; height:16px}
+@media (max-width:640px){
+  .dev-puertas.en-fila{flex:1 1 100%; justify-content:flex-start}
+  .dev-puertas.en-fila .puerta{flex:1 1 0; justify-content:center; min-height:44px}
+}
 
 </style>
 </head>
@@ -2198,9 +2205,9 @@ function card(r) {
       <div class="foot">
         <span class="dev">${logoHtml(r.desarrollador?.nombre, r.desarrollador?.logo_url, true)}${esc(r.desarrollador?.nombre ?? '')}</span>
         ${r.desarrollador?.contacto ? `<span class="dev-puertas en-fila">
-          ${r.desarrollador.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="whatsapp" href="${esc(r.desarrollador.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(r.desarrollador.nombre)} on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 2a8 8 0 016.7 12.3l-.3.5.7 2.6-2.7-.7-.5.3A8 8 0 1112 4zm-3.3 3.9c-.2 0-.5.1-.7.4-.2.3-.8 1-.8 2s.6 1.9.7 2c.1.2 1.2 2 3 2.8 1.5.6 1.9.5 2.3.5.4 0 1.3-.5 1.5-1.1.2-.5.2-1 .1-1.1l-1.4-.7c-.2-.1-.4-.1-.5.1l-.6.8c-.1.2-.3.2-.5.1-.3-.1-1-.4-1.6-1-.5-.4-.8-1-.9-1.2-.1-.2 0-.3.1-.4l.4-.5c.1-.2.1-.3 0-.5l-.6-1.4c-.2-.4-.3-.4-.5-.4z"/></svg></a>` : ''}
-          ${r.desarrollador.contacto.telegram ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="telegram" href="${esc(r.desarrollador.contacto.telegram)}" title="Ask on Telegram" aria-label="Ask ${esc(r.desarrollador.nombre)} on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3L18.6 20c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-.9.5l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L6.7 13.1l-4.4-1.4c-1-.3-1-1 .2-1.4l17.2-6.6c.8-.3 1.5.2 1.2 1.1z"/></svg></a>` : ''}
-          ${r.desarrollador.contacto.correo ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="correo" href="mailto:${esc(r.desarrollador.contacto.correo)}" title="Send an email" aria-label="Email ${esc(r.desarrollador.nombre)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5A2.5 2.5 0 014.5 4h15A2.5 2.5 0 0122 6.5v11a2.5 2.5 0 01-2.5 2.5h-15A2.5 2.5 0 012 17.5v-11zm2.2-.5L12 12.3 19.8 6H4.2zM20 7.6l-7.4 6a1 1 0 01-1.2 0L4 7.6v9.9c0 .3.2.5.5.5h15c.3 0 .5-.2.5-.5V7.6z"/></svg></a>` : ''}
+          ${r.desarrollador.contacto.whatsapp ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="whatsapp" href="${esc(r.desarrollador.contacto.whatsapp)}" title="Ask on WhatsApp" aria-label="Ask ${esc(r.desarrollador.nombre)} on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 2a8 8 0 016.7 12.3l-.3.5.7 2.6-2.7-.7-.5.3A8 8 0 1112 4zm-3.3 3.9c-.2 0-.5.1-.7.4-.2.3-.8 1-.8 2s.6 1.9.7 2c.1.2 1.2 2 3 2.8 1.5.6 1.9.5 2.3.5.4 0 1.3-.5 1.5-1.1.2-.5.2-1 .1-1.1l-1.4-.7c-.2-.1-.4-.1-.5.1l-.6.8c-.1.2-.3.2-.5.1-.3-.1-1-.4-1.6-1-.5-.4-.8-1-.9-1.2-.1-.2 0-.3.1-.4l.4-.5c.1-.2.1-.3 0-.5l-.6-1.4c-.2-.4-.3-.4-.5-.4z"/></svg><span>WhatsApp</span></a>` : ''}
+          ${r.desarrollador.contacto.telegram ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="telegram" href="${esc(r.desarrollador.contacto.telegram)}" title="Ask on Telegram" aria-label="Ask ${esc(r.desarrollador.nombre)} on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3L18.6 20c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-.9.5l.3-4.6 8.5-7.7c.4-.3-.1-.5-.6-.2L6.7 13.1l-4.4-1.4c-1-.3-1-1 .2-1.4l17.2-6.6c.8-.3 1.5.2 1.2 1.1z"/></svg><span>Telegram</span></a>` : ''}
+          ${r.desarrollador.contacto.correo ? `<a class="puerta" data-dev="${esc(r.desarrollador.nombre)}" data-canal="correo" href="mailto:${esc(r.desarrollador.contacto.correo)}" title="Send an email" aria-label="Email ${esc(r.desarrollador.nombre)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5A2.5 2.5 0 014.5 4h15A2.5 2.5 0 0122 6.5v11a2.5 2.5 0 01-2.5 2.5h-15A2.5 2.5 0 012 17.5v-11zm2.2-.5L12 12.3 19.8 6H4.2zM20 7.6l-7.4 6a1 1 0 01-1.2 0L4 7.6v9.9c0 .3.2.5.5.5h15c.3 0 .5-.2.5-.5V7.6z"/></svg><span>Email</span></a>` : ''}
         </span>` : ''}
       </div>
     </div>
