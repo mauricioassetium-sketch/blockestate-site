@@ -115,21 +115,21 @@ p{margin:.6rem 0}
   background-size:auto, auto, cover; background-repeat:no-repeat;
   background-position:center, center, 50% 26%;
   color:#fff; padding:78px 0 104px; position:relative;
-  margin-inline:calc(50% - 50vw); min-height:clamp(620px,86vh,940px);
+  margin-inline:calc(50% - 50vw); min-height:clamp(560px,68vh,760px);
   display:flex; align-items:center}
 html,body{overflow-x:clip}
 .hero{align-items:stretch}
 .hero .inner{position:relative; max-width:1080px;
   /* Sin altura fija: la da el estirón del héroe, y así `space-between` reparte titular y buscador. */
-  display:flex; flex-direction:column; justify-content:space-between; align-items:center;
-  text-align:center}
+  display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start;
+  text-align:left}
 .hero-foot{width:100%}
 .hero .eyebrow{display:inline-flex; align-items:center; gap:.5rem; font-size:11px; letter-spacing:.3em;
   text-transform:uppercase; color:var(--green); font-weight:700; margin-bottom:.9rem}
 .hero .eyebrow::before{content:""; width:26px; height:2px; background:var(--green); border-radius:2px}
 .hero h1{max-width:26ch; text-shadow:0 2px 30px rgba(0,0,0,.3);
   font-size:clamp(1.9rem,4.1vw,3.1rem); letter-spacing:-.035em}
-.hero .sub{color:rgba(255,255,255,.88); max-width:46ch; margin:.7rem auto 0;
+.hero .sub{color:rgba(255,255,255,.88); max-width:46ch; margin:.7rem 0 0;
   font-size:clamp(.95rem,1.4vw,1.1rem); text-shadow:0 1px 12px rgba(0,0,0,.65), 0 0 2px rgba(0,0,0,.45)}
 .hero .trust{display:flex; gap:.5rem; flex-wrap:wrap; margin:20px 0 0; padding:0; list-style:none}
 .hero .trust li{display:inline-flex; align-items:center; gap:.45rem; font-size:.82rem;
@@ -783,7 +783,7 @@ body.sin-scroll{overflow:hidden}
    page: a short line above, the panel below, and no paragraph competing with the form. The panel
    carries the tabs of the build state, the text field with the button, and four controls that are
    the same pickers the catalogue uses — one system, two places. */
-.buscador{width:min(100%,940px); margin:1.15rem auto 0; padding:11px; background:var(--white);
+.buscador{width:min(100%,940px); margin:1.15rem 0 0; padding:11px; background:var(--white);
   border-radius:1.15rem; box-shadow:0 30px 70px rgba(4,12,18,.38); text-align:left}
 .hero-tabs{display:flex; gap:2px; margin:-4px -4px 12px; padding:0 4px; border-bottom:1px solid var(--line)}
 .hero-tabs a, .hero-tabs button{background:none; border:0; cursor:pointer; font:inherit;
@@ -1940,9 +1940,8 @@ async function viewCatalog() {
   view().innerHTML = `
     <section class="hero">
       <div class="wrap inner">
-        <h1>Real homes,<br>paid in crypto</h1>
-
         <div class="hero-foot">
+        <h1>Real homes,<br>paid in crypto</h1>
         <p class="sub">Verified property in the United Arab Emirates</p>
 
         <div class="buscador">
