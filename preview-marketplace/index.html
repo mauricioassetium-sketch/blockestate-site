@@ -1440,6 +1440,36 @@ body.sin-scroll{overflow:hidden}
 .card .dev-puertas{display:flex !important}
 .card .dev-puertas.en-fila{flex-direction:row; flex-wrap:wrap; align-items:center; gap:6px}
 
+
+/* ---------- the two desks ---------- */
+.desk-head{display:flex; align-items:flex-start; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  margin:6px 0 18px}
+.desk-head h1{margin:.2rem 0 .1rem; font-size:1.6rem; letter-spacing:-.02em}
+.desk-nota{font-size:.76rem; color:var(--ink-45); border:1px dashed var(--line-2); border-radius:.8rem;
+  padding:10px 12px; max-width:34ch; background:rgba(0,0,0,.015)}
+.desk-aviso{border:1px solid rgba(16,110,90,.3); background:rgba(16,110,90,.07); border-radius:.9rem;
+  padding:12px 14px; font-size:.86rem; color:var(--ink-72); margin-bottom:16px}
+.desk-aviso b{color:var(--ink)}
+.desk-datos{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-bottom:22px}
+.desk-datos .dato{border:1px solid var(--line-2); border-radius:1rem; padding:14px 16px; background:var(--card)}
+.desk-datos .dato span{display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-45); font-weight:800; margin-bottom:6px}
+.desk-datos .dato b{font-size:1.15rem; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.desk-limites{margin:.4rem 0 0; padding-left:1.1rem; font-size:.88rem; color:var(--ink-72)}
+.desk-limites li{margin-bottom:5px}
+.desk-codigo{display:flex; align-items:center; gap:12px; flex-wrap:wrap; border:1px solid var(--line-2);
+  border-radius:.9rem; padding:12px 14px; margin:.5rem 0 14px; background:var(--card)}
+.desk-codigo b{font-size:1.15rem; letter-spacing:.04em; color:var(--teal)}
+.desk-codigo span{font-size:.8rem; color:var(--ink-45)}
+.desk-volver{margin:26px 0 10px; display:flex; gap:10px}
+.tabla{width:100%; border-collapse:collapse; font-size:.88rem; margin-top:8px}
+.tabla th{text-align:left; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45);
+  padding:6px 8px; border-bottom:1px solid var(--line-2)}
+.tabla td{padding:9px 8px; border-bottom:1px solid var(--line); vertical-align:top}
+.tabla td.num, .tabla th.num{text-align:right; font-variant-numeric:tabular-nums}
+.tabla code{font-size:.8rem; color:var(--ink-60)}
+@media (max-width:640px){ .tabla{font-size:.82rem} .tabla td, .tabla th{padding:7px 5px} }
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
@@ -6512,6 +6542,196 @@ async function viewDevSale(id) {
   }
 }
 
+/* ===== js/views/escritorios.js ===== */
+/**
+ * The two desks: the broker's and the content creator's.
+ *
+ * What this is, said plainly: the SCREENS, built and working, over the book of the demonstration.
+ * The data below is the demo's own book and is labelled as such on screen. The backend routes that
+ * would feed a real broker and a real creator are the next piece of work — they are written down in
+ * DOC-0005, block by block, with the permission each one needs and where its data comes from. Until
+ * they exist, this is a desk you can look at and walk through, not a desk that settles anything.
+ */
+
+
+
+
+/** The demo's book for the broker: his clients, his holds, his codes and what he has earned. */
+const LIBRO_BROKER = {
+  yo: { nombre: 'Omar Haddad', organizacion: 'NDC Development LLC', codigo: 'BROKER-ALPHA', desde: '2026-03-14' },
+  clientes: [
+    { nombre: 'Client A', interes: 'Unit 1 · Downtown Dubai', estado: 'Looking', desde: '2026-09-28' },
+    { nombre: 'Client B', interes: 'Unit 7 · Dubai Marina', estado: 'Reserved', desde: '2026-10-02' },
+    { nombre: 'Client C', interes: 'Unit 4 · Palm Jumeirah', estado: 'Reservation expired', desde: '2026-09-11' },
+  ],
+  reservas: [
+    { unidad: 'Unit 7 · Dubai Marina', comprador: 'Client B', estado: 'Held', caduca: '2026-10-16', importe: 220000000 },
+  ],
+  ventas: [
+    { unidad: 'Unit 2 · Downtown Dubai', importe: 245000000, estado: 'Completion signed', cerrada: '2026-09-30' },
+  ],
+  devengo: [
+    { concepto: 'Buyer side · 1 %', importe: 2450000, estado: 'Accrued' },
+    { concepto: 'Agency side · 0.5 %', importe: 1225000, estado: 'Awaiting identification' },
+    { concepto: 'Platform · 0.3 %', importe: 735000, estado: 'Accrued' },
+  ],
+};
+
+/** The demo's book for the creator: his code, what it brought, and what is owed. */
+const LIBRO_CREADOR = {
+  yo: { nombre: 'Sara N.', codigo: 'CREATOR-SKY', aprobado: false, identificado: false },
+  traido: [
+    { unidad: 'Unit 1 · Downtown Dubai', cuando: '2026-10-04', estado: 'Enquiry' },
+    { unidad: 'Unit 2 · Downtown Dubai', cuando: '2026-09-28', estado: 'Enquiry' },
+    { unidad: 'Unit 9 · Dubai Marina', cuando: '2026-09-21', estado: 'Viewing arranged' },
+  ],
+  ventas: [],
+  devengo: [
+    { concepto: 'Creator side · 1 %', importe: 0, estado: 'Nothing to release yet' },
+  ],
+};
+
+/* ------------------------------------------------------------------ the broker's desk */
+
+async function viewBroker() {
+  const b = LIBRO_BROKER;
+  const aed = (fils) => money(fils);
+  const fila = (a, b2, c = '') => `<tr><td>${esc(a)}</td><td>${esc(b2)}</td>${c ? `<td class="num">${esc(c)}</td>` : ''}</tr>`;
+
+  view().innerHTML = `
+    <div class="wrap">
+      <div class="desk-head">
+        <div>
+          <span class="dev-nav-lab">Broker</span>
+          <h1>${esc(b.yo.nombre)}</h1>
+          <p class="muted">${esc(b.yo.organizacion)} · code <b>${esc(b.yo.codigo)}</b> · since ${esc(b.yo.desde)}</p>
+        </div>
+        <div class="desk-nota">
+          This is the demonstration book: the screen is real, the figures are the demo's.
+          The routes that feed a live desk are the next piece of work (DOC-0005).
+        </div>
+      </div>
+
+      <div class="desk-datos">
+        <div class="dato"><span>Clients</span><b>${b.clientes.length}</b></div>
+        <div class="dato"><span>Active holds</span><b>${b.reservas.length}</b></div>
+        <div class="dato"><span>Sales closed</span><b>${b.ventas.length}</b></div>
+        <div class="dato"><span>Accrued</span><b>${esc(aed(b.devengo.reduce((t, d) => t + d.importe, 0)))}</b></div>
+      </div>
+
+      <div class="section">
+        <h2>My clients</h2>
+        <p class="muted" style="font-size:.85rem">Only mine. A broker never sees another broker's book.</p>
+        <table class="tabla"><thead><tr><th>Client</th><th>Looking at</th><th>State</th></tr></thead><tbody>
+          ${b.clientes.map((c) => `<tr><td>${esc(c.nombre)}</td><td>${esc(c.interes)}</td><td>${esc(c.estado)}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>My holds</h2>
+        <p class="muted" style="font-size:.85rem">One active reservation per unit, and it runs out on its own (BR-003).</p>
+        <table class="tabla"><thead><tr><th>Unit</th><th>Buyer</th><th>State</th><th class="num">Expires</th></tr></thead><tbody>
+          ${b.reservas.map((r) => `<tr><td>${esc(r.unidad)}</td><td>${esc(r.comprador)}</td><td>${esc(r.estado)}</td><td class="num">${esc(r.caduca)}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>My sales</h2>
+        <table class="tabla"><thead><tr><th>Unit</th><th>State</th><th class="num">Amount</th><th class="num">Closed</th></tr></thead><tbody>
+          ${b.ventas.map((v) => `<tr><td>${esc(v.unidad)}</td><td>${esc(v.estado)}</td><td class="num">${esc(aed(v.importe))}</td><td class="num">${esc(v.cerrada)}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>What I have earned</h2>
+        <p class="muted" style="font-size:.85rem">The platform pays: 1 % buyer side, 0.5 % agency side, 0.3 % for crossing the river.
+          Nothing is released before the person is identified and approved.</p>
+        <table class="tabla"><thead><tr><th>Concept</th><th>State</th><th class="num">Amount</th></tr></thead><tbody>
+          ${b.devengo.map((d) => `<tr><td>${esc(d.concepto)}</td><td>${esc(d.estado)}</td><td class="num">${esc(aed(d.importe))}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>What a broker cannot do</h2>
+        <ul class="desk-limites">
+          <li>Publish a listing, or change the contract price.</li>
+          <li>See the buyer's identity papers.</li>
+          <li>See another broker's clients, codes or sales.</li>
+          <li>Show a draft, a suspended listing, or a price that is not the published one.</li>
+        </ul>
+      </div>
+
+      <div class="desk-volver"><button class="btn ghost" type="button" id="desk-atras">Back to the catalogue</button></div>
+    </div>`;
+  view().querySelector('#desk-atras').addEventListener('click', () => go('/search'));
+}
+
+/* ------------------------------------------------------------------ the creator's desk */
+
+async function viewCreador() {
+  const c = LIBRO_CREADOR;
+  const aed = (fils) => money(fils);
+
+  view().innerHTML = `
+    <div class="wrap">
+      <div class="desk-head">
+        <div>
+          <span class="dev-nav-lab">Content creator</span>
+          <h1>${esc(c.yo.nombre)}</h1>
+          <p class="muted">code <b>${esc(c.yo.codigo)}</b> · ${c.yo.aprobado ? 'Approved' : 'Waiting for NDC to approve the account'}</p>
+        </div>
+        <div class="desk-nota">This is the demonstration book: the screen is real, the figures are the demo's.</div>
+      </div>
+
+      <div class="desk-aviso">
+        <b>Before anything is paid:</b> the account has to be approved by NDC, and the person identified.
+        ${c.yo.aprobado ? '' : 'Today this account is <b>not approved</b>, so nothing can be released.'}
+      </div>
+
+      <div class="desk-datos">
+        <div class="dato"><span>Brought by my code</span><b>${c.traido.length}</b></div>
+        <div class="dato"><span>Sales</span><b>${c.ventas.length}</b></div>
+        <div class="dato"><span>Share</span><b>1 %</b></div>
+        <div class="dato"><span>Released</span><b>${esc(aed(0))}</b></div>
+      </div>
+
+      <div class="section">
+        <h2>My code</h2>
+        <p class="muted" style="font-size:.85rem">The attribution is by code, not by click: you give it to your people and they use it.</p>
+        <div class="desk-codigo"><b>${esc(c.yo.codigo)}</b><span>and a ready link for every published unit</span></div>
+        <table class="tabla"><thead><tr><th>Unit</th><th>Link</th></tr></thead><tbody>
+          ${c.traido.slice(0, 2).map((t) => `<tr><td>${esc(t.unidad)}</td><td><code>…/#/unit?ref=${esc(c.yo.codigo)}</code></td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>What my code brought</h2>
+        <table class="tabla"><thead><tr><th>Unit</th><th>When</th><th>State</th></tr></thead><tbody>
+          ${c.traido.map((t) => `<tr><td>${esc(t.unidad)}</td><td>${esc(t.cuando)}</td><td>${esc(t.estado)}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>My share</h2>
+        <table class="tabla"><thead><tr><th>Concept</th><th>State</th><th class="num">Amount</th></tr></thead><tbody>
+          ${c.devengo.map((d) => `<tr><td>${esc(d.concepto)}</td><td>${esc(d.estado)}</td><td class="num">${esc(aed(d.importe))}</td></tr>`).join('')}
+        </tbody></table>
+      </div>
+
+      <div class="section">
+        <h2>What a creator cannot do</h2>
+        <ul class="desk-limites">
+          <li>Promote anything a developer has rejected, or anything not published.</li>
+          <li>Be paid before the account is approved and the person identified.</li>
+          <li>See the buyer's data.</li>
+        </ul>
+      </div>
+
+      <div class="desk-volver"><button class="btn ghost" type="button" id="desk-atras">Back to the catalogue</button></div>
+    </div>`;
+  view().querySelector('#desk-atras').addEventListener('click', () => go('/search'));
+}
+
 /* ===== js/app.js ===== */
 /**
  * BlockEstate · the buyer marketplace (PWA).
@@ -6520,6 +6740,7 @@ async function viewDevSale(id) {
  * API: this file only decides where each thing goes. The bar carries the mark, a search and the
  * account — nothing else, because everything else is reachable from the account menu.
  */
+
 
 
 
@@ -6568,12 +6789,16 @@ function renderBarra() {
         <a href="#/notifications">Alerts</a>
         <hr>
         <a href="#/dev">Developer portal</a>
+        <a href="#/broker">Broker desk</a>
+        <a href="#/creator">Creator desk</a>
         <hr>
         <button id="salir" type="button">Sign out</button>`
       : `<a href="#/login">Sign in</a>
          <a href="#/register">Create account</a>
          <hr>
-         <a href="#/dev">Developer portal</a>`}
+         <a href="#/dev">Developer portal</a>
+        <a href="#/broker">Broker desk</a>
+        <a href="#/creator">Creator desk</a>`}
     </div>
       </div>
   `;
@@ -6655,6 +6880,9 @@ route('/notifications', () => viewNotifications());
 route('/dev', () => viewDeveloper());
 route('/dev/properties', () => viewDevProperties());
 route('/dev/properties/nueva', () => viewDevNuevaPropiedad());
+// The two desks. The broker works inside a developer's organisation; the creator rides alone on a code.
+route('/broker', () => viewBroker());
+route('/creator', () => viewCreador());
 route('/dev/projects', () => viewDevProjects());
 route('/dev/listings', () => viewDevListings());
 route('/dev/verification', () => viewDevVerification());
