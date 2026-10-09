@@ -4885,6 +4885,15 @@ async function viewUnit(id) {
 
     // The badge is the door to the report: pressing it opens what Verysset verified, where the
     // evidence is anchored and what the asset's twin reads right now.
+    // The picture opens the viewer, and it is bound HERE, at the end, not where the markup is written.
+    // `ponerGrande` rewrites what is inside `#grande` when a thumbnail is picked, and a listener bound
+    // to the old contents disappears with them — which is why pressing the photo stopped opening the
+    // gallery. Bound on the frame itself, and bound late, it survives the rewriting.
+    caja.querySelector('#grande')?.addEventListener('click', () => abrir(0));
+    caja.querySelector('#grande')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(0); }
+    });
+
     const sello = caja.querySelector('.badge.verysset');
     if (sello) {
       sello.classList.add('accionable');
