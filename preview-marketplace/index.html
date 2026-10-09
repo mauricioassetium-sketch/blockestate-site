@@ -104,7 +104,7 @@ p{margin:.6rem 0}
 
 /* ---------- hero: the promise, the search, and the emirates ---------- */
 /* The band of the front page: the photograph runs the whole width, edge to edge, behind everything,
-   and the seven emirates sit on its lower edge — which is why the band is full-bleed instead of
+   and the seven emirates sit on its lower edge, which is why the band is full-bleed instead of
    living inside the container like the rest of the page. Two scrims and not one: a wash from the
    left so the headline has something dark to sit on, and a soft darkening top and bottom so the
    skyline still reads under the type. */
@@ -260,7 +260,7 @@ html,body{overflow-x:clip}
   font-weight:700; text-transform:uppercase}
 .pop-group:first-of-type{margin-top:.25rem}
 .pop-sep{border:0; border-top:1px solid var(--line); margin:.5rem .3rem}
-/* several values: round chips — a figure is a circle, a word a pill — and the footer that counts */
+/* several values: round chips, a figure is a circle, a word a pill, and the footer that counts */
 .pop-chips{display:flex; flex-wrap:wrap; gap:8px; padding:.15rem .55rem .5rem}
 .pop-chip{min-width:46px; min-height:46px; padding:.2rem .7rem; border-radius:999px;
   border:1px solid var(--line-2); background:var(--white); font-weight:700; font-size:.9rem;
@@ -362,7 +362,7 @@ html,body{overflow-x:clip}
   letter-spacing:-.02em; padding:1rem; text-align:center}
 .card .body{padding:16px 18px; display:flex; flex-direction:column; gap:.42rem; min-width:0}
 .card .price{font-weight:900; font-size:1.45rem; letter-spacing:-.035em; line-height:1.15}
-/* The two lines of a price: the crypto first — what the buyer pays with — and the contract price in
+/* The two lines of a price: the crypto first, what the buyer pays with, and the contract price in
    dirhams under it. The second is never hidden: it is the one that counts (BR-001). */
 .price-cripto{display:flex; align-items:baseline; gap:.4rem; flex-wrap:wrap}
 .price-cripto b{font-size:1.05rem; font-weight:800; letter-spacing:-.02em; color:var(--green-deep);
@@ -788,7 +788,7 @@ body.sin-scroll{overflow:hidden}
 
 /* ---------- the sheet, in modules ----------
    The reference reads in blocks: the figures that decide a first look in large type, and then one
-   block per subject — the unit, what is legal, what is around it — each with its heading and icon. */
+   block per subject, the unit, what is legal, what is around it, each with its heading and icon. */
 .modulos{display:grid; gap:12px; margin-top:1rem}
 .mod{border:1px solid var(--line-2); border-radius:1rem; background:var(--white); padding:.85rem 1rem}
 .mod > header{display:flex; align-items:center; gap:.5rem; margin-bottom:.1rem}
@@ -896,7 +896,7 @@ body.sin-scroll{overflow:hidden}
    The reference puts one white panel over the photograph and lets it be the loudest thing on the
    page: a short line above, the panel below, and no paragraph competing with the form. The panel
    carries the tabs of the build state, the text field with the button, and four controls that are
-   the same pickers the catalogue uses — one system, two places. */
+   the same pickers the catalogue uses, one system, two places. */
 .buscador{width:min(100%,940px); margin:1.15rem 0 0; padding:11px; background:var(--white);
   border-radius:1.15rem; box-shadow:0 30px 70px rgba(4,12,18,.38); text-align:left}
 .hero-tabs{display:flex; gap:2px; margin:-4px -4px 12px; padding:0 4px; border-bottom:1px solid var(--line)}
@@ -956,7 +956,7 @@ body.sin-scroll{overflow:hidden}
 /* ---------- the developer's portal: five desks, and the tools of each one ----------
    The portal is a place of work, not a page: a menu on the left with the five desks and what each
    one holds, the desk of the day on the right. Every desk that holds a list carries the same four
-   tools — find, filter by state, sort, export — because the developer should learn them once. */
+   tools, find, filter by state, sort, export, because the developer should learn them once. */
 /* The bar of the portal: who you are working as, and the one action that matters. It stays while
    the desk scrolls, because a place of work tells you where you are. */
 .dev-bar{position:sticky; top:var(--bar); z-index:20; display:flex; align-items:center; gap:14px;
@@ -1213,7 +1213,7 @@ body.sin-scroll{overflow:hidden}
 /* ---------- the developer row, second pass: a bigger mark and its doors ----------
    Drawn from the screenshot: the mark was the size of a coin and the row had a boxed «View». Now the
    mark leads the row, and the three channels the platform opens (WhatsApp, Telegram, email) are the
-   row's own controls — which is what a buyer actually wants from a developer: a way in. */
+   row's own controls, which is what a buyer actually wants from a developer: a way in. */
 .rail-box .dev-fila{display:flex; align-items:center; gap:6px}
 .rail-box .dev-fila + .dev-fila{margin-top:4px}
 .rail-box .dev-fila .dev-row{flex:1 1 auto; padding:10px 8px; gap:14px}
@@ -1295,7 +1295,7 @@ body.sin-scroll{overflow:hidden}
 @media (max-width:560px){.canales .canal{flex:1 1 100%; min-height:52px}}
 
 
-/* The footer of a card, last word: the mark, the name, and the ways in. No «View» — the whole card
+/* The footer of a card, last word: the mark, the name, and the ways in. No «View», the whole card
    is already the way in, and a boxed button next to four round ones only competes with them. */
 .card .foot .btn.ghost.sm{display:none}
 .card .foot{justify-content:space-between}
@@ -1329,7 +1329,7 @@ body.sin-scroll{overflow:hidden}
 /* ---------- the strip, final ----------
    Two things only, and neither changes the shape of a card: the two halves of a card are allowed to
    shrink (a grid of 40% / 60% does not go below its own content unless it is told it may, which is why
-   the card measured 545 px on a 390 px phone), and the mark of the agency is given its size — it lives
+   the card measured 545 px on a 390 px phone), and the mark of the agency is given its size, it lives
    inside `.logo.sm`, so the earlier rule never reached it. */
 .card > *{min-width:0}
 .card img{max-width:100%}
@@ -1428,7 +1428,7 @@ body.sin-scroll{overflow:hidden}
 /* ---------- the channels live in the rail, not inside a card ----------
    Two things: the card no longer carries the buttons (a card is for looking at a property, and the
    rail is where a buyer looks up who is selling), and the class that made them a row now really does
-   set the direction — it only said `display:flex`, so the column declared for the rail was winning and
+   set the direction, it only said `display:flex`, so the column declared for the rail was winning and
    the buttons in a card stacked one under another. */
 .card .dev-puertas{display:none !important}
 .dev-puertas.en-fila{flex-direction:row; flex-wrap:wrap; align-items:center}
@@ -1469,6 +1469,12 @@ body.sin-scroll{overflow:hidden}
 .tabla td.num, .tabla th.num{text-align:right; font-variant-numeric:tabular-nums}
 .tabla code{font-size:.8rem; color:var(--ink-60)}
 @media (max-width:640px){ .tabla{font-size:.82rem} .tabla td, .tabla th{padding:7px 5px} }
+
+
+/* ---------- the seal of a card is a button ---------- */
+.badge-sello{display:inline-flex; padding:0; border:0; background:none; cursor:pointer; font:inherit;
+  border-radius:999px}
+.badge-sello:hover{outline:2px solid rgba(16,110,90,.35); outline-offset:2px}
 
 </style>
 </head>
@@ -1606,8 +1612,7 @@ const filtrar = (lista, q) => {
 };
 const fetchDeVerdad = window.fetch.bind(window);
 window.fetch = async (url, opciones = {}) => {
-  // The shim answers for the platform, not for the whole internet. A call to somebody else's API —
-  // the live exchange rate, for one — has to leave the building instead of being answered with a 404
+  // The shim answers for the platform, not for the whole internet. A call to somebody else's API, // the live exchange rate, for one, has to leave the building instead of being answered with a 404
   // from the capture, which is what it used to get.
   const destino = String(url);
   const esNuestro = !/^https?:\/\//i.test(destino) || destino.startsWith(location.origin);
@@ -1749,7 +1754,7 @@ const RED = 'BNB Chain (BSC)';
  * Session and small caches, in localStorage.
  *
  * The token is the only thing that identifies the buyer. Nothing else is trusted from here: the role
- * and the permissions always come from `/auth/session`, never from what was saved — the browser is
+ * and the permissions always come from `/auth/session`, never from what was saved, the browser is
  * the buyer's machine, so anything in it can be edited by the buyer.
  */
  
@@ -1905,7 +1910,7 @@ const api = {
   devListingCreate: (body) => req('POST', '/listings', { body }),
   devListingMedia: (id, body) => req('POST', `/listings/${id}/media`, { body }),
   devListingSubmit: (id) => req('POST', `/listings/${id}/submit`),
-  // A photo goes to the public store — the buyer sees it, and so does Verysset. A paper goes to the
+  // A photo goes to the public store, the buyer sees it, and so does Verysset. A paper goes to the
   // documents, which are private and reached only through the API.
   subirImagen: (archivo) => {
     const fd = new FormData();
@@ -1960,8 +1965,8 @@ const api = {
  *
  * The rule of the model is BR-002, and it is the whole reason this file exists: **a crypto equivalent
  * is a time-bounded quote**, never a promise. So nothing here invents a rate. The platform has no rate
- * feed yet, and until it has one the rate is the one the user types — the seller quoting, or the
- * buyer reading — and every figure that comes out of it says the rate and says that it is an
+ * feed yet, and until it has one the rate is the one the user types, the seller quoting, or the
+ * buyer reading, and every figure that comes out of it says the rate and says that it is an
  * indication.
  *
  * The contract price is always in dirhams (BR-001). What this converts is the *view* of it.
@@ -1980,7 +1985,7 @@ let estadoCambio = leer();
 
 /**
  * A rate is a positive number or it is nothing. It is a `function` on purpose: `leer()` runs while the
- * module is being read, and an arrow held in a `const` further down would not exist yet — the `try`
+ * module is being read, and an arrow held in a `const` further down would not exist yet, the `try`
  * would swallow the reference error and the store would look empty for ever.
  */
 function numero(v) {
@@ -2020,7 +2025,7 @@ function elegirActivo(activo) {
 }
 
 /**
- * A rate outside this band is not a rate, it is a typo — and a typo must never become a price. With
+ * A rate outside this band is not a rate, it is a typo, and a typo must never become a price. With
  * the rate at 0.0001 AED per USDT, a flat of one and a half million dirhams read as fifteen thousand
  * million USDT: a number so absurd that the sensible reading is not «the rate is wrong» but «the
  * marketplace is broken». The band is wide on purpose (BNB sits around 2,400 and USDT around 3.67);
@@ -2058,7 +2063,7 @@ function fijarTasa(activo, valor) {
 /**
  * The live rate. CoinGecko quotes both assets straight against the dirham and asks for no key, which
  * is why it can be read from the browser today. Two things about it, said plainly: if the call fails
- * nothing is invented — the last known rate stays, with the moment it was read — and when the
+ * nothing is invented, the last known rate stays, with the moment it was read, and when the
  * platform grows its own backend feed, this is the piece that moves there, because a price that only
  * ever comes from the visitor's browser is a price nobody can audit.
  */
@@ -2114,7 +2119,7 @@ function cifra(v, decimales) {
 
 /**
  * The line a card adds under the price. It carries the asset, the amount, the rate and the fact that
- * it is an indication — the four things BR-002 asks for, in one line, without shouting.
+ * it is an indication, the four things BR-002 asks for, in one line, without shouting.
  */
 function equivalenteTexto(fils, { aCorto = false } = {}) {
   if (!hayTasa()) return '';
@@ -2200,7 +2205,7 @@ function aFecha(v) {
   if (typeof v === 'number' || /^\d+$/.test(String(v))) {
     const n = Number(v);
     // Anything that looks like seconds (10 digits) is seconds: a millisecond stamp of this century
-    // has 13, and a seconds stamp read as milliseconds lands in 1970 — which is how a deadline came
+    // has 13, and a seconds stamp read as milliseconds lands in 1970, which is how a deadline came
     // out as "21 Jan 1970" instead of the real one.
     const d = new Date(n < 1e12 ? n * 1000 : n);
     return Number.isNaN(d.getTime()) ? null : d;
@@ -2254,7 +2259,7 @@ function selectorActivo() {
       data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}
     ${raras.map((a) => `<label class="sel-tasa mal" title="This rate cannot be right">1 ${esc(a)} =
       <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED
-      <span>· the ${esc(String(tasa(a)))} you saved cannot be right — write it again</span></label>`).join('')}
+      <span>· the ${esc(String(tasa(a)))} you saved cannot be right, write it again</span></label>`).join('')}
     ${falta.map((a) => `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(a)} =
       <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED</label>`).join('')}
   </div>`;
@@ -2437,7 +2442,7 @@ function picker(id, {
       <span>${esc(o.texto)}${o.nota ? `<small>${esc(o.nota)}</small>` : ''}</span>
       ${elegidas.includes(o.valor) ? marca : ''}
     </button>`;
-  // Several values are chips — round for a figure, a pill for a word — which is the model of the
+  // Several values are chips, round for a figure, a pill for a word, which is the model of the
   // reference and reads much faster than a column of tick boxes.
   const chip = (o, clave) => `
     <button class="pop-chip${elegidas.includes(o.valor) ? ' on' : ''}" type="button"
@@ -2741,7 +2746,7 @@ function render() {
 /**
  * The rail on the right: who is behind the catalogue.
  *
- * Two blocks, both fed by the API and both about what is published — a developer's name appears only
+ * Two blocks, both fed by the API and both about what is published, a developer's name appears only
  * when they have stock in the catalogue, which is what makes the list worth reading. The logo is the
  * one the developer uploaded during onboarding; until there is one, the name carries its own mark
  * (initials) instead of an invented image.
@@ -2829,7 +2834,7 @@ async function pintarRail(contenedor) {
 const CANAL_ETIQUETA_DEV = { whatsapp: 'WhatsApp', telegram: 'Telegram', correo: 'email' };
 
 /**
- * Pressing a channel opens this, and there are two ways in — never more.
+ * Pressing a channel opens this, and there are two ways in, never more.
  *
  * Either you carry a code, and it says who brought you; or you do not, and you leave your name and
  * your address so the code of the agent the developer has assigned comes to you. The second half is
@@ -2866,7 +2871,7 @@ function abrirPuerta(desarrollador, canal) {
         </div>
         <button type="button" class="btn ghost" id="pm-pedir">Send me the code</button>
         <span class="note">The code of the agent the developer has assigned for this property, sent to
-          your email — never shown here, so nobody can lift somebody else's code.</span>
+          your email, never shown here, so nobody can lift somebody else's code.</span>
       </fieldset>
     </div>`;
   document.body.appendChild(caja);
@@ -2926,7 +2931,7 @@ document.addEventListener('click', (e) => {
  *
  * Each card with coordinates gets a **price marker**; hovering a card raises its marker and clicking
  * a marker highlights its card. Leaflet and the tiles come from the network, so they are loaded the
- * first time the map is opened — and if there is no connection, the map says so instead of pretending
+ * first time the map is opened, and if there is no connection, the map says so instead of pretending
  * to be a map.
  */
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
@@ -3051,7 +3056,7 @@ const lista = (resultados) => `<div class="list">${resultados.map(card).join('')
 /**
  * The bar of the catalogue. Following the reference, the axis in the bar is the **state of the
  * build** (All · Ready · Off plan) and the type lives in the controls row, so both can be combined.
- * It belongs to BOTH screens and never drops the rest of the filters — picking an emirate and then
+ * It belongs to BOTH screens and never drops the rest of the filters, picking an emirate and then
  * Ready keeps the emirate. That was the bug: it only lived on the front page.
  */
 const TABS = [
@@ -3088,7 +3093,7 @@ const bandaElegida = (min, max) => {
 
 async function viewCatalog() {
   // The front page follows the reference: a photograph, one short line, and the search as the only
-  // loud element on the page. The long explanation of the model is not up here — it is what the form
+  // loud element on the page. The long explanation of the model is not up here, it is what the form
   // and the catalogue say on their own.
   view().innerHTML = `
     <section class="hero">
@@ -3625,7 +3630,7 @@ async function viewSearch(query) {
     error('#resultados', err);
   }
 
-  // The rail on the right —or the map— and the names the developer filter carries.
+  // The rail on the right, or the map, and the names the developer filter carries.
   const rail = estado.vista === 'mapa' ? null : await pintarRail('#rail');
   const select = view().querySelector('#s-dev');
   if (select && rail?.desarrolladores) {
@@ -4002,8 +4007,7 @@ async function pintarSiguiente(caja, i, estado, repintar) {
           <input value="${esc(RED)}" readonly aria-label="Payment network"></div>
         <div class="filters-actions"><button class="btn green" id="cotizar">Get the quote</button></div>
       </div>
-      <p class="note">One network for the payment: ${esc(RED)}. The platform charges no rate of its own —
-        the rate comes with the quote and it expires.</p>`;
+      <p class="note">One network for the payment: ${esc(RED)}. The platform charges no rate of its own, the rate comes with the quote and it expires.</p>`;
     caja.querySelector('#cotizar').addEventListener('click', async (e) => {
       e.currentTarget.disabled = true;
       try {
@@ -4356,7 +4360,7 @@ function abrirGaleria({
  * The Verysset report of an asset: what the badge means, where the evidence is anchored and what the
  * digital twin of the asset reads.
  *
- * It answers the only question a mark like this raises — *why should I believe it?* — with what the
+ * It answers the only question a mark like this raises, *why should I believe it?*, with what the
  * verifier actually reported: the scope and the date of the check, its validity, the evidence, the
  * anchor on chain, and the twin. It also says the two things that must be said: the badge is not an
  * unconditional guarantee, and in this environment the twin's sensors are not connected, so the
@@ -4426,8 +4430,8 @@ function abrirInformeVerysset({ informe, titulo = '', referencia = '' } = {}) {
             ${a.explorador ? `<a class="vs-btn" href="${esc(a.explorador)}" target="_blank" rel="noopener noreferrer">${ico('ampliar', 15)} See it on the explorer</a>` : ''}
             ${a.tx && !a.explorador ? '<span class="note">The platform does not know that network, so it offers no link rather than a wrong one.</span>' : ''}
           </div>
-          ${a.demo ? `<p class="note">The digest is real — it is the sha256 of the evidence as it was
-            received — and this anchor is written by the sandbox, not by a chain.</p>` : ''}
+          ${a.demo ? `<p class="note">The digest is real, it is the sha256 of the evidence as it was
+            received, and this anchor is written by the sandbox, not by a chain.</p>` : ''}
         </section>
 
         <section class="vs-mod">
@@ -4522,7 +4526,7 @@ async function viewUnit(id) {
     const u = await api.unit(id);
     const d = u.unidad;
     // The photographs of the unit, and the project's own figures: the building and how far the
-    // works are. Both are optional — a unit whose project is not readable still shows its gallery.
+    // works are. Both are optional, a unit whose project is not readable still shows its gallery.
     const [media, proy] = await Promise.all([
       api.media(id).catch(() => ({ fotos: [] })),
       api.project(d.proyecto_id).catch(() => null),
@@ -4579,7 +4583,7 @@ async function viewUnit(id) {
         ? [['parking', String(d.plazas_parking), d.plazas_parking === 1 ? 'parking space' : 'parking spaces']] : []),
     ];
 
-    // The sheet reads in modules — each one a block with its own heading and icon — instead of one
+    // The sheet reads in modules, each one a block with its own heading and icon, instead of one
     // long list where a permit and a bedroom weigh the same.
     const modulo = (icono, titulo, filasModulo, extra = '') => {
       if (!filasModulo.length && !extra) return '';
@@ -4694,7 +4698,7 @@ async function viewUnit(id) {
           <div class="conectar" id="conectar">
             <h4>Get in touch</h4>
             <p class="note">The marketplace never publishes the seller's contact. The code that brought
-              you says who we put you in touch with — press a channel and we will ask you for it.</p>
+              you says who we put you in touch with, press a channel and we will ask you for it.</p>
             <div class="field">
               <label for="ref">Referral code <span class="muted" style="text-transform:none;letter-spacing:0">(optional)</span></label>
               <input id="ref" placeholder="BROKER-ALPHA" autocomplete="off" spellcheck="false">
@@ -4728,7 +4732,7 @@ async function viewUnit(id) {
     `;
 
     // The connect block. The seller's contact is never published: the code the buyer carries is the
-    // only door, so it is asked for here — and it is the same value the reservation sends.
+    // only door, so it is asked for here, and it is the same value the reservation sends.
     let referido = null;
     const campoRef = caja.querySelector('#ref');
     const notaRef = caja.querySelector('#ref-nota');
@@ -4753,7 +4757,7 @@ async function viewUnit(id) {
     };
 
     // Who answers: the card shows the name, the line under it and the channel. With no photo it
-    // shows the initials — a face is never invented and an empty circle is never drawn.
+    // shows the initials, a face is never invented and an empty circle is never drawn.
     const cajaQuien = caja.querySelector('#quien');
     const pintarQuien = () => {
       if (!referido) {
@@ -4887,7 +4891,7 @@ async function viewUnit(id) {
     // evidence is anchored and what the asset's twin reads right now.
     // The picture opens the viewer, and it is bound HERE, at the end, not where the markup is written.
     // `ponerGrande` rewrites what is inside `#grande` when a thumbnail is picked, and a listener bound
-    // to the old contents disappears with them — which is why pressing the photo stopped opening the
+    // to the old contents disappears with them, which is why pressing the photo stopped opening the
     // gallery. Bound on the frame itself, and bound late, it survives the rewriting.
     caja.querySelector('#grande')?.addEventListener('click', () => abrir(0));
     caja.querySelector('#grande')?.addEventListener('keydown', (e) => {
@@ -5036,7 +5040,7 @@ async function viewProject(id) {
  *
  * The organisation's own place of work: what it has, what it publishes, what has been verified, what
  * it has sold, what it collects and who sells for it. It is the same product as the buyer's side, so
- * it is the same interface — the same marks, the same figures in tabular type, the same doors.
+ * it is the same interface, the same marks, the same figures in tabular type, the same doors.
  *
  * The menu carries the work and not only the reading: putting a property up (unit → listing → media
  * → review), the verification of each asset, the agency, the brokers it designates, and the money.
@@ -5236,8 +5240,8 @@ function avisosDeCabecera(yo) {
       yo.motivo_revision ? ` Reason given: ${esc(yo.motivo_revision)}.` : ''}</div>` : '';
   const notaDemo = (store.rol() ?? '').startsWith('developer') ? '' : `
     <div class="note" style="margin-bottom:14px">Preview: this is the book of a sandbox organisation,
-      captured from the platform. The desks that write — putting a property up, submitting a listing,
-      designating a broker — need the live platform and say so when you try them.</div>`;
+      captured from the platform. The desks that write, putting a property up, submitting a listing,
+      designating a broker, need the live platform and say so when you try them.</div>`;
   return puerta + notaDemo;
 }
 
@@ -5544,7 +5548,7 @@ async function viewDevNuevaPropiedad() {
           <div class="dev-form-2">
             <label>Project
               <select name="proyecto_id" required>
-                <option value="">—</option>
+                <option value="">, </option>
                 ${(x.proyectos.proyectos ?? []).map((p) => `<option value="${esc(p.id)}">${esc(p.nombre)} · ${esc(p.ciudad ?? '')}</option>`).join('')}
               </select></label>
           </div>
@@ -5573,7 +5577,7 @@ async function viewDevNuevaPropiedad() {
               </select></label>
             <label>Handover <input name="entrega_prevista" placeholder="Q4 2027"></label>
           </div>
-          <p class="note">The price is kept in fils — AED 1,850,000.00 is 185,000,000 fils — so the
+          <p class="note">The price is kept in fils, AED 1,850,000.00 is 185,000,000 fils, so the
             contract never carries a rounded decimal.</p>
 
           <div class="dev-calc" id="dev-calc">
@@ -5584,7 +5588,7 @@ async function viewDevNuevaPropiedad() {
               <label>1 BNB =
                 <input name="tasa_bnb" inputmode="decimal" placeholder="2400"> <span>AED</span></label>
             </div>
-            <p class="note">The platform has no rate feed yet, so the rate is the one you write — the
+            <p class="note">The platform has no rate feed yet, so the rate is the one you write, the
               one you are quoting with. It is stamped with its moment and it is never a promise: the
               contract price is the one in dirhams, and BR-002 says the crypto figure is a time-bounded
               quote.</p>
@@ -5638,7 +5642,7 @@ async function viewDevNuevaPropiedad() {
             <span class="dev-archivo"><input type="file" name="papeles" accept="application/pdf,image/jpeg,image/png" multiple class="solo-lector" data-archivo="papeles"><span class="btn-archivo" role="button" tabindex="0" data-abre="papeles">Choose files</span><span class="archivo-dicho" data-dice="papeles">No file chosen</span></span>
             <span class="note">PDF, JPEG or PNG. <b>This is where Verysset takes what it verifies</b>,
               together with the data of the unit: without the papers there is no verification and no
-              badge. They are private — the buyer never sees them, Verysset and NDC do.</span></label>
+              badge. They are private, the buyer never sees them, Verysset and NDC do.</span></label>
         </fieldset>
 
         <fieldset data-sec="video">
@@ -5712,7 +5716,7 @@ async function viewDevNuevaPropiedad() {
             <label>Longitude <input name="longitud" inputmode="decimal" placeholder="55.274376"></label>
           </div>
           <p class="note">The unit appears on the marketplace map with these two numbers. Without them
-            it exists in the catalogue but not on the map — nothing is invented for it.</p>
+            it exists in the catalogue but not on the map, nothing is invented for it.</p>
           <p class="note" id="dev-mapa-enlace" hidden></p>
         </fieldset>
 
@@ -5836,7 +5840,7 @@ async function viewDevNuevaPropiedad() {
       [n('papeles'), 'The papers Verysset reads'],
     ];
     const caja = view().querySelector('#dev-repaso-lista');
-    caja.innerHTML = lineas.map(([ok, texto]) => `<span class="${ok ? 'si' : 'no'}">${ok ? '✓' : '—'} ${esc(texto)}</span>`).join('');
+    caja.innerHTML = lineas.map(([ok, texto]) => `<span class="${ok ? 'si' : 'no'}">${ok ? '✓' : ', '} ${esc(texto)}</span>`).join('');
     const faltan = lineas.filter(([ok]) => !ok).length;
     view().querySelector('#dev-repaso').innerHTML = faltan
       ? `<b>${faltan}</b> thing(s) still missing. Nothing stops the submission, but what is missing is
@@ -5951,7 +5955,7 @@ async function viewDevNuevaPropiedad() {
       DATOS = null;
       diRespuesta('dev-nueva', true,
         `Unit, listing, ${fotos.length} photograph(s) and ${papeles.length} paper(s) stored. `
-        + `The listing is <b>under NDC's review</b> — publishing is their decision.`);
+        + `The listing is <b>under NDC's review</b>, publishing is their decision.`);
     } catch (err) {
       apunta('Stopped here.', 'error');
       diRespuesta('dev-nueva', false, err);
@@ -6045,8 +6049,8 @@ async function viewDevListings() {
       <header>${ico('etiqueta', 15)}<h4>Listings</h4>
         <a style="margin-left:auto;font-size:.8rem" href="#/dev/properties/nueva">Put a property up →</a></header>
       <p class="note">A listing is the advertisement over a unit, and it walks in one direction:
-        draft → submitted → under review → published. Material changes — the unit, the evidence, the
-        price, the payment plan — send it back to review.</p>
+        draft → submitted → under review → published. Material changes, the unit, the evidence, the
+        price, the payment plan, send it back to review.</p>
       ${barraHerramientas({ sitio: 'Unit, reference or project',
         estados: [['draft', 'Draft'], ['submitted', 'Submitted'], ['in_review', 'Under review'],
           ['approved', 'Published'], ['returned', 'Returned'], ['rejected', 'Rejected'],
@@ -6071,11 +6075,11 @@ async function viewDevListings() {
           <tr data-ir="#/unit/${esc(u.unidad_id)}">
             <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
               <small>${esc(u.proyecto?.nombre ?? '')}${u.anuncio?.promocionado ? ' · promoted' : ''}</small></td>
-            <td>${u.anuncio?.referencia ? `<code>${esc(u.anuncio.referencia)}</code>` : '<span class="muted">—</span>'}</td>
+            <td>${u.anuncio?.referencia ? `<code>${esc(u.anuncio.referencia)}</code>` : '<span class="muted">, </span>'}</td>
             <td>${u.anuncio ? tagEstado(u.anuncio.estado, ANUNCIO, ['approved'], ['returned', 'rejected', 'suspended']) : etiqueta('No listing')}</td>
             <td>${u.anuncio?.permiso_numero
               ? `${esc(u.anuncio.permiso_autoridad ?? '')} ${esc(u.anuncio.permiso_numero)}`
-              : '<span class="muted">—</span>'}</td>
+              : '<span class="muted">, </span>'}</td>
             <td class="num">${esc(u.precio_aed)}</td>
             <td class="abrir">${ico('derecha', 15)}</td>
           </tr>`).join('') : '<tr><td colspan="6" class="note">Nothing matches those tools.</td></tr>');
@@ -6100,8 +6104,8 @@ async function viewDevVerification() {
       <section class="mod">
         <header>${ico('permiso', 15)}<h4>Verification</h4>
           <span class="muted" style="margin-left:auto;font-size:.8rem">${conBadge.length} of ${suyas.length} verified</span></header>
-        <p class="note"><b>Verysset is the one who verifies.</b> It checks the asset — the physical
-          thing, the papers and the place — and issues signed evidence: the date, the scope of what
+        <p class="note"><b>Verysset is the one who verifies.</b> It checks the asset, the physical
+          thing, the papers and the place, and issues signed evidence: the date, the scope of what
           was checked, the hash that anchors it, and the digital twin of the building. The badge is
           valid for the window it states, not forever, and this portal only reads it.</p>
         ${barraHerramientas({ sitio: 'Unit or project',
@@ -6128,10 +6132,10 @@ async function viewDevVerification() {
             <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
               <small>${esc(u.proyecto?.nombre ?? '')} · ${esc(u.comunidad ?? '')}</small></td>
             <td>${u.anuncio?.badge_alcance ? etiqueta(u.anuncio.badge_alcance, 'green') : etiqueta('Without evidence')}</td>
-            <td>${u.anuncio?.badge_valido_hasta ? `<small>until ${esc(u.anuncio.badge_valido_hasta)}</small>` : '<span class="muted">—</span>'}</td>
+            <td>${u.anuncio?.badge_valido_hasta ? `<small>until ${esc(u.anuncio.badge_valido_hasta)}</small>` : '<span class="muted">, </span>'}</td>
             <td>${u.anuncio?.badge_evidencia_hash
               ? `<code title="${esc(u.anuncio.badge_evidencia_hash)}">${esc(String(u.anuncio.badge_evidencia_hash).slice(0, 14))}…</code>`
-              : '<span class="muted">—</span>'}</td>
+              : '<span class="muted">, </span>'}</td>
             <td class="num">${esc(u.precio_aed)}</td>
             <td class="abrir">${ico('derecha', 15)}</td>
           </tr>`).join('') : '<tr><td colspan="6" class="note">Nothing matches those tools.</td></tr>');
@@ -6187,9 +6191,9 @@ async function viewDevSales() {
             <td><b>${esc(tipoLabel(v.unidad?.tipo))}${v.unidad?.habitaciones ? ` · ${v.unidad.habitaciones} bed` : ''}</b>
               <small>${esc(v.proyecto ?? '')}${v.estado_registro === 'registered' ? ' · registered with the DLD' : ''}</small></td>
             <td>${tagEstado(v.estado, VENTA, ['business_completion_approved', 'settled'], ['manual_review', 'compliance_hold'])}</td>
-            <td>${esc(CANAL[v.cobro?.canal] ?? v.cobro?.canal ?? '—')}</td>
+            <td>${esc(CANAL[v.cobro?.canal] ?? v.cobro?.canal ?? ', ')}</td>
             <td class="num">${esc(v.precio_aed)}</td>
-            <td class="num">${esc(v.cobro?.aed_liquidado ?? '—')}</td>
+            <td class="num">${esc(v.cobro?.aed_liquidado ?? ', ')}</td>
             <td class="abrir">${ico('derecha', 15)}</td>
           </tr>`).join('') : '<tr><td colspan="6" class="note">Nothing matches those tools.</td></tr>');
     },
@@ -6211,7 +6215,7 @@ async function viewDevCollections() {
     const cobradas = ventas.filter((v) => v.cobro?.aed_liquidado);
     const porBanco = {};
     for (const v of cobradas) {
-      const k = v.cobro?.banco ?? '—';
+      const k = v.cobro?.banco ?? ', ';
       porBanco[k] = (porBanco[k] ?? 0) + (Number(String(v.cobro?.aed_liquidado ?? '').replace(/[^0-9.]/g, '')) || 0);
     }
     return `
@@ -6220,12 +6224,12 @@ async function viewDevCollections() {
         ${destacado(resumen.cobrado_aed ?? money(0), 'In your account', true)}
         ${destacado(Number(resumen.pendiente_cobro ?? 0), 'Awaiting the bank')}
         ${destacado(cobradas.length, 'Collections recorded')}
-        ${destacado(Object.keys(porBanco).join(' · ') || '—', 'Banks')}
+        ${destacado(Object.keys(porBanco).join(' · ') || ', ', 'Banks')}
       </section>
       <section class="mod" style="margin-top:14px">
         <header>${ico('banco', 15)}<h4>Collections</h4></header>
         <p class="note">The dirhams arrive through the licensed off-ramp: the OTC converts the crypto
-          and the bank credits your account. Your share is frozen only when it has arrived — before
+          and the bank credits your account. Your share is frozen only when it has arrived, before
           that there is nothing to promise, and nothing here is a receipt.</p>
         <div class="dev-tabla-caja">
           <table class="dev-tabla">
@@ -6234,10 +6238,10 @@ async function viewDevCollections() {
               ${cobradas.length ? cobradas.map((v) => `
                 <tr data-ir="#/dev/sale/${esc(v.intencion_id)}">
                   <td><b>${esc(tipoLabel(v.unidad?.tipo))}</b><small>${esc(v.proyecto ?? '')}</small></td>
-                  <td>${esc(v.cobro?.banco ?? '—')}</td>
-                  <td>${v.cobro?.referencia ? `<code>${esc(String(v.cobro.referencia).slice(0, 16))}…</code>` : '<span class="muted">—</span>'}</td>
-                  <td class="num">${esc(v.cobro?.aed_liquidado ?? '—')}</td>
-                  <td class="num">${esc(v.cobro?.neto_aed ?? '—')}</td>
+                  <td>${esc(v.cobro?.banco ?? ', ')}</td>
+                  <td>${v.cobro?.referencia ? `<code>${esc(String(v.cobro.referencia).slice(0, 16))}…</code>` : '<span class="muted">, </span>'}</td>
+                  <td class="num">${esc(v.cobro?.aed_liquidado ?? ', ')}</td>
+                  <td class="num">${esc(v.cobro?.neto_aed ?? ', ')}</td>
                   <td class="abrir">${ico('derecha', 15)}</td>
                 </tr>`).join('') : '<tr><td colspan="6" class="note">Nothing collected yet.</td></tr>'}
             </tbody>
@@ -6252,7 +6256,7 @@ async function viewDevCollections() {
 async function viewDevBrokers() {
   await conDatos('#/dev/brokers', (x) => {
     const codigos = x.codigos.codigos ?? [];
-    // The developer designates brokers; the channel that NDC approves — the content creator — is not
+    // The developer designates brokers; the channel that NDC approves, the content creator, is not
     // the developer's to hand out.
     const canales = [['broker', 'Broker'], ['desarrollador', 'Own sales']];
     if (x.codigos.permitido === false) {
@@ -6260,8 +6264,7 @@ async function viewDevBrokers() {
         ${avisosDeCabecera(x.yo)}
         <section class="mod">
           <header>${ico('grupo', 15)}<h4>Brokers</h4></header>
-          <p class="note">Designating brokers is yours. This session cannot read them —
-            ${esc(x.codigos.motivo || 'the API answers 403')} — so the desk will not pretend.</p>
+          <p class="note">Designating brokers is yours. This session cannot read them, ${esc(x.codigos.motivo || 'the API answers 403')}, so the desk will not pretend.</p>
         </section>`;
     }
     return `
@@ -6269,7 +6272,7 @@ async function viewDevBrokers() {
       <section class="mod">
         <header>${ico('grupo', 15)}<h4>Brokers</h4>
           <span class="muted" style="margin-left:auto;font-size:.8rem">${codigos.length} code${codigos.length === 1 ? '' : 's'}</span></header>
-        <p class="note"><b>You designate the brokers, and the code comes out of the platform</b> — no
+        <p class="note"><b>You designate the brokers, and the code comes out of the platform</b>, no
           one types it. The code is what says who brought the buyer, and it is how the sale is
           attributed; it does not decide the commission (the fee table does), and no payment is
           released before that person's identity is checked. A buyer who arrives <b>without</b> a
@@ -6298,7 +6301,7 @@ async function viewDevBrokers() {
           <label class="dev-ancho">Face
             <span class="dev-archivo"><input type="file" name="foto" accept="image/jpeg,image/png" class="solo-lector" data-archivo="foto"><span class="btn-archivo" role="button" tabindex="0" data-abre="foto">Choose files</span><span class="archivo-dicho" data-dice="foto">No file chosen</span></span>
             <span class="note">JPEG or PNG, up to 4 MiB. It is the face the buyer sees when the code
-              puts them in touch — without it they see the monogram of the name instead.</span></label>
+              puts them in touch, without it they see the monogram of the name instead.</span></label>
           <div class="dev-vista" id="dev-vista-foto" hidden></div>
           <div class="dev-form-pie">
             <button class="btn green" type="submit">${ico('llave', 15)} Designate the broker</button>
@@ -6325,8 +6328,8 @@ async function viewDevBrokers() {
             <td><code>${esc(c.codigo)}</code></td>
             <td><b>${esc(c.nombre)}</b></td>
             <td>${etiqueta(CANAL[c.canal] ?? c.canal)}</td>
-            <td><small>${[c.whatsapp, c.telegram, c.correo].filter(Boolean).map(esc).join(' · ') || '—'}</small></td>
-            <td><small>${esc(c.titulo ?? '—')}</small></td>
+            <td><small>${[c.whatsapp, c.telegram, c.correo].filter(Boolean).map(esc).join(' · ') || ', '}</small></td>
+            <td><small>${esc(c.titulo ?? ', ')}</small></td>
             <td class="abrir"></td>
           </tr>`).join('') : '<tr><td colspan="6" class="note">No code issued yet.</td></tr>');
     },
@@ -6363,7 +6366,7 @@ async function viewDevBrokers() {
       const alta = await api.devReferralCreate(cuerpo);
       DATOS = null;
       diRespuesta('dev-broker', true,
-        `${esc(cuerpo.nombre)} designated. Their code is <b>${esc(alta?.codigo ?? '')}</b> — give it to them as it is.`);
+        `${esc(cuerpo.nombre)} designated. Their code is <b>${esc(alta?.codigo ?? '')}</b>, give it to them as it is.`);
       setTimeout(() => viewDevBrokers(), 900);
     } catch (err) {
       diRespuesta('dev-broker', false, err);
@@ -6402,8 +6405,8 @@ async function viewDevAgency() {
           <span><b>2.50%</b> contractual fee · set by the developer</span>
           <span><b>0.50%</b> toll it pays: <b>0.30%</b> to NDC · <b>0.20%</b> to BlockEstate</span>
         </div>
-        <p class="note">Those figures come from the fee table of the platform — the same engine that
-          splits every sale — and not from this screen.</p>
+        <p class="note">Those figures come from the fee table of the platform, the same engine that
+          splits every sale, and not from this screen.</p>
       </section>
 
       <section class="mod" style="margin-top:14px">
@@ -6419,7 +6422,7 @@ async function viewDevAgency() {
 
       <section class="mod" style="margin-top:14px">
         <header>${ico('permiso', 15)}<h4>What the platform does not have yet</h4></header>
-        <p class="note">The agency exists in the data model — with its fee and its toll — and it is the
+        <p class="note">The agency exists in the data model, with its fee and its toll, and it is the
           developer who appoints it. What is <b>not built</b> is the desk that registers an agency and
           its brokers by name: today the attribution travels through the referral codes (see
           <a href="#/dev/brokers">Brokers</a>). This screen says so rather than showing a form that
@@ -6461,8 +6464,8 @@ async function viewDevOrg() {
             not your own. Your portal carries your part of the money and nothing else: the split is
             frozen only when the dirhams have reached your account, and ownership is asserted only
             when the closing is signed and the registration is recorded.</p>
-          <p class="note">The team desk — inviting administrators, contributors and brokers by name,
-            with their permissions — is <b>not built</b> either. Today a code is what designates who
+          <p class="note">The team desk, inviting administrators, contributors and brokers by name,
+            with their permissions, is <b>not built</b> either. Today a code is what designates who
             sells, and NDC is who creates the accounts.</p>
         </section>
       </div>`;
@@ -6557,7 +6560,7 @@ async function viewDevSale(id) {
  *
  * What this is, said plainly: the SCREENS, built and working, over the book of the demonstration.
  * The data below is the demo's own book and is labelled as such on screen. The backend routes that
- * would feed a real broker and a real creator are the next piece of work — they are written down in
+ * would feed a real broker and a real creator are the next piece of work, they are written down in
  * DOC-0005, block by block, with the permission each one needs and where its data comes from. Until
  * they exist, this is a desk you can look at and walk through, not a desk that settles anything.
  */
@@ -6747,7 +6750,7 @@ async function viewCreador() {
  *
  * Wires the bar, the routes and the few global behaviours. Everything the buyer sees comes from the
  * API: this file only decides where each thing goes. The bar carries the mark, a search and the
- * account — nothing else, because everything else is reachable from the account menu.
+ * account, nothing else, because everything else is reachable from the account menu.
  */
 
 
@@ -6905,7 +6908,7 @@ route('/dev/sale/:id', ({ params }) => viewDevSale(params.id));
 route('/dev/inventory', () => go('/dev/properties'));
 
 // A row of a table is a door too. The whole row answers the click, and the keyboard gets the same
-// door from the link inside it — a table that only works with a mouse is half a table.
+// door from the link inside it, a table that only works with a mouse is half a table.
 document.addEventListener('click', (e) => {
   const fila = e.target.closest?.('[data-ir]');
   if (fila && !e.target.closest('a, button, input, select')) go(fila.dataset.ir);
@@ -6932,7 +6935,7 @@ if (store.logged()) {
 }
 
 initSelectorActivo();
-// Every page starts at the top. The browser likes to keep the scroll where it was — and with a
+// Every page starts at the top. The browser likes to keep the scroll where it was, and with a
 // single-page site that means landing halfway down the next screen, or halfway down the one you
 // came back to. Its own restoration is switched off and done here, once per navigation.
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
