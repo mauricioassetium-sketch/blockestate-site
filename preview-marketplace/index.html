@@ -1325,6 +1325,26 @@ body.sin-scroll{overflow:hidden}
   .dev-puertas.en-fila .puerta{flex:1 1 0; justify-content:center; min-height:44px}
 }
 
+
+/* ---------- the strip, final ----------
+   Two things only, and neither changes the shape of a card: the two halves of a card are allowed to
+   shrink (a grid of 40% / 60% does not go below its own content unless it is told it may, which is why
+   the card measured 545 px on a 390 px phone), and the mark of the agency is given its size — it lives
+   inside `.logo.sm`, so the earlier rule never reached it. */
+.card > *{min-width:0}
+.card img{max-width:100%}
+.list > *, .lay > *{min-width:0}
+.card .foot .dev .logo.sm img{width:44px; height:44px; padding:6px; border-radius:13px;
+  background:#fff; border:1px solid var(--line-2); object-fit:contain; display:block}
+.card .foot .dev .logo.sm{width:auto; height:auto; background:none; border:0; padding:0; flex:0 0 auto}
+.dev-puertas.en-fila{flex-wrap:wrap}
+@media (max-width:640px){
+  .card .foot{gap:8px}
+  .card .foot .dev{flex:1 1 auto}
+  .dev-puertas.en-fila{gap:6px}
+  .dev-puertas.en-fila .puerta{padding:0 10px; font-size:.78rem}
+}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
