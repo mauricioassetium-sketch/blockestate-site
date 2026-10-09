@@ -116,7 +116,7 @@ p{margin:.6rem 0}
   display:flex; align-items:center}
 html,body{overflow-x:clip}
 .hero{align-items:stretch}
-.hero .inner{position:relative; z-index:1; max-width:1080px; text-align:left;
+.hero .inner{position:relative; max-width:1080px; text-align:left;
   /* Sin altura fija: la da el estirón del héroe, y así `space-between` reparte titular y buscador. */
   display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start}
 .hero-foot{width:100%}
@@ -202,7 +202,9 @@ html,body{overflow-x:clip}
 .popover .pop-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;
   padding:.2rem .4rem}
 .popover .close{width:44px; height:44px; border-radius:50%; border:1px solid var(--line-2);
-  background:var(--card); cursor:pointer; font-size:1.1rem; line-height:1}
+  background:var(--card); cursor:pointer; font-size:1.05rem; line-height:1; color:var(--ink);
+  display:grid; place-items:center}
+.popover .close:hover{background:var(--line); border-color:var(--ink-45)}
 .veil{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:45}
 .veil[hidden]{display:none}
 .fields{display:grid; grid-template-columns:1fr 1fr; gap:12px}
@@ -525,8 +527,16 @@ input:focus,select:focus{border-color:var(--green); box-shadow:var(--ring)}
 }
 @media (max-width:760px){
   /* On a phone the panel of a control cannot hang next to it: it comes up from the bottom. */
-  .popover{position:fixed; inset:auto 0 0 0; width:auto; max-height:86vh; border-radius:1.1rem 1.1rem 0 0;
-    box-shadow:0 -8px 40px rgba(0,0,0,.18); z-index:70}
+  .popover{position:fixed; inset:auto 0 0 0; width:auto; max-height:86vh; border-radius:1.25rem 1.25rem 0 0;
+    box-shadow:0 -14px 50px rgba(0,0,0,.28); z-index:70; padding:20px 12px 14px}
+  /* La hoja se anuncia: el asa dice «esto se cierra», y la cabecera se queda fija al hacer scroll. */
+  .popover::before{content:""; position:absolute; top:9px; left:50%; width:46px; height:4px;
+    border-radius:99px; background:var(--ink-45); opacity:.55; transform:translateX(-50%)}
+  .popover .pop-head{position:sticky; top:-20px; z-index:2; background:var(--white);
+    margin:0 0 6px; padding:6px 0 10px; border-bottom:1px solid var(--line)}
+  .pop-opt{min-height:48px; border-radius:0; border-bottom:1px solid var(--line)}
+  .pop-opt:last-of-type{border-bottom:0}
+  .pop-opt.on{border-radius:.55rem}
   .veil{z-index:65}
   .card{grid-template-columns:1fr}
   .card .photo{min-height:0; aspect-ratio:16/10}
@@ -1437,6 +1447,11 @@ function picker(id, {
       </button>
       <div class="popover" id="pop-${esc(id)}" hidden role="dialog" aria-label="${esc(label ?? id)}"
         data-multi="${multiple ? '1' : '0'}">
+        ${label ? `
+          <div class="pop-head">
+            <b>${esc(label)}</b>
+            <button class="close" type="button" data-cerrar aria-label="Close">✕</button>
+          </div>` : ''}
         ${multiple ? '' : `
           <button class="pop-opt${valor === '' ? ' on' : ''}" type="button"
             data-pick="${esc(id)}" data-val="" role="radio" aria-checked="${valor === ''}">
