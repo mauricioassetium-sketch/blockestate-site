@@ -1962,9 +1962,6 @@ function selectorActivo() {
       <span>· the ${esc(String(tasa(a)))} you saved cannot be right — write it again</span></label>`).join('')}
     ${falta.map((a) => `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(a)} =
       <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED</label>`).join('')}
-    ${!raras.length && !falta.length ? `<span class="sel-fuente">1 USDT = AED ${esc(tasaTexto('USDT'))}
-      · 1 BNB = AED ${esc(tasaTexto('BNB'))} · ${esc(fuenteTasa() ?? 'rate in force')}
-      · ${esc((cuando() ?? '').slice(11, 16))}</span>` : ''}
   </div>`;
 }
 
@@ -2011,8 +2008,8 @@ function card(r) {
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
     </div>
     <div class="body">
-      ${cifrasCripto(r)
-        ? `<div class="price-cripto"><b>${esc(cifrasCripto(r))}</b>
+      ${cifraCripto(r)
+        ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b>
            <i>indicative</i></div>` : ''}
       <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
       <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
@@ -2388,10 +2385,8 @@ function fallar(e) {
 }
 
 function render() {
-  // Every page starts at the top — and again on the next frame, because a view that scrolls
-  // something into place after painting would otherwise leave the reader halfway down.
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => window.scrollTo(0, 0));
+  // Going to the top belongs to NAVIGATION, not to painting: the asset selector repaints the view
+  // and must not throw the reader back to the top of the page when they only changed a currency.
   const { path, query } = actual();
   for (const r of rutas) {
     const m = r.re.exec(path);
@@ -6298,7 +6293,10 @@ initSelectorActivo();
 // single-page site that means landing halfway down the next screen, or halfway down the one you
 // came back to. Its own restoration is switched off and done here, once per navigation.
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.addEventListener('hashchange', () => window.scrollTo(0, 0));
+window.addEventListener('hashchange', () => {
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => window.scrollTo(0, 0));
+});
 // The rates come on their own, and they come again every ten minutes: a figure that has to be typed
 // by hand stops being a figure and becomes a chore the reader forgets.
 refrescarTasas().then((r) => { if (r) renderBarra(); render(); });
