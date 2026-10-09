@@ -378,6 +378,7 @@ html,body{overflow-x:clip}
 .sel-activo button.on{background:var(--teal); color:#fff}
 .sel-activo .sel-tasa{display:inline-flex; align-items:center; gap:4px; padding:0 6px 0 8px;
   border-left:1px solid var(--line-2); font-size:.72rem; font-weight:700; color:var(--ink-45)}
+.sel-activo .sel-tasa.mal{border-left:0; color:#991b1b; background:#fdecec; border-radius:999px; padding:4px 10px}
 .sel-activo .sel-tasa input{width:70px; min-height:26px; padding:0 4px; border:1px solid var(--line-2);
   border-radius:.3rem; font:inherit; font-size:.75rem}
 .card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
@@ -1715,6 +1716,19 @@ function elegirActivo(activo) {
   return estadoCambio;
 }
 
+/**
+ * A rate outside this band is not a rate, it is a typo — and a typo must never become a price. With
+ * the rate at 0.0001 AED per USDT, a flat of one and a half million dirhams read as fifteen thousand
+ * million USDT: a number so absurd that the sensible reading is not «the rate is wrong» but «the
+ * marketplace is broken». The band is wide on purpose (BNB sits around 2,400 and USDT around 3.67);
+ * it only catches what cannot possibly be a rate.
+ */
+const BANDA_TASA = [0.5, 100000];
+function tasaPlausible(activo) {
+  const t = tasa(activo);
+  return t === null ? false : t >= BANDA_TASA[0] && t <= BANDA_TASA[1];
+}
+
 /** AED per unit of the asset. `null` means «not known», and an unknown rate shows nothing at all. */
 function tasa(activo) {
   return estadoCambio[String(activo).toLowerCase()] ?? null;
@@ -1750,7 +1764,8 @@ function filsDe(fila) {
 }
 
 /** What a price in fils is worth in the asset, at the rate in force. `null` if there is no rate. */
-function equivalencia(fils, activo) {
+function equivalencia(fils, activo = activoElegido()) {
+  if (!tasaPlausible(activo)) return null;
   const t = tasa(activo);
   if (!t || fils === null || fils === undefined) return null;
   return Number(fils) / 100 / t;
@@ -1894,10 +1909,15 @@ function selectorActivo() {
   // Without a rate there is nothing to show, so the bar asks for it instead of printing an empty
   // line: the platform has no feed yet, and a made-up number is worse than an empty space.
   const falta = ACTIVOS_VER.filter((a) => tasa(a) === null);
+  // A saved rate that cannot be a rate is worse than no rate: it paints nonsense prices. It is named
+  // here so whoever saved it can see what is wrong instead of watching the figures go mad.
+  const raras = ACTIVOS_VER.filter((a) => tasa(a) !== null && !tasaPlausible(a));
   return `<div class="sel-activo" role="group" aria-label="Show prices in">
     <span>Prices in</span>
     ${ACTIVOS_VER.map((a) => `<button type="button" class="${a === activo ? 'on' : ''}"
       data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}
+    ${raras.length ? `<label class="sel-tasa mal" title="This rate cannot be right">1 ${esc(raras[0])} =
+      the saved rate you have (<b>${esc(String(tasa(raras[0])))}</b>) cannot be right — write it again:</label>` : ''}
     ${falta.length ? `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(falta[0])} =
       <input type="number" step="0.0001" min="0" data-tasa="${esc(falta[0])}" placeholder="0.00"> AED</label>` : ''}
   </div>`;
