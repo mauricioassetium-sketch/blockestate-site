@@ -374,6 +374,10 @@ html,body{overflow-x:clip}
 .sel-activo button{min-height:28px; padding:0 .6rem; border:0; border-radius:999px; background:none;
   font:inherit; font-size:.75rem; font-weight:700; color:var(--ink-60); cursor:pointer}
 .sel-activo button.on{background:var(--teal); color:#fff}
+.sel-activo .sel-tasa{display:inline-flex; align-items:center; gap:4px; padding:0 6px 0 8px;
+  border-left:1px solid var(--line-2); font-size:.72rem; font-weight:700; color:var(--ink-45)}
+.sel-activo .sel-tasa input{width:70px; min-height:26px; padding:0 4px; border:1px solid var(--line-2);
+  border-radius:.3rem; font:inherit; font-size:.75rem}
 .card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
 .card h3{font-size:1.02rem; font-weight:700; letter-spacing:-.02em}
 .card h3 a:hover{color:var(--green-deep)}
@@ -1740,14 +1744,30 @@ function specs(r) {
  */
 function selectorActivo() {
   const activo = activoElegido();
+  // Without a rate there is nothing to show, so the bar asks for it instead of printing an empty
+  // line: the platform has no feed yet, and a made-up number is worse than an empty space.
+  const falta = ACTIVOS_VER.filter((a) => tasa(a) === null);
   return `<div class="sel-activo" role="group" aria-label="Show prices in">
     <span>Prices in</span>
     ${ACTIVOS_VER.map((a) => `<button type="button" class="${a === activo ? 'on' : ''}"
-      data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}</div>`;
+      data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}
+    ${falta.length ? `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(falta[0])} =
+      <input type="number" step="0.0001" min="0" data-tasa="${esc(falta[0])}" placeholder="0.00"> AED</label>` : ''}
+  </div>`;
 }
 
 /** Wires it wherever it was painted: one listener per page, by delegation. */
 function initSelectorActivo() {
+  document.addEventListener('input', (e) => {
+    if (!e.target.dataset?.tasa) return;
+    const activo = e.target.dataset.tasa;
+    const valor = Number(e.target.value);
+    // Only when the field has a number worth keeping: typing «3» does not repaint the whole catalogue.
+    if (Number.isFinite(valor) && valor > 0) fijarTasa(activo, valor);
+  });
+  document.addEventListener('change', (e) => {
+    if (e.target.dataset?.tasa) render();
+  });
   document.addEventListener('click', (e) => {
     const b = e.target.closest?.('[data-activo]');
     if (!b) return;
