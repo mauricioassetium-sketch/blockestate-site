@@ -1790,9 +1790,12 @@ function equivalenteTexto(fils, { aCorto = false } = {}) {
 function cifrasCripto(fila) {
   const primero = activoElegido();
   const orden = [primero, ...ACTIVOS_VER.filter((a) => a !== primero)];
+  // Two decimals for USDT and four for BNB: with the figure rounded away, anyone checking it with a
+  // calculator gets a different number back (408,441 × 3.6725 is 1,500,003.70, not 1,500,000), and a
+  // figure that does not survive being multiplied back reads as a wrong figure, not as a rounded one.
   const partes = orden.map((a) => {
     const v = equivalencia(filsDe(fila), a);
-    return v === null ? null : `${cifra(v, a === 'USDT' ? 0 : 2)} ${a}`;
+    return v === null ? null : `${cifra(v, a === 'USDT' ? 2 : 4)} ${a}`;
   }).filter(Boolean);
   return partes.length ? `≈ ${partes.join(' · ')}` : '';
 }
