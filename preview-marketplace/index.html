@@ -587,6 +587,34 @@ input:focus,select:focus{border-color:var(--green); box-shadow:var(--ring)}
 .plain a{color:var(--ink-72)} .plain a:hover{color:var(--ink)}
 .legal{font-size:.76rem; color:var(--ink-45); margin-top:20px; max-width:88ch}
 
+/* ---------- the two cards that speak to the other side ---------- */
+.promos{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:26px 0 6px}
+.promo{position:relative; overflow:hidden; border-radius:1.1rem; padding:26px 24px; display:grid;
+  grid-template-columns:1fr 190px; gap:14px; align-items:center; color:#fff;
+  background:linear-gradient(135deg,#0c211a 0%,#123a2c 62%,#16553d 100%)}
+.promo-cre{background:linear-gradient(135deg,#101a24 0%,#12303a 60%,#0f4a44 100%)}
+.promo-txt{position:relative; z-index:1}
+.promo-lab{display:inline-block; font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:800; color:#8fe0c0; margin-bottom:8px}
+.promo h2{margin:0 0 8px; font-size:1.28rem; line-height:1.2; letter-spacing:-.02em; color:#fff}
+.promo p{margin:0 0 14px; font-size:.88rem; color:#bcd6cb; max-width:38ch}
+.promo p b{color:#fff}
+.promo-btn{display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:0 16px;
+  border-radius:999px; background:var(--teal); color:#fff; font-weight:700; font-size:.88rem}
+.promo-btn:hover{background:#0d5f4f}
+.promo-btn svg{width:17px; height:17px}
+.promo-nota{display:block; margin-top:10px; font-size:.7rem; color:#8fb3a5; max-width:34ch}
+.promo-art svg{width:100%; height:auto; display:block}
+.promo-art .torre{fill:rgba(255,255,255,.09); stroke:rgba(255,255,255,.22)}
+.promo-art .luces rect{fill:rgba(143,224,192,.5)}
+.promo-art .luna{fill:rgba(255,255,255,.16)}
+.promo-art .movil{fill:rgba(255,255,255,.1); stroke:rgba(255,255,255,.24)}
+.promo-art .pantalla{fill:rgba(143,224,192,.16); stroke:rgba(143,224,192,.5)}
+.promo-art .codigo{fill:#8fe0c0; font:700 17px/1 -apple-system,Segoe UI,Roboto,sans-serif; letter-spacing:.1em}
+.promo-art .boca{fill:rgba(255,255,255,.4)}
+.promo-art .onda{fill:none; stroke:rgba(143,224,192,.55); stroke-width:2.4; stroke-linecap:round}
+@media (max-width:980px){.promos{grid-template-columns:1fr} .promo{grid-template-columns:1fr 150px}}
+@media (max-width:560px){.promo{grid-template-columns:1fr; padding:22px 18px} .promo-art{order:-1}}
 .toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:70;
   background:var(--teal); color:#fff; padding:.75rem 1.1rem; border-radius:999px; font-size:.9rem;
   box-shadow:var(--shadow); max-width:min(92vw,520px)}
@@ -2610,6 +2638,63 @@ async function viewCatalog() {
             <span>${esc(e)}</span><small>properties</small>
             <i class="go" aria-hidden="true">→</i></a>`).join('')}
         </div>
+      <section class="promos" aria-label="With BlockEstate">
+        <article class="promo promo-dev">
+          <div class="promo-txt">
+            <span class="promo-lab">For developers</span>
+            <h2>Sell in crypto. Get paid in dirhams.</h2>
+            <p>Your units, verified before they are listed, in front of buyers who pay on-chain. The
+              settlement reaches your account and the title is registered in the buyer's name at the
+              Dubai Land Department.</p>
+            <a class="promo-btn" href="#/dev">Open the developer portal
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <span class="promo-nota">Onboarding is reviewed and approved by hand.</span>
+          </div>
+          <div class="promo-art" aria-hidden="true">
+            <svg viewBox="0 0 260 180" role="presentation">
+              <rect class="torre" x="16" y="54" width="46" height="110" rx="5"/>
+              <rect class="torre" x="72" y="26" width="52" height="138" rx="5"/>
+              <rect class="torre" x="134" y="72" width="40" height="92" rx="5"/>
+              <rect class="torre" x="184" y="42" width="58" height="122" rx="5"/>
+              <g class="luces">
+                <rect x="26" y="66" width="12" height="12" rx="3"/><rect x="44" y="66" width="12" height="12" rx="3"/>
+                <rect x="26" y="88" width="12" height="12" rx="3"/><rect x="44" y="88" width="12" height="12" rx="3"/>
+                <rect x="82" y="40" width="14" height="14" rx="3"/><rect x="102" y="40" width="14" height="14" rx="3"/>
+                <rect x="82" y="64" width="14" height="14" rx="3"/><rect x="102" y="64" width="14" height="14" rx="3"/>
+                <rect x="82" y="88" width="14" height="14" rx="3"/><rect x="102" y="88" width="14" height="14" rx="3"/>
+                <rect x="144" y="84" width="10" height="10" rx="3"/><rect x="160" y="84" width="10" height="10" rx="3"/>
+                <rect x="144" y="104" width="10" height="10" rx="3"/><rect x="160" y="104" width="10" height="10" rx="3"/>
+                <rect x="194" y="54" width="14" height="14" rx="3"/><rect x="216" y="54" width="14" height="14" rx="3"/>
+                <rect x="194" y="78" width="14" height="14" rx="3"/><rect x="216" y="78" width="14" height="14" rx="3"/>
+                <rect x="194" y="102" width="14" height="14" rx="3"/><rect x="216" y="102" width="14" height="14" rx="3"/>
+              </g>
+              <circle class="luna" cx="224" cy="26" r="12"/>
+            </svg>
+          </div>
+        </article>
+        <article class="promo promo-cre">
+          <div class="promo-txt">
+            <span class="promo-lab">For content creators</span>
+            <h2>Your audience, and a code that pays.</h2>
+            <p>Take a code, share it with your people, and earn <b>1 %</b> of every sale it brings. Only
+              property that is already published, with its verification badge and its date.</p>
+            <a class="promo-btn" href="#/register">Ask for your code
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <span class="promo-nota">Accounts are approved by NDC, and no commission is released before that.</span>
+          </div>
+          <div class="promo-art" aria-hidden="true">
+            <svg viewBox="0 0 260 180" role="presentation">
+              <rect class="movil" x="98" y="18" width="64" height="130" rx="13"/>
+              <rect class="pantalla" x="106" y="32" width="48" height="88" rx="7"/>
+              <text class="codigo" x="130" y="84" text-anchor="middle">CODE</text>
+              <circle class="boca" cx="130" cy="136" r="4"/>
+              <path class="onda" d="M40 62c13-10 27-10 40 0M38 86c17-13 34-13 51 0M40 110c13-10 27-10 40 0"/>
+              <path class="onda" d="M180 62c13-10 27-10 40 0M182 86c17-13 34-13 51 0M180 110c13-10 27-10 40 0"/>
+            </svg>
+          </div>
+        </article>
+      </section>
+
       </div>
 
       ${tabsHtml(new URLSearchParams())}
