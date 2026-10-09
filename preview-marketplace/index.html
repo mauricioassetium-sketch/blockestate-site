@@ -118,7 +118,7 @@ html,body{overflow-x:clip}
 .hero{align-items:stretch}
 .hero .inner{position:relative; max-width:1080px; text-align:left;
   /* Sin altura fija: la da el estirón del héroe, y así `space-between` reparte titular y buscador. */
-  display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start}
+  display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start}
 .hero-foot{width:100%}
 .hero .eyebrow{display:inline-flex; align-items:center; gap:.5rem; font-size:11px; letter-spacing:.3em;
   text-transform:uppercase; color:var(--green); font-weight:700; margin-bottom:.9rem}
@@ -1936,9 +1936,8 @@ async function viewCatalog() {
   view().innerHTML = `
     <section class="hero">
       <div class="wrap inner">
-        <h1>Real homes, paid in crypto</h1>
-
         <div class="hero-foot">
+        <h1>Real homes,<br>paid in crypto</h1>
         <p class="sub">Verified property in the United Arab Emirates</p>
 
         <div class="buscador">
