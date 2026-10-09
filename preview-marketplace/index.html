@@ -1269,6 +1269,31 @@ body.sin-scroll{overflow:hidden}
 .dev-puertas.en-fila .puerta{width:34px; height:34px}
 @media (max-width:560px){.dev-puertas.en-fila .puerta{width:38px; height:38px}}
 
+
+/* ---------- the block that answers «who is selling this, and can I trust it» ----------
+   Taken from the reference the user sent: the validation banner first, then the ways in as labelled
+   buttons, and the mark of whoever is selling beside them. */
+.sello-verif{display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:.9rem;
+  background:linear-gradient(135deg,rgba(16,110,90,.10),rgba(16,110,90,.04));
+  border:1px solid rgba(16,110,90,.22); margin-bottom:14px}
+.sello-verif .badge{margin:0; flex:0 0 auto}
+.sello-txt{font-size:.78rem; color:var(--ink-60); line-height:1.45}
+.quien-vende{display:flex; align-items:center; gap:12px; padding:10px 12px; margin-bottom:12px;
+  border:1px solid var(--line-2); border-radius:.9rem; background:var(--card)}
+.quien-vende img{width:56px; height:56px; border-radius:15px; object-fit:contain; padding:7px;
+  background:#fff; border:1px solid var(--line-2); flex:0 0 56px}
+.quien-vende span{font-weight:800; font-size:.95rem; letter-spacing:-.01em}
+.canales{display:flex; gap:10px; flex-wrap:wrap}
+.canales .canal{display:inline-flex; align-items:center; justify-content:center; gap:8px; flex:1 1 120px;
+  min-height:50px; padding:0 14px; border-radius:.75rem; border:1px solid var(--line-2);
+  background:var(--card); font:inherit; font-size:.9rem; font-weight:700; color:var(--ink);
+  cursor:pointer; transition:all .15s ease}
+.canales .canal:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px)}
+.canales .canal.wa{border-color:rgba(16,110,90,.45); color:var(--teal);
+  background:linear-gradient(135deg,rgba(16,110,90,.10),rgba(16,110,90,.03))}
+.canales .canal svg{width:18px; height:18px; fill:currentColor; flex:0 0 18px}
+@media (max-width:560px){.canales .canal{flex:1 1 100%; min-height:52px}}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
@@ -4512,6 +4537,15 @@ async function viewUnit(id) {
                 <span class="muted" id="quien-titulo"></span>
               </div>
             </div>
+            <div class="sello-verif">
+              ${badgeHtml(u.badge, u.procedencia_verificacion)}
+              <span class="sello-txt">Property authenticity was validated by Verysset. The badge states
+                its scope and its date, not a promise about the future.</span>
+            </div>
+            ${(u.desarrollador?.logo_url || u.proyecto?.desarrollador_logo) ? `<div class="quien-vende">
+              <img src="${esc(u.desarrollador?.logo_url ?? u.proyecto?.desarrollador_logo)}" alt="${esc(u.desarrollador?.nombre ?? '')}" loading="lazy">
+              <span>${esc(u.desarrollador?.nombre ?? u.proyecto?.desarrollador ?? '')}</span>
+            </div>` : ''}
             <div class="canales" id="canales">
               <button type="button" class="canal" data-canal="telegram" title="Telegram">${ICONO.telegram}<span>Telegram</span></button>
               <button type="button" class="canal wa" data-canal="whatsapp" title="WhatsApp">${ICONO.whatsapp}<span>WhatsApp</span></button>
