@@ -654,6 +654,7 @@ body.sin-scroll{overflow:hidden}
 .gtab:hover{background:rgba(255,255,255,.08); color:#fff}
 .gtab.on{background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%); color:#04140c}
 .gtab.on i{opacity:.75}
+.gal-x{min-width:44px; min-height:44px; z-index:5; cursor:pointer}
 .gal-x{flex:none; width:44px; height:44px; display:grid; place-items:center; border-radius:50%;
   border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04); color:#fff; cursor:pointer}
 .gal-x:hover{background:rgba(255,255,255,.12)}
@@ -3646,8 +3647,12 @@ function abrirGaleria({
   }));
   tiras.forEach((t) => t.addEventListener('click', () => { actual = Number(t.dataset.i); pintar(); }));
 
-  // Clicking outside the frame closes; a swipe moves. Both are what a phone expects.
-  caja.addEventListener('click', (e) => { if (e.target === caja) cerrar(); });
+  // Closing has to be forgiving: the X, the Escape key, the button under the phone's back gesture,
+  // and anywhere that is not the picture itself. What it must never do is move the gallery along
+  // when somebody is trying to get out.
+  const dentro = (t) => !!(t.closest?.('.gal-marco, .gal-mandos, .gal-tiras, .gal-datos, .gal-x'));
+  caja.addEventListener('click', (e) => { if (!dentro(e.target)) cerrar(); });
+  window.addEventListener('popstate', cerrar, { once: true });
   let x0 = null;
   caja.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
   caja.addEventListener('touchend', (e) => {
