@@ -1917,6 +1917,14 @@ const api = {
     fd.append('archivo', archivo);
     return req('POST', '/uploads/image', { body: fd });
   },
+  // El vídeo entra por la misma puerta que la imagen, un escalón más arriba: mismo control, misma
+  // validación por los bytes. La ruta existirá cuando exista en el backend, y hasta entonces esta
+  // llamada falla y el proyecto se crea sin vídeo, que es lo que se le dice al usuario.
+  subirVideo: (archivo) => {
+    const fd = new FormData();
+    fd.append('archivo', archivo);
+    return req('POST', '/uploads/video', { body: fd });
+  },
   subirDocumento: (archivo, meta) => {
     const fd = new FormData();
     fd.append('archivo', archivo);
@@ -6026,6 +6034,15 @@ async function viewDevProjects() {
                 <span class="note">JPEG or PNG. It is uploaded when you create the project, and the
                   project keeps the address the platform gives it.</span>
               </label>
+              <label class="dev-ancho">Video of the project
+                <span class="dev-archivo">
+                  <input type="file" name="video" accept="video/mp4,video/webm" class="solo-lector" data-archivo="video">
+                  <span class="btn-archivo" role="button" tabindex="0" data-abre="video">Choose a video</span>
+                  <span class="archivo-dicho" data-dice="video">No file chosen</span>
+                </span>
+                <span class="note">MP4 or WebM. Many projects have one, and it is uploaded the same way
+                  as the image, when the project is created.</span>
+              </label>
               <button class="btn green" type="submit">${ico('edificio', 15)} Create the project</button>
             </div>
             <p class="note">Created as a draft, and only this organisation can see it.</p>
@@ -6042,6 +6059,17 @@ async function viewDevProjects() {
       const datos = Object.fromEntries(new FormData(f));
       const archivo = f.querySelector('[name="imagen"]')?.files?.[0] ?? null;
       delete datos.imagen;
+      const archivoVideo = f.querySelector('[name="video"]')?.files?.[0] ?? null;
+      delete datos.video;
+      if (archivoVideo) {
+        // Igual que la imagen: si el vídeo no se puede subir, el proyecto se crea sin él y se dice.
+        try {
+          const rv = await api.subirVideo(archivoVideo);
+          datos.video_url = rv?.url ?? null;
+        } catch {
+          datos.video_url = null;
+        }
+      }
       if (archivo) {
         const subida = new FormData();
         subida.append('archivo', archivo);
