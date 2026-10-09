@@ -1782,6 +1782,28 @@ function equivalenteTexto(fils, { aCorto = false } = {}) {
  * they pay with, then the contract price in dirhams. The asset in front is the one the reader chose,
  * and the selector travels with the first line.
  */
+/**
+ * The two equivalents of a price, both of them, in the order the reader chose. Showing only the
+ * chosen asset was the mistake: a buyer wants to see what the price is in USDT and in BNB at once,
+ * and the selector decides which one they read first, not which one exists.
+ */
+function cifrasCripto(fila) {
+  const primero = activoElegido();
+  const orden = [primero, ...ACTIVOS_VER.filter((a) => a !== primero)];
+  const partes = orden.map((a) => {
+    const v = equivalencia(filsDe(fila), a);
+    return v === null ? null : `${cifra(v, a === 'USDT' ? 0 : 2)} ${a}`;
+  }).filter(Boolean);
+  return partes.length ? `≈ ${partes.join(' · ')}` : '';
+}
+
+/** The rate as it was written, not rounded into another number: 3.6725 is not 3.67. */
+function tasaTexto(activo) {
+  const t = tasa(activo);
+  if (t === null) return null;
+  return t.toLocaleString('en-US', { maximumFractionDigits: 6 });
+}
+
 function cifraCripto(fila) {
   const activo = activoElegido();
   const v = equivalencia(filsDe(fila), activo);
@@ -1921,9 +1943,9 @@ function card(r) {
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
     </div>
     <div class="body">
-      ${cifraCripto(r)
-        ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b>
-           <i>indicative · ${esc(activoElegido())}</i></div>` : ''}
+      ${cifrasCripto(r)
+        ? `<div class="price-cripto"><b>${esc(cifrasCripto(r))}</b>
+           <i>indicative</i></div>` : ''}
       <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
       <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
@@ -2298,6 +2320,10 @@ function fallar(e) {
 }
 
 function render() {
+  // Every page starts at the top — and again on the next frame, because a view that scrolls
+  // something into place after painting would otherwise leave the reader halfway down.
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => window.scrollTo(0, 0));
   const { path, query } = actual();
   for (const r of rutas) {
     const m = r.re.exec(path);
