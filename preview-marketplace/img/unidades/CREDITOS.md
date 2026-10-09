@@ -1,22 +1,22 @@
-# Property photographs · where each one comes from
+# Property photographs · one per card, none repeated
 
-The demo listings carry real photographs, all from Wikimedia Commons, each with the licence its
-author published it under. **The CC BY and CC BY-SA ones owe an attribution**: if they stay on the
-site, that attribution has to be visible to the reader.
+Eight photographs, eight different rooms, so that no two cards show the same picture. All from
+Openverse (which gathers pictures published under free licences).
 
-| Unit photograph | File | What it is | Source | Licence | Author |
+| Card photograph | Theme | Title on the file | Licence | Author | Source |
 |---|---|---|---|---|---|
-| living room | `uni-01.jpg` | a furnished living room | Wikimedia Commons, `File:Living room decorated by Eero Aarnio…` | CC BY 4.0 | Eero Aarnio |
-| uni-03 | `uni-03.jpg` | Bedroom big bed.jpg | Wikimedia Commons, `Bedroom big bed.jpg` | CC BY-SA 3.0 | IFERREIRO |
-| uni-04 | `uni-04.jpg` | Princess Tower2-Dubai UAE-Andres Larin.jpg | Wikimedia Commons, `Princess Tower2-Dubai UAE-Andres Larin.jpg` | CC BY-SA 4.0 | Saaremees |
-| uni-05 | `uni-05.jpg` | Villa Tugendhat Haus house Brno Brünn Bauhaus classic living | Wikimedia Commons, `Villa Tugendhat Haus house Brno Brünn Bauhaus clas` | CC BY-SA 4.0 | Mike Duchstein |
-| uni-08 | `uni-08.jpg` | Brickell Miami highrise condominium pool deck aerial view.jp | Wikimedia Commons, `Brickell Miami highrise condominium pool deck aeri` | CC0 | RealEstateImages |
+| `uni-01.jpg` | sala | Peggy's Zen living room makeover, white sofa, pink t | by 2.0 | Wonderlane | [page](https://www.flickr.com/photos/71401718@N00/465852851) |
+| `uni-02.jpg` | cocina | Sustainable Kitchen - Recycled Wood Flooring and Cei | by 2.0 | Jeremy Levine Design | [page](https://www.flickr.com/photos/25186605@N04/17336540631) |
+| `uni-03.jpg` | dorm | Master Bedroom and Bath 5 | by 2.0 | Jeremy Levine Design | [page](https://www.flickr.com/photos/25186605@N04/6903416326) |
+| `uni-04.jpg` | bano | Bathroom Remodel | by 2.0 | Jeremy Levine Design | [page](https://www.flickr.com/photos/25186605@N04/3122656639) |
+| `uni-05.jpg` | terraza | Restaurant Balcony of Wood in Greece | by 2.0 | dejankrsmanovic | [page](https://www.flickr.com/photos/155403590@N07/48727005062) |
+| `uni-06.jpg` | piscina | public swimming pool @ annecy France - WP_20150806_1 | by 2.0 | Nicola since 1972 | [page](https://www.flickr.com/photos/15216811@N06/20603674624) |
+| `uni-07.jpg` | comedor | Round Table, chairs, TV monitor, conference room, 2n | cc0 1.0 | Wonderlane | [page](https://www.flickr.com/photos/71401718@N00/5526839767) |
+| `uni-08.jpg` | torre | arne jacobsen, ibstrupparken housing II, gentofte, d | by 2.0 | seier+seier | [page](https://www.flickr.com/photos/94852245@N00/4484083618) |
 
-The Dubai Marina project card uses the `uni-04` photograph, which is a picture of the **area**, not of
-that specific building, and is credited as such.
+**Which ones are weak, said plainly:** the dining and the terrace photographs are not homes — one is a
+conference table and the other a restaurant balcony in Greece — and the pool is a public pool. They are
+there so that each card has its own picture, and they are the first ones to be replaced with the
+developers' own interior photographs.
 
-**Photographs that were downloaded and thrown away on purpose:** one of a cemetery (the search for
-«balcony» returned it), one of a bathroom scale, and one of a distant skyline — none of them is a
-home. A property listing with a wrong photograph is worse than a listing with no photograph.
-
-Downloaded 9 October 2026.
+Downloaded 9 October 2026. Licences: CC0 (free use) and CC BY 2.0 (attribution).
