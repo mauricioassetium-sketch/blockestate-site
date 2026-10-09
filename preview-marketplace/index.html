@@ -1345,6 +1345,29 @@ body.sin-scroll{overflow:hidden}
   .dev-puertas.en-fila .puerta{padding:0 10px; font-size:.78rem}
 }
 
+
+/* ---------- the strip at the foot of a card, like the reference the user sent ----------
+   Big marks, an outline around everything, and the name beside the icon. The card itself is not
+   touched: same shape, same grid, same photo. Only this strip. */
+.card .foot{padding-top:12px; gap:12px}
+.card .foot .dev .logo.sm img{width:58px; height:58px; padding:8px; border-radius:16px;
+  border:1.5px solid var(--line-2); background:#fff; object-fit:contain; display:block}
+.card .foot .dev .logo.sm{width:auto; height:auto; border:0; padding:0; background:none; flex:0 0 auto}
+.card .foot .dev{gap:12px; font-size:.95rem}
+.dev-puertas.en-fila{gap:10px}
+.dev-puertas.en-fila .puerta{min-height:52px; padding:0 16px; border-radius:14px;
+  border:1.5px solid var(--line-2); background:var(--card); font-size:.86rem; font-weight:700;
+  gap:9px; color:var(--ink)}
+.dev-puertas.en-fila .puerta svg{width:22px; height:22px; flex:0 0 22px}
+.dev-puertas.en-fila .puerta:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px)}
+.dev-puertas.en-fila .puerta.wa{border:1.5px solid rgba(16,110,90,.55); color:var(--teal);
+  background:linear-gradient(135deg,rgba(16,110,90,.10),rgba(16,110,90,.03))}
+@media (max-width:640px){
+  .card .foot .dev .logo.sm img{width:52px; height:52px}
+  .dev-puertas.en-fila{gap:8px}
+  .dev-puertas.en-fila .puerta{flex:1 1 46%; min-height:50px; justify-content:center; padding:0 10px}
+}
+
 </style>
 </head>
 <body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-09. Filters and favourites work here; anything that moves money needs the live platform.</div>
