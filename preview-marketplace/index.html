@@ -654,6 +654,13 @@ body.sin-scroll{overflow:hidden}
 .gtab:hover{background:rgba(255,255,255,.08); color:#fff}
 .gtab.on{background:linear-gradient(135deg,var(--green) 0%,var(--green-deep) 100%); color:#04140c}
 .gtab.on i{opacity:.75}
+.medios-sel{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0}
+.medios-sel .ms{display:inline-flex; align-items:center; gap:7px; min-height:42px; padding:0 14px;
+  border:1px solid var(--line-2); border-radius:999px; background:var(--card); font:inherit;
+  font-size:.85rem; font-weight:600; color:var(--ink-70); cursor:pointer}
+.medios-sel .ms:hover{border-color:var(--teal); color:var(--teal)}
+.medios-sel .ms.on{background:var(--teal); border-color:var(--teal); color:#fff}
+.medios-sel .ms b{font-weight:800}
 .gal-x{min-width:44px; min-height:44px; z-index:5; cursor:pointer}
 .gal-x{flex:none; width:44px; height:44px; display:grid; place-items:center; border-radius:50%;
   border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04); color:#fff; cursor:pointer}
@@ -3975,6 +3982,13 @@ async function viewUnit(id) {
                 <b>View all ${fotos.length}</b>${media.video ? ` · ${ico('video', 14)} video` : ''}${media.tour3d ? ` · ${ico('pano', 14)} 360°` : ''}${media.planos?.length ? ` · ${ico('plano', 14)} plan` : ''}
               </span>` : ''}
             </div>
+            ${(fotos.length || media.video || media.tour3d || media.planos?.length) ? `
+            <div class="medios-sel" role="group" aria-label="What to see">
+              ${fotos.length ? `<button type="button" class="ms on" data-medio="foto">${ico('ampliar', 15)} Photos <b>${fotos.length}</b></button>` : ''}
+              ${media.video ? `<button type="button" class="ms" data-medio="video">${ico('video', 15)} Video</button>` : ''}
+              ${media.tour3d ? `<button type="button" class="ms" data-medio="tour3d">${ico('pano', 15)} 360°</button>` : ''}
+              ${media.planos?.length ? `<button type="button" class="ms" data-medio="plano">${ico('plano', 15)} Plans <b>${media.planos.length}</b></button>` : ''}
+            </div>` : ''}
             ${fotos.length > 1 ? `<div class="thumbs">${fotos.map((f, i) => `<button type="button" class="tb" data-i="${i}" aria-label="Photo ${i + 1}"><img src="${esc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
           </div>
           <div class="section">
@@ -4139,6 +4153,19 @@ async function viewUnit(id) {
       subtitulo: [u.listing?.referencia, money(d.precio_fils), d.comunidad ?? d.emirato]
         .filter(Boolean).join(' · '),
       datos: filas,
+    });
+    // Choosing what to see. Each button opens the viewer at the first item of its kind, which is
+    // what «selector de fotos, vídeo, planos y 360» means in practice: one tap and you are there.
+    caja.querySelector('.medios-sel')?.addEventListener('click', (e) => {
+      const b = e.target.closest?.('[data-medio]');
+      if (!b) return;
+      const fotosN = fotos.length;
+      const trasVideo = fotosN + (media.video ? 1 : 0);
+      const inicio = b.dataset.medio === 'video' ? fotosN
+        : b.dataset.medio === 'tour3d' ? trasVideo
+        : b.dataset.medio === 'plano' ? trasVideo + (media.tour3d ? 1 : 0)
+        : 0;
+      abrir(inicio);
     });
     const grande = caja.querySelector('#grande');
     grande?.addEventListener('click', () => abrir(0));
