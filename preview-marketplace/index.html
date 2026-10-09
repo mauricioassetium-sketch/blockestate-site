@@ -1916,10 +1916,11 @@ function selectorActivo() {
     <span>Prices in</span>
     ${ACTIVOS_VER.map((a) => `<button type="button" class="${a === activo ? 'on' : ''}"
       data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}
-    ${raras.length ? `<label class="sel-tasa mal" title="This rate cannot be right">1 ${esc(raras[0])} =
-      the saved rate you have (<b>${esc(String(tasa(raras[0])))}</b>) cannot be right — write it again:</label>` : ''}
-    ${falta.length ? `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(falta[0])} =
-      <input type="number" step="0.0001" min="0" data-tasa="${esc(falta[0])}" placeholder="0.00"> AED</label>` : ''}
+    ${raras.map((a) => `<label class="sel-tasa mal" title="This rate cannot be right">1 ${esc(a)} =
+      <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED
+      <span>· the ${esc(String(tasa(a)))} you saved cannot be right — write it again</span></label>`).join('')}
+    ${falta.map((a) => `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(a)} =
+      <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED</label>`).join('')}
   </div>`;
 }
 
