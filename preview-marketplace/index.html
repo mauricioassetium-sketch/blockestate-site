@@ -1309,7 +1309,14 @@ const filtrar = (lista, q) => {
   else out.sort((a, b) => Number(b.distintivo.promocionado) - Number(a.distintivo.promocionado));
   return out;
 };
+const fetchDeVerdad = window.fetch.bind(window);
 window.fetch = async (url, opciones = {}) => {
+  // The shim answers for the platform, not for the whole internet. A call to somebody else's API —
+  // the live exchange rate, for one — has to leave the building instead of being answered with a 404
+  // from the capture, which is what it used to get.
+  const destino = String(url);
+  const esNuestro = !/^https?:\/\//i.test(destino) || destino.startsWith(location.origin);
+  if (!esNuestro) return fetchDeVerdad(url, opciones);
   const metodo = (opciones.method ?? 'GET').toUpperCase();
   const path = rutaDemo(url);
   const q = new URLSearchParams(String(url).split('?')[1] ?? '');
