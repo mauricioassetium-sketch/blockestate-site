@@ -1030,6 +1030,14 @@ body.sin-scroll{overflow:hidden}
 .dev-calc-salida{display:grid; gap:4px; margin-top:10px; font-size:.9rem}
 .dev-calc-salida b{font-variant-numeric:tabular-nums}
 .dev-calc-salida i{font-style:normal; color:var(--ink-45); font-size:.78rem; margin-left:6px}
+.dev-archivo{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:6px}
+.dev-archivo .solo-lector{position:absolute; width:1px; height:1px; opacity:0; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap; border:0}
+.btn-archivo{display:inline-flex; align-items:center; min-height:40px; padding:0 14px; cursor:pointer;
+  border:1px solid var(--line-2); border-radius:.5rem; background:var(--card); font-weight:600;
+  font-size:.86rem; color:var(--teal)}
+.btn-archivo:hover, .btn-archivo:focus-visible{border-color:var(--teal); outline:none}
+.archivo-dicho{font-size:.8rem; color:var(--ink-45)}
 .dev-calc-aviso{color:var(--coin-deep); font-size:.78rem; font-weight:600; margin-top:2px}
 .dev-calc-vuelta{display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-top:12px;
   padding-top:12px; border-top:1px solid var(--line-2)}
@@ -4854,7 +4862,7 @@ async function viewDevNuevaPropiedad() {
         <fieldset data-sec="fotos">
           <legend>Photographs</legend>
           <label class="dev-ancho">Photographs of the property
-            <input type="file" name="fotos" accept="image/jpeg,image/png" multiple>
+            <span class="dev-archivo"><input type="file" name="fotos" accept="image/jpeg,image/png" multiple class="solo-lector" data-archivo="fotos"><span class="btn-archivo" role="button" tabindex="0" data-abre="fotos">Choose files</span><span class="archivo-dicho" data-dice="fotos">No file chosen</span></span>
             <span class="note">JPEG or PNG, up to 4 MiB each. The first one is the cover of the
               listing. They are stored by their content and served by URL: the buyer sees them, and so
               does Verysset.</span></label>
@@ -4873,7 +4881,7 @@ async function viewDevNuevaPropiedad() {
               </select></label>
           </div>
           <label class="dev-ancho">Files
-            <input type="file" name="papeles" accept="application/pdf,image/jpeg,image/png" multiple>
+            <span class="dev-archivo"><input type="file" name="papeles" accept="application/pdf,image/jpeg,image/png" multiple class="solo-lector" data-archivo="papeles"><span class="btn-archivo" role="button" tabindex="0" data-abre="papeles">Choose files</span><span class="archivo-dicho" data-dice="papeles">No file chosen</span></span>
             <span class="note">PDF, JPEG or PNG. <b>This is where Verysset takes what it verifies</b>,
               together with the data of the unit: without the papers there is no verification and no
               badge. They are private — the buyer never sees them, Verysset and NDC do.</span></label>
@@ -4898,7 +4906,7 @@ async function viewDevNuevaPropiedad() {
         <fieldset data-sec="planos">
           <legend>Plans</legend>
           <label class="dev-ancho">Files or links
-            <input type="file" name="planos" accept="image/jpeg,image/png" multiple>
+            <span class="dev-archivo"><input type="file" name="planos" accept="image/jpeg,image/png" multiple class="solo-lector" data-archivo="planos"><span class="btn-archivo" role="button" tabindex="0" data-abre="planos">Choose files</span><span class="archivo-dicho" data-dice="planos">No file chosen</span></span>
             <span class="note">JPEG or PNG, up to 4 MiB each. A plan is what a buyer reads before
               deciding, and it is also part of what Verysset checks.</span></label>
           <label class="dev-ancho">Or a link to the plan
@@ -5534,7 +5542,7 @@ async function viewDevBrokers() {
           <label class="dev-ancho">Who answers
             <input name="titulo" maxlength="60" placeholder="Sales desk · Downtown Dubai"></label>
           <label class="dev-ancho">Face
-            <input type="file" name="foto" accept="image/jpeg,image/png">
+            <span class="dev-archivo"><input type="file" name="foto" accept="image/jpeg,image/png" class="solo-lector" data-archivo="foto"><span class="btn-archivo" role="button" tabindex="0" data-abre="foto">Choose files</span><span class="archivo-dicho" data-dice="foto">No file chosen</span></span>
             <span class="note">JPEG or PNG, up to 4 MiB. It is the face the buyer sees when the code
               puts them in touch — without it they see the monogram of the name instead.</span></label>
           <div class="dev-vista" id="dev-vista-foto" hidden></div>
@@ -5971,6 +5979,24 @@ if (store.logged()) {
 }
 
 initSelectorActivo();
+// El navegador rotula sus controles de fichero en SU idioma («Elegir archivos», «Sin archivos
+// seleccionados»): eso es texto suyo, no nuestro, y en un sitio en inglés no puede quedar así. Se
+// esconde el control nativo y se pone el nuestro, que dice lo mismo en el idioma del proyecto.
+document.addEventListener('click', (e) => {
+  const b = e.target.closest?.('[data-abre]');
+  if (b) document.querySelector(`input[data-archivo="${b.dataset.abre}"]`)?.click();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const b = e.target.closest?.('[data-abre]');
+  if (b) { e.preventDefault(); document.querySelector(`input[data-archivo="${b.dataset.abre}"]`)?.click(); }
+});
+document.addEventListener('change', (e) => {
+  const i = e.target;
+  if (!i.dataset?.archivo) return;
+  const dicho = document.querySelector(`[data-dice="${i.dataset.archivo}"]`);
+  if (dicho) dicho.textContent = i.files.length ? `${i.files.length} file${i.files.length === 1 ? '' : 's'} chosen` : 'No file chosen';
+});
 start();
 
 // The service worker makes the shell work offline; the API is never cached.
