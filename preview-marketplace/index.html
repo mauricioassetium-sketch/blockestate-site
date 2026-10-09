@@ -359,7 +359,11 @@ html,body{overflow-x:clip}
   color:rgba(255,255,255,.92); font-weight:900; text-transform:uppercase; font-size:.9rem;
   letter-spacing:-.02em; padding:1rem; text-align:center}
 .card .body{padding:16px 18px; display:flex; flex-direction:column; gap:.42rem; min-width:0}
-.card .price{font-weight:900; font-size:1.45rem; letter-spacing:-.035em; line-height:1.05}
+.card .price{font-weight:900; font-size:1.45rem; letter-spacing:-.035em; line-height:1.15}
+/* The crypto line under a price: smaller, quieter, and never without its «indicative». */
+.price-crypto{margin-top:1px; font-size:.8rem; font-weight:600; color:var(--ink-45);
+  font-variant-numeric:tabular-nums}
+.price-crypto i{font-style:normal; font-weight:500; font-size:.72rem; opacity:.85}
 .card .tipo{font-size:.85rem; color:var(--ink-60); margin-top:-3px}
 .card h3{font-size:1.02rem; font-weight:700; letter-spacing:-.02em}
 .card h3 a:hover{color:var(--green-deep)}
@@ -999,6 +1003,24 @@ body.sin-scroll{overflow:hidden}
 .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
 .dev-form-pie .note{margin:0; flex:1 1 260px}
 
+/* The calculator of the price: rates on top, what they mean below, and the way back. */
+.dev-calc{margin-top:14px; padding:12px 14px; border:1px solid var(--line-2); border-radius:.6rem;
+  background:var(--card)}
+.dev-calc-tasas{display:flex; gap:16px; flex-wrap:wrap; margin:6px 0 2px}
+.dev-calc-tasas label{display:inline-flex; align-items:center; gap:.4rem; font-size:.82rem;
+  font-weight:600; color:var(--ink-60)}
+.dev-calc-tasas input{max-width:120px}
+.dev-calc-tasas span{font-weight:500; color:var(--ink-45)}
+.dev-calc-salida{display:grid; gap:4px; margin-top:10px; font-size:.9rem}
+.dev-calc-salida b{font-variant-numeric:tabular-nums}
+.dev-calc-salida i{font-style:normal; color:var(--ink-45); font-size:.78rem; margin-left:6px}
+.dev-calc-aviso{color:var(--coin-deep); font-size:.78rem; font-weight:600; margin-top:2px}
+.dev-calc-vuelta{display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; margin-top:12px;
+  padding-top:12px; border-top:1px solid var(--line-2)}
+.dev-calc-vuelta label{display:grid; gap:4px; font-size:.78rem; font-weight:600; color:var(--ink-60)}
+.dev-calc-vuelta input{max-width:160px}
+.dev-calc-activo select{max-width:200px}
+
 /* The menu of the property: one section at a time. A ten-section form read from top to bottom is a
    wall, and a wall is what makes a seller leave half the information out. */
 .dev-sec{display:flex; gap:6px; flex-wrap:wrap; margin:14px 0 0; padding:0 0 12px;
@@ -1493,8 +1515,125 @@ const api = {
   receiptGet: (id) => req('GET', `/purchases/${id}/receipt`),
 };
 
+/* ===== js/cambio.js ===== */
+/**
+ * The bridge between dirhams and the two currencies the buyer pays with.
+ *
+ * The rule of the model is BR-002, and it is the whole reason this file exists: **a crypto equivalent
+ * is a time-bounded quote**, never a promise. So nothing here invents a rate. The platform has no rate
+ * feed yet, and until it has one the rate is the one the user types — the seller quoting, or the
+ * buyer reading — and every figure that comes out of it says the rate and says that it is an
+ * indication.
+ *
+ * The contract price is always in dirhams (BR-001). What this converts is the *view* of it.
+ */
+
+
+const CLAVE = 'blockestate.cambio';
+
+/** The assets the model documents: USDT and BNB, on BNB Chain. Nothing else is quoted. */
+const ACTIVOS_CAMBIO = [
+  ['USDT', 'USDT · BNB Chain'],
+  ['BNB', 'BNB · BNB Chain'],
+];
+
+let estadoCambio = leer();
+
+/**
+ * A rate is a positive number or it is nothing. It is a `function` on purpose: `leer()` runs while the
+ * module is being read, and an arrow held in a `const` further down would not exist yet — the `try`
+ * would swallow the reference error and the store would look empty for ever.
+ */
+function numero(v) {
+  return typeof v === 'number' && Number.isFinite(v) && v > 0 ? v : null;
+}
+
+function leer() {
+  try {
+    const crudo = JSON.parse(localStorage.getItem(CLAVE) ?? '{}');
+    return {
+      usdt: numero(crudo.usdt),
+      bnb: numero(crudo.bnb),
+      visto: crudo.visto ?? null,
+    };
+  } catch {
+    return { usdt: null, bnb: null, visto: null };
+  }
+}
+
+/** AED per unit of the asset. `null` means «not known», and an unknown rate shows nothing at all. */
+function tasa(activo) {
+  return estadoCambio[String(activo).toLowerCase()] ?? null;
+}
+
+function hayTasa() {
+  return tasa('USDT') !== null || tasa('BNB') !== null;
+}
+
+/**
+ * The rate, set by hand. It is stamped with the moment it was written, because a rate without its
+ * moment is a number that lies about its age.
+ */
+function fijarTasa(activo, valor) {
+  estadoCambio = { ...estadoCambio, [String(activo).toLowerCase()]: numero(valor), visto: new Date().toISOString() };
+  try { localStorage.setItem(CLAVE, JSON.stringify(estadoCambio)); } catch { /* a browser that blocks storage still calculates */ }
+  return estadoCambio;
+}
+
+function cuando() {
+  return estadoCambio.visto;
+}
+
+/**
+ * The fils of a row, whichever way they arrived. The search answers with the price already formatted
+ * and the sheet answers with fils: one of the two is always there, and a card that cannot read the
+ * price of a row is a card that shows nothing.
+ */
+function filsDe(fila) {
+  if (Number.isInteger(fila?.precio_fils)) return fila.precio_fils;
+  const n = Number(String(fila?.precio_aed ?? '').replace(/[^0-9.]/g, ''));
+  return Number.isFinite(n) && n > 0 ? Math.round(n * 100) : null;
+}
+
+/** What a price in fils is worth in the asset, at the rate in force. `null` if there is no rate. */
+function equivalencia(fils, activo) {
+  const t = tasa(activo);
+  if (!t || fils === null || fils === undefined) return null;
+  return Number(fils) / 100 / t;
+}
+
+/** The asset amounts are not money: 6 decimals for USDT is noise on a card, so they are trimmed. */
+function cifra(v, decimales) {
+  return Number(v).toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: decimales });
+}
+
+/**
+ * The line a card adds under the price. It carries the asset, the amount, the rate and the fact that
+ * it is an indication — the four things BR-002 asks for, in one line, without shouting.
+ */
+function equivalenteTexto(fils, { aCorto = false } = {}) {
+  if (!hayTasa()) return '';
+  const trozos = [];
+  for (const [activo] of ACTIVOS_CAMBIO) {
+    const v = equivalencia(fils, activo);
+    if (v === null) continue;
+    trozos.push(`${cifra(v, activo === 'USDT' ? 0 : 2)} ${activo}`);
+  }
+  if (!trozos.length) return '';
+  return aCorto ? trozos.join(' · ') : `≈ ${trozos.join(' · ')} · indicative, at your rate`;
+}
+
+/** The same figure, spelled out for a sheet: what was converted, at what rate, and when. */
+function detalleConversion(fils, activo) {
+  const t = tasa(activo);
+  if (!t) return '';
+  const v = equivalencia(fils, activo);
+  return `1 ${activo} = ${money(t * 100)} · ${activo} ${cifra(v, activo === 'USDT' ? 2 : 4)} · indicative`;
+}
+
 /* ===== js/ui.js ===== */
 /** Small view helpers: escaping, money, cards, toasts. No framework, no build step. */
+
 
 
 
@@ -1571,6 +1710,9 @@ function card(r) {
     </div>
     <div class="body">
       <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
+      ${equivalenteTexto(filsDe(r), { aCorto: true })
+        ? `<div class="price-crypto">≈ ${esc(equivalenteTexto(filsDe(r), { aCorto: true }))}
+           <i>indicative</i></div>` : ''}
       <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
@@ -4060,6 +4202,7 @@ async function viewProject(id) {
 
 
 
+
 /** The states of a listing, in the words the developer uses. */
 const ANUNCIO = {
   draft: 'Draft', submitted: 'Submitted', in_review: 'Under review', approved: 'Published',
@@ -4578,6 +4721,29 @@ async function viewDevNuevaPropiedad() {
           </div>
           <p class="note">The price is kept in fils — AED 1,850,000.00 is 185,000,000 fils — so the
             contract never carries a rounded decimal.</p>
+
+          <div class="dev-calc" id="dev-calc">
+            <span class="dev-etiqueta">The price in crypto · a calculator, not a quote</span>
+            <div class="dev-calc-tasas">
+              <label>1 USDT =
+                <input name="tasa_usdt" inputmode="decimal" placeholder="3.6725"> <span>AED</span></label>
+              <label>1 BNB =
+                <input name="tasa_bnb" inputmode="decimal" placeholder="2400"> <span>AED</span></label>
+            </div>
+            <p class="note">The platform has no rate feed yet, so the rate is the one you write — the
+              one you are quoting with. It is stamped with its moment and it is never a promise: the
+              contract price is the one in dirhams, and BR-002 says the crypto figure is a time-bounded
+              quote.</p>
+            <div class="dev-calc-salida" id="dev-calc-salida">Type the rate and the price: the
+              equivalent appears here.</div>
+            <div class="dev-calc-vuelta">
+              <label>I want to receive
+                <input name="objetivo" inputmode="decimal" placeholder="500000"></label>
+              <label class="dev-calc-activo">
+                <select name="objetivo_activo">${ACTIVOS_CAMBIO.map(([a, t]) => `<option value="${esc(a)}">${esc(t)}</option>`).join('')}</select></label>
+              <button class="btn ghost" type="button" id="dev-calc-pon">Set the price in AED</button>
+            </div>
+          </div>
         </fieldset>
 
         <fieldset data-sec="listing">
@@ -4748,6 +4914,54 @@ async function viewDevNuevaPropiedad() {
   };
   form.querySelector('[name="latitud"]').addEventListener('input', pintaEnlace);
   form.querySelector('[name="longitud"]').addEventListener('input', pintaEnlace);
+
+  // ---------------------------------------------------------------- la calculadora del precio
+  const calc = view().querySelector('#dev-calc');
+  const enTasa = (a) => form.querySelector(`[name="tasa_${a.toLowerCase()}"]`);
+  const enPrecio = form.querySelector('[name="precio_aed"]');
+  const salida = view().querySelector('#dev-calc-salida');
+
+  // The rates it finds are the ones already in force, if any: the calculator and the cards of the
+  // marketplace read the same number.
+  for (const [activo] of ACTIVOS_CAMBIO) {
+    const t = tasa(activo);
+    if (t) enTasa(activo).value = String(t);
+  }
+
+  const calcula = () => {
+    for (const [activo] of ACTIVOS_CAMBIO) fijarTasa(activo, Number(enTasa(activo).value) || null);
+    const fils = Math.round((Number(enPrecio.value) || 0) * 100);
+    if (!fils || !ACTIVOS_CAMBIO.some(([a]) => tasa(a))) {
+      salida.innerHTML = 'Type the rate and the price: the equivalent appears here.';
+      return;
+    }
+    salida.innerHTML = ACTIVOS_CAMBIO.map(([activo]) => {
+      const v = equivalencia(fils, activo);
+      if (v === null) return '';
+      const decimales = activo === 'USDT' ? 2 : 4;
+      return `<span><b>${esc(money(fils))}</b> ≈ <b>${v.toLocaleString('en-GB',
+        { maximumFractionDigits: decimales })} ${esc(activo)}</b>
+        <i>1 ${esc(activo)} = ${esc(money(tasa(activo) * 100))}</i></span>`;
+    }).join('');
+    salida.insertAdjacentHTML('beforeend',
+      '<span class="dev-calc-aviso">Indicative, at the rate you wrote, and only for as long as it holds: '
+      + 'the contract price is the one in dirhams.</span>');
+  };
+  calc.addEventListener('input', calcula);
+  // The other way round: a seller who knows what they want to receive gets the price in dirhams.
+  view().querySelector('#dev-calc-pon').addEventListener('click', () => {
+    const activo = form.querySelector('[name="objetivo_activo"]').value;
+    const quiere = Number(form.querySelector('[name="objetivo"]').value) || 0;
+    const t = Number(enTasa(activo).value) || 0;
+    if (!quiere || !t) {
+      salida.innerHTML = 'Write how much you want to receive, and the rate.';
+      return;
+    }
+    const aed = quiere * t;
+    enPrecio.value = aed.toFixed(2);
+    calcula();
+  });
+  calcula();
 
   /** The docket of what the property carries, so nothing is forgotten before it goes to NDC. */
   const repasar = () => {
