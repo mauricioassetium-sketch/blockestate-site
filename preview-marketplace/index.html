@@ -147,16 +147,35 @@ html,body{overflow-x:clip}
 .emi{position:relative; z-index:2; margin-top:22px}
 .emi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
 .emi-grid a{position:relative; background:var(--white); border:1px solid var(--line-2);
-  border-radius:var(--radius); min-height:72px; display:flex; flex-direction:column; justify-content:center;
-  align-items:center; gap:2px; font-weight:800; font-size:.95rem; letter-spacing:-.02em;
-  box-shadow:var(--shadow); padding:.6rem; text-align:center; overflow:hidden;
-  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+  border-radius:var(--radius); min-height:86px; display:grid; grid-template-columns:1fr auto;
+  align-content:center; align-items:center; column-gap:10px; row-gap:1px; font-weight:800;
+  font-size:1rem; letter-spacing:-.02em; box-shadow:var(--shadow); padding:.9rem 1rem;
+  text-align:left; overflow:hidden;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease}
+.emi-grid a > span{grid-column:1}
+.emi-grid a > small{grid-column:1}
 .emi-grid a::after{content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
   background:linear-gradient(90deg,var(--green),var(--green-deep)); transform:scaleX(0);
   transform-origin:left; transition:transform .2s ease}
 .emi-grid a:hover{transform:translateY(-2px); border-color:rgba(34,197,94,.5); box-shadow:var(--shadow-lg)}
 .emi-grid a:hover::after{transform:scaleX(1)}
 .emi-grid a small{font-weight:500; color:var(--ink-45); font-size:.72rem; letter-spacing:.04em}
+/* La flecha: en reposo es una pastilla gris, y con el paso se enciende en verde y se corre. */
+.emi-grid a .go{grid-column:2; grid-row:1 / span 2; display:grid; place-items:center;
+  width:34px; height:34px; border-radius:50%; background:var(--card); color:var(--ink-60);
+  font-style:normal; font-weight:700; font-size:1rem;
+  transition:background .16s ease, color .16s ease, transform .16s ease}
+.emi-grid a:hover .go{background:var(--green); color:#fff; transform:translateX(3px)}
+/* «All emirates» no es un emirato más: es la puerta de todo el catálogo y va en tinta. */
+.emi-grid a.todo{background:var(--teal); border-color:var(--teal); color:#fff}
+.emi-grid a.todo small{color:rgba(255,255,255,.62)}
+.emi-grid a.todo .go{background:rgba(255,255,255,.14); color:#fff}
+.emi-grid a.todo:hover{border-color:var(--teal); background:var(--teal-2)}
+.emi-grid a.todo:hover .go{background:var(--green); color:#fff}
+@media (max-width:620px){
+  .emi-grid a{min-height:76px; padding:.75rem .8rem; font-size:.94rem}
+  .emi-grid a .go{width:30px; height:30px}
+}
 
 /* ---------- tab bar: what we sell, in one line ---------- */
 .tabs{display:flex; gap:6px; overflow-x:auto; padding:6px 0 2px; margin-top:30px;
@@ -1994,8 +2013,12 @@ async function viewCatalog() {
     <div class="wrap">
       <div class="emi">
         <div class="emi-grid">
+          <a class="todo" href="#/search">
+            <span>All emirates</span><small>every listing</small>
+            <i class="go" aria-hidden="true">→</i></a>
           ${EMIRATOS.map((e) => `<a href="#/search?emirato=${encodeURIComponent(e)}">
-            <span>${esc(e)}</span><small>properties</small></a>`).join('')}
+            <span>${esc(e)}</span><small>properties</small>
+            <i class="go" aria-hidden="true">→</i></a>`).join('')}
         </div>
       </div>
 
