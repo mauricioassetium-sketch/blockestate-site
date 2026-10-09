@@ -6199,6 +6199,11 @@ if (store.logged()) {
 }
 
 initSelectorActivo();
+// Every page starts at the top. The browser likes to keep the scroll where it was — and with a
+// single-page site that means landing halfway down the next screen, or halfway down the one you
+// came back to. Its own restoration is switched off and done here, once per navigation.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('hashchange', () => window.scrollTo(0, 0));
 // El navegador rotula sus controles de fichero en SU idioma («Elegir archivos», «Sin archivos
 // seleccionados»): eso es texto suyo, no nuestro, y en un sitio en inglés no puede quedar así. Se
 // esconde el control nativo y se pone el nuestro, que dice lo mismo en el idioma del proyecto.
