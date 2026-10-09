@@ -544,6 +544,40 @@ input:focus,select:focus{border-color:var(--green); box-shadow:var(--ring)}
 .item .when{font-size:.78rem; color:var(--ink-45)}
 .row-between{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
 
+/* ---------- footer: the dark one, in the deep green of the house ---------- */
+.foot{background:#0c211a; color:#cfe0d8; border-top:0; margin-top:44px; padding:40px 0 26px}
+.foot-alto{display:grid; grid-template-columns:1.6fr .8fr .8fr .8fr 1.1fr; gap:26px}
+.foot-col h4{margin:0 0 .6rem; font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:#8fb3a5; font-weight:800}
+.foot .plain a{color:#cfe0d8} .foot .plain a:hover{color:#fff}
+.foot-quien p{margin:.5rem 0 0; font-size:.86rem; color:#a9c3b8; max-width:44ch}
+.foot-brand{display:flex; align-items:center; gap:.5rem; font-weight:900; text-transform:uppercase;
+  letter-spacing:-.03em; color:#fff}
+.foot-redes{display:flex; gap:8px; margin-top:14px}
+.foot-redes .red{display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px;
+  border-radius:50%; background:rgba(255,255,255,.07); color:#dfeee7}
+.foot-redes .red:hover{background:var(--teal); color:#fff}
+.foot-redes svg{width:18px; height:18px; fill:currentColor}
+.foot-tiendas{display:grid; gap:8px}
+.tienda{display:block; border:1px solid rgba(255,255,255,.16); border-radius:.6rem; padding:7px 12px;
+  color:#dfeee7; line-height:1.15}
+.tienda:hover{border-color:var(--teal); color:#fff}
+.tienda b{display:block; font-size:.86rem} .tienda span{font-size:.7rem; color:#8fb3a5}
+.foot-abajo{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:30px;
+  padding-top:18px; border-top:1px solid rgba(255,255,255,.1)}
+.foot-pais{display:inline-flex; align-items:center; gap:7px; font-size:.8rem; font-weight:600;
+  padding:7px 12px; border:1px solid rgba(255,255,255,.16); border-radius:999px; color:#dfeee7}
+.foot-pais svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.4}
+.foot .legal{flex:1 1 320px; margin:0; color:#8fb3a5; font-size:.74rem}
+.foot-copy{font-size:.78rem; color:#8fb3a5}
+.foot-top{display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 14px; cursor:pointer;
+  border:1px solid rgba(255,255,255,.16); border-radius:999px; background:none; color:#dfeee7;
+  font:inherit; font-size:.8rem; font-weight:700}
+.foot-top:hover{border-color:var(--teal); color:#fff}
+.foot-top svg{width:15px; height:15px; fill:currentColor}
+@media (max-width:980px){.foot-alto{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.foot-alto{grid-template-columns:1fr}}
+
 /* ---------- footer: two blocks, not six ---------- */
 .foot{border-top:1px solid var(--line); margin-top:44px; padding:26px 0 36px; background:var(--card)}
 .foot-grid{display:grid; grid-template-columns:1.8fr 1fr; gap:24px}
@@ -1127,31 +1161,71 @@ body.sin-scroll{overflow:hidden}
 
 <footer class="foot">
   <div class="wrap">
-    <div class="foot-grid">
-      <div>
+    <div class="foot-alto">
+      <div class="foot-col foot-quien">
         <div class="foot-brand">
           <svg class="mark sm" viewBox="0 0 256 256" role="img" aria-hidden="true"><use href="#logo"/></svg>
           <span>BlockEstate</span>
         </div>
-        <p class="muted" style="margin-top:.4rem">A marketplace of verified property in the United Arab
-          Emirates. The buyer pays in crypto, the developer is paid in dirhams, and the title is
-          registered with the Dubai Land Department in the buyer's name.</p>
+        <p>A marketplace of verified property in the United Arab Emirates. The buyer pays in crypto,
+          the developer is paid in dirhams, and the title is registered with the Dubai Land
+          Department in the buyer's name.</p>
+        <div class="foot-redes"><a class="red" href="#" aria-label="Facebook (link pending)"
+        title="We do not have this account yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2.5V4.8h-2.6c-2.3 0-3.9 1.5-3.9 4v1.7H7.5v3.2h2.5V21h3.3v-7.3h2.6l.5-3.2h-3.1V9c0-.7.4-1 1-1z"/></svg></a><a class="red" href="#" aria-label="X (link pending)"
+        title="We do not have this account yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 3h3.1l-6.8 7.8L21.7 21h-5.6l-4.4-5.8L6.3 21H3.2l7.2-8.2L2.6 3h5.7l4 5.4L17.5 3zm-1.1 16h1.7L7.6 4.8H5.8L16.4 19z"/></svg></a><a class="red" href="#" aria-label="Linkedin (link pending)"
+        title="We do not have this account yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.9 8.5H3.6V21h3.3V8.5zM5.2 3a1.9 1.9 0 100 3.9 1.9 1.9 0 000-3.9zM20.4 21h-3.3v-6.1c0-1.5-.5-2.5-1.9-2.5-1 0-1.6.7-1.9 1.4-.1.3-.1.6-.1 1V21H9.9s.1-11.3 0-12.5h3.3v1.8c.4-.7 1.2-1.7 3-1.7 2.2 0 3.9 1.4 3.9 4.5V21z"/></svg></a><a class="red" href="#" aria-label="Instagram (link pending)"
+        title="We do not have this account yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 100 9.4 4.7 4.7 0 000-9.4zm0 7.7a3 3 0 110-6 3 3 0 010 6zM17 5.6a1.1 1.1 0 100 2.2 1.1 1.1 0 000-2.2zM16.5 3h-9A4.5 4.5 0 003 7.5v9A4.5 4.5 0 007.5 21h9a4.5 4.5 0 004.5-4.5v-9A4.5 4.5 0 0016.5 3zm2.7 13.5a2.7 2.7 0 01-2.7 2.7h-9a2.7 2.7 0 01-2.7-2.7v-9A2.7 2.7 0 017.5 4.8h9a2.7 2.7 0 012.7 2.7v9z"/></svg></a><a class="red" href="#" aria-label="Youtube (link pending)"
+        title="We do not have this account yet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.8a2.6 2.6 0 00-1.8-1.8C18.2 5.5 12 5.5 12 5.5s-6.2 0-7.8.5A2.6 2.6 0 002.4 7.8C2 9.4 2 12 2 12s0 2.6.4 4.2a2.6 2.6 0 001.8 1.8c1.6.5 7.8.5 7.8.5s6.2 0 7.8-.5a2.6 2.6 0 001.8-1.8c.4-1.6.4-4.2.4-4.2s0-2.6-.4-4.2zM10.2 15.3V8.7l5.5 3.3-5.5 3.3z"/></svg></a></div>
       </div>
-      <div>
-        <h4>Browse</h4>
+      <nav class="foot-col" aria-label="Buy">
+        <h4>Buy</h4>
         <ul class="plain">
           <li><a href="#/search">All properties</a></li>
           <li><a href="#/search?tipo=villa">Villas</a></li>
           <li><a href="#/search?tipo=apartment">Apartments</a></li>
           <li><a href="#/search?estado_obra=off_plan">Off plan</a></li>
         </ul>
+      </nav>
+      <nav class="foot-col" aria-label="Sell">
+        <h4>Sell</h4>
+        <ul class="plain">
+          <li><a href="#/dev">Developer portal</a></li>
+          <li><a href="#/register">List a property</a></li>
+          <li><a href="#/search">Brokers and creators</a></li>
+        </ul>
+      </nav>
+      <nav class="foot-col" aria-label="Company">
+        <h4>Company</h4>
+        <ul class="plain">
+          <li><a href="#/about">About us</a></li>
+          <li><a href="#/careers">Careers</a></li>
+          <li><a href="#/contact">Contact us</a></li>
+          <li><a href="#/terms">Terms &amp; privacy</a></li>
+        </ul>
+      </nav>
+      <div class="foot-col">
+        <h4>Get the app</h4>
+        <div class="foot-tiendas">
+          <a class="tienda" href="#/app"><b>App Store</b><span>iPhone · iPad</span></a>
+          <a class="tienda" href="#/app"><b>Google Play</b><span>Android</span></a>
+          <a class="tienda" href="#/app"><b>AppGallery</b><span>Huawei</span></a>
+        </div>
       </div>
     </div>
-    <p class="legal">Every listing shows the scope and the date of the evidence behind its badge. A badge
-      is not a guarantee of title, of completion or of a rate. Nothing here is investment or legal
-      advice, and a price in crypto is an equivalent with an expiry, not a fixed price.</p>
+    <div class="foot-abajo">
+      <span class="foot-pais"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 3 2.6 15 0 18M12 3c-2.6 3-2.6 15 0 18"/></svg>
+        United Arab Emirates · AED</span>
+      <p class="legal">Every listing shows the scope and the date of the evidence behind its badge. A badge
+        is not a guarantee of title, of completion or of a rate. Nothing here is investment or legal
+        advice, and a price in crypto is an equivalent with an expiry, not a fixed price.</p>
+      <span class="foot-copy">© 2026 BlockEstate.ae</span>
+      <button type="button" class="foot-top" id="ir-arriba" aria-label="Back to the top">Top
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 7h-4v7h-6v-7H5l7-7z"/></svg></button>
+    </div>
   </div>
 </footer>
+<script>document.getElementById('ir-arriba')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <noscript><p class="wrap">This marketplace needs JavaScript to show prices and availability.</p></noscript>
