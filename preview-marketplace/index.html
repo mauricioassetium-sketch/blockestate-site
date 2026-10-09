@@ -983,6 +983,9 @@ body.sin-scroll{overflow:hidden}
 .dev-form input[type=file]{padding:.5rem .6rem; font-size:.85rem; background:var(--card); cursor:pointer}
 .dev-form label .note{margin-top:2px; font-size:.74rem; font-weight:500; color:var(--ink-45); line-height:1.45}
 /* What the desk is doing while it works: five lines, one per call, so a slow upload is not a mystery. */
+/* The face before it is sent: small, round and with its weight, like the contact card will show it. */
+.dev-vista{display:flex; align-items:center; gap:10px; font-size:.8rem; color:var(--ink-60)}
+.dev-vista img{width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid var(--line-2)}
 .dev-progreso{list-style:none; margin:10px 0 0; padding:0; display:grid; gap:3px;
   font-size:.82rem; color:var(--ink-60)}
 .dev-progreso li{padding-left:16px; position:relative}
@@ -5010,6 +5013,11 @@ async function viewDevBrokers() {
           </div>
           <label class="dev-ancho">Who answers
             <input name="titulo" maxlength="60" placeholder="Sales desk · Downtown Dubai"></label>
+          <label class="dev-ancho">Face
+            <input type="file" name="foto" accept="image/jpeg,image/png">
+            <span class="note">JPEG or PNG, up to 4 MiB. It is the face the buyer sees when the code
+              puts them in touch — without it they see the monogram of the name instead.</span></label>
+          <div class="dev-vista" id="dev-vista-foto" hidden></div>
           <div class="dev-form-pie">
             <button class="btn green" type="submit">${ico('llave', 15)} Designate the broker</button>
             <span class="note">The code is made from the name, and if that one is taken the platform
@@ -5048,11 +5056,28 @@ async function viewDevBrokers() {
   });
 
   const f = view().querySelector('#dev-nuevo-codigo');
+  // The chosen face, shown before it is sent: an upload that cannot be seen is a guess.
+  const entradaFoto = f.querySelector('input[name="foto"]');
+  const vista = view().querySelector('#dev-vista-foto');
+  entradaFoto.addEventListener('change', () => {
+    const archivo = entradaFoto.files?.[0];
+    if (!archivo) { vista.hidden = true; return; }
+    vista.hidden = false;
+    vista.innerHTML = `<img alt="" src="${URL.createObjectURL(archivo)}">
+      <span>${esc(archivo.name)} · ${Math.round(archivo.size / 1024)} KB</span>`;
+  });
+
   f.addEventListener('submit', async (e) => {
     e.preventDefault();
     const cuerpo = Object.fromEntries(new FormData(f));
     for (const k of ['whatsapp', 'telegram', 'correo', 'titulo']) if (!cuerpo[k]) delete cuerpo[k];
+    delete cuerpo.foto;
     try {
+      const archivo = entradaFoto.files?.[0];
+      if (archivo) {
+        const subida = await api.subirImagen(archivo);
+        cuerpo.foto = subida.url;
+      }
       const alta = await api.devReferralCreate(cuerpo);
       DATOS = null;
       diRespuesta('dev-broker', true,
