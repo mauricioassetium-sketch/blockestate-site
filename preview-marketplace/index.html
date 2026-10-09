@@ -1693,6 +1693,7 @@ function leer() {
       bnb: numero(crudo.bnb),
       ver: crudo.ver ?? null,
       visto: crudo.visto ?? null,
+      fuente: typeof crudo.fuente === 'string' ? crudo.fuente : null,
     };
   } catch {
     return { usdt: null, bnb: null, visto: null };
@@ -1742,10 +1743,43 @@ function hayTasa() {
  * The rate, set by hand. It is stamped with the moment it was written, because a rate without its
  * moment is a number that lies about its age.
  */
-function fijarTasa(activo, valor) {
-  estadoCambio = { ...estadoCambio, [String(activo).toLowerCase()]: numero(valor), visto: new Date().toISOString() };
+function guardar() {
   try { localStorage.setItem(CLAVE, JSON.stringify(estadoCambio)); } catch { /* a browser that blocks storage still calculates */ }
+}
+
+function fijarTasa(activo, valor) {
+  estadoCambio = { ...estadoCambio, [String(activo).toLowerCase()]: numero(valor), visto: new Date().toISOString(), fuente: 'typed by hand' };
+  guardar();
   return estadoCambio;
+}
+
+/**
+ * The live rate. CoinGecko quotes both assets straight against the dirham and asks for no key, which
+ * is why it can be read from the browser today. Two things about it, said plainly: if the call fails
+ * nothing is invented — the last known rate stays, with the moment it was read — and when the
+ * platform grows its own backend feed, this is the piece that moves there, because a price that only
+ * ever comes from the visitor's browser is a price nobody can audit.
+ */
+const FUENTE = 'https://api.coingecko.com/api/v3/simple/price?ids=tether,binancecoin&vs_currencies=aed';
+
+async function refrescarTasas() {
+  try {
+    const r = await fetch(FUENTE, { headers: { accept: 'application/json' } });
+    if (!r.ok) return null;
+    const d = await r.json();
+    const usdt = numero(d?.tether?.aed);
+    const bnb = numero(d?.binancecoin?.aed);
+    if (!usdt || !bnb) return null;
+    estadoCambio = { ...estadoCambio, usdt, bnb, fuente: 'CoinGecko', visto: new Date().toISOString() };
+    guardar();
+    return estadoCambio;
+  } catch {
+    return null;
+  }
+}
+
+function fuenteTasa() {
+  return estadoCambio.fuente;
 }
 
 function cuando() {
@@ -1921,6 +1955,9 @@ function selectorActivo() {
       <span>· the ${esc(String(tasa(a)))} you saved cannot be right — write it again</span></label>`).join('')}
     ${falta.map((a) => `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(a)} =
       <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED</label>`).join('')}
+    ${!raras.length && !falta.length ? `<span class="sel-fuente">1 USDT = AED ${esc(tasaTexto('USDT'))}
+      · 1 BNB = AED ${esc(tasaTexto('BNB'))} · ${esc(fuenteTasa() ?? 'rate in force')}
+      · ${esc((cuando() ?? '').slice(11, 16))}</span>` : ''}
   </div>`;
 }
 
@@ -6085,6 +6122,7 @@ async function viewDevSale(id) {
 
 
 
+
 const barra = () => document.getElementById('barra');
 
 /** The bar: the mark, a search, and one button that opens everything of the buyer's. */
@@ -6254,6 +6292,10 @@ initSelectorActivo();
 // came back to. Its own restoration is switched off and done here, once per navigation.
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.addEventListener('hashchange', () => window.scrollTo(0, 0));
+// The rates come on their own, and they come again every ten minutes: a figure that has to be typed
+// by hand stops being a figure and becomes a chore the reader forgets.
+refrescarTasas().then((r) => { if (r) renderBarra(); render(); });
+setInterval(() => refrescarTasas().then((r) => { if (r) { renderBarra(); render(); } }), 10 * 60 * 1000);
 // El navegador rotula sus controles de fichero en SU idioma («Elegir archivos», «Sin archivos
 // seleccionados»): eso es texto suyo, no nuestro, y en un sitio en inglés no puede quedar así. Se
 // esconde el control nativo y se pone el nuestro, que dice lo mismo en el idioma del proyecto.
