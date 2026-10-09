@@ -5287,7 +5287,7 @@ async function viewDevNuevaPropiedad() {
       const decimales = activo === 'USDT' ? 2 : 4;
       return `<span><b>${esc(money(fils))}</b> ≈ <b>${v.toLocaleString('en-GB',
         { maximumFractionDigits: decimales })} ${esc(activo)}</b>
-        <i>1 ${esc(activo)} = ${esc(money(tasa(activo) * 100))}</i></span>`;
+        <i>1 ${esc(activo)} = AED ${esc(tasaTexto(activo))}</i></span>`;
     }).join('');
     salida.insertAdjacentHTML('beforeend',
       '<span class="dev-calc-aviso">Indicative, at the rate you wrote, and only for as long as it holds: '
