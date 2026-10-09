@@ -559,6 +559,8 @@ input:focus,select:focus{border-color:var(--green); box-shadow:var(--ring)}
 .foot-redes .red:hover{background:var(--teal); color:#fff}
 .foot-redes svg{width:18px; height:18px; fill:currentColor}
 .foot-tiendas{display:grid; gap:8px}
+.foot-tiendas .insignia{display:block; height:42px; width:auto; border-radius:7px}
+.foot-nota{margin:.55rem 0 0; font-size:.68rem; color:#8fb3a5; max-width:24ch}
 .tienda{display:block; border:1px solid rgba(255,255,255,.16); border-radius:.6rem; padding:7px 12px;
   color:#dfeee7; line-height:1.15}
 .tienda:hover{border-color:var(--teal); color:#fff}
@@ -1204,10 +1206,11 @@ body.sin-scroll{overflow:hidden}
       <div class="foot-col">
         <h4>Get the app</h4>
         <div class="foot-tiendas">
-          <a class="tienda" href="#/app"><b>App Store</b><span>iPhone · iPad</span></a>
-          <a class="tienda" href="#/app"><b>Google Play</b><span>Android</span></a>
-          <a class="tienda" href="#/app"><b>AppGallery</b><span>Huawei</span></a>
+          <img class="insignia" src="img/tiendas/appstore.svg" alt="Download on the App Store" loading="lazy">
+          <img class="insignia" src="img/tiendas/googleplay.svg" alt="Get it on Google Play" loading="lazy">
+          <span class="tienda"><b>AppGallery</b><span>Huawei</span></span>
         </div>
+        <p class="foot-nota">Native apps are not part of Release 1. These are here for when they are.</p>
       </div>
     </div>
     <div class="foot-abajo">
