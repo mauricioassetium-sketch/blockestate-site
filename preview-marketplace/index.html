@@ -6017,6 +6017,15 @@ async function viewDevProjects() {
             </div>
             <label class="dev-ancho">Description <textarea name="descripcion" rows="2"></textarea></label>
             <div class="dev-form-pie">
+              <label class="dev-ancho">Image of the project
+                <span class="dev-archivo">
+                  <input type="file" name="imagen" accept="image/jpeg,image/png" class="solo-lector" data-archivo="imagen">
+                  <span class="btn-archivo" role="button" tabindex="0" data-abre="imagen">Choose an image</span>
+                  <span class="archivo-dicho" data-dice="imagen">No file chosen</span>
+                </span>
+                <span class="note">JPEG or PNG. It is uploaded when you create the project, and the
+                  project keeps the address the platform gives it.</span>
+              </label>
               <button class="btn green" type="submit">${ico('edificio', 15)} Create the project</button>
             </div>
             <p class="note">Created as a draft, and only this organisation can see it.</p>
@@ -6030,7 +6039,18 @@ async function viewDevProjects() {
   f?.addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
-      await api.devProjectCreate(Object.fromEntries(new FormData(f)));
+      const datos = Object.fromEntries(new FormData(f));
+      const archivo = f.querySelector('[name="imagen"]')?.files?.[0] ?? null;
+      delete datos.imagen;
+      if (archivo) {
+        const subida = new FormData();
+        subida.append('archivo', archivo);
+        const r = await api.subirImagen(subida);
+        // La dirección que devuelve la plataforma, no una ruta inventada: si la subida falla, el
+        // proyecto no se crea con una imagen rota, se crea sin imagen y el aviso lo dice.
+        datos.imagen_url = r?.url ?? null;
+      }
+      await api.devProjectCreate(datos);
       DATOS = null;
       diRespuesta('dev-proy', true, 'Project created as a draft.');
       setTimeout(() => viewDevProjects(), 900);
