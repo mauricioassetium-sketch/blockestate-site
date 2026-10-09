@@ -999,6 +999,30 @@ body.sin-scroll{overflow:hidden}
 .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
 .dev-form-pie .note{margin:0; flex:1 1 260px}
 
+/* The menu of the property: one section at a time. A ten-section form read from top to bottom is a
+   wall, and a wall is what makes a seller leave half the information out. */
+.dev-sec{display:flex; gap:6px; flex-wrap:wrap; margin:14px 0 0; padding:0 0 12px;
+  border-bottom:1px solid var(--line-2)}
+.dev-sec button{display:inline-flex; align-items:center; gap:.45rem; min-height:36px; padding:.4rem .75rem;
+  border:1px solid var(--line-2); border-radius:.45rem; background:var(--white); cursor:pointer;
+  font:inherit; font-size:.84rem; font-weight:600; color:var(--ink-60);
+  transition:background .15s ease, border-color .15s ease, color .15s ease}
+.dev-sec button:hover{border-color:var(--ink-30); color:var(--ink)}
+.dev-sec button.on{background:var(--teal); border-color:var(--teal); color:#fff}
+.dev-form-sec fieldset[data-sec][hidden]{display:none}
+.dev-etiqueta{display:block; margin-bottom:6px; font-size:.68rem; font-weight:800; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-45)}
+.dev-marcas{display:flex; flex-wrap:wrap; gap:6px}
+.dev-marca-caja{display:inline-flex; align-items:center; gap:.4rem; padding:.4rem .7rem; min-height:36px;
+  border:1px solid var(--line-2); border-radius:99px; font-size:.82rem; font-weight:600; color:var(--ink-60);
+  cursor:pointer}
+.dev-marca-caja:has(input:checked){background:rgba(34,197,94,.1); border-color:var(--green);
+  color:var(--green-deep)}
+.dev-marca-caja input{width:auto; min-height:0; margin:0}
+.dev-repaso{display:grid; gap:4px; margin-top:8px; font-size:.86rem}
+.dev-repaso .si{color:var(--green-deep)}
+.dev-repaso .no{color:var(--ink-45)}
+
 /* The steps of putting a property up: where you are, and what comes next. */
 .dev-pasos{display:flex; gap:8px; flex-wrap:wrap; list-style:none; margin:14px 0 4px; padding:0}
 .dev-pasos li{display:flex; align-items:center; gap:.5rem; padding:.4rem .7rem; border-radius:.45rem;
@@ -4035,6 +4059,7 @@ async function viewProject(id) {
 
 
 
+
 /** The states of a listing, in the words the developer uses. */
 const ANUNCIO = {
   draft: 'Draft', submitted: 'Submitted', in_review: 'Under review', approved: 'Published',
@@ -4054,6 +4079,24 @@ const VENTA = {
 const CANAL = { broker: 'Broker', influencer: 'Creator', desarrollador: 'Own sales', directo: 'Direct' };
 /** The state of the build of a unit, as the catalogue names it. */
 const OBRA = { ready: 'Ready', off_plan: 'Off plan' };
+
+/**
+ * The sections of putting a property up. Each one is a panel of the same form, and the menu above
+ * them is the door: a big form read from top to bottom is a wall, and a wall is what makes a seller
+ * leave half the information out.
+ */
+const SECCIONES_ALTA = [
+  ['unidad', 'The unit', 'casa'],
+  ['listing', 'The listing', 'etiqueta'],
+  ['fotos', 'Photographs', 'foto'],
+  ['video', 'Video', 'video'],
+  ['tour', '3D tour', 'pano'],
+  ['planos', 'Plans', 'plano'],
+  ['extras', 'Amenities', 'sofa'],
+  ['mapa', 'Location', 'pin'],
+  ['papeles', 'The papers · Verysset', 'permiso'],
+  ['revision', 'Review', 'avance'],
+];
 
 /** The steps a sale walks, for the trail of the detail screen. */
 const PASOS = ['held', 'kyc_pending', 'kyc_approved', 'quote_issued', 'deposit_confirmed',
@@ -4492,16 +4535,14 @@ async function viewDevNuevaPropiedad() {
     <section class="mod">
       <header>${ico('casa', 15)}<h4>Put a property up</h4>
         <a style="margin-left:auto;font-size:.8rem" href="#/dev/properties">← Properties</a></header>
-      <ol class="dev-pasos">
-        <li class="on"><b>1</b><span>The unit</span></li>
-        <li><b>2</b><span>The listing</span></li>
-        <li><b>3</b><span>Photographs</span></li>
-        <li><b>4</b><span>The papers · Verysset</span></li>
-        <li><b>5</b><span>NDC's review</span></li>
-      </ol>
+      <nav class="dev-sec" id="dev-sec" aria-label="Sections of the property">
+        ${SECCIONES_ALTA.map(([clave, texto, icono], i) => `
+          <button type="button" class="${i === 0 ? 'on' : ''}" data-sec="${clave}"
+            aria-pressed="${i === 0}">${ico(icono, 14)}<span>${esc(texto)}</span></button>`).join('')}
+      </nav>
 
-      <form class="dev-form" id="dev-nueva">
-        <fieldset>
+      <form class="dev-form dev-form-sec" id="dev-nueva">
+        <fieldset data-sec="unidad">
           <legend>Where does it live?</legend>
           <div class="dev-form-2">
             <label>Project
@@ -4514,7 +4555,7 @@ async function viewDevNuevaPropiedad() {
             <a href="#/dev/projects">Projects</a> first.</p>
         </fieldset>
 
-        <fieldset>
+        <fieldset data-sec="unidad">
           <legend>The unit</legend>
           <div class="dev-form-2">
             <label>Type
@@ -4539,7 +4580,7 @@ async function viewDevNuevaPropiedad() {
             contract never carries a rounded decimal.</p>
         </fieldset>
 
-        <fieldset>
+        <fieldset data-sec="listing">
           <legend>The listing</legend>
           <div class="dev-form-2">
             <label>Title <input name="titulo" required placeholder="Unit 12 · apartment in Downtown Dubai"></label>
@@ -4552,8 +4593,8 @@ async function viewDevNuevaPropiedad() {
             it reviews the listing.</p>
         </fieldset>
 
-        <fieldset>
-          <legend>3 · The photographs</legend>
+        <fieldset data-sec="fotos">
+          <legend>Photographs</legend>
           <label class="dev-ancho">Photographs of the property
             <input type="file" name="fotos" accept="image/jpeg,image/png" multiple>
             <span class="note">JPEG or PNG, up to 4 MiB each. The first one is the cover of the
@@ -4561,8 +4602,8 @@ async function viewDevNuevaPropiedad() {
               does Verysset.</span></label>
         </fieldset>
 
-        <fieldset>
-          <legend>4 · The papers · what Verysset reads</legend>
+        <fieldset data-sec="papeles">
+          <legend>The papers · what Verysset reads</legend>
           <div class="dev-form-2">
             <label>What are these papers?
               <select name="tipo_papel">
@@ -4580,6 +4621,88 @@ async function viewDevNuevaPropiedad() {
               badge. They are private — the buyer never sees them, Verysset and NDC do.</span></label>
         </fieldset>
 
+        <fieldset data-sec="video">
+          <legend>Video</legend>
+          <label class="dev-ancho">URL of the video
+            <input name="video_url" type="url" placeholder="https://…">
+            <span class="note">A link to the video of the property (YouTube, Vimeo, the developer's
+              own server). The platform stores the link, it does not host the file.</span></label>
+        </fieldset>
+
+        <fieldset data-sec="tour">
+          <legend>3D tour</legend>
+          <label class="dev-ancho">URL of the tour
+            <input name="tour_url" type="url" placeholder="https://…">
+            <span class="note">Matterport or whatever the developer uses. It is what the buyer opens
+              from the sheet, next to the photographs.</span></label>
+        </fieldset>
+
+        <fieldset data-sec="planos">
+          <legend>Plans</legend>
+          <label class="dev-ancho">Files or links
+            <input type="file" name="planos" accept="image/jpeg,image/png" multiple>
+            <span class="note">JPEG or PNG, up to 4 MiB each. A plan is what a buyer reads before
+              deciding, and it is also part of what Verysset checks.</span></label>
+          <label class="dev-ancho">Or a link to the plan
+            <input name="plano_url" type="url" placeholder="https://…"></label>
+        </fieldset>
+
+        <fieldset data-sec="extras">
+          <legend>Amenities and the rest of the unit</legend>
+          <div class="dev-form-2">
+            <label>Furnished
+              <select name="amueblado">
+                <option value="">Not stated</option>
+                <option value="true">Furnished</option>
+                <option value="false">Unfurnished</option>
+              </select></label>
+            <label>Tenure
+              <select name="tenencia">
+                <option value="">Not stated</option>
+                <option value="freehold">Freehold</option>
+                <option value="leasehold">Leasehold</option>
+              </select></label>
+            <label>Use
+              <select name="uso">
+                <option value="">Not stated</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="mixed">Mixed</option>
+              </select></label>
+            <label>Balcony (sqft) <input name="balcon_sqft" type="number" min="0" step="1" placeholder="120"></label>
+            <label>Parking spaces <input name="plazas_parking" type="number" min="0" step="1" placeholder="1"></label>
+            <label>Payment plan <input name="plan_pagos" maxlength="40" placeholder="40/60 · handover 2027"></label>
+          </div>
+          <div class="dev-ancho">
+            <span class="dev-etiqueta">What it has</span>
+            <div class="dev-marcas" id="dev-amenidades">
+              ${Object.entries(AMENIDADES).map(([k, v]) => `
+                <label class="dev-marca-caja">
+                  <input type="checkbox" name="amenidad" value="${esc(k)}"><span>${esc(v)}</span></label>`).join('')}
+            </div>
+            <span class="note">Only what is checked is published. An amenity declared and not there is
+              a lie the buyer finds on the first visit.</span>
+          </div>
+        </fieldset>
+
+        <fieldset data-sec="mapa">
+          <legend>Location on the map</legend>
+          <div class="dev-form-2">
+            <label>Latitude <input name="latitud" inputmode="decimal" placeholder="25.197197"></label>
+            <label>Longitude <input name="longitud" inputmode="decimal" placeholder="55.274376"></label>
+          </div>
+          <p class="note">The unit appears on the marketplace map with these two numbers. Without them
+            it exists in the catalogue but not on the map — nothing is invented for it.</p>
+          <p class="note" id="dev-mapa-enlace" hidden></p>
+        </fieldset>
+
+        <fieldset data-sec="revision">
+          <legend>Before sending it</legend>
+          <p class="note" id="dev-repaso">The property is created as a draft and sent to NDC's review.
+            Checklist loading…</p>
+          <div class="dev-repaso" id="dev-repaso-lista"></div>
+        </fieldset>
+
         <div class="dev-form-pie">
           <button class="btn green" type="submit">${ico('casa', 15)} Put it up</button>
           <span class="note">The unit and the listing are created as drafts, the files are stored, and
@@ -4593,6 +4716,65 @@ async function viewDevNuevaPropiedad() {
 
   const form = view().querySelector('#dev-nueva');
   const progreso = view().querySelector('#dev-progreso');
+  const nav = view().querySelector('#dev-sec');
+  const paneles = [...form.querySelectorAll('[data-sec]')];
+
+  /** The menu is the door: one section at a time, and the one you are in says so. */
+  const mostrar = (clave) => {
+    for (const panel of paneles) panel.hidden = panel.dataset.sec !== clave;
+    nav.querySelectorAll('[data-sec]').forEach((b) => {
+      const on = b.dataset.sec === clave;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    if (clave === 'revision') repasar();
+  };
+  nav.addEventListener('click', (e) => {
+    const b = e.target.closest?.('[data-sec]');
+    if (b) mostrar(b.dataset.sec);
+  });
+  mostrar('unidad');
+
+  // The map link, as soon as the two numbers are there: the seller checks the pin before sending it.
+  const enlace = view().querySelector('#dev-mapa-enlace');
+  const pintaEnlace = () => {
+    const la = form.querySelector('[name="latitud"]').value.trim();
+    const lo = form.querySelector('[name="longitud"]').value.trim();
+    if (!la || !lo) { enlace.hidden = true; return; }
+    enlace.hidden = false;
+    enlace.innerHTML = `${ico('pin', 13)} <a target="_blank" rel="noopener"
+      href="https://www.openstreetmap.org/?mlat=${encodeURIComponent(la)}&mlon=${encodeURIComponent(lo)}#map=17/${encodeURIComponent(la)}/${encodeURIComponent(lo)}"
+      >Check the pin on OpenStreetMap</a>`;
+  };
+  form.querySelector('[name="latitud"]').addEventListener('input', pintaEnlace);
+  form.querySelector('[name="longitud"]').addEventListener('input', pintaEnlace);
+
+  /** The docket of what the property carries, so nothing is forgotten before it goes to NDC. */
+  const repasar = () => {
+    const f = Object.fromEntries(new FormData(form));
+    const n = (k) => (form.querySelector(`[name="${k}"]`)?.files?.length ?? 0);
+    const marcas = form.querySelectorAll('input[name="amenidad"]:checked').length;
+    const lineas = [
+      [f.proyecto_id, 'A project to hang the unit on'],
+      [f.tipo && f.emirato && f.precio_aed, 'The unit: type, emirate and price'],
+      [f.estado_obra, 'Ready or off plan'],
+      [f.titulo, 'The title of the listing'],
+      [n('fotos'), 'At least one photograph (the first one is the cover)'],
+      [f.video_url, 'A video, if there is one'],
+      [f.tour_url, 'A 3D tour, if there is one'],
+      [n('planos') || f.plano_url, 'A plan'],
+      [marcas, 'Amenities declared'],
+      [f.latitud && f.longitud, 'The pin on the map'],
+      [n('papeles'), 'The papers Verysset reads'],
+    ];
+    const caja = view().querySelector('#dev-repaso-lista');
+    caja.innerHTML = lineas.map(([ok, texto]) => `<span class="${ok ? 'si' : 'no'}">${ok ? '✓' : '—'} ${esc(texto)}</span>`).join('');
+    const faltan = lineas.filter(([ok]) => !ok).length;
+    view().querySelector('#dev-repaso').innerHTML = faltan
+      ? `<b>${faltan}</b> thing(s) still missing. Nothing stops the submission, but what is missing is
+         what the buyer (and Verysset) will not see.`
+      : 'Everything is there. Sending it puts it in NDC\'s review queue.';
+  };
   const apunta = (texto, estado = 'on') => {
     progreso.hidden = false;
     const li = document.createElement('li');
@@ -4617,6 +4799,7 @@ async function viewDevNuevaPropiedad() {
     try {
       // 1 · the unit
       apunta('Storing the unit…');
+      const amenidades = [...form.querySelectorAll('input[name="amenidad"]:checked')].map((i) => i.value);
       const unidad = await api.devUnitCreate(f.proyecto_id, {
         tipo: f.tipo, emirato: f.emirato, comunidad: f.comunidad || undefined,
         habitaciones: num(f.habitaciones), banos: num(f.banos),
@@ -4625,6 +4808,13 @@ async function viewDevNuevaPropiedad() {
         precio_fils: Math.round(Number(f.precio_aed) * 100),
         estado_obra: f.estado_obra,
         entrega_prevista: f.entrega_prevista || undefined,
+        // The rest of what a sheet shows: the structure, the legal side and what it has.
+        balcon_sqft: num(f.balcon_sqft), plazas_parking: num(f.plazas_parking),
+        amueblado: f.amueblado === '' ? undefined : f.amueblado === 'true',
+        tenencia: f.tenencia || undefined, uso: f.uso || undefined,
+        plan_pagos: f.plan_pagos || undefined,
+        amenidades: amenidades.length ? amenidades : undefined,
+        latitud: num(f.latitud), longitud: num(f.longitud),
       });
 
       // 2 · the listing over it
@@ -4648,6 +4838,30 @@ async function viewDevNuevaPropiedad() {
         });
       }
       if (!fotos.length) apunta('No photographs: the listing will go up without them.', 'ojo');
+
+      // 3b · the rest of the media: a video and a 3D tour are links, a plan is a file
+      let orden = fotos.length;
+      const planos = [...(form.querySelector('input[name="planos"]')?.files ?? [])];
+      for (const [i, plano] of planos.entries()) {
+        apunta(`Storing plan ${i + 1} of ${planos.length}…`);
+        const subida = await api.subirImagen(plano);
+        await api.devListingMedia(listingId, { tipo: 'plano', url: subida.url, orden: orden + i });
+      }
+      orden += planos.length;
+      if (f.plano_url) {
+        apunta('Storing the link to the plan…');
+        await api.devListingMedia(listingId, { tipo: 'plano', url: f.plano_url, orden });
+        orden += 1;
+      }
+      if (f.video_url) {
+        apunta('Storing the video…');
+        await api.devListingMedia(listingId, { tipo: 'video', url: f.video_url, orden });
+        orden += 1;
+      }
+      if (f.tour_url) {
+        apunta('Storing the 3D tour…');
+        await api.devListingMedia(listingId, { tipo: 'tour3d', url: f.tour_url, orden });
+      }
 
       // 4 · the papers: what Verysset reads to verify the asset
       for (const [i, papel] of papeles.entries()) {
