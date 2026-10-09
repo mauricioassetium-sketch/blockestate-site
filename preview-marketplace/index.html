@@ -1965,6 +1965,36 @@ function selectorActivo() {
   </div>`;
 }
 
+/**
+ * Rewrites the crypto figure of every card IN PLACE, without repainting the view.
+ *
+ * This is the whole reason the page used to jump: changing the asset re-rendered the screen, and
+ * re-rendering the screen throws the reader back to the top. Nothing about changing a currency means
+ * moving: only the number changes, in the card where it already sits.
+ */
+function pintarPreciosCripto() {
+  document.querySelectorAll('.card').forEach((c) => {
+    const enPrecio = c.querySelector('.price');
+    if (!enPrecio) return;
+    const n = Number(String(enPrecio.textContent).replace(/[^0-9.]/g, ''));
+    const fils = Number.isFinite(n) && n > 0 ? Math.round(n * 100) : null;
+    const texto = fils ? cifraCripto({ precio_fils: fils }) : '';
+    let linea = c.querySelector('.price-cripto');
+    if (!texto) {
+      if (linea) linea.hidden = true;
+      return;
+    }
+    if (!linea) {
+      linea = document.createElement('div');
+      linea.className = 'price-cripto';
+      linea.innerHTML = `<b></b><i>indicative</i>`;
+      enPrecio.parentNode.insertBefore(linea, enPrecio);
+    }
+    linea.hidden = false;
+    linea.querySelector('b').textContent = texto;
+  });
+}
+
 /** Wires it wherever it was painted: one listener per page, by delegation. */
 function initSelectorActivo() {
   document.addEventListener('input', (e) => {
@@ -1975,20 +2005,20 @@ function initSelectorActivo() {
     if (Number.isFinite(valor) && valor > 0) fijarTasa(activo, valor);
   });
   document.addEventListener('change', (e) => {
-    if (e.target.dataset?.tasa) render();
+    if (e.target.dataset?.tasa) pintarPreciosCripto();
   });
   document.addEventListener('click', (e) => {
     const b = e.target.closest?.('[data-activo]');
     if (!b) return;
     elegirActivo(b.dataset.activo);
-    // The bar lives outside the view, so it is marked here and the view is repainted: the choice and
-    // the prices it changes must never disagree on screen.
+    // The bar lives outside the view, so it is marked here, and only the prices are rewritten: the
+    // choice and the figures it changes must never disagree on screen, and nothing else may move.
     document.querySelectorAll('[data-activo]').forEach((o) => {
       const on = o.dataset.activo === b.dataset.activo;
       o.classList.toggle('on', on);
       o.setAttribute('aria-pressed', String(on));
     });
-    render();
+    pintarPreciosCripto();
   });
 }
 
