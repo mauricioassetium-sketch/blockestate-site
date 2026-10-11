@@ -2208,7 +2208,10 @@ const qs = (obj) => {
  */
 function urlDeMedio(u) {
   if (!u) return '';
-  return /^https?:\/\//.test(u) ? u : API_BASE + u;
+  // Solo se le pone delante la base de la API cuando es una RUTA de la plataforma (`/uploads/…`).
+  // Un `data:` —la vista previa lleva los medios dentro del propio fichero— y una dirección
+  // absoluta se dejan tal cual: anteponerle el dominio a un `data:` lo rompe, y sin decirlo.
+  return u.startsWith('/') ? API_BASE + u : u;
 }
 
 const api = {
