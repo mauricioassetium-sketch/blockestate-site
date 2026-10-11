@@ -1794,6 +1794,7 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
 .gallery .big{aspect-ratio:16/10; position:relative; overflow:hidden;
   background:linear-gradient(135deg,#0d2a22,#123c2e)}
 .gallery .big img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+.gallery .big-medio{position:absolute; inset:0}
 
 /* el conmutador de medios, sobre la foto */
 .medios-sel{position:absolute; z-index:3; top:10px; left:10px; right:10px; display:flex; gap:6px;
@@ -4757,6 +4758,10 @@ function abrirGaleria({
   if (tour3d) items.push({ tipo: 'tour3d', url: tour3d, etiqueta: '360° tour' });
   planos.forEach((url, i) => items.push({ tipo: 'plano', url, etiqueta: planos.length > 1 ? `Plan ${i + 1}` : 'Floor plan' }));
   if (items.length === 0) return;
+  // Un visor, y solo uno. Si dos atajos de la ficha llaman aquí (el marco y el medio pedido), el
+  // segundo se monta ENCIMA del primero: el botón de cerrar cierra uno y el visitante sigue viendo el
+  // otro, o sea que parece que el botón no funciona. Aquí se corta.
+  if (document.querySelector('.gal')) return;
 
   const antes = document.activeElement;
   const caja = document.createElement('div');
@@ -5220,30 +5225,33 @@ async function viewUnit(id) {
       </div>`;
 
 
-    // Lo que va DENTRO del marco grande: la foto, el contador y la puerta a la galería completa.
-    // Se arma en un solo sitio porque `ponerGrande` reescribe el marco al elegir una miniatura: lo
-    // que no venga de aquí desaparece al cambiar de foto (el contador se quedaba clavado).
+    // Lo que hay DENTRO del marco grande, en tres piezas que NO se pisan entre sí: la foto (su propio
+    // hueco, `#gran-medio`, es lo único que se reescribe al cambiar de foto), el contador y la puerta
+    // a la galería. El conmutador de medios vive aquí también y es **estable**: cuando el marco se
+    // reescribía entero al elegir una miniatura, se lo llevaba por delante y sus botones dejaban de
+    // responder sin que nada avisara.
     const selloGaleria = fotos.length ? `<span class="abrir-gal">${ico('ampliar', 14)}
       <b>View all ${fotos.length}</b>${media.video ? ' · video' : ''}${media.tour3d ? ' · 360°' : ''}${media.planos?.length ? ' · plans' : ''}</span>` : '';
-    const interiorGrande = (i = 0) => `${photoInner(fotos[i] ?? principal, d.tipo)}
-      ${fotos.length > 1 ? `<span class="big-cuenta"><b>${i + 1}</b> / ${fotos.length}</span>` : ''}
-      ${selloGaleria}`;
+    const cuantosMedios = fotos.length + (media.video ? 1 : 0) + (media.tour3d ? 1 : 0) + (media.planos?.length ?? 0);
+    const conmutadorMedios = cuantosMedios ? `
+              <div class="medios-sel" role="group" aria-label="What to see">
+                ${fotos.length ? `<button type="button" class="ms on" data-medio="foto" aria-pressed="true">${ico('ampliar', 14)} Photos <b>${fotos.length}</b></button>` : ''}
+                ${media.video ? `<button type="button" class="ms" data-medio="video" aria-pressed="false">${ico('video', 14)} Video</button>` : ''}
+                ${media.tour3d ? `<button type="button" class="ms" data-medio="tour3d" aria-pressed="false">${ico('pano', 14)} 360°</button>` : ''}
+                ${media.planos?.length ? `<button type="button" class="ms" data-medio="plano" aria-pressed="false">${ico('plano', 14)} Plans <b>${media.planos.length}</b></button>` : ''}
+              </div>` : '';
 
     caja.innerHTML = `
       <div class="detail">
         <div>
           <div class="gallery">
             <div class="big" id="grande" role="button" tabindex="0" aria-label="Open the gallery of this property">
-              ${interiorGrande(0)}
-              ${(fotos.length || media.video || media.tour3d || media.planos?.length) ? `
-              <div class="medios-sel" role="tablist" aria-label="What to see">
-                ${fotos.length ? `<button type="button" class="ms on" data-medio="foto" role="tab" aria-selected="true">${ico('ampliar', 14)} Photos <b>${fotos.length}</b></button>` : ''}
-                ${media.video ? `<button type="button" class="ms" data-medio="video" role="tab" aria-selected="false">${ico('video', 14)} Video</button>` : ''}
-                ${media.tour3d ? `<button type="button" class="ms" data-medio="tour3d" role="tab" aria-selected="false">${ico('pano', 14)} 360°</button>` : ''}
-                ${media.planos?.length ? `<button type="button" class="ms" data-medio="plano" role="tab" aria-selected="false">${ico('plano', 14)} Plans <b>${media.planos.length}</b></button>` : ''}
-              </div>` : ''}
+              <div class="big-medio" id="gran-medio">${photoInner(fotos[0] ?? principal, d.tipo)}</div>
+              ${fotos.length > 1 ? `<span class="big-cuenta"><b>1</b> / ${fotos.length}</span>` : ''}
+              ${selloGaleria}
+              ${conmutadorMedios}
             </div>
-            ${fotos.length > 1 ? `<div class="thumbs" role="tablist" aria-label="Photos">${fotos.map((f, i) => `<button type="button" class="tb" data-i="${i}" role="tab" aria-label="Photo ${i + 1} of ${fotos.length}"><img src="${esc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+            ${fotos.length > 1 ? `<div class="thumbs" role="group" aria-label="Photos">${fotos.map((f, i) => `<button type="button" class="tb" data-i="${i}" aria-label="Photo ${i + 1} of ${fotos.length}"><img src="${esc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
           </div>
           <div class="section">
             <h2 style="font-size:1.3rem">${esc(u.listing?.titulo ?? `${tipoLabel(d.tipo)} in ${d.comunidad ?? d.emirato}`)}</h2>
@@ -5432,14 +5440,22 @@ async function viewUnit(id) {
     // what «selector de fotos, vídeo, planos y 360» means in practice: one tap and you are there.
     const ponerGrande = (i) => {
       const marco = caja.querySelector('#grande');
-      if (!marco || !fotos[i]) return;
-      marco.innerHTML = interiorGrande(i);
+      const hueco = caja.querySelector('#gran-medio');
+      if (!marco || !hueco || !fotos[i]) return;
+      // Solo se reescribe el hueco de la foto: el contador, el sello y el conmutador se quedan donde
+      // están (con sus manejadores vivos) y se actualizan en su sitio.
+      hueco.innerHTML = photoInner(fotos[i], d.tipo);
       marco.dataset.i = String(i);
+      const cuenta = marco.querySelector('.big-cuenta');
+      if (cuenta) cuenta.innerHTML = `<b>${i + 1}</b> / ${fotos.length}`;
       caja.querySelectorAll('.thumbs .tb').forEach((b, n) => {
         const on = n === i;
         b.classList.toggle('on', on);
         if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
       });
+      // Elegir una miniatura devuelve el conmutador a «fotos»: si el visitante venía de vídeo o de
+      // planos, el marco ya enseña una foto y la barra no puede seguir diciendo otra cosa.
+      caja.querySelectorAll('.medios-sel .ms').forEach((o) => o.classList.toggle('on', o.dataset.medio === 'foto'));
     };
     caja.querySelectorAll('.thumbs .tb').forEach((b, n) => {
       if (n === 0) { b.classList.add('on'); b.setAttribute('aria-current', 'true'); }
@@ -5457,9 +5473,17 @@ async function viewUnit(id) {
       abrir(inicio);
     });
     const grande = caja.querySelector('#grande');
-    grande?.addEventListener('click', () => abrir(0));
+    // El conmutador de medios vive DENTRO del marco, así que su clic sube hasta aquí y este manejador
+    // abría además la galería en la foto 1, encima del medio que el visitante acababa de pedir. El
+    // conmutador manda sobre su propia zona; el resto del marco sigue abriendo el visor.
+    const enElConmutador = (e) => Boolean(e.target.closest?.('.medios-sel'));
+    // Y el visor se abre EN la foto que se está mirando, no siempre en la primera: el marco ya sabe
+    // cuál es (`data-i`), que es justo lo que el contador enseña.
+    const fotoActual = () => Number(grande?.dataset.i || 0) || 0;
+    grande?.addEventListener('click', (e) => { if (!enElConmutador(e)) abrir(fotoActual()); });
     grande?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(0); }
+      if (enElConmutador(e)) return;
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fotoActual()); }
     });
     // Tapping a thumbnail swaps the big picture IN PLACE. It used to open the full-screen viewer,
     // which is not what a strip of thumbnails under a photo means anywhere: there you pick which
@@ -5472,14 +5496,10 @@ async function viewUnit(id) {
 
     // The badge is the door to the report: pressing it opens what Verysset verified, where the
     // evidence is anchored and what the asset's twin reads right now.
-    // The picture opens the viewer, and it is bound HERE, at the end, not where the markup is written.
-    // `ponerGrande` rewrites what is inside `#grande` when a thumbnail is picked, and a listener bound
-    // to the old contents disappears with them, which is why pressing the photo stopped opening the
-    // gallery. Bound on the frame itself, and bound late, it survives the rewriting.
-    caja.querySelector('#grande')?.addEventListener('click', () => abrir(0));
-    caja.querySelector('#grande')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(0); }
-    });
+    // The frame opens the viewer; that binding lives up there with the media switch (it has to know
+    // when a click belongs to the switch instead). The duplicate that used to sit here opened a
+    // SECOND viewer on top of the first, so the X closed one and the other stayed: it looked like
+    // the close button did nothing at all.
 
     const sello = caja.querySelector('.badge.verysset');
     if (sello) {
