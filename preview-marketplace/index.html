@@ -1781,6 +1781,57 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
   .proy-cabecera .proy-texto{padding:18px 16px 16px}
 }
 
+/* ====================  el bloque de medios de la ficha  =====================
+   Antes eran tres piezas peleándose: una barra de botones FUERA del marco, una
+   tira de miniaturas debajo y un cartel flotando en la esquina. Ahora es una
+   pieza sola: la foto manda, el conmutador de medios va sobre ella como una barra
+   de pestañas, abajo a la izquierda el contador de la foto en la que estás, a la
+   derecha la puerta a la galería completa, y el carril de miniaturas debajo. */
+.gallery{position:relative; border:1px solid var(--borde); border-radius:var(--r); overflow:hidden;
+  background:var(--surface); box-shadow:var(--sube)}
+.gallery .big{aspect-ratio:16/10; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#0d2a22,#123c2e)}
+.gallery .big img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+
+/* el conmutador de medios, sobre la foto */
+.medios-sel{position:absolute; z-index:3; top:10px; left:10px; right:10px; display:flex; gap:6px;
+  flex-wrap:wrap; margin:0}
+.medios-sel .ms{display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 12px;
+  border-radius:999px; border:1px solid rgba(255,255,255,.28); background:rgba(8,20,16,.55);
+  color:#fff; font-size:.8rem; font-weight:650; cursor:pointer; backdrop-filter:blur(6px);
+  transition:background .12s ease, border-color .12s ease}
+.medios-sel .ms b{font-weight:800; font-variant-numeric:tabular-nums}
+.medios-sel .ms:hover{background:rgba(8,20,16,.76); border-color:rgba(255,255,255,.5)}
+.medios-sel .ms.on{background:var(--green); border-color:var(--green); color:var(--teal)}
+.medios-sel .ms.on svg{color:var(--teal)}
+
+/* abajo: en qué foto estás, y la puerta a la galería completa */
+.big-cuenta{position:absolute; z-index:3; left:10px; bottom:10px; display:inline-flex;
+  align-items:center; gap:4px; padding:5px 11px; border-radius:999px; background:rgba(8,20,16,.62);
+  color:#fff; font-size:.76rem; font-weight:600; font-variant-numeric:tabular-nums;
+  border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(6px)}
+.big-cuenta b{font-weight:800}
+.abrir-gal{position:absolute; z-index:3; right:10px; bottom:10px; left:auto; display:inline-flex;
+  align-items:center; gap:6px; padding:5px 12px; border-radius:999px;
+  background:rgba(255,255,255,.94); color:var(--ink); font-size:.78rem; font-weight:650;
+  box-shadow:0 2px 10px rgba(8,20,16,.25)}
+.abrir-gal b{font-weight:800}
+.abrir-gal svg{color:var(--green-dark)}
+
+/* el carril de miniaturas */
+.thumbs{display:flex; gap:8px; padding:10px 12px 12px; overflow-x:auto; scrollbar-width:none;
+  border-top:1px solid var(--line); background:var(--surface)}
+.thumbs::-webkit-scrollbar{display:none}
+.thumbs .tb{flex:none; padding:0; border:2px solid transparent; border-radius:var(--r-sm);
+  background:none; cursor:pointer; overflow:hidden; line-height:0; opacity:.86;
+  transition:border-color .12s ease, transform .12s ease, opacity .12s ease}
+.thumbs .tb img{width:84px; height:60px; object-fit:cover; display:block}
+.thumbs .tb:hover{opacity:1; transform:translateY(-1px)}
+.thumbs .tb.on{border-color:var(--green); opacity:1; box-shadow:0 0 0 2px rgba(34,197,94,.28)}
+
+/* los datos de la ficha, legibles: su etiqueta iba en un gris que casi no se veía */
+.kv dt,.kv .k{color:var(--muted)}
+
 /* --------------------------------------------------------------- móvil */
 @media (max-width:620px){
   body:not([data-ruta="inicio"]) .card{border-radius:var(--r)}
@@ -5167,24 +5218,30 @@ async function viewUnit(id) {
       </div>`;
 
 
+    // Lo que va DENTRO del marco grande: la foto, el contador y la puerta a la galería completa.
+    // Se arma en un solo sitio porque `ponerGrande` reescribe el marco al elegir una miniatura: lo
+    // que no venga de aquí desaparece al cambiar de foto (el contador se quedaba clavado).
+    const selloGaleria = fotos.length ? `<span class="abrir-gal">${ico('ampliar', 14)}
+      <b>View all ${fotos.length}</b>${media.video ? ' · video' : ''}${media.tour3d ? ' · 360°' : ''}${media.planos?.length ? ' · plans' : ''}</span>` : '';
+    const interiorGrande = (i = 0) => `${photoInner(fotos[i] ?? principal, d.tipo)}
+      ${fotos.length > 1 ? `<span class="big-cuenta"><b>${i + 1}</b> / ${fotos.length}</span>` : ''}
+      ${selloGaleria}`;
+
     caja.innerHTML = `
       <div class="detail">
         <div>
           <div class="gallery">
             <div class="big" id="grande" role="button" tabindex="0" aria-label="Open the gallery of this property">
-              ${photoInner(principal, d.tipo)}
-              ${fotos.length ? `<span class="abrir-gal">${ico('ampliar', 15)}
-                <b>View all ${fotos.length}</b>${media.video ? ` · ${ico('video', 14)} video` : ''}${media.tour3d ? ` · ${ico('pano', 14)} 360°` : ''}${media.planos?.length ? ` · ${ico('plano', 14)} plan` : ''}
-              </span>` : ''}
+              ${interiorGrande(0)}
+              ${(fotos.length || media.video || media.tour3d || media.planos?.length) ? `
+              <div class="medios-sel" role="tablist" aria-label="What to see">
+                ${fotos.length ? `<button type="button" class="ms on" data-medio="foto" role="tab" aria-selected="true">${ico('ampliar', 14)} Photos <b>${fotos.length}</b></button>` : ''}
+                ${media.video ? `<button type="button" class="ms" data-medio="video" role="tab" aria-selected="false">${ico('video', 14)} Video</button>` : ''}
+                ${media.tour3d ? `<button type="button" class="ms" data-medio="tour3d" role="tab" aria-selected="false">${ico('pano', 14)} 360°</button>` : ''}
+                ${media.planos?.length ? `<button type="button" class="ms" data-medio="plano" role="tab" aria-selected="false">${ico('plano', 14)} Plans <b>${media.planos.length}</b></button>` : ''}
+              </div>` : ''}
             </div>
-            ${(fotos.length || media.video || media.tour3d || media.planos?.length) ? `
-            <div class="medios-sel" role="group" aria-label="What to see">
-              ${fotos.length ? `<button type="button" class="ms on" data-medio="foto">${ico('ampliar', 15)} Photos <b>${fotos.length}</b></button>` : ''}
-              ${media.video ? `<button type="button" class="ms" data-medio="video">${ico('video', 15)} Video</button>` : ''}
-              ${media.tour3d ? `<button type="button" class="ms" data-medio="tour3d">${ico('pano', 15)} 360°</button>` : ''}
-              ${media.planos?.length ? `<button type="button" class="ms" data-medio="plano">${ico('plano', 15)} Plans <b>${media.planos.length}</b></button>` : ''}
-            </div>` : ''}
-            ${fotos.length > 1 ? `<div class="thumbs">${fotos.map((f, i) => `<button type="button" class="tb" data-i="${i}" aria-label="Photo ${i + 1}"><img src="${esc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+            ${fotos.length > 1 ? `<div class="thumbs" role="tablist" aria-label="Photos">${fotos.map((f, i) => `<button type="button" class="tb" data-i="${i}" role="tab" aria-label="Photo ${i + 1} of ${fotos.length}"><img src="${esc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
           </div>
           <div class="section">
             <h2 style="font-size:1.3rem">${esc(u.listing?.titulo ?? `${tipoLabel(d.tipo)} in ${d.comunidad ?? d.emirato}`)}</h2>
@@ -5374,8 +5431,7 @@ async function viewUnit(id) {
     const ponerGrande = (i) => {
       const marco = caja.querySelector('#grande');
       if (!marco || !fotos[i]) return;
-      const sello = marco.querySelector('.abrir-gal');
-      marco.innerHTML = photoInner(fotos[i], d.tipo) + (sello ? sello.outerHTML : '');
+      marco.innerHTML = interiorGrande(i);
       marco.dataset.i = String(i);
       caja.querySelectorAll('.thumbs .tb').forEach((b, n) => {
         const on = n === i;
