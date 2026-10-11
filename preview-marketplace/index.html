@@ -1836,21 +1836,57 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
 .dest-lab{color:var(--ink-60)}
 .kv dt,.kv .k{color:var(--ink-60)}
 
-/* ====================  el visor de fotos  ==================================
-   Los mandos iban en gris apagado sobre un fondo casi negro y la foto se quedaba
-   a dos tercios del alto: se veía tan poco que parecía un visor sin botones y sin
-   más imágenes. Ahora los mandos son claros y opacos —flechas, cerrar, tira de
-   miniaturas—, la foto ocupa el alto que hay y la tira enseña TODAS las piezas
-   (fotos, vídeo, 360 y planos) con la que estás mirando marcada en verde. */
-.gal{background:rgba(3,10,8,.95)}
-.gal-caja{border-radius:16px; box-shadow:0 40px 120px rgba(0,0,0,.6)}
-.gal-bar{border-bottom:1px solid rgba(255,255,255,.12)}
+/* ====================  el visor: ver el medio grande  ======================
+   Es un pop-up para mirar la foto, el vídeo, el 360 o el plano EN GRANDE. Así
+   que el medio manda: ocupa todo el alto y todo el ancho que queda, sobre un
+   fondo oscuro, sin ningún blanco. El panel de datos ya no se queda abierto a un
+   lado robándole un tercio del ancho ni deja aire debajo: ahora se pide con el
+   botón «Info» y entra deslizándose por encima del medio, y se vuelve a cerrar.
+   Los mandos —flechas, cerrar, tira de miniaturas— van claros y opacos, que se
+   vean sin buscarlos. */
+.gal{background:rgba(3,10,8,.96)}
+.gal-caja{border-radius:14px; box-shadow:0 40px 120px rgba(0,0,0,.6); overflow:hidden}
+.gal-bar{border-bottom:1px solid rgba(255,255,255,.1); padding:.6rem .8rem; gap:.6rem}
 
-/* la foto, con el alto disponible en vez de quedarse a dos tercios */
-.gal-medio img,.gal-medio video{max-height:100%; max-width:100%}
-.gal-medio iframe{height:min(72vh,760px)}
+/* la escena se come todo el hueco: aquí no hay aire ni blanco */
+.gal-cuerpo{position:relative; display:block; flex:1; min-height:0; overflow:hidden; background:#04100c}
+.gal-escena{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:14px}
+.gal-medio{width:100%; height:100%; display:flex; align-items:center; justify-content:center}
+.gal-medio img,.gal-medio video{width:100%; height:100%; object-fit:contain;
+  border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.gal-medio iframe{width:min(1200px,100%); height:100%; border:0; border-radius:8px; background:#000}
+.gal-pano{width:min(1200px,100%); height:100%; overflow-x:auto; overflow-y:hidden; border-radius:8px}
+.gal-pano img{height:100%; max-height:100%; width:auto; max-width:none; border-radius:0; box-shadow:none}
 
-/* flechas y cerrar: blancos y opacos, se ven desde lejos */
+/* el panel de datos: se pide, entra por encima y se cierra */
+.gal-lado{position:absolute; top:0; right:0; bottom:0; width:min(352px,86%); max-height:none;
+  align-self:auto; overflow-y:auto; z-index:6; padding:1rem 1.05rem 1.4rem;
+  background:rgba(7,17,14,.97); border-left:1px solid rgba(255,255,255,.12);
+  box-shadow:-24px 0 60px rgba(0,0,0,.5); transform:translateX(102%);
+  transition:transform .18s ease}
+.gal-lado[data-abierto]{transform:none}
+.gal-info{display:inline-flex; align-items:center; gap:.4rem; min-height:40px; padding:0 .8rem;
+  border-radius:999px; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.06);
+  color:#fff; font-size:.8rem; font-weight:650; cursor:pointer}
+.gal-info:hover{background:rgba(255,255,255,.14)}
+.gal-info.on{background:rgba(255,255,255,.94); border-color:transparent; color:#0b1f18}
+.gal-info.on svg{color:#0b1f18}
+
+/* los datos del panel, legibles */
+.gal-lado h4{color:rgba(255,255,255,.6)}
+.gal-datos dt{color:rgba(255,255,255,.6)}
+.gal-datos dd{color:#f4fbf7}
+.gal-lado .note{color:rgba(255,255,255,.44)}
+
+/* el precio y el estado, dentro del visor */
+.gal-precio{display:flex; align-items:baseline; flex-wrap:wrap; gap:.5rem; margin:0 0 .9rem;
+  padding-bottom:.8rem; border-bottom:1px solid rgba(255,255,255,.12)}
+.gal-precio b{font-size:1.32rem; font-weight:650; color:#fff; letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums}
+.gal-estado{padding:.16rem .55rem; border-radius:999px; background:rgba(255,255,255,.94);
+  color:#0b1f18; font-size:.7rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase}
+
+/* los mandos, claros y opacos: se ven sin buscarlos */
 .gal-flecha{width:54px; height:54px; background:rgba(255,255,255,.95); border:0;
   box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .gal-flecha:hover{background:#fff}
@@ -1859,7 +1895,7 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
 .gal-x{background:rgba(255,255,255,.95); border:0; box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .gal-x:hover{background:#fff}
 
-/* lo que estás mirando, en claro */
+/* en qué pieza estás */
 .gal-cuenta{background:rgba(255,255,255,.95); color:#0b1f18; font-weight:800; padding:.28rem .62rem}
 .gal-etiqueta{color:#fff; font-weight:650; text-shadow:0 2px 8px rgba(0,0,0,.65)}
 
@@ -1871,11 +1907,18 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
 .gtira.on{opacity:1; border-color:var(--green); box-shadow:0 0 0 3px rgba(34,197,94,.35)}
 .gtira em{font-weight:700; background:linear-gradient(180deg,transparent,rgba(3,10,8,.92))}
 
-/* los datos del panel, legibles */
-.gal-lado h4{color:rgba(255,255,255,.6)}
-.gal-datos dt{color:rgba(255,255,255,.6)}
-.gal-datos dd{color:#f4fbf7}
-.gal-lado .note{color:rgba(255,255,255,.44)}
+/* en el teléfono el panel de datos sube desde abajo, y el visor va a pantalla completa */
+@media (max-width:620px){
+  .gal{padding:0}
+  .gal-caja{border-radius:0; height:100vh; width:100vw}
+  .gal-lado{left:0; right:0; top:auto; bottom:0; width:auto; height:72%; border-left:0;
+    border-top:1px solid rgba(255,255,255,.12); transform:translateY(102%);
+    box-shadow:0 -24px 60px rgba(0,0,0,.55)}
+  .gal-lado[data-abierto]{transform:none}
+  .gal-bar{padding:.5rem .6rem; gap:.4rem}
+  .gal-id span{display:none}
+  .gtira{width:94px; height:64px}
+}
 
 /* ====================  el recorrido del dinero  ============================
    Al pie de la columna del precio quedaba un tramo en blanco —la columna se
@@ -1910,7 +1953,7 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
 </style>
 
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 11 Oct 2026 · 19:02. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 11 Oct 2026 · 19:08. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -4805,7 +4848,7 @@ const esPanorama = (url) => /^data:image\//.test(url) || /\.(jpe?g|png|webp)($|\
 
 function abrirGaleria({
   fotos = [], video = null, tour3d = null, planos = [],
-  titulo = '', subtitulo = '', datos = [], inicio = 0,
+  titulo = '', subtitulo = '', datos = [], inicio = 0, precio = '', estado = '',
   nombres = [], aviso = '',
 } = {}) {
   const items = [];
@@ -4846,6 +4889,8 @@ function abrirGaleria({
           <span>${esc(subtitulo)}</span>
         </div>
         <nav class="gal-tabs" aria-label="Media type">${tabs}</nav>
+        <button type="button" class="gal-info" aria-label="Property information" aria-expanded="false"
+                aria-controls="gal-lado">${ico('etiqueta', 18)}<span>Info</span></button>
         <button type="button" class="gal-x" aria-label="Close the gallery">${ico('cerrar', 20)}</button>
       </header>
 
@@ -4860,7 +4905,10 @@ function abrirGaleria({
           </div>
         </div>
 
-        <aside class="gal-lado">
+        <aside class="gal-lado" id="gal-lado" aria-label="Property information">
+          ${precio ? `<div class="gal-precio">
+            <b>${esc(precio)}</b>${estado ? `<span class="gal-estado">${esc(estado)}</span>` : ''}
+          </div>` : ''}
           <h4>Property information</h4>
           <dl class="gal-datos">
             ${datos.map(([icono, etiqueta, valor]) => `
@@ -4961,6 +5009,15 @@ function abrirGaleria({
   };
 
   caja.querySelector('.gal-x').addEventListener('click', cerrar);
+  // El panel de información se pide. Es un visor: lo que se viene a ver es el medio, y el panel
+  // abierto a un lado le robaba un tercio del ancho para dejarlo lleno de aire.
+  const lado = caja.querySelector('#gal-lado');
+  const botonInfo = caja.querySelector('.gal-info');
+  botonInfo.addEventListener('click', () => {
+    const abierto = lado.toggleAttribute('data-abierto');
+    botonInfo.setAttribute('aria-expanded', String(abierto));
+    botonInfo.classList.toggle('on', abierto);
+  });
   caja.querySelector('.gal-flecha.izq').addEventListener('click', () => mover(-1));
   caja.querySelector('.gal-flecha.der').addEventListener('click', () => mover(1));
   tabsBoton.forEach((t) => t.addEventListener('click', () => {
@@ -4972,7 +5029,7 @@ function abrirGaleria({
   // Closing has to be forgiving: the X, the Escape key, the button under the phone's back gesture,
   // and anywhere that is not the picture itself. What it must never do is move the gallery along
   // when somebody is trying to get out.
-  const dentro = (t) => !!(t.closest?.('.gal-marco, .gal-mandos, .gal-tiras, .gal-datos, .gal-x'));
+  const dentro = (t) => !!(t.closest?.('.gal-bar, .gal-marco, .gal-mandos, .gal-tiras, .gal-datos, .gal-x, .gal-info, .gal-lado, .gal-tabs'));
   caja.addEventListener('click', (e) => { if (!dentro(e.target)) cerrar(); });
   window.addEventListener('popstate', cerrar, { once: true });
   let x0 = null;
@@ -5526,6 +5583,10 @@ async function viewUnit(id) {
       subtitulo: [u.listing?.referencia, money(d.precio_fils), d.comunidad ?? d.emirato]
         .filter(Boolean).join(' · '),
       datos: filas,
+      // El precio y si está vendida, dentro del visor: quien mira las fotos a pantalla completa quiere
+      // tener delante el número y si la unidad sigue libre, sin volver a la ficha.
+      precio: money(d.precio_fils),
+      estado: vendida ? 'Sold' : '',
     });
     // Choosing what to see. Each button opens the viewer at the first item of its kind, which is
     // what «selector de fotos, vídeo, planos y 360» means in practice: one tap and you are there.
