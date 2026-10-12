@@ -2016,6 +2016,35 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
    El sello es la puerta al informe del activo: lo que Verysset comprobó, dónde
    está anclada la evidencia, en qué red, y qué lee el gemelo digital. Tiene que
    parecer pulsable en todas partes y decir que está trabajando mientras carga. */
+/* ---- la ventana de la imagen satelital entera -----------------------------
+   Fondo oscuro con la imagen grande dentro. Los mandos y la X son de 44 px o más: en un teléfono
+   un botón pequeño no se acierta. Se cierra con la X, con Escape o pulsando fuera. */
+.sat{position:fixed; inset:0; z-index:120; display:flex; align-items:center; justify-content:center;
+  padding:16px; background:rgba(6,14,18,.74); backdrop-filter:blur(3px)}
+.sat-caja{display:flex; flex-direction:column; width:min(1400px,96vw); max-height:94vh; overflow:hidden;
+  background:#0e1c22; border:1px solid rgba(255,255,255,.14); border-radius:12px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.sat-bar{display:flex; align-items:center; gap:10px; padding:9px 12px;
+  border-bottom:1px solid rgba(255,255,255,.12)}
+.sat-lab{display:inline-flex; align-items:center; gap:7px; font-size:10.5px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:#9fb8b0}
+.sat-tit{font-size:13px; color:#eaf4f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sat-mandos{margin-left:auto; display:flex; align-items:center; gap:6px}
+.sat-btn,.sat-x{display:grid; place-items:center; min-width:44px; min-height:44px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.07); color:#fff; font-size:17px;
+  font-weight:700; cursor:pointer; text-decoration:none}
+.sat-btn:hover,.sat-x:hover{background:rgba(255,255,255,.16)}
+.sat-lienzo{position:relative; flex:1; min-height:62vh; overflow:hidden; background:#08121a;
+  cursor:grab; touch-action:none}
+.sat-lienzo.arrastrando{cursor:grabbing}
+.sat-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; transform-origin:center;
+  transition:transform .1s ease-out; user-select:none; pointer-events:none}
+.sat-pie{display:flex; align-items:center; gap:12px; padding:8px 12px;
+  border-top:1px solid rgba(255,255,255,.12); font-size:11px; color:#9fb8b0}
+.sat-pista{margin-left:auto}
+.sat-nivel{min-width:44px; text-align:right; font-variant-numeric:tabular-nums; color:#eaf4f0}
+@media (max-width:700px){ .sat-pista{display:none} .sat-lienzo{min-height:56vh} }
+
 .sello-vss[data-unidad]{cursor:pointer}
 .sello-vss[data-unidad]:hover{transform:translateY(-1px); box-shadow:0 4px 14px rgba(6,40,26,.35)}
 .sello-vss[data-unidad]:focus-visible{outline:2px solid var(--green); outline-offset:2px}
@@ -2544,7 +2573,7 @@ body[data-ruta="dev"] .dev-tabla td .sello-vss{transform:scale(.92); transform-o
 
 
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 09:40. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 09:44. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -3730,6 +3759,7 @@ const ICO = {
   izquierda: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>',
   derecha: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>',
   ampliar: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3" /> <path d="M21 8V5a2 2 0 0 0-2-2h-3" /> <path d="M3 16v3a2 2 0 0 0 2 2h3" /> <path d="M16 21h3a2 2 0 0 0 2-2v-3" /></svg>',
+  satelite: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7 9 3 5 7l4 4" /> <path d="m17 11 4 4-4 4-4-4" /> <path d="m8 12 4 4 6-6-4-4Z" /> <path d="m16 8 3-3" /> <path d="M9 21a6 6 0 0 0-6-6" /></svg>',
   sofa: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3" /> <path d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z" /> <path d="M4 18v2" /> <path d="M20 18v2" /> <path d="M12 4v9" /></svg>',
   casa: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>',
   trato: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3" /> <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /> <path d="m21 3 1 11h-2" /> <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" /> <path d="M3 4h8" /></svg>',
@@ -5751,7 +5781,7 @@ const mundoPx = (lat, lng, z) => {
 const urlTesela = (z, x, y) => 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/'
   + `MapServer/tile/${z}/${y}/${x}`;
 
-function montarMapa(raiz, { lat, lng, zoomInicial = 18, min = 16, max = 19 } = {}) {
+function montarMapa(raiz, { lat, lng, zoomInicial = 18, min = 16, max = 19, alSatelite } = {}) {
   const capa = raiz.querySelector('.vs-mapa-teselas');
   const pin = raiz.querySelector('.vs-mapa-pin');
   const teselas = new Map();
@@ -5833,9 +5863,120 @@ function montarMapa(raiz, { lat, lng, zoomInicial = 18, min = 16, max = 19 } = {
     const q = b.dataset.mapa;
     if (q === 'mas') acercar(1);
     else if (q === 'menos') acercar(-1);
+    else if (q === 'satelite') { alSatelite?.(); }
     else { centro = mundoPx(lat, lng, z); pintar(); }
   }));
   window.addEventListener('resize', pintar);
+  pintar();
+}
+
+/* ---- la imagen satelital entera, en su ventana ---------------------------
+   El mapa del informe es el que es: cabe lo que cabe. El botón del satélite abre la imagen completa
+   en una ventana donde se puede acercar, alejar y arrastrar para mirar la manzana, el edificio o el
+   detalle del techo. Se cierra con la X, con Escape o pulsando fuera, y devuelve el foco a quien la
+   abrió. El crédito de las imágenes viaja con la imagen: sin él no se enseña. */
+function abrirSatelite({ imagen, credito = 'Imagery: Esri', titulo = '', donde = '' } = {}) {
+  if (!imagen) return;
+  document.getElementById('sat-ventana')?.remove();
+  const quien = document.activeElement;
+  const capa = document.createElement('div');
+  capa.id = 'sat-ventana';
+  capa.className = 'sat';
+  capa.setAttribute('role', 'dialog');
+  capa.setAttribute('aria-modal', 'true');
+  capa.setAttribute('aria-label', 'The whole satellite image of the asset');
+  capa.innerHTML = `
+    <div class="sat-caja">
+      <header class="sat-bar">
+        <span class="sat-lab">${ico('satelite', 15)} Satellite image</span>
+        <b class="sat-tit">${esc([titulo, donde].filter(Boolean).join(' · '))}</b>
+        <div class="sat-mandos">
+          <button type="button" class="sat-btn" data-sat="menos" aria-label="Zoom out">-</button>
+          <button type="button" class="sat-btn" data-sat="mas" aria-label="Zoom in">+</button>
+          <button type="button" class="sat-btn" data-sat="entera" aria-label="Fit the whole image">${ico('ampliar', 15)}</button>
+          <button type="button" class="sat-x" aria-label="Close the satellite image">${ico('cerrar', 20)}</button>
+        </div>
+      </header>
+      <div class="sat-lienzo">
+        <img class="sat-img" src="${esc(imagen)}" alt="The whole satellite image of the position of the asset" draggable="false">
+      </div>
+      <footer class="sat-pie">
+        <span class="sat-credito">${esc(credito)}</span>
+        <span class="sat-pista">Drag to move. The buttons or the wheel to zoom.</span>
+        <span class="sat-nivel" id="sat-nivel">100%</span>
+      </footer>
+    </div>`;
+  document.body.appendChild(capa);
+  document.body.style.overflow = 'hidden';
+
+  const img = capa.querySelector('.sat-img');
+  const lienzo = capa.querySelector('.sat-lienzo');
+  const nivel = capa.querySelector('#sat-nivel');
+  let z = 1;
+  let x = 0;
+  let y = 0;
+
+  const pintar = () => {
+    img.style.transform = `translate(${x}px, ${y}px) scale(${z})`;
+    nivel.textContent = `${Math.round(z * 100)}%`;
+  };
+  // La imagen se para en los bordes: no se puede arrastrar fuera de la vista y perderla.
+  const topes = () => {
+    const c = lienzo.getBoundingClientRect();
+    const sobraX = Math.max(0, (c.width * z - c.width) / 2);
+    const sobraY = Math.max(0, (c.height * z - c.height) / 2);
+    x = Math.max(-sobraX, Math.min(sobraX, x));
+    y = Math.max(-sobraY, Math.min(sobraY, y));
+  };
+  const cerrar = () => {
+    document.removeEventListener('keydown', alTeclear);
+    document.body.style.overflow = '';
+    capa.remove();
+    if (quien && typeof quien.focus === 'function') quien.focus();
+  };
+  function alTeclear(e) {
+    if (e.key === 'Escape') { e.stopPropagation(); cerrar(); }
+  }
+
+  capa.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-sat]');
+    if (b) {
+      const q = b.dataset.sat;
+      if (q === 'mas') z = Math.min(6, z * 1.35);
+      else if (q === 'menos') z = Math.max(1, z / 1.35);
+      else { z = 1; x = 0; y = 0; }
+      topes();
+      pintar();
+      return;
+    }
+    if (e.target.closest('.sat-x') || e.target === capa) cerrar();
+  });
+
+  let arrastre = null;
+  lienzo.addEventListener('pointerdown', (e) => {
+    arrastre = { x: e.clientX - x, y: e.clientY - y };
+    lienzo.classList.add('arrastrando');
+    lienzo.setPointerCapture?.(e.pointerId);
+  });
+  lienzo.addEventListener('pointermove', (e) => {
+    if (!arrastre) return;
+    x = e.clientX - arrastre.x;
+    y = e.clientY - arrastre.y;
+    topes();
+    pintar();
+  });
+  const soltar = () => { arrastre = null; lienzo.classList.remove('arrastrando'); };
+  lienzo.addEventListener('pointerup', soltar);
+  lienzo.addEventListener('pointercancel', soltar);
+  lienzo.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    z = Math.min(6, Math.max(1, z * (e.deltaY < 0 ? 1.15 : 1 / 1.15)));
+    topes();
+    pintar();
+  }, { passive: false });
+
+  document.addEventListener('keydown', alTeclear);
+  capa.querySelector('.sat-x').focus();
   pintar();
 }
 
@@ -5879,6 +6020,9 @@ function abrirInformeVerysset({ informe, titulo = '', referencia = '' } = {}) {
             <button type="button" class="vs-mapa-btn" data-mapa="mas" aria-label="Zoom in">+</button>
             <button type="button" class="vs-mapa-btn" data-mapa="menos" aria-label="Zoom out">-</button>
             <button type="button" class="vs-mapa-btn" data-mapa="centro" aria-label="Back to the position">${ico('pin', 15)}</button>
+            ${informe.satelite
+              ? `<button type="button" class="vs-mapa-btn" data-mapa="satelite" aria-label="Open the whole satellite image">${ico('satelite', 15)}</button>`
+              : ''}
           </div>
           <span class="vs-mapa-credito">${esc(informe.satelite_credito ?? 'Imagery: Esri')}</span>
           <div class="vs-hero-velo"></div>
@@ -5988,7 +6132,18 @@ function abrirInformeVerysset({ informe, titulo = '', referencia = '' } = {}) {
 
   // El mapa se enciende al montarlo: arrastrar, rueda y botones. Se le da el punto exacto del activo.
   const mapa = capa.querySelector('#vs-mapa');
-  if (mapa && coord) montarMapa(mapa, { lat: Number(activo.latitud), lng: Number(activo.longitud) });
+  if (mapa && coord) {
+    montarMapa(mapa, {
+      lat: Number(activo.latitud),
+      lng: Number(activo.longitud),
+      alSatelite: () => abrirSatelite({
+        imagen: informe.satelite,
+        credito: informe.satelite_credito ?? 'Imagery: Esri',
+        titulo: tituloActivo,
+        donde,
+      }),
+    });
+  }
 
   const cerrar = () => {
     document.removeEventListener('keydown', tecla);
