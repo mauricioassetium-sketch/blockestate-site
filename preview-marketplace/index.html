@@ -2261,7 +2261,12 @@ body[data-ruta="dev"] .destacados .dest{display:flex; flex-direction:column; gap
   border:1px solid var(--borde); border-radius:var(--r); padding:12px 14px}
 body[data-ruta="dev"] .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
   color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.15}
-body[data-ruta="dev"] .destacados .dest b[style]{font-size:16px !important; font-weight:650; letter-spacing:-.02em}
+body[data-ruta="dev"] .destacados .dest b.chico{font-size:var(--fs-t); font-weight:650;
+  letter-spacing:-.02em}
+body[data-ruta="dev"] .dev-carga{margin-top:12px}
+body[data-ruta="dev"] .mod > header > .muted,
+body[data-ruta="dev"] .mod > header > span:not(:first-child){margin-left:auto; font-size:var(--fs-sm);
+  color:var(--muted); font-weight:500}
 body[data-ruta="dev"] .destacados .dest-lab{font-size:var(--fs-xs); font-weight:700; letter-spacing:.09em;
   text-transform:uppercase; color:var(--muted)}
 
@@ -2350,6 +2355,153 @@ body[data-ruta="dev"] .dev-leyenda li{display:inline-flex; align-items:center; g
 body[data-ruta="dev"] .dev-leyenda i{width:9px; height:9px; border-radius:2px; background:var(--brand)}
 
 /* en el teléfono el portal se apila: la barra lateral pasa arriba, en una fila que se desliza */
+/* ============================================================================
+   Las piezas de TODAS las pantallas del portal, no solo el resumen.
+
+   Un repaso completo: todo lo que quedaba con el diseño viejo del mercado
+   (radios de 17 px, degradados, tamaños en `rem`, etiquetas a 10 px con
+   separación de 0,2 em) pasa al sistema del panel. Es el mismo cambio que se
+   hizo en el resumen, aplicado a la ficha de una venta, a la de una propiedad,
+   a los listados, a los formularios y a las herramientas.
+   ========================================================================== */
+
+body[data-ruta="dev"] .dev-ancho{grid-column:1/-1}
+body[data-ruta="dev"] .row-between{display:flex; align-items:center; justify-content:space-between;
+  gap:12px; flex-wrap:wrap}
+body[data-ruta="dev"] h1{margin:0 0 6px; font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+  color:var(--ink); line-height:1.15}
+body[data-ruta="dev"] .dev-titulo{margin:0 0 14px}
+
+/* ------------------- las dos columnas de una ficha: el contenido y el carril */
+body[data-ruta="dev"] .lay{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:12px;
+  align-items:start; margin-top:12px}
+body[data-ruta="dev"] .rail{position:sticky; top:calc(var(--barra) + 12px); display:grid; gap:12px}
+body[data-ruta="dev"] .rail-box{background:var(--surface); border:1px solid var(--borde);
+  border-radius:var(--r); overflow:hidden}
+body[data-ruta="dev"] .rail-box > h3{display:flex; align-items:center; gap:8px; margin:0; padding:11px 16px;
+  border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em}
+body[data-ruta="dev"] .rail-box > h3 svg{color:var(--brand-deep); flex:none}
+body[data-ruta="dev"] .rail-box > p,
+body[data-ruta="dev"] .rail-box > .note{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
+  color:var(--muted)}
+body[data-ruta="dev"] .rail-box > p:last-child{padding-bottom:14px}
+body[data-ruta="dev"] .rail-box > .kv{padding:0}
+body[data-ruta="dev"] .rail-box > .dev-mini,
+body[data-ruta="dev"] .rail-box > a,
+body[data-ruta="dev"] .rail-box > .btn{margin:12px 16px 14px}
+
+/* ---------------------------------------- el dato y su valor, en filas de filete */
+body[data-ruta="dev"] .kv{display:grid; grid-template-columns:auto minmax(0,1fr); margin:0;
+  font-size:var(--fs-md)}
+body[data-ruta="dev"] .kv dt{display:flex; align-items:center; padding:9px 12px 9px 16px;
+  font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
+body[data-ruta="dev"] .kv dd{display:flex; align-items:center; justify-content:flex-end; gap:6px;
+  margin:0; padding:9px 16px; border-bottom:1px solid var(--line); color:var(--ink); font-weight:650;
+  text-align:right; font-variant-numeric:tabular-nums}
+body[data-ruta="dev"] .kv dt:nth-last-of-type(1),
+body[data-ruta="dev"] .kv dd:last-of-type{border-bottom:0}
+body[data-ruta="dev"] .kv .dev-mono{font-variant-numeric:normal}
+
+/* --------------------- los pasos de una venta: una línea de tiempo, con jerarquía */
+body[data-ruta="dev"] .dev-paso{display:grid; grid-template-columns:16px minmax(0,1fr); gap:10px;
+  align-items:center; padding:7px 16px; border-bottom:1px solid var(--line); font-size:var(--fs);
+  color:var(--soft)}
+body[data-ruta="dev"] .dev-paso:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-paso .punto{justify-self:center; width:9px; height:9px; border-radius:50%;
+  background:var(--surface); border:2px solid var(--line-2)}
+body[data-ruta="dev"] .dev-paso.hecho{color:var(--body)}
+body[data-ruta="dev"] .dev-paso.hecho .punto{background:var(--brand); border-color:var(--brand)}
+body[data-ruta="dev"] .dev-paso.aqui{background:var(--ok-bg); color:var(--ink); font-weight:650}
+body[data-ruta="dev"] .dev-paso.aqui .punto{background:var(--brand-deep); border-color:var(--brand-deep);
+  box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+
+/* ------------------------------------------------------------- los formularios */
+body[data-ruta="dev"] .dev-form{display:grid; gap:14px; margin:0}
+body[data-ruta="dev"] .dev-form fieldset{margin:0; padding:14px 16px 16px; border:0;
+  border-top:1px solid var(--line)}
+body[data-ruta="dev"] .dev-form fieldset:first-of-type{border-top:0}
+body[data-ruta="dev"] .dev-form legend{padding:0 0 10px; font-size:var(--fs-t); font-weight:700;
+  color:var(--ink); letter-spacing:-.01em}
+body[data-ruta="dev"] .dev-form-2{display:grid; grid-template-columns:1fr 1fr; gap:10px 12px}
+body[data-ruta="dev"] .dev-form-2 label:only-child{grid-column:1/-1}
+body[data-ruta="dev"] .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:12px 16px; border-top:1px solid var(--line); background:#fbfdfe}
+body[data-ruta="dev"] .dev-form-pie .note{flex:1 1 260px; margin:0}
+body[data-ruta="dev"] .dev-etiqueta{display:block; margin:0 0 4px; font-size:var(--fs-xs); font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+body[data-ruta="dev"] .dev-mini{display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-mini b{color:var(--ink)}
+body[data-ruta="dev"] .dev-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:var(--fs-sm); color:var(--ink)}
+body[data-ruta="dev"] .note{font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .muted{color:var(--muted)}
+
+/* -------------------------------------------------- los archivos y sus etiquetas */
+body[data-ruta="dev"] .dev-archivo{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+body[data-ruta="dev"] .archivo-dicho{font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .btn-archivo{display:inline-flex; align-items:center; gap:7px; min-height:38px;
+  padding:0 14px; border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
+  color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .btn-archivo:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .btn.ghost{background:transparent}
+/* escondido de verdad: un campo que no se ve pero ocupa 197 px descoloca la fila que lo contiene */
+body[data-ruta="dev"] .solo-lector{position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* ------------------------------------------- las herramientas de una lista larga */
+body[data-ruta="dev"] .dev-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px}
+body[data-ruta="dev"] .dev-find{display:flex; align-items:center; gap:8px; flex:1 1 240px; min-width:0;
+  padding:0 12px; background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
+body[data-ruta="dev"] .dev-find svg{color:var(--soft); flex:none}
+body[data-ruta="dev"] .dev-find input{width:100%; min-height:38px; padding:0; border:0; outline:0;
+  background:none; font-size:var(--fs-md); color:var(--ink)}
+body[data-ruta="dev"] .dev-chips{display:flex; gap:6px; flex-wrap:wrap}
+body[data-ruta="dev"] .chip-f{min-height:34px; padding:0 12px; border:1px solid var(--line-2);
+  border-radius:var(--r-sm); background:var(--surface); color:var(--body); font-size:var(--fs);
+  font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .chip-f:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .chip-f.on,
+body[data-ruta="dev"] .chip-f[aria-pressed="true"]{background:var(--ok-bg); border-color:var(--ok-bd);
+  color:var(--ok)}
+body[data-ruta="dev"] .dev-orden select{width:auto; min-height:38px; padding:0 10px;
+  border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
+  font-size:var(--fs); color:var(--body)}
+body[data-ruta="dev"] .dev-cuenta{margin-left:auto; font-size:var(--fs-sm); color:var(--muted);
+  font-variant-numeric:tabular-nums}
+
+/* ----------------------------------------------- la calculadora y lo que repasa */
+body[data-ruta="dev"] .dev-calc{margin:0; padding:14px 16px; border-top:1px solid var(--line);
+  background:#fbfdfe; font-size:var(--fs-sm); color:var(--body)}
+body[data-ruta="dev"] .dev-calc-tasas{display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 2px;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-calc-salida,
+body[data-ruta="dev"] .dev-calc-vuelta{display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; padding:6px 0; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums}
+body[data-ruta="dev"] .dev-calc-salida:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-calc-activo{font-size:var(--fs); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-calc-aviso{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
+body[data-ruta="dev"] .dev-marcas{display:flex; flex-wrap:wrap; gap:6px}
+body[data-ruta="dev"] .dev-marca-caja{margin:0; padding:0; border:0; font-size:var(--fs-sm)}
+body[data-ruta="dev"] .dev-repaso{display:grid; gap:4px; margin-top:8px; font-size:var(--fs-sm)}
+body[data-ruta="dev"] .dev-repaso .si{color:var(--ok)}
+body[data-ruta="dev"] .dev-progreso{list-style:none; display:grid; gap:3px; margin:10px 0 0; padding:0;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-progreso li{position:relative; padding-left:16px}
+body[data-ruta="dev"] .dev-progreso li::before{content:''; position:absolute; left:0; top:.42em;
+  width:7px; height:7px; border-radius:50%; background:var(--line-2)}
+body[data-ruta="dev"] .dev-progreso li.si::before{background:var(--brand)}
+body[data-ruta="dev"] .dev-vista{display:flex; align-items:center; gap:10px; font-size:var(--fs-sm);
+  color:var(--muted)}
+body[data-ruta="dev"] .dev-vista img{width:40px; height:40px; border-radius:var(--r);
+  object-fit:cover; border:1px solid var(--line-2)}
+
+/* la calculadora y el repaso también dentro de una tarjeta con relleno */
+body[data-ruta="dev"] .mod > .dev-calc,
+body[data-ruta="dev"] .mod > .dev-tools{margin:0}
+
 @media (max-width:900px){
   body[data-ruta="dev"] .dev-shell{grid-template-columns:minmax(0,1fr)}
   body[data-ruta="dev"] .dev-nav{position:static; height:auto; flex-direction:row; gap:12px;
@@ -2366,7 +2518,7 @@ body[data-ruta="dev"] .dev-leyenda i{width:9px; height:9px; border-radius:2px; b
 
 
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 07:04. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 09:06. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -6698,6 +6850,24 @@ const CANAL = { broker: 'Broker', influencer: 'Creator', desarrollador: 'Own sal
 const OBRA = { ready: 'Ready', off_plan: 'Off plan' };
 
 /**
+ * How the collection of a sale is named on screen. The value that comes from the API is translated
+ * here and is never printed raw: a word in another language in the middle of an English screen is a
+ * slip, and an untranslated value has to be seen, not quietly hidden behind a guess.
+ */
+const COBRO = {
+  pending: 'Pending the bank', pendiente: 'Pending the bank', en_curso: 'In progress',
+  settled: 'Settled', failed: 'Failed', refunded: 'Returned', on_hold: 'On hold',
+};
+
+/** Traduce un valor por su tabla; lo que no esté en la tabla, se enseña en palabras. */
+function enIngles(valor, tabla, siNada) {
+  if (valor === null || valor === undefined || valor === '') return siNada;
+  const puesto = tabla[valor];
+  if (puesto) return puesto;
+  return String(valor).replace(/[_-]+/g, ' ').replace(/^./, (c) => c.toUpperCase());
+}
+
+/**
  * The sections of putting a property up. Each one is a panel of the same form, and the menu above
  * them is the door: a big form read from top to bottom is a wall, and a wall is what makes a seller
  * leave half the information out.
@@ -6748,7 +6918,7 @@ const GRUPOS = [
 
 /** A figure of a first look: the number in bold, the word underneath. Same shape as the unit sheet. */
 const destacado = (valor, etiqueta, chico = false) => `
-  <div class="dest"><b${chico ? ' style="font-size:1rem"' : ''}>${esc(valor)}</b>
+  <div class="dest"><b${chico ? ' class="chico"' : ''}>${esc(valor)}</b>
     <span class="dest-lab">${esc(etiqueta)}</span></div>`;
 
 const dato = (k, v, mono = false) => (v === null || v === undefined || v === '')
@@ -6807,11 +6977,22 @@ function cuentas(d) {
   };
 }
 
+/** El título de una pantalla sale del mismo listado que arma el menú, para que no haya dos verdades. */
+function tituloDe(activo) {
+  for (const [, lineas] of GRUPOS) {
+    const hallada = lineas.find(([href]) => href === activo);
+    if (hallada) return hallada[1];
+  }
+  if (activo === '#/dev/properties/nueva') return 'Put a property up';
+  return 'Developer portal';
+}
+
 /**
  * The shell: a bar with the organisation and the action that matters, the menu on the left with its
- * groups, and the desk of the day on the right.
+ * groups, and the desk of the day on the right. Every screen has a title, and the title comes from
+ * the same list as the menu.
  */
-function cascaron(d, activo, cuerpo, acciones = '') {
+function cascaron(d, activo, cuerpo, acciones = '', titulo = '') {
   const { yo } = d;
   const cuenta = cuentas(d);
   const aprobada = yo.estado === 'approved' && yo.activo;
@@ -6843,29 +7024,32 @@ function cascaron(d, activo, cuerpo, acciones = '') {
           <a href="#/search">${ico('mapa', 15)}<span>Marketplace</span></a>
         </div>
       </nav>
-      <div class="dev-main">${cuerpo}</div>
+      <div class="dev-main">
+        <h1 class="dev-titulo">${esc(titulo || tituloDe(activo))}</h1>
+        ${cuerpo}
+      </div>
     </div>`;
 }
 
 /** The two notes that must never be missing: the gate, and whose book this is in a preview. */
 function avisosDeCabecera(yo) {
   const puerta = (yo.estado !== 'approved' || !yo.activo) ? `
-    <div class="msg err" style="margin-bottom:14px">This organisation is <b>${esc(yo.estado)}</b>${
+    <div class="msg err">This organisation is <b>${esc(yo.estado)}</b>${
       yo.activo ? '' : ' and switched off'}. Nothing can be published until NDC's review approves
       it: the decision is made by hand, and it is not taken here.${
       yo.motivo_revision ? ` Reason given: ${esc(yo.motivo_revision)}.` : ''}</div>` : '';
   const notaDemo = (store.rol() ?? '').startsWith('developer') ? '' : `
-    <div class="note" style="margin-bottom:14px">Preview: this is the book of a sandbox organisation,
+    <div class="note">Preview: this is the book of a sandbox organisation,
       captured from the platform. The desks that write, putting a property up, submitting a listing,
       designating a broker, need the live platform and say so when you try them.</div>`;
   return puerta + notaDemo;
 }
 
 /** Every desk opens the same way: the data once, the gate if there is no account, the shell. */
-async function conDatos(activo, cuerpo, acciones = '') {
+async function conDatos(activo, cuerpo, acciones = '', titulo = '') {
   view().innerHTML = `
     <div class="lab"><span>Developer portal</span><span class="dash"></span></div>
-    <div style="margin-top:1rem">${loading(3)}</div>`;
+    <div class="dev-carga">${loading(3)}</div>`;
   let d;
   try {
     d = await cargar();
@@ -6875,11 +7059,11 @@ async function conDatos(activo, cuerpo, acciones = '') {
       ${empty('A developer account is needed',
         'This portal belongs to an organisation that has been through NDC\'s review. Sign in with a '
         + 'developer account to see its book.',
-        '<p style="margin-top:12px"><a class="btn green" href="#/login">Sign in</a></p>')}`;
+        '<p><a class="btn green" href="#/login">Sign in</a></p>')}`;
     void err;
     return null;
   }
-  view().innerHTML = cascaron(d, activo, cuerpo(d), acciones);
+  view().innerHTML = cascaron(d, activo, cuerpo(d), acciones, titulo);
   return d;
 }
 
@@ -7116,11 +7300,10 @@ function cuerpoResumen({ unidades, ventas, proyectos, avisos }) {
         <div class="dev-grafica">
           <canvas id="dev-grafica-libro" width="380" height="190" aria-label="Units by state"></canvas>
           <ul class="dev-leyenda">
-            <li><i style="background:#16A34A"></i>Published</li>
-            <li><i style="background:#B45309"></i>In review</li>
-            <li><i style="background:#0969da"></i>On hold</li>
-            <li><i style="background:#10222B"></i>Sold</li>
-            <li><i style="background:#cbd0dd"></i>Without listing</li>
+            ${[['Published', COLORES.publicado], ['In review', COLORES.revision],
+              ['On hold', COLORES.reservado], ['Sold', COLORES.vendido],
+              ['Without listing', COLORES.sinAnuncio]].map(([nombre, color]) =>
+              `<li><i style="background:${color}"></i>${nombre}</li>`).join('')}
           </ul>
         </div>
       </section>
@@ -7166,7 +7349,7 @@ async function viewDevProperties() {
     ${avisosDeCabecera(x.yo)}
     <section class="mod">
       <header>${ico('casa', 15)}<h4>Properties</h4>
-        <span class="muted" style="margin-left:auto;font-size:.8rem">${esc(x.unidades.resumen?.inventario_aed ?? '')}</span></header>
+        <span class="muted">${esc(x.unidades.resumen?.inventario_aed ?? '')}</span></header>
       <p class="note">Every unit of the organisation: what it is, where it is, and where its listing
         stands. Open one to see it exactly as the buyer sees it.</p>
       ${barraHerramientas({ sitio: 'Unit or project',
@@ -7220,7 +7403,7 @@ async function viewDevNuevaPropiedad() {
     ${avisosDeCabecera(x.yo)}
     <section class="mod">
       <header>${ico('casa', 15)}<h4>Put a property up</h4>
-        <a style="margin-left:auto;font-size:.8rem" href="#/dev/properties">← Properties</a></header>
+        <a href="#/dev/properties">← Properties</a></header>
       <nav class="dev-sec" id="dev-sec" aria-label="Sections of the property">
         ${SECCIONES_ALTA.map(([clave, texto, icono], i) => `
           <button type="button" class="${i === 0 ? 'on' : ''}" data-sec="${clave}"
@@ -7421,7 +7604,7 @@ async function viewDevNuevaPropiedad() {
         <ol class="dev-progreso" id="dev-progreso" hidden></ol>
         ${respuestaForm('dev-nueva')}
       </form>
-    </section>`);
+    </section>`, '', 'Put a property up');
 
   const form = view().querySelector('#dev-nueva');
   const progreso = view().querySelector('#dev-progreso');
@@ -7661,20 +7844,20 @@ async function viewDevProjects() {
       return `
         <section class="mod">
           <header>${ico('edificio', 15)}<h4>${esc(p.nombre)}</h4>
-            <span class="muted" style="margin-left:auto;font-size:.8rem">${dentro.length} unit${dentro.length === 1 ? '' : 's'}</span></header>
+            <span class="muted">${dentro.length} unit${dentro.length === 1 ? '' : 's'}</span></header>
           <div class="dev-mini">
             <span><b>${publicadas}</b> published</span>
             <span><b>${retenidas}</b> on hold</span>
             <span><b>${esc(money(valor))}</b> book value</span>
             ${p.ciudad ? `<span>${ico('pin', 13)} ${esc(p.ciudad)}</span>` : ''}
-            <a href="#/project/${esc(p.id)}" style="margin-left:auto">Open in the marketplace →</a>
+            <a href="#/project/${esc(p.id)}">Open in the marketplace →</a>
           </div>
-          <div class="list" style="margin-top:.5rem">
+          <div class="list">
             ${dentro.slice(0, 4).map((u) => `
               <a class="item" href="#/unit/${esc(u.unidad_id)}">
                 <div class="row-between">
                   <b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
-                  <span class="muted" style="font-size:.9rem">${esc(u.precio_aed)}</span>
+                  <span class="muted">${esc(u.precio_aed)}</span>
                 </div>
                 <span class="when">${[
                   u.anuncio ? (ANUNCIO[u.anuncio.estado] ?? u.anuncio.estado) : 'No listing',
@@ -7772,7 +7955,7 @@ async function viewDevListings() {
     ${avisosDeCabecera(x.yo)}
     <section class="mod">
       <header>${ico('etiqueta', 15)}<h4>Listings</h4>
-        <a style="margin-left:auto;font-size:.8rem" href="#/dev/properties/nueva">Put a property up →</a></header>
+        <a href="#/dev/properties/nueva">Put a property up →</a></header>
       <p class="note">A listing is the advertisement over a unit, and it walks in one direction:
         draft → submitted → under review → published. Material changes, the unit, the evidence, the
         price, the payment plan, send it back to review.</p>
@@ -7828,7 +8011,7 @@ async function viewDevVerification() {
       ${avisosDeCabecera(x.yo)}
       <section class="mod">
         <header>${ico('permiso', 15)}<h4>Verification</h4>
-          <span class="muted" style="margin-left:auto;font-size:.8rem">${conBadge.length} of ${suyas.length} verified</span></header>
+          <span class="muted">${conBadge.length} of ${suyas.length} verified</span></header>
         <p class="note"><b>Verysset is the one who verifies.</b> It checks the asset, the physical
           thing, the papers and the place, and issues signed evidence: the date, the scope of what
           was checked, the hash that anchors it, and the digital twin of the building. The badge is
@@ -7890,7 +8073,7 @@ async function viewDevSales() {
         ${destacado(Number(resumen.pendiente_cobro ?? 0), 'Awaiting the bank')}
         ${destacado(todas.length, 'Sales on the book')}
       </section>
-      <section class="mod" style="margin-top:14px">
+      <section class="mod">
         <header>${ico('trato', 15)}<h4>Sales</h4></header>
         <p class="note">The money is stated as pending until the dirhams have reached your account.
           What the buyer paid in fees, and their identity check, are not part of this screen.</p>
@@ -7951,7 +8134,7 @@ async function viewDevCollections() {
         ${destacado(cobradas.length, 'Collections recorded')}
         ${destacado(Object.keys(porBanco).join(' · ') || ', ', 'Banks')}
       </section>
-      <section class="mod" style="margin-top:14px">
+      <section class="mod">
         <header>${ico('banco', 15)}<h4>Collections</h4></header>
         <p class="note">The dirhams arrive through the licensed off-ramp: the OTC converts the crypto
           and the bank credits your account. Your share is frozen only when it has arrived, before
@@ -7996,7 +8179,7 @@ async function viewDevBrokers() {
       ${avisosDeCabecera(x.yo)}
       <section class="mod">
         <header>${ico('grupo', 15)}<h4>Brokers</h4>
-          <span class="muted" style="margin-left:auto;font-size:.8rem">${codigos.length} code${codigos.length === 1 ? '' : 's'}</span></header>
+          <span class="muted">${codigos.length} code${codigos.length === 1 ? '' : 's'}</span></header>
         <p class="note"><b>You designate the brokers, and the code comes out of the platform</b>, no
           one types it. The code is what says who brought the buyer, and it is how the sale is
           attributed; it does not decide the commission (the fee table does), and no payment is
@@ -8008,7 +8191,7 @@ async function viewDevBrokers() {
         <div id="dev-filas-caja"></div>
       </section>
 
-      <section class="mod" style="margin-top:14px">
+      <section class="mod">
         <header>${ico('pluma', 15)}<h4>Designate a broker</h4></header>
         <form class="dev-form" id="dev-nuevo-codigo">
           <div class="dev-form-2">
@@ -8126,7 +8309,7 @@ async function viewDevAgency() {
           the fee it keeps</b>. For a sale it runs, it takes NDC's place as the agency of that sale
           and appoints its own brokers. It never sees the buyer's identity check, and everything it
           does travels through the platform.</p>
-        <div class="dev-mini" style="margin-top:.8rem">
+        <div class="dev-mini">
           <span><b>2.50%</b> contractual fee · set by the developer</span>
           <span><b>0.50%</b> toll it pays: <b>0.30%</b> to NDC · <b>0.20%</b> to BlockEstate</span>
         </div>
@@ -8134,7 +8317,7 @@ async function viewDevAgency() {
           splits every sale, and not from this screen.</p>
       </section>
 
-      <section class="mod" style="margin-top:14px">
+      <section class="mod">
         <header>${ico('trato', 15)}<h4>What came through a channel</h4></header>
         <p class="note">Sales attributed to a broker or a creator: that is what the agency works with.</p>
         <div class="dev-tabla-caja">
@@ -8145,7 +8328,7 @@ async function viewDevAgency() {
         </div>
       </section>
 
-      <section class="mod" style="margin-top:14px">
+      <section class="mod">
         <header>${ico('permiso', 15)}<h4>What the platform does not have yet</h4></header>
         <p class="note">The agency exists in the data model, with its fee and its toll, and it is the
           developer who appoints it. What is <b>not built</b> is the desk that registers an agency and
@@ -8185,7 +8368,7 @@ async function viewDevOrg() {
 
         <section class="mod">
           <header>${ico('almohadilla', 15)}<h4>What this portal never shows</h4></header>
-          <p class="note" style="margin-top:.5rem">The buyer's identity check, and any figure that is
+          <p class="note">The buyer's identity check, and any figure that is
             not your own. Your portal carries your part of the money and nothing else: the split is
             frozen only when the dirhams have reached your account, and ownership is asserted only
             when the closing is signed and the registration is recorded.</p>
@@ -8201,82 +8384,90 @@ async function viewDevOrg() {
 
 async function viewDevSale(id) {
   view().innerHTML = `
-    <div class="lab"><span>Sale</span><span class="dash"></span></div>
-    <h1 style="font-size:clamp(1.5rem,3.4vw,2.1rem)">Sale</h1>
-    <div id="dev-cuerpo">${loading(2)}</div>`;
+    <div class="lab"><span>Developer portal</span><span class="dash"></span></div>
+    <div class="dev-carga">${loading(3)}</div>`;
+  let v;
   try {
-    const v = await api.devSale(id);
-    const c = v.cobro ?? {};
-    const aqui = PASOS.indexOf(v.estado);
-    const linea = PASOS.map((p, i) => `
-      <div class="dev-paso${i === aqui ? ' aqui' : ''}${i < aqui ? ' hecho' : ''}">
-        <span class="punto"></span><span>${esc(VENTA[p] ?? p)}</span>
-      </div>`).join('');
-    const enCalle = !PASOS.includes(v.estado);
-
-    view().innerHTML = `
-      <div class="lab"><span>Sale</span><span class="dash"></span></div>
-      <h1 style="font-size:clamp(1.5rem,3.4vw,2.1rem)">${esc(tipoLabel(v.unidad?.tipo))} in ${esc(v.proyecto ?? '')}</h1>
-      <p class="muted" style="font-size:.9rem">${etiqueta(VENTA[v.estado] ?? v.estado,
-        v.estado === 'business_completion_approved' ? 'green' : '')}${
-        v.creada_en ? ` · reserved ${esc(date(v.creada_en))}` : ''} ·
-        <a href="#/dev/sales">back to the sales</a></p>
-      <div class="lay" style="margin-top:14px">
-        <div>
-          <section class="mod">
-            <header>${ico('trato', 15)}<h4>The sale</h4></header>
-            <dl class="kv">
-              ${dato('Contract price', v.precio_aed)}
-              ${dato('Unit', [tipoLabel(v.unidad?.tipo),
-                v.unidad?.habitaciones ? `${v.unidad.habitaciones} bed` : null,
-                v.unidad?.superficie_sqft ? `${v.unidad.superficie_sqft.toLocaleString('en-GB')} sqft` : null].filter(Boolean).join(' · '))}
-              ${dato('Where', [v.unidad?.comunidad, v.unidad?.emirato].filter(Boolean).join(' · '))}
-              ${dato('Channel', CANAL[c.canal] ?? c.canal)}
-              ${dato('Registration', v.estado_registro === 'registered'
-                ? 'Registered with the Land Department' : 'Not registered yet')}
-            </dl>
-            <p class="note">A sale is a sale. Ownership is only asserted when the closing is signed and
-              the registration is recorded.</p>
-          </section>
-
-          <section class="mod" style="margin-top:13px">
-            <header>${ico('avance', 15)}<h4>Where it stands</h4></header>
-            <div style="margin-top:.6rem">${linea}</div>
-            ${enCalle ? `<p class="note">This sale is outside the main path: <b>${esc(VENTA[v.estado] ?? v.estado)}</b>.
-              A person is looking at it; nothing moves on its own.</p>` : ''}
-          </section>
-
-          <section class="mod" style="margin-top:13px">
-            <header>${ico('banco', 15)}<h4>Your collection</h4></header>
-            <dl class="kv">
-              ${dato('Settlement', c.estado === 'settled' ? 'Settled' : (c.estado ?? 'Pending'))}
-              ${dato('Bank', c.banco)}
-              ${dato('Provider', c.proveedor)}
-              ${dato('Conversion', c.referencia, true)}
-              ${dato('AED in your account', c.aed_liquidado)}
-              ${dato('Your share', c.neto_aed)}
-            </dl>
-            <p class="note">${esc(c.afirmacion ?? '')}. The split is frozen only when the dirhams have
-              reached your account; before that there is nothing to promise.</p>
-          </section>
-        </div>
-
-        <aside class="rail">
-          <div class="rail-box">
-            <h3>${ico('almohadilla', 15)} Nothing else</h3>
-            <p class="note">This screen carries your part of the money. What the buyer paid in fees, and
-              anything about their identity check, is not shown here and is not yours to see.</p>
-          </div>
-          <div class="rail-box">
-            <h3>${ico('obra', 15)} The unit</h3>
-            <p class="note">Open the property sheet to see it as the buyer sees it, badge and all.</p>
-            ${v.unidad_id ? `<p style="margin:.6rem 0 0"><a class="btn ghost" href="#/unit/${esc(v.unidad_id)}">Open the unit</a></p>` : ''}
-          </div>
-        </aside>
-      </div>`;
+    v = await api.devSale(id);
   } catch (err) {
-    error('#dev-cuerpo', err);
+    view().innerHTML = `<div class="lab"><span>Developer portal</span><span class="dash"></span></div>
+      ${empty('This sale is not yours to see', 'The sale you asked for is not in this book.', '')}`;
+    void err;
+    return;
   }
+  const nombre = `${tipoLabel(v.unidad?.tipo)} in ${v.proyecto ?? ''}`;
+  await conDatos('#/dev/sales', (x) => cuerpoVenta(v, x), '', nombre);
+}
+
+/** El cuerpo de una venta: qué se vendió, por dónde va, y qué parte del dinero es suya. */
+function cuerpoVenta(v, x) {
+  const c = v.cobro ?? {};
+  const aqui = PASOS.indexOf(v.estado);
+  const linea = PASOS.map((p, i) => `
+    <div class="dev-paso${i === aqui ? ' aqui' : ''}${i < aqui ? ' hecho' : ''}">
+      <span class="punto"></span><span>${esc(VENTA[p] ?? p)}</span>
+    </div>`).join('');
+  const enCalle = !PASOS.includes(v.estado);
+
+  return `
+    ${avisosDeCabecera(x.yo)}
+    <p class="muted">${etiqueta(VENTA[v.estado] ?? v.estado,
+      v.estado === 'business_completion_approved' ? 'green' : '')}${
+      v.creada_en ? ` · reserved ${esc(date(v.creada_en))}` : ''} ·
+      <a href="#/dev/sales">back to the sales</a></p>
+    <div class="lay">
+      <div>
+        <section class="mod">
+          <header>${ico('trato', 15)}<h4>The sale</h4></header>
+          <dl class="kv">
+            ${dato('Contract price', v.precio_aed)}
+            ${dato('Unit', [tipoLabel(v.unidad?.tipo),
+              v.unidad?.habitaciones ? `${v.unidad.habitaciones} bed` : null,
+              v.unidad?.superficie_sqft ? `${v.unidad.superficie_sqft.toLocaleString('en-GB')} sqft` : null].filter(Boolean).join(' · '))}
+            ${dato('Where', [v.unidad?.comunidad ?? v.proyecto, v.unidad?.emirato].filter(Boolean).join(' · '))}
+            ${dato('Channel', CANAL[c.canal] ?? c.canal)}
+            ${dato('Registration', v.estado_registro === 'registered'
+              ? 'Registered with the Land Department' : 'Not registered yet')}
+          </dl>
+          <p class="note">A sale is a sale. Ownership is only asserted when the closing is signed and
+            the registration is recorded.</p>
+        </section>
+
+        <section class="mod">
+          <header>${ico('avance', 15)}<h4>Where it stands</h4></header>
+          ${linea}
+          ${enCalle ? `<p class="note">This sale is outside the main path: <b>${esc(VENTA[v.estado] ?? v.estado)}</b>.
+            A person is looking at it; nothing moves on its own.</p>` : ''}
+        </section>
+
+        <section class="mod">
+          <header>${ico('banco', 15)}<h4>Your collection</h4></header>
+          <dl class="kv">
+            ${dato('Settlement', enIngles(c.estado, COBRO, 'Pending the bank'))}
+            ${dato('Bank', c.banco)}
+            ${dato('Provider', c.proveedor)}
+            ${dato('Conversion', c.referencia, true)}
+            ${dato('AED in your account', c.aed_liquidado)}
+            ${dato('Your share', c.neto_aed)}
+          </dl>
+          <p class="note">${esc(c.afirmacion ?? '')}. The split is frozen only when the dirhams have
+            reached your account; before that there is nothing to promise.</p>
+        </section>
+      </div>
+
+      <aside class="rail">
+        <div class="rail-box">
+          <h3>${ico('almohadilla', 15)} Nothing else</h3>
+          <p class="note">This screen carries your part of the money. What the buyer paid in fees, and
+            anything about their identity check, is not shown here and is not yours to see.</p>
+        </div>
+        <div class="rail-box">
+          <h3>${ico('obra', 15)} The unit</h3>
+          <p class="note">Open the property sheet to see it as the buyer sees it, badge and all.</p>
+          ${v.unidad_id ? `<a class="btn ghost" href="#/unit/${esc(v.unidad_id)}">Open the unit</a>` : ''}
+        </div>
+      </aside>
+    </div>`;
 }
 
 /* ===== js/views/escritorios.js ===== */
