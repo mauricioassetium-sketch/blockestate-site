@@ -2149,10 +2149,210 @@ body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
   .micro-fotos .mini{width:42px; height:30px}
 }
 
+/* ============================================================================
+   El portal del desarrollador, con el sistema del panel del operador.
+
+   No es «parecido»: son las mismas medidas. La escala tipográfica del panel
+   (10,24 / 11,5 / 12,8 / 14 / 16 / 26 px), los filetes de 1 px en vez de sombras,
+   las tarjetas de radio 8 sobre el fondo gris, la barra lateral de 254 px y la
+   barra superior de 58 px, y el color reservado para lo que significa algo
+   (verde = libro publicado o dinero, ámbar = cola que espera a una persona).
+
+   Va acotado a las pantallas del portal (`data-ruta="dev"`), así que no puede
+   tocar la portada, el buscador ni la ficha del comprador.
+   ========================================================================== */
+
+body[data-ruta="dev"]{
+  /* los mismos tokens que el panel, con los mismos nombres */
+  --brand:#22C55E; --brand-deep:#16A34A; --brand-dark:#15803D;
+  --bg:#f5f7fa; --surface:#ffffff; --surface-2:#eff2f6; --surface-3:#e3e6ed;
+  --ink:#141824; --body:#31374a; --dim:#525b75; --muted:#6e7891; --soft:#8a94ad;
+  --line:#e3e6ed; --line-2:#cbd0dd; --borde:rgba(203,208,221,.6);
+  --ok:#15803D; --ok-bg:#e8f8ec; --ok-bd:#a7e5bb;
+  --warn:#B45309; --warn-bg:#fff4e5; --warn-bd:#fcd9a5;
+  --bad:#b3261e; --bad-bg:#fdeae7; --bad-bd:#f6c9c2;
+  --fs-xs:10.24px; --fs-sm:11.5px; --fs:12.8px; --fs-md:14px; --fs-t:16px; --fs-h1:26px;
+  --tr:-.04em; --r:8px; --r-sm:6px; --r-xs:4px;
+  --lado:254px; --barra:58px; --pad:24px;
+  background:var(--bg);
+}
+
+body[data-ruta="dev"] .lab{font-size:var(--fs-xs); letter-spacing:.14em; color:var(--soft);
+  margin-bottom:6px}
+body[data-ruta="dev"] .lab .dash{background:var(--line-2)}
+
+/* ------------------------------- la barra de la organización (barra superior) */
+body[data-ruta="dev"] .dev-bar{position:sticky; top:0; z-index:20; display:flex; align-items:center;
+  gap:12px; min-height:var(--barra); padding:8px 20px; background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line); backdrop-filter:saturate(180%) blur(6px); margin:0}
+body[data-ruta="dev"] .dev-bar-org{display:flex; align-items:center; gap:10px; min-width:0}
+body[data-ruta="dev"] .dev-marca{width:32px; height:32px; flex:none; display:grid; place-items:center;
+  border-radius:var(--r); background:var(--ok-bg); color:var(--ok); border:1px solid var(--ok-bd)}
+body[data-ruta="dev"] .dev-bar-txt{display:flex; flex-direction:column; line-height:1.2; min-width:0}
+body[data-ruta="dev"] .dev-bar-txt b{font-size:var(--fs-md); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+body[data-ruta="dev"] .dev-bar-txt small{display:flex; align-items:center; gap:8px; font-size:var(--fs-xs);
+  color:var(--muted)}
+body[data-ruta="dev"] .dev-bar-txt small i{font-style:normal; color:var(--soft)}
+body[data-ruta="dev"] .dev-bar-acciones{margin-left:auto; display:flex; align-items:center; gap:8px}
+
+/* ------------------------------------------- barra lateral (254 px) + lienzo */
+body[data-ruta="dev"] .dev-shell{display:grid; grid-template-columns:var(--lado) minmax(0,1fr);
+  align-items:start; margin:0}
+body[data-ruta="dev"] .dev-nav{position:sticky; top:var(--barra); height:calc(100vh - var(--barra));
+  overflow-y:auto; display:flex; flex-direction:column; gap:18px; padding:14px 10px 24px;
+  background:var(--surface); border-right:1px solid var(--line)}
+body[data-ruta="dev"] .dev-nav-grupo{display:flex; flex-direction:column; gap:2px}
+body[data-ruta="dev"] .dev-nav-lab{display:block; padding:0 10px 6px; font-size:var(--fs-xs);
+  font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--soft)}
+body[data-ruta="dev"] .dev-nav a{display:flex; align-items:center; gap:9px; padding:7px 10px;
+  border-radius:var(--r); color:var(--body); font-size:var(--fs); font-weight:600; text-decoration:none;
+  transition:background .12s ease, color .12s ease}
+body[data-ruta="dev"] .dev-nav a svg{flex:none; color:var(--soft)}
+body[data-ruta="dev"] .dev-nav a:hover{background:var(--surface-2); color:var(--ink)}
+body[data-ruta="dev"] .dev-nav a:hover svg{color:var(--dim)}
+body[data-ruta="dev"] .dev-nav a.on{background:var(--ok-bg); color:var(--ok)}
+body[data-ruta="dev"] .dev-nav a.on svg{color:var(--ok)}
+body[data-ruta="dev"] .dev-nav a .n{margin-left:auto; font-style:normal; font-size:var(--fs-xs);
+  font-weight:700; padding:2px 7px; border-radius:var(--r-xs); background:var(--surface-2); color:var(--dim)}
+body[data-ruta="dev"] .dev-nav a.on .n{background:#fff; color:var(--ok)}
+body[data-ruta="dev"] .dev-main{min-width:0; padding:22px var(--pad) 64px; background:var(--bg)}
+
+/* ------------------------------------------------------------- las tarjetas */
+body[data-ruta="dev"] .mod{display:flex; flex-direction:column; background:var(--surface);
+  border:1px solid var(--borde); border-radius:var(--r); box-shadow:none; padding:0; overflow:hidden;
+  margin:0 0 14px}
+body[data-ruta="dev"] .mod > header{display:flex; align-items:center; gap:8px; padding:11px 16px;
+  border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em}
+body[data-ruta="dev"] .mod > header h4{margin:0; font-size:var(--fs-t); font-weight:700; color:var(--ink)}
+body[data-ruta="dev"] .mod > header svg{color:var(--brand-deep); flex:none}
+body[data-ruta="dev"] .mod > header a{font-size:var(--fs-sm); font-weight:650; color:var(--brand-dark);
+  text-decoration:none}
+body[data-ruta="dev"] .mod > header a:hover{text-decoration:underline}
+body[data-ruta="dev"] .mod > p,
+body[data-ruta="dev"] .mod > .note{padding:12px 16px; margin:0; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .mod > .dev-barras,
+body[data-ruta="dev"] .mod > .list,
+body[data-ruta="dev"] .mod > form,
+body[data-ruta="dev"] .mod > .dev-tabla-caja,
+body[data-ruta="dev"] .mod > .dev-sec,
+body[data-ruta="dev"] .mod > .dev-dos{padding:0}
+body[data-ruta="dev"] .dev-dos{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:14px; align-items:start}
+
+/* --------------------------------------------------- las cifras de un vistazo */
+body[data-ruta="dev"] .destacados{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px; background:none; border:0; padding:0; margin:0 0 14px}
+body[data-ruta="dev"] .destacados .dest{display:flex; flex-direction:column; gap:2px; background:var(--surface);
+  border:1px solid var(--borde); border-radius:var(--r); padding:12px 14px}
+body[data-ruta="dev"] .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+  color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.15}
+body[data-ruta="dev"] .destacados .dest b[style]{font-size:16px !important; font-weight:650; letter-spacing:-.02em}
+body[data-ruta="dev"] .destacados .dest-lab{font-size:var(--fs-xs); font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted)}
+
+/* --------------------------------------------------------------- las tablas */
+body[data-ruta="dev"] .dev-tabla-caja{overflow-x:auto}
+body[data-ruta="dev"] .dev-tabla{width:100%; border-collapse:collapse; font-size:var(--fs-md)}
+body[data-ruta="dev"] .dev-tabla th{position:sticky; top:0; background:var(--surface-2); text-align:left;
+  padding:8px 14px; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
+body[data-ruta="dev"] .dev-tabla td{padding:10px 14px; border-bottom:1px solid var(--line); color:var(--body);
+  vertical-align:middle}
+body[data-ruta="dev"] .dev-tabla tbody tr:last-child td{border-bottom:0}
+body[data-ruta="dev"] .dev-tabla tbody tr:hover td{background:#fbfdfe}
+body[data-ruta="dev"] .dev-tabla td b{display:block; font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-tabla td small{display:block; margin-top:1px; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-tabla td.num,
+body[data-ruta="dev"] .dev-tabla th.num{text-align:right; font-variant-numeric:tabular-nums;
+  font-weight:650; color:var(--ink); white-space:nowrap}
+body[data-ruta="dev"] .dev-tabla td.abrir{width:28px; text-align:right; color:var(--soft)}
+body[data-ruta="dev"] .dev-tabla tbody tr{cursor:pointer}
+body[data-ruta="dev"] .dev-tabla tbody tr:hover td.abrir{color:var(--brand-deep)}
+
+/* las etiquetas de estado: color solo cuando significa algo */
+body[data-ruta="dev"] .tag{display:inline-flex; align-items:center; gap:4px; padding:2px 8px;
+  border-radius:var(--r-xs); font-size:var(--fs-xs); font-weight:700; letter-spacing:.03em;
+  background:var(--surface-2); color:var(--dim); border:1px solid var(--line)}
+body[data-ruta="dev"] .tag.green{background:var(--ok-bg); color:var(--ok); border-color:var(--ok-bd)}
+body[data-ruta="dev"] .tag.coin{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-bd)}
+body[data-ruta="dev"] .tag.err{background:var(--bad-bg); color:var(--bad); border-color:var(--bad-bd)}
+
+/* --------------------------------------------- las barras y las listas de datos */
+body[data-ruta="dev"] .dev-barras{padding:12px 16px 14px}
+body[data-ruta="dev"] .dev-barra{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px;
+  align-items:center; padding:9px 0; border-bottom:1px solid var(--line); text-decoration:none}
+body[data-ruta="dev"] .dev-barra:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-barra b{font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-barra i.n{font-style:normal; font-size:var(--fs-sm); font-weight:700; color:var(--dim)}
+body[data-ruta="dev"] .dev-barra .pista{grid-column:1/-1; display:block; height:6px; border-radius:999px;
+  background:var(--surface-2); overflow:hidden}
+body[data-ruta="dev"] .dev-barra .relleno{display:block; height:100%; border-radius:999px; background:var(--brand)}
+body[data-ruta="dev"] .dev-barra small{grid-column:1/-1; font-size:var(--fs-sm); color:var(--muted)}
+
+/* --------------------------------------------------- avisos, notas y respuestas */
+body[data-ruta="dev"] .msg{padding:10px 14px; border-radius:var(--r); font-size:var(--fs); margin:0 0 14px;
+  border:1px solid var(--line); background:var(--surface)}
+body[data-ruta="dev"] .msg.err{background:var(--bad-bg); border-color:var(--bad-bd); color:#7a1d18}
+body[data-ruta="dev"] .msg.warn{background:var(--warn-bg); border-color:var(--warn-bd); color:#7c3d06}
+body[data-ruta="dev"] .msg.ok{background:var(--ok-bg); border-color:var(--ok-bd); color:#0f5c2c}
+
+/* ------------------------------------------------------------- los formularios */
+body[data-ruta="dev"] form{padding:14px 16px}
+body[data-ruta="dev"] label{display:block; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:4px}
+body[data-ruta="dev"] input,body[data-ruta="dev"] select,body[data-ruta="dev"] textarea{
+  width:100%; min-height:38px; padding:6px 10px; font-size:var(--fs-md); color:var(--ink);
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
+body[data-ruta="dev"] input:focus,body[data-ruta="dev"] select:focus,body[data-ruta="dev"] textarea:focus{
+  outline:none; border-color:var(--brand-deep); box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+body[data-ruta="dev"] .btn{display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  min-height:38px; padding:0 14px; border-radius:var(--r-sm); border:1px solid var(--line-2);
+  background:var(--surface); color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer;
+  text-decoration:none}
+body[data-ruta="dev"] .btn:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .btn.green{background:var(--brand); border-color:var(--brand); color:#04140c}
+body[data-ruta="dev"] .btn.green:hover{background:var(--brand-deep); border-color:var(--brand-deep); color:#04140c}
+body[data-ruta="dev"] .btn.green svg,body[data-ruta="dev"] .btn.green path{color:#04140c; fill:currentColor}
+
+/* las pestañas de una sección, como las del panel */
+body[data-ruta="dev"] .dev-sec{display:flex; gap:4px; flex-wrap:wrap; padding:10px 16px 0;
+  border-bottom:1px solid var(--line)}
+body[data-ruta="dev"] .dev-sec button{display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+  background:none; border:0; border-bottom:2px solid transparent; color:var(--muted);
+  font-size:var(--fs); font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .dev-sec button:hover{color:var(--ink)}
+body[data-ruta="dev"] .dev-sec button.on{color:var(--brand-dark); border-color:var(--brand)}
+
+/* ------------------------------------------------------------- las gráficas */
+body[data-ruta="dev"] .dev-grafica{padding:12px 16px 14px}
+body[data-ruta="dev"] .dev-grafica canvas{display:block; width:100%; height:190px}
+body[data-ruta="dev"] .dev-grafica-nota{margin:8px 0 0; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-leyenda{display:flex; flex-wrap:wrap; gap:10px 16px; margin:10px 0 0; padding:0;
+  list-style:none}
+body[data-ruta="dev"] .dev-leyenda li{display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-sm);
+  color:var(--body)}
+body[data-ruta="dev"] .dev-leyenda i{width:9px; height:9px; border-radius:2px; background:var(--brand)}
+
+/* en el teléfono el portal se apila: la barra lateral pasa arriba, en una fila que se desliza */
+@media (max-width:900px){
+  body[data-ruta="dev"] .dev-shell{grid-template-columns:minmax(0,1fr)}
+  body[data-ruta="dev"] .dev-nav{position:static; height:auto; flex-direction:row; gap:12px;
+    overflow-x:auto; padding:10px 12px; border-right:0; border-bottom:1px solid var(--line)}
+  body[data-ruta="dev"] .dev-nav-grupo{flex-direction:row; align-items:center; gap:6px}
+  body[data-ruta="dev"] .dev-nav-lab{display:none}
+  body[data-ruta="dev"] .dev-nav a{white-space:nowrap}
+  body[data-ruta="dev"] .dev-main{padding:16px 12px 48px}
+  body[data-ruta="dev"] .destacados{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body[data-ruta="dev"] .dev-dos{grid-template-columns:minmax(0,1fr)}
+}
+
 </style>
 
+
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 06:42. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-11 · built 12 Oct 2026 · 06:50. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -5624,6 +5824,148 @@ function abrirInformeVerysset({ informe, titulo = '', referencia = '' } = {}) {
   capa.querySelector('.vs-x').focus();
 }
 
+/* ===== js/views/graficas.js ===== */
+/**
+ * Dos gráficas de verdad, en canvas y sin librerías: la línea para ver cómo se mueve el dinero mes a
+ * mes, y la dona para ver en qué estado está el libro. Son las mismas que usa el panel del operador,
+ * con la misma idea: filete de 1 px para la rejilla, el verde de la casa para el trazo, y el color
+ * reservado para lo que significa algo. Ninguna cifra se inventa aquí: se pinta lo que le llega.
+ */
+
+const TINTA = '#141824';
+const SUAVE = '#8a94ad';
+const LINEA = '#e3e6ed';
+const VERDE = '#16A34A';
+const VERDE_CLARO = 'rgba(34,197,94,.14)';
+const AMBAR = '#B45309';
+
+/** Prepara el lienzo para que se vea nítido en pantallas de doble densidad. */
+function lienzo(canvas) {
+  const caja = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const ancho = Math.max(240, Math.round(caja.width || canvas.width));
+  const alto = Math.max(120, Math.round(caja.height || canvas.height));
+  canvas.width = Math.round(ancho * dpr);
+  canvas.height = Math.round(alto * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, ancho, alto);
+  ctx.font = '600 10.5px Inter, system-ui, sans-serif';
+  return { ctx, ancho, alto };
+}
+
+/**
+ * La línea de un importe por mes. `puntos` son [etiqueta, valor] y pueden venir vacíos: un mes sin
+ * ventas se dibuja en cero, no se salta, porque saltarlo cuenta una historia que no pasó.
+ */
+function lineaDeMeses(canvas, puntos, { formato = (n) => String(n) } = {}) {
+  const { ctx, ancho, alto } = lienzo(canvas);
+  const izq = 52;
+  const der = ancho - 10;
+  const arriba = 12;
+  const abajo = alto - 26;
+  const max = Math.max(1, ...puntos.map(([, v]) => v));
+  const paso = puntos.length > 1 ? (der - izq) / (puntos.length - 1) : 0;
+
+  // la rejilla, en filete
+  ctx.strokeStyle = LINEA;
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 3; i += 1) {
+    const y = Math.round(arriba + ((abajo - arriba) * i) / 3) + 0.5;
+    ctx.beginPath();
+    ctx.moveTo(izq, y);
+    ctx.lineTo(der, y);
+    ctx.stroke();
+    ctx.fillStyle = SUAVE;
+    ctx.textAlign = 'right';
+    ctx.fillText(formato(Math.round((max * (3 - i)) / 3)), izq - 8, y + 3);
+  }
+
+  const x = (i) => izq + paso * i;
+  const y = (v) => abajo - ((abajo - arriba) * v) / max;
+
+  // el relleno, para que se lea la subida sin mirar los números
+  ctx.beginPath();
+  ctx.moveTo(x(0), abajo);
+  puntos.forEach(([, v], i) => ctx.lineTo(x(i), y(v)));
+  ctx.lineTo(x(puntos.length - 1), abajo);
+  ctx.closePath();
+  ctx.fillStyle = VERDE_CLARO;
+  ctx.fill();
+
+  ctx.beginPath();
+  puntos.forEach(([, v], i) => (i ? ctx.lineTo(x(i), y(v)) : ctx.moveTo(x(i), y(v))));
+  ctx.strokeStyle = VERDE;
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // los puntos, y solo el último con su cifra: la gráfica se lee por la forma, el detalle va en la tabla
+  puntos.forEach(([, v], i) => {
+    ctx.beginPath();
+    ctx.arc(x(i), y(v), 2.6, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = VERDE;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+  const ultimo = puntos.length - 1;
+  ctx.fillStyle = TINTA;
+  ctx.textAlign = ultimo > puntos.length - 3 ? 'right' : 'center';
+  ctx.fillText(formato(puntos[ultimo][1]), Math.min(der, x(ultimo) + 4), Math.max(arriba + 8, y(puntos[ultimo][1]) - 9));
+
+  // los meses, uno de cada dos, para que no se pisen
+  ctx.fillStyle = SUAVE;
+  ctx.textAlign = 'center';
+  puntos.forEach(([etiqueta], i) => {
+    if (puntos.length > 8 && i % 2) return;
+    ctx.fillText(etiqueta, x(i), abajo + 15);
+  });
+}
+
+/** La dona del libro por estado. `partes` son [etiqueta, valor, color]. */
+function donaDeEstados(canvas, partes) {
+  const { ctx, ancho, alto } = lienzo(canvas);
+  const total = partes.reduce((s, [, v]) => s + v, 0);
+  const cx = ancho / 2;
+  const cy = alto / 2;
+  const radio = Math.min(ancho, alto) / 2 - 12;
+  const grosor = Math.max(16, radio * 0.34);
+  let desde = -Math.PI / 2;
+
+  if (!total) {
+    ctx.fillStyle = SUAVE;
+    ctx.textAlign = 'center';
+    ctx.fillText('No unit yet', cx, cy);
+    return;
+  }
+  partes.filter(([, v]) => v > 0).forEach(([, v, color]) => {
+    const hasta = desde + (Math.PI * 2 * v) / total;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radio - grosor / 2, desde, hasta);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = grosor;
+    ctx.stroke();
+    desde = hasta;
+  });
+  ctx.fillStyle = TINTA;
+  ctx.textAlign = 'center';
+  ctx.font = '600 26px Inter, system-ui, sans-serif';
+  ctx.fillText(String(total), cx, cy + 2);
+  ctx.font = '700 9.5px Inter, system-ui, sans-serif';
+  ctx.fillStyle = SUAVE;
+  ctx.fillText('UNITS', cx, cy + 17);
+}
+
+const COLORES = {
+  publicado: VERDE,
+  revision: AMBAR,
+  reservado: '#0969da',
+  vendido: '#10222B',
+  sinAnuncio: '#cbd0dd',
+};
+
 /* ===== js/views/unit.js ===== */
 /** The property page and the project page. */
 
@@ -6320,6 +6662,7 @@ async function viewProject(id) {
 
 
 
+
 /** The states of a listing, in the words the developer uses. */
 const ANUNCIO = {
   draft: 'Draft', submitted: 'Submitted', in_review: 'Under review', approved: 'Published',
@@ -6655,10 +6998,52 @@ function diRespuesta(id, exito, texto) {
 /* ---------------------------------------------------------------- Overview */
 
 async function viewDeveloper() {
-  await conDatos('#/dev', (x) => `
+  const d = await conDatos('#/dev', (x) => `
     ${avisosDeCabecera(x.yo)}
     ${cuerpoResumen(x)}`,
   `<a class="btn green" href="#/dev/properties/nueva">${ico('casa', 15)} Put a property up</a>`);
+  if (d) pintarResumen(d);
+}
+
+/** Las ventas de los últimos doce meses. Un mes sin nada se dibuja en cero, no se salta. */
+function serieDeMeses(ventas) {
+  const hoy = new Date();
+  const meses = [];
+  for (let i = 11; i >= 0; i -= 1) {
+    const f = new Date(hoy.getFullYear(), hoy.getMonth() - i, 1);
+    meses.push({ clave: `${f.getFullYear()}-${f.getMonth()}`,
+      etiqueta: f.toLocaleDateString('en-GB', { month: 'short' }), total: 0 });
+  }
+  const sitio = new Map(meses.map((m, i) => [m.clave, i]));
+  for (const v of ventas ?? []) {
+    if (!v.creada_en) continue;
+    const f = new Date(v.creada_en);
+    const k = `${f.getFullYear()}-${f.getMonth()}`;
+    if (sitio.has(k)) meses[sitio.get(k)].total += Number(String(v.precio_aed ?? '').replace(/[^0-9.]/g, '')) || 0;
+  }
+  return meses;
+}
+
+/** Enciende las dos gráficas del resumen con los datos que ya están en pantalla. */
+function pintarResumen(d) {
+  const corto = (n) => (n >= 1000000 ? `${(n / 1000000).toFixed(1)}M`
+    : n >= 1000 ? `${Math.round(n / 1000)}k` : String(n));
+  const lienzoLinea = view().querySelector('#dev-grafica-ventas');
+  if (lienzoLinea) {
+    const meses = serieDeMeses(d.ventas?.ventas);
+    lineaDeMeses(lienzoLinea, meses.map((m) => [m.etiqueta, m.total]), { formato: corto });
+  }
+  const lienzoDona = view().querySelector('#dev-grafica-libro');
+  if (lienzoDona) {
+    const r = d.unidades?.resumen ?? {};
+    donaDeEstados(lienzoDona, [
+      ['Published', r.publicadas ?? 0, COLORES.publicado],
+      ['In review', (r.en_revision ?? 0) + (r.enviadas ?? 0), COLORES.revision],
+      ['On hold', r.reservadas ?? 0, COLORES.reservado],
+      ['Sold', r.vendidas ?? 0, COLORES.vendido],
+      ['Without listing', r.sin_anuncio ?? 0, COLORES.sinAnuncio],
+    ]);
+  }
 }
 
 function cuerpoResumen({ unidades, ventas, proyectos, avisos }) {
@@ -6701,6 +7086,31 @@ function cuerpoResumen({ unidades, ventas, proyectos, avisos }) {
       ${destacado(r.inventario_aed ?? money(0), 'Book value', true)}
       ${destacado(r.publicado_aed ?? money(0), 'Published value', true)}
     </section>
+
+    <div class="dev-dos">
+      <section class="mod">
+        <header>${ico('avance', 15)}<h4>Sales, last twelve months</h4></header>
+        <div class="dev-grafica">
+          <canvas id="dev-grafica-ventas" width="720" height="190" aria-label="Sales per month"></canvas>
+          <p class="dev-grafica-nota">Contract prices of what was reserved each month, in dirhams. A month
+            with nothing stays on the line at zero, it is not skipped.</p>
+        </div>
+      </section>
+
+      <section class="mod">
+        <header>${ico('casa', 15)}<h4>The book, by state</h4></header>
+        <div class="dev-grafica">
+          <canvas id="dev-grafica-libro" width="380" height="190" aria-label="Units by state"></canvas>
+          <ul class="dev-leyenda">
+            <li><i style="background:#16A34A"></i>Published</li>
+            <li><i style="background:#B45309"></i>In review</li>
+            <li><i style="background:#0969da"></i>On hold</li>
+            <li><i style="background:#10222B"></i>Sold</li>
+            <li><i style="background:#cbd0dd"></i>Without listing</li>
+          </ul>
+        </div>
+      </section>
+    </div>
 
     <div class="dev-dos">
       <section class="mod">
