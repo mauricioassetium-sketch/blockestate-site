@@ -2978,6 +2978,53 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
   body:not([data-ruta="inicio"]) .ms{min-height:44px !important}
 }
 
+/* ---------- el panel del menú, con la gramática del mercado ----------
+   Era una lista de enlaces con separadores. Mauricio mandó el panel de Bayut y le gustó: grupos que
+   se abren y se cierran, y al pie los ajustes del sitio —idioma, moneda y unidad de área—, cada uno
+   con su icono a la izquierda y su valor a la derecha, separados por una línea fina. Se copia la
+   gramática, no los colores ni las medidas de ellos. */
+.menu{min-width:288px; max-width:min(92vw,368px); padding:8px;
+  /* Medido: anclado al botón el panel empieza en y=100 y con dos grupos abiertos llegaba a 818 de
+     alto, o sea 918 sobre una ventana de 900: los ajustes del pie quedaban fuera. Se le da el hueco
+     que de verdad hay (ventana menos la barra, el hueco de anclaje y un margen) y scrollea dentro. */
+  max-height:calc(100vh - var(--bar) - 51px); overflow:auto}
+.menu .menu-grupos{display:grid; gap:2px}
+.menu .menu-cabeza{display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+  width:100%; min-height:44px; padding:.5rem .7rem; border:0; background:none; cursor:pointer;
+  font:inherit; font-size:.95rem; font-weight:700; letter-spacing:-.01em; color:var(--ink);
+  border-radius:.5rem}
+.menu .menu-cabeza:hover{background:var(--card)}
+.menu .menu-flecha{width:8px; height:8px; flex:none; border-right:2px solid var(--ink-45);
+  border-bottom:2px solid var(--ink-45); transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .2s}
+.menu .menu-cabeza[aria-expanded="true"] .menu-flecha{transform:rotate(-135deg) translate(-2px,-2px)}
+.menu .menu-hijos{display:grid; padding:0 0 .35rem .55rem}
+.menu .menu-hijos[hidden]{display:none}
+.menu .menu-hijos a{display:flex; align-items:center; min-height:44px; padding:.35rem .7rem;
+  border-radius:.5rem; font-size:.92rem; font-weight:400; color:var(--ink-72)}
+.menu .menu-hijos a:hover{background:var(--card); color:var(--green-deep)}
+.menu .menu-bloque, .menu .menu-set{border-top:1px solid var(--line); margin-top:6px; padding-top:6px}
+.menu .menu-quien{display:block; padding:.35rem .7rem .1rem; font-size:.72rem; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-45)}
+.menu .menu-set-titulo{display:block; padding:.35rem .7rem .15rem; font-size:.72rem; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45)}
+.menu .menu-set-fila{display:grid; grid-template-columns:18px 1fr auto; align-items:center; gap:.6rem;
+  width:100%; min-height:44px; padding:.4rem .7rem; border:0; border-radius:.5rem; background:none;
+  text-align:left; font:inherit; font-size:.92rem; color:var(--ink); cursor:default}
+.menu button.menu-set-fila{cursor:pointer}
+.menu button.menu-set-fila:hover{background:var(--card)}
+.menu .menu-set-ico{display:inline-flex; color:var(--ink-45)}
+.menu .menu-set-fila b{font-size:.86rem; font-weight:700; color:var(--green-deep); white-space:nowrap}
+
+/* En el teléfono el panel tampoco se ancla al borde: `position:fixed` NO funciona aquí, porque la
+   barra lleva `backdrop-filter` y eso convierte a la barra en el bloque contenedor —el panel se
+   quedaba en 18px de alto y empezaba en y=162—. Medido: el panel cuelga del botón en y=158 sobre una
+   ventana de 844, así que se le da el alto que queda (ventana menos la barra, el hueco del botón y un
+   margen) y scrollea dentro. */
+@media (max-width:620px){
+  .menu{min-width:0; width:min(92vw,360px); max-height:calc(100vh - var(--bar) - 108px)}
+}
+
 /* ---------- suelo táctil, de una vez ----------
    En móvil, todo lo que se pulsa mide 44 de alto. Pero un suelo escrito con selectores de tipo
    (`button`, `a.btn`) NO alcanza a lo que vive dentro de un componente: una regla de clase pesa más
@@ -2999,7 +3046,7 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 
 <script>try{if(!localStorage.getItem("blockestate.session"))localStorage.setItem("blockestate.session",JSON.stringify({sesion:"demo-offline",usuario:{nombre:"Mauricio"},rol:"comprador",permisos:["catalog.read","favorite.read","favorite.write","purchase.read","document.read"]}));}catch(e){}</script>
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-16 · built 16 Oct 2026 · 07:26. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-16 · built 16 Oct 2026 · 07:34. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -3552,11 +3599,14 @@ function leer() {
       usdt: numero(crudo.usdt),
       bnb: numero(crudo.bnb),
       ver: crudo.ver ?? null,
+      // La unidad en la que el visitante lee las superficies. El mercado cotiza en pies cuadrados;
+      // quien viene de fuera lee metros. Es una preferencia, no un dato: el dato son los pies.
+      unidad: crudo.unidad === 'm2' ? 'm2' : 'sqft',
       visto: crudo.visto ?? null,
       fuente: typeof crudo.fuente === 'string' ? crudo.fuente : null,
     };
   } catch {
-    return { usdt: null, bnb: null, visto: null };
+    return { usdt: null, bnb: null, ver: null, unidad: 'sqft' };
   }
 }
 
@@ -3573,6 +3623,19 @@ function activoElegido() {
 
 function elegirActivo(activo) {
   estadoCambio = { ...estadoCambio, ver: ACTIVOS_VER.includes(activo) ? activo : 'USDT' };
+  try { localStorage.setItem(CLAVE, JSON.stringify(estadoCambio)); } catch { /* sigue calculando */ }
+  return estadoCambio;
+}
+
+/** The units a surface can be read in, and the one the reader chose. */
+const UNIDADES = ['sqft', 'm2'];
+
+function unidadElegida() {
+  return estadoCambio.unidad === 'm2' ? 'm2' : 'sqft';
+}
+
+function elegirUnidad(unidad) {
+  estadoCambio = { ...estadoCambio, unidad: unidad === 'm2' ? 'm2' : 'sqft' };
   try { localStorage.setItem(CLAVE, JSON.stringify(estadoCambio)); } catch { /* sigue calculando */ }
   return estadoCambio;
 }
@@ -3790,13 +3853,16 @@ const tipoLabel = (v) => label(TIPOS, v);
 const obraLabel = (v) => label(ESTADOS_OBRA, v);
 const amenLabel = (v) => label(AMENIDADES, v);
 
-/** Sizes are quoted in square feet here, but the market reads both. Show both. */
+/** Sizes are quoted in square feet here, but the market reads both. Show both, the chosen one first:
+ *  a reader who thinks in metres should not have to convert in their head. */
 const SQFT_A_M2 = 0.092903;
 function areaTxt(sqft, { metro = true } = {}) {
   const n = Number(sqft);
   if (!n) return '';
   const pies = `${n.toLocaleString('en-US')} sqft`;
-  return metro ? `${pies} · ${Math.round(n * SQFT_A_M2).toLocaleString('en-US')} m²` : pies;
+  if (!metro) return pies;
+  const metros = `${Math.round(n * SQFT_A_M2).toLocaleString('en-US')} m²`;
+  return unidadElegida() === 'm2' ? `${metros} · ${pies}` : `${pies} · ${metros}`;
 }
 
 /** Las frases cortas de un anuncio, como las lee el mercado de un vistazo. Sólo lo que el dato dice
@@ -3881,6 +3947,18 @@ function pintarPreciosCripto() {
   });
 }
 
+/**
+ * Marks the chosen asset on every control that offers one — the bar's pills, and the menu's row.
+ * One function for both, because a choice and the figures it changes must never disagree on screen.
+ */
+function marcarActivo(activo) {
+  document.querySelectorAll('[data-activo]').forEach((o) => {
+    const on = o.dataset.activo === activo;
+    o.classList.toggle('on', on);
+    o.setAttribute('aria-pressed', String(on));
+  });
+}
+
 /** Wires it wherever it was painted: one listener per page, by delegation. */
 function initSelectorActivo() {
   document.addEventListener('input', (e) => {
@@ -3899,11 +3977,7 @@ function initSelectorActivo() {
     elegirActivo(b.dataset.activo);
     // The bar lives outside the view, so it is marked here, and only the prices are rewritten: the
     // choice and the figures it changes must never disagree on screen, and nothing else may move.
-    document.querySelectorAll('[data-activo]').forEach((o) => {
-      const on = o.dataset.activo === b.dataset.activo;
-      o.classList.toggle('on', on);
-      o.setAttribute('aria-pressed', String(on));
-    });
+    marcarActivo(b.dataset.activo);
     pintarPreciosCripto();
   });
 }
@@ -4252,6 +4326,8 @@ const ICO = {
   cama: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" /> <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" /> <path d="M12 4v6" /> <path d="M2 18h20" /></svg>',
   bano: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4 8 6" /> <path d="M17 19v2" /> <path d="M2 12h20" /> <path d="M7 19v2" /> <path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>',
   area: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /> <path d="M14 15H9v-5" /> <path d="M16 3h5v5" /> <path d="M21 3 9 15" /></svg>',
+  globo: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 3 2.6 15 0 18"/><path d="M12 3c-2.6 3-2.6 15 0 18"/></svg>',
+  moneda: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.6-.9-1.7-1.5-3-1.5-1.7 0-2.8.8-2.8 2s1 1.8 2.8 2.2c1.9.4 2.9 1 2.9 2.3s-1.2 2.1-2.9 2.1c-1.4 0-2.5-.6-3.1-1.6"/><path d="M12 6.5v11"/></svg>',
   pin: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></svg>',
   obra: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /></svg>',
   plan: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /> <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /> <path d="m2 16 6 6" /> <circle cx="16" cy="9" r="2.9" /> <circle cx="6" cy="5" r="3" /></svg>',
@@ -10037,6 +10113,31 @@ function abrirFichaVerificacion(yo, tipo = 'broker') {
 
 
 
+/**
+ * The groups of the menu, in the shape the market uses (Bayut's panel): a heading that opens and
+ * closes, with its links underneath. Same destinations as the footer's three columns, so the menu
+ * and the page cannot disagree.
+ */
+const GRUPOS_MENU = [
+  ['Buy', [
+    ['All properties', '#/search'],
+    ['Villas', '#/search?tipo=villa'],
+    ['Apartments', '#/search?tipo=apartment'],
+    ['Off plan', '#/search?estado_obra=off_plan'],
+  ]],
+  ['Sell and develop', [
+    ['Developer portal', '#/dev'],
+    ['List a property', '#/register'],
+    ['Broker desk', '#/broker'],
+    ['Creator desk', '#/creator'],
+  ]],
+  ['Company', [
+    ['About us', '#/about'],
+    ['Careers', '#/careers'],
+    ['Contact us', '#/contact'],
+    ['Terms & privacy', '#/terms'],
+  ]],
+];
 const barra = () => document.getElementById('barra');
 
 /** The bar: the mark, a search, and one button that opens everything of the buyer's. */
@@ -10046,6 +10147,11 @@ function renderBarra() {
   const logged = store.logged();
   const favs = store.favs.size;
   const alertas = store.sin_leer ?? 0;
+
+  // El menú: en pantalla ancha el primer grupo viene abierto; en el teléfono vienen todos cerrados,
+  // porque con uno abierto el panel mide 720 y el hueco que queda bajo el botón es de 678: el pie de
+  // ajustes se quedaba fuera de la vista. Cerrado, el panel mide 528 y se lee entero.
+  const abierto = window.matchMedia('(max-width:620px)').matches ? -1 : 0;
 
   el.innerHTML = `
     <a class="brand" href="#/" aria-label="BlockEstate, home">
@@ -10069,24 +10175,42 @@ function renderBarra() {
         <button class="icon-btn" id="cuenta" type="button" aria-haspopup="true" aria-expanded="false"
           title="Account" aria-label="Account">☰</button>
         <div class="menu" id="menu-cuenta" hidden>
-      ${logged ? `
-        <span class="who" style="display:block;padding:.5rem .7rem">${esc(store.usuario()?.nombre ?? '')}</span>
-        <hr>
-        <a href="#/portfolio">My purchases</a>
-        <a href="#/favorites">Saved properties</a>
-        <a href="#/notifications">Alerts</a>
-        <hr>
-        <a href="#/dev">Developer portal</a>
-        <a href="#/broker">Broker desk</a>
-        <a href="#/creator">Creator desk</a>
-        <hr>
-        <button id="salir" type="button">Sign out</button>`
+          <div class="menu-grupos">
+            ${GRUPOS_MENU.map(([titulo, hijos], i) => `
+              <section class="menu-grupo">
+                <button class="menu-cabeza" type="button" aria-expanded="${i === abierto}" aria-controls="mg-${i}">
+                  <span>${esc(titulo)}</span><i class="menu-flecha" aria-hidden="true"></i>
+                </button>
+                <div class="menu-hijos" id="mg-${i}"${i === abierto ? '' : ' hidden'}>
+                  ${hijos.map(([t, h]) => `<a href="${h}">${esc(t)}</a>`).join('')}
+                </div>
+              </section>`).join('')}
+          </div>
+          <div class="menu-bloque">
+            ${logged ? `
+              <span class="menu-quien">${esc(store.usuario()?.nombre ?? 'Signed in')}</span>
+              <a href="#/portfolio">My purchases</a>
+              <a href="#/favorites">Saved properties</a>
+              <a href="#/notifications">Alerts</a>
+              <button id="salir" type="button">Sign out</button>`
       : `<a href="#/login">Sign in</a>
-         <a href="#/register">Create account</a>
-         <hr>
-         <a href="#/dev">Developer portal</a>
-        <a href="#/broker">Broker desk</a>
-        <a href="#/creator">Creator desk</a>`}
+              <a href="#/register">Create account</a>`}
+          </div>
+          <div class="menu-set">
+            <span class="menu-set-titulo">Site settings</span>
+            <div class="menu-set-fila" title="The marketplace ships in English">
+              <i class="menu-set-ico">${ICO.globo}</i><span>Language</span><b>English</b>
+            </div>
+            <button class="menu-set-fila" id="set-moneda" type="button"
+              title="Which asset every price is shown in first">
+              <i class="menu-set-ico">${ICO.moneda}</i><span>Currency</span><b>${activoElegido()}</b>
+            </button>
+            <button class="menu-set-fila" id="set-unidad" type="button"
+              title="The unit surfaces are read in first">
+              <i class="menu-set-ico">${ICO.area}</i><span>Area unit</span>
+              <b>${unidadElegida() === 'm2' ? 'Square metres' : 'Square feet'}</b>
+            </button>
+          </div>
     </div>
       </div>
   `;
@@ -10102,11 +10226,38 @@ function renderBarra() {
     menu.hidden = !menu.hidden;
     boton.setAttribute('aria-expanded', String(!menu.hidden));
   });
-  // Elegir cierra. El menú solo se cerraba al pulsar FUERA, así que al pulsar una opción se quedaba
-  // abierto encima de la pantalla que el visitante acababa de pedir: había que tocarlo otra vez para
-  // verla. Se cierra al elegir, al cambiar de pantalla y con Escape.
+  // Elegir un destino cierra; abrir un grupo o cambiar un ajuste, no. Antes cualquier `click` en un
+  // `a` o un `button` cerraba el menú, y eso incluía las cabeceras de grupo y los dos ajustes: el
+  // panel se cerraba encima de la pantalla que el visitante acababa de pedir.
   menu.addEventListener('click', (e) => {
-    if (e.target.closest('a, button')) cerrarMenu();
+    if (e.target.closest('a')) { cerrarMenu(); return; }
+    const cabeza = e.target.closest('.menu-cabeza');
+    if (cabeza) {
+      const hijos = document.getElementById(cabeza.getAttribute('aria-controls'));
+      const abierto = cabeza.getAttribute('aria-expanded') === 'true';
+      cabeza.setAttribute('aria-expanded', String(!abierto));
+      if (hijos) hijos.hidden = abierto;
+      return;
+    }
+    const filaMoneda = e.target.closest('#set-moneda');
+    if (filaMoneda) {
+      const otro = activoElegido() === 'USDT' ? 'BNB' : 'USDT';
+      elegirActivo(otro);
+      marcarActivo(otro);
+      pintarPreciosCripto();
+      filaMoneda.querySelector('b').textContent = otro;
+      return;
+    }
+    const filaUnidad = e.target.closest('#set-unidad');
+    if (filaUnidad) {
+      const otra = unidadElegida() === 'm2' ? 'sqft' : 'm2';
+      elegirUnidad(otra);
+      // Las superficies están por toda la pantalla, así que aquí sí se repinta: es un dato que se lee
+      // en las tarjetas, en la ficha y en el buscador.
+      render();
+      filaUnidad.querySelector('b').textContent = otra === 'm2' ? 'Square metres' : 'Square feet';
+      return;
+    }
   });
   window.addEventListener('hashchange', cerrarMenu);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
