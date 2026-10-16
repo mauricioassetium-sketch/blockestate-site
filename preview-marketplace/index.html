@@ -3025,6 +3025,55 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
   .menu{min-width:0; width:min(92vw,360px); max-height:calc(100vh - var(--bar) - 108px)}
 }
 
+/* ---------- el mapa, con la gramática del mercado ----------
+   Mauricio mandó el mapa de Bayut: fondo claro, la chincheta con el precio y, al pulsarla, una
+   tarjeta con las cifras. No se copia su chincheta redonda con casita —la nuestra lleva el precio,
+   que es más útil— pero sí el fondo claro, la tarjeta y que la nota diga cuántas van en el mapa.
+   Leaflet vive dentro de `.mapa-lienzo`: el contenedor de la vista puede vaciarse sin llevarse por
+   delante sus paneles (que es lo que dejaba el mapa sin teselas). */
+.mapa-lienzo{position:absolute; inset:0}
+/* En el teléfono la vista de mapa dejaba el mapa DEBAJO de las doce tarjetas: medido, caía en y=10.286
+   sobre una ventana de 844, así que ninguna chincheta se veía. El mapa va primero y la lista sigue
+   debajo, que es como lo resuelve el mercado. */
+@media (max-width:900px){
+  .lay.mapa #mapa{order:-1; top:calc(var(--bar) + 8px)}
+}
+/* El aspecto claro de los portales, sin proveedor con clave: a las teselas de OpenStreetMap se les
+   quita el color y se les sube un punto el brillo. Medido con la captura: el fondo queda gris claro y
+   las chinchetas negras se leen igual de bien. */
+.mapa-lienzo .leaflet-tile-pane{filter:grayscale(1) brightness(1.07) contrast(.94) saturate(.2)}
+.mapa-nota{position:absolute; left:12px; bottom:12px; z-index:500; padding:.3rem .6rem;
+  background:rgba(255,255,255,.92); border:1px solid var(--line-2); border-radius:999px;
+  font-size:.74rem; font-weight:700; color:var(--ink-60); box-shadow:0 4px 12px rgba(16,34,43,.10)}
+.marca{background:none; border:0}
+.marca span{display:inline-block; transform:translate(-50%,-100%);
+  background:var(--ink); color:#fff; font-weight:800; font-size:.76rem; letter-spacing:-.01em;
+  padding:.3rem .6rem; border-radius:999px; box-shadow:0 6px 16px rgba(16,34,43,.34); white-space:nowrap;
+  border:2px solid var(--white); transition:transform .15s ease, background .15s ease}
+.marca span::after{content:""; position:absolute; left:50%; bottom:-5px; width:8px; height:8px;
+  transform:translateX(-50%) rotate(45deg); background:inherit; border-right:2px solid var(--white);
+  border-bottom:2px solid var(--white)}
+.marca.on span{background:linear-gradient(135deg,var(--green),var(--green-deep));
+  transform:translate(-50%,-100%) scale(1.08)}
+.marca.on{z-index:600}
+/* la tarjeta de una chincheta: precio, cifras y el enlace, como la del mercado */
+.mapa-pop .leaflet-popup-content-wrapper{border-radius:14px; box-shadow:0 14px 36px rgba(16,34,43,.22);
+  padding:0}
+.mapa-pop .leaflet-popup-content{margin:0; width:auto !important}
+.mapa-pop .leaflet-popup-tip{box-shadow:none}
+.mapa-ficha{display:grid; gap:.35rem; padding:.7rem .8rem .75rem; min-width:216px}
+.mapa-ficha b{font-size:1.02rem; font-weight:800; letter-spacing:-.015em; color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.mapa-ficha-datos{display:flex; align-items:center; gap:.75rem; font-size:.8rem; color:var(--ink-72);
+  flex-wrap:wrap}
+.mapa-ficha-datos svg{color:var(--ink-45); vertical-align:-2px}
+.mapa-ficha-dir{font-size:.76rem; color:var(--ink-45); line-height:1.35}
+.mapa-ficha-ir{display:inline-flex; align-items:center; gap:.3rem; margin-top:.15rem; font-size:.8rem;
+  font-weight:800; color:var(--green-deep); text-decoration:none}
+.mapa-ficha-ir:hover{text-decoration:underline}
+.leaflet-container{font-family:inherit; background:#eaeef1}
+.leaflet-control-zoom a{border-radius:8px !important}
+
 /* ---------- suelo táctil, de una vez ----------
    En móvil, todo lo que se pulsa mide 44 de alto. Pero un suelo escrito con selectores de tipo
    (`button`, `a.btn`) NO alcanza a lo que vive dentro de un componente: una regla de clase pesa más
@@ -3046,7 +3095,7 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 
 <script>try{if(!localStorage.getItem("blockestate.session"))localStorage.setItem("blockestate.session",JSON.stringify({sesion:"demo-offline",usuario:{nombre:"Mauricio"},rol:"comprador",permisos:["catalog.read","favorite.read","favorite.write","purchase.read","document.read"]}));}catch(e){}</script>
 </head>
-<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-16 · built 16 Oct 2026 · 07:34. Filters and favourites work here; anything that moves money needs the live platform.</div>
+<body><div style="background:#10222B;color:#fff;font:600 13px/1.5 Inter,system-ui,sans-serif;padding:9px 14px;text-align:center">Preview of the buyer marketplace · the real interface, with data captured on 2026-10-16 · built 16 Oct 2026 · 07:58. Filters and favourites work here; anything that moves money needs the live platform.</div>
 
 <!-- The real mark of blockestate.ae, injected once and referenced with <use>. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 256 256"><path d="M 244.00 128.00 L 243.96 152.83 L 243.83 162.52 L 243.62 169.85 L 243.32 175.95 L 242.93 181.27 L 242.46 186.02 L 241.91 190.34 L 241.26 194.31 L 240.53 197.99 L 239.71 201.42 L 238.80 204.63 L 237.80 207.64 L 236.71 210.48 L 235.52 213.16 L 234.24 215.68 L 232.86 218.07 L 231.39 220.32 L 229.82 222.45 L 228.14 224.46 L 226.35 226.35 L 224.46 228.14 L 222.45 229.82 L 220.32 231.39 L 218.07 232.86 L 215.68 234.24 L 213.16 235.52 L 210.48 236.71 L 207.64 237.80 L 204.63 238.80 L 201.42 239.71 L 197.99 240.53 L 194.31 241.26 L 190.34 241.91 L 186.02 242.46 L 181.27 242.93 L 175.95 243.32 L 169.85 243.62 L 162.52 243.83 L 152.83 243.96 L 128.00 244.00 L 103.17 243.96 L 93.48 243.83 L 86.15 243.62 L 80.05 243.32 L 74.73 242.93 L 69.98 242.46 L 65.66 241.91 L 61.69 241.26 L 58.01 240.53 L 54.58 239.71 L 51.37 238.80 L 48.36 237.80 L 45.52 236.71 L 42.84 235.52 L 40.32 234.24 L 37.93 232.86 L 35.68 231.39 L 33.55 229.82 L 31.54 228.14 L 29.65 226.35 L 27.86 224.46 L 26.18 222.45 L 24.61 220.32 L 23.14 218.07 L 21.76 215.68 L 20.48 213.16 L 19.29 210.48 L 18.20 207.64 L 17.20 204.63 L 16.29 201.42 L 15.47 197.99 L 14.74 194.31 L 14.09 190.34 L 13.54 186.02 L 13.07 181.27 L 12.68 175.95 L 12.38 169.85 L 12.17 162.52 L 12.04 152.83 L 12.00 128.00 L 12.04 103.17 L 12.17 93.48 L 12.38 86.15 L 12.68 80.05 L 13.07 74.73 L 13.54 69.98 L 14.09 65.66 L 14.74 61.69 L 15.47 58.01 L 16.29 54.58 L 17.20 51.37 L 18.20 48.36 L 19.29 45.52 L 20.48 42.84 L 21.76 40.32 L 23.14 37.93 L 24.61 35.68 L 26.18 33.55 L 27.86 31.54 L 29.65 29.65 L 31.54 27.86 L 33.55 26.18 L 35.68 24.61 L 37.93 23.14 L 40.32 21.76 L 42.84 20.48 L 45.52 19.29 L 48.36 18.20 L 51.37 17.20 L 54.58 16.29 L 58.01 15.47 L 61.69 14.74 L 65.66 14.09 L 69.98 13.54 L 74.73 13.07 L 80.05 12.68 L 86.15 12.38 L 93.48 12.17 L 103.17 12.04 L 128.00 12.00 L 152.83 12.04 L 162.52 12.17 L 169.85 12.38 L 175.95 12.68 L 181.27 13.07 L 186.02 13.54 L 190.34 14.09 L 194.31 14.74 L 197.99 15.47 L 201.42 16.29 L 204.63 17.20 L 207.64 18.20 L 210.48 19.29 L 213.16 20.48 L 215.68 21.76 L 218.07 23.14 L 220.32 24.61 L 222.45 26.18 L 224.46 27.86 L 226.35 29.65 L 228.14 31.54 L 229.82 33.55 L 231.39 35.68 L 232.86 37.93 L 234.24 40.32 L 235.52 42.84 L 236.71 45.52 L 237.80 48.36 L 238.80 51.37 L 239.71 54.58 L 240.53 58.01 L 241.26 61.69 L 241.91 65.66 L 242.46 69.98 L 242.93 74.73 L 243.32 80.05 L 243.62 86.15 L 243.83 93.48 L 243.96 103.17 L 244.00 128.00 Z" fill="#10222B"/><g transform="translate(19,0)"><path d="M 138.46 85.86 L 136.94 83.33 L 135.19 80.97 L 133.21 78.79 L 131.03 76.81 L 128.67 75.06 L 126.14 73.54 L 123.48 72.28 L 120.71 71.29 L 117.85 70.58 L 114.94 70.14 L 112.00 70.00 L 109.06 70.14 L 106.15 70.58 L 103.29 71.29 L 100.52 72.28 L 97.86 73.54 L 95.33 75.06 L 92.97 76.81 L 90.79 78.79 L 88.81 80.97 L 87.06 83.33 L 85.54 85.86 L 84.28 88.52 L 83.29 91.29 L 82.58 94.15 L 82.14 97.06 L 82.00 100.00 L 82.14 102.94 L 82.58 105.85 L 83.29 108.71 L 84.28 111.48 L 85.54 114.14 L 87.06 116.67 L 88.81 119.03 L 90.79 121.21 L 92.97 123.19 L 94.00 123.96 L 94.00 186.00 L 130.00 186.00 L 130.00 123.96 L 131.03 123.19 L 133.21 121.21 L 135.19 119.03 L 136.94 116.67 L 138.46 114.14 L 139.72 111.48 L 140.71 108.71 L 141.42 105.85 L 141.86 102.94 L 142.00 100.00 L 141.86 97.06 L 141.42 94.15 L 140.71 91.29 L 139.72 88.52 L 138.46 85.86 Z M 126.99 108.01 L 126.13 109.44 L 125.72 110.00 L 98.28 110.00 L 97.87 109.44 L 97.01 108.01 L 96.29 106.51 L 95.73 104.93 L 95.33 103.32 L 95.08 101.67 L 95.00 100.00 L 95.08 98.33 L 95.33 96.68 L 95.73 95.07 L 96.29 93.49 L 97.01 91.99 L 97.87 90.56 L 98.86 89.22 L 99.98 87.98 L 101.22 86.86 L 102.56 85.87 L 103.99 85.01 L 105.49 84.29 L 107.07 83.73 L 108.68 83.33 L 110.33 83.08 L 112.00 83.00 L 113.67 83.08 L 115.32 83.33 L 116.93 83.73 L 118.51 84.29 L 120.01 85.01 L 121.44 85.87 L 122.78 86.86 L 124.02 87.98 L 125.14 89.22 L 126.13 90.56 L 126.99 91.99 L 127.71 93.49 L 128.27 95.07 L 128.67 96.68 L 128.92 98.33 L 129.00 100.00 L 128.92 101.67 L 128.67 103.32 L 128.27 104.93 L 127.71 106.51 L 126.99 108.01 Z M 111.00 174.00 L 111.00 166.00 L 116.00 166.00 L 116.00 174.00 L 111.00 174.00 Z M 111.00 158.00 L 111.00 150.00 L 116.00 150.00 L 116.00 158.00 L 111.00 158.00 Z M 111.00 142.00 L 111.00 134.00 L 116.00 134.00 L 116.00 142.00 L 111.00 142.00 Z M 111.00 126.00 L 111.00 118.00 L 116.00 118.00 L 116.00 126.00 L 111.00 126.00 Z M 104.00 174.00 L 99.00 174.00 L 99.00 166.00 L 104.00 166.00 L 104.00 174.00 Z M 99.00 158.00 L 99.00 150.00 L 104.00 150.00 L 104.00 158.00 L 99.00 158.00 Z M 99.00 142.00 L 99.00 134.00 L 104.00 134.00 L 104.00 142.00 L 99.00 142.00 Z M 99.00 126.00 L 99.00 118.00 L 104.00 118.00 L 104.00 126.00 L 99.00 126.00 Z" fill="#22C55E"/><path d="M 54.00 140.00 L 54.00 186.00 L 88.00 186.00 L 88.00 140.00 L 54.00 140.00 Z M 76.00 172.00 L 71.00 172.00 L 71.00 164.00 L 76.00 164.00 L 76.00 172.00 Z M 71.00 156.00 L 71.00 148.00 L 76.00 148.00 L 76.00 156.00 L 71.00 156.00 Z M 59.00 172.00 L 59.00 164.00 L 64.00 164.00 L 64.00 172.00 L 59.00 172.00 Z M 59.00 156.00 L 59.00 148.00 L 64.00 148.00 L 64.00 156.00 L 59.00 156.00 Z" fill="#22C55E"/><path d="M 164.00 132.00 L 136.00 132.00 L 136.00 186.00 L 164.00 186.00 L 164.00 132.00 Z M 158.00 180.00 L 153.00 180.00 L 153.00 172.00 L 158.00 172.00 L 158.00 180.00 Z M 153.00 164.00 L 153.00 156.00 L 158.00 156.00 L 158.00 164.00 L 153.00 164.00 Z M 153.00 148.00 L 153.00 140.00 L 158.00 140.00 L 158.00 148.00 L 153.00 148.00 Z M 146.00 180.00 L 141.00 180.00 L 141.00 172.00 L 146.00 172.00 L 146.00 180.00 Z M 141.00 164.00 L 141.00 156.00 L 146.00 156.00 L 146.00 164.00 L 141.00 164.00 Z M 141.00 148.00 L 141.00 140.00 L 146.00 140.00 L 146.00 148.00 L 141.00 148.00 Z" fill="#22C55E"/></g></symbol></svg>
@@ -4822,12 +4871,38 @@ document.addEventListener('click', (e) => {
 /**
  * The map of the results.
  *
- * Each card with coordinates gets a **price marker**; hovering a card raises its marker and clicking
- * a marker highlights its card. Leaflet and the tiles come from the network, so they are loaded the
- * first time the map is opened, and if there is no connection, the map says so instead of pretending
- * to be a map.
+ * Each card with coordinates gets a **price marker**; hovering a card raises its marker, and clicking
+ * a marker highlights its card and opens a small card with the figures — the shape the market uses
+ * (Bayut): a light basemap, the price on every pin, and the figures when you press one.
+ *
+ * Two things this file learned the hard way, and both are why it looked broken:
+ *
+ *  · `pintarMapa` is called twice in a row — the search repaints once with the first answer and once
+ *    with the complete one. Being `async`, the second call passed the `if (!mapa)` test while the
+ *    first was still waiting for the library, took the reuse branch, and **wiped the container with
+ *    `innerHTML = ''`**: Leaflet's panes, its zoom control and its attribution lived in there. The
+ *    map object survived with no DOM under it, so the screen showed no tiles at all. The calls are
+ *    serialised now, and Leaflet's DOM is never touched: it lives in a child of its own.
+ *  · The map is created inside that child, so repainting the view can empty the outer box as much as
+ *    it likes.
+ *
+ * Leaflet and the tiles come from the network, so they are loaded the first time the map is opened,
+ * and if there is no connection the map says so instead of pretending to be a map.
  */
+
+
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
+/**
+ * Las teselas: OpenStreetMap, el único servidor de mapas que no pide clave.
+ *
+ * Se probó el fondo claro de CARTO —el que usan los portales— y **ya no es libre**: sus teselas salen
+ * con un cartel de «API KEY REQUIRED» estampado encima. Con OSM se consigue el mismo aspecto claro sin
+ * clave ni clave ajena: el color se le quita con un filtro CSS sobre el panel de teselas
+ * (`.leaflet-tile-pane`, en dev-v2.css). Para producción a volumen hará falta un servidor propio o un
+ * proveedor con clave; queda dicho en la documentación.
+ */
+const TESELAS_MAPA = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ATRIBUCION_MAPA = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 let libreria = null;
 
 function cargarLeaflet() {
@@ -4875,18 +4950,62 @@ function precioCorto(fils) {
 
 let mapa = null;
 let capa = null;
+/** El div propio donde vive Leaflet: el contenedor de la vista puede vaciarse sin tocarlo. */
+let lienzoMapa = null;
+/** El contenedor de esta pasada, para saber si la vista lo ha sustituido por otro. */
+let mapaEn = null;
 /** El ajuste de altura a la ventana se engancha una sola vez, aunque el mapa se vuelva a montar. */
 let ajustePuesto = false;
 const marcadores = new Map();
 
-async function pintarMapa(contenedor, resultados, { alElegir } = {}) {
+/** Las cifras, en el orden en que las lee el mercado: camas, baños, superficie. */
+function cifrasDe(r) {
+  return [
+    r.habitaciones ? `${ico('cama', 14)} ${r.habitaciones} ${r.habitaciones === 1 ? 'bed' : 'beds'}` : '',
+    r.banos ? `${ico('bano', 14)} ${r.banos} ${r.banos === 1 ? 'bath' : 'baths'}` : '',
+    r.superficie_sqft ? `${ico('area', 14)} ${areaTxt(r.superficie_sqft)}` : '',
+  ].filter(Boolean).join('');
+}
+
+/** La tarjeta que se abre al pulsar una chincheta: precio, cifras y el enlace a la ficha. */
+function fichaDeMapa(r) {
+  return `<div class="mapa-ficha">
+    <b>${esc(r.precio_aed ?? money(r.precio_fils))}</b>
+    <span class="mapa-ficha-datos">${cifrasDe(r)}</span>
+    ${r.titulo ? `<span class="mapa-ficha-dir">${esc(r.titulo)}</span>` : ''}
+    <a class="mapa-ficha-ir" href="#/unit/${esc(r.unidad_id)}">View the property</a>
+  </div>`;
+}
+
+/**
+ * La cola que deja una sola pintada a la vez. Dos pintadas a la vez es lo que mató el mapa: la
+ * segunda no veía mapa todavía, tomaba el camino de reutilizar y vaciaba el contenedor donde Leaflet
+ * estaba dibujando.
+ */
+let colaMapa = Promise.resolve();
+
+function pintarMapa(contenedor, resultados, opciones = {}) {
+  colaMapa = colaMapa.then(() => dibujarMapa(contenedor, resultados, opciones)).catch(() => {});
+  return colaMapa;
+}
+
+async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   const el = typeof contenedor === 'string' ? document.querySelector(contenedor) : contenedor;
   if (!el) return;
-  const conPunto = (resultados ?? []).filter((r) => r.latitud !== null && r.longitud !== null);
+  const todos = resultados ?? [];
+  const conPunto = todos.filter((r) => r.latitud !== null && r.longitud !== null);
 
   if (!conPunto.length) {
     el.innerHTML = `<div class="mapa-aviso">No property in this result carries a location yet, so there
       is nothing to place on the map.</div>`;
+    return;
+  }
+
+  let L;
+  try {
+    L = await cargarLeaflet();
+  } catch (err) {
+    el.innerHTML = `<div class="mapa-aviso">${esc(err.message)}</div>`;
     return;
   }
 
@@ -4898,34 +5017,28 @@ async function pintarMapa(contenedor, resultados, { alElegir } = {}) {
     if (mapa) mapa.invalidateSize();
   }
 
-  let L;
-  try {
-    L = await cargarLeaflet();
-  } catch (err) {
-    el.innerHTML = `<div class="mapa-aviso">${err.message}</div>`;
-    return;
-  }
-
-  if (!mapa) {
+  // El mapa se crea una vez, dentro de un div propio. Si la vista ha sustituido el contenedor (otra
+  // pantalla, otro repintado), el mapa viejo se descarta y se hace uno nuevo: reutilizarlo sería
+  // dibujar en un nodo que ya no está en la página.
+  if (!mapa || mapaEn !== el || !mapa.getContainer() || !el.contains(mapa.getContainer())) {
     el.innerHTML = '';
-    mapa = L.map(el, { zoomControl: true, attributionControl: true }).setView(
-      [conPunto[0].latitud, conPunto[0].longitud], 11,
-    );
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap',
-    }).addTo(mapa);
+    lienzoMapa = document.createElement('div');
+    lienzoMapa.className = 'mapa-lienzo';
+    el.appendChild(lienzoMapa);
+    mapa = L.map(lienzoMapa, { zoomControl: true, attributionControl: true })
+      .setView([conPunto[0].latitud, conPunto[0].longitud], 11);
+    L.tileLayer(TESELAS_MAPA, { maxZoom: 19, attribution: ATRIBUCION_MAPA }).addTo(mapa);
     capa = L.layerGroup().addTo(mapa);
+    mapaEn = el;
   } else {
-    el.innerHTML = '';
     mapa.invalidateSize();
   }
 
   // El mapa se ajusta a la ventana: su borde inferior no puede caer por debajo de la pantalla. Se
-  // recalcula al montarlo y cada vez que cambia el tamaño de la ventana.
-  // Al montarlo, la cabecera y la barra de filtros pueden no haber terminado de colocarse: se
-  // recalcula en el siguiente cuadro y otra vez un instante después, o el mapa se queda con el alto
-  // que le cabía cuando la página estaba más arriba.
+  // recalcula al montarlo y cada vez que cambia el tamaño de la ventana. Al montarlo, la cabecera y
+  // la barra de filtros pueden no haber terminado de colocarse: se recalcula en el siguiente cuadro y
+  // otra vez un instante después, o el mapa se queda con el alto que le cabía cuando la página estaba
+  // más arriba.
   ajustarAlto();
   requestAnimationFrame(ajustarAlto);
   setTimeout(ajustarAlto, 300);
@@ -4942,12 +5055,14 @@ async function pintarMapa(contenedor, resultados, { alElegir } = {}) {
   for (const r of conPunto) {
     const icono = L.divIcon({
       className: 'marca',
-      html: `<span>${precioCorto(r.precio_fils)}</span>`,
+      html: `<span>${esc(precioCorto(r.precio_fils))}</span>`,
       iconSize: [0, 0],
       iconAnchor: [0, 0],
     });
     const m = L.marker([r.latitud, r.longitud], { icon: icono, title: r.titulo }).addTo(capa);
-    m.on('click', () => alElegir?.(r.unidad_id));
+    m.bindPopup(fichaDeMapa(r), { className: 'mapa-pop', closeButton: true, offset: [0, -34], minWidth: 236 });
+    // Pulsar la chincheta abre su tarjeta y marca su ficha en la lista; pasar por encima la resalta.
+    m.on('click', () => { alElegir?.(r.unidad_id); resaltar(r.unidad_id, true); });
     m.on('mouseover', () => resaltar(r.unidad_id, true));
     m.on('mouseout', () => resaltar(r.unidad_id, false));
     marcadores.set(r.unidad_id, m);
@@ -4955,9 +5070,18 @@ async function pintarMapa(contenedor, resultados, { alElegir } = {}) {
   }
 
   // The whole result, in view.
-  mapa.fitBounds(puntos, { padding: [40, 40], maxZoom: 14 });
+  mapa.fitBounds(puntos, { padding: [48, 48], maxZoom: 14 });
   // Leaflet measures the container when it is created; inside a grid it may need a nudge.
   setTimeout(() => mapa?.invalidateSize(), 60);
+
+  // Y se dice cuántas se han podido poner: la mayoría de las unidades todavía no trae coordenadas, y
+  // callarlo haría creer que el mapa está completo.
+  const nota = el.querySelector('.mapa-nota') ?? document.createElement('div');
+  nota.className = 'mapa-nota';
+  nota.textContent = conPunto.length < todos.length
+    ? `${conPunto.length} of ${todos.length} properties carry a location`
+    : `${conPunto.length} properties on the map`;
+  el.appendChild(nota);
 }
 
 /** Raises the marker of a card, or marks the chosen one. */
@@ -4970,7 +5094,10 @@ function resaltar(unidadId, on) {
 
 function centrarEn(unidadId) {
   const m = marcadores.get(unidadId);
-  if (m && mapa) mapa.panTo(m.getLatLng(), { animate: true });
+  if (m && mapa) {
+    mapa.panTo(m.getLatLng(), { animate: true });
+    m.openPopup();
+  }
   resaltar(unidadId, true);
 }
 
@@ -5612,7 +5739,15 @@ function pintar() {
       carta.addEventListener('mouseleave', () => resaltar(id, false));
       carta.addEventListener('click', () => resaltar(id, true));
     }
-    pintarMapa('#mapa', ultimos, { alElegir: elegirEnLista });
+    pintarMapa('#mapa', ultimos, { alElegir: elegirEnLista }).then(() => {
+      // En el teléfono el buscador y los filtros ocupan 804px, así que el mapa empieza por debajo del
+      // pliegue: se lleva a la vista cuando está listo, o el visitante pulsa «Map» y no ve un mapa.
+      if (!window.matchMedia('(max-width:900px)').matches) return;
+      const cajaMapa = document.getElementById('mapa');
+      if (!cajaMapa) return;
+      const r = cajaMapa.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.6) cajaMapa.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
   }
 }
 
