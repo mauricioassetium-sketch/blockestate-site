@@ -1,33 +1,31 @@
-# Promoters · where each mark comes from
+# Créditos de los logotipos de `img/promotores/`
 
-These are the marks of real developers, used in a demo of the BlockEstate marketplace. Nothing here
-was redrawn or invented: each file is the one its owner publishes, or the one a free repository holds,
-and it is listed with where it came from.
+Estos logotipos son **marcas de sus dueños** (Emaar Properties, DAMAC Properties, Nakheel, Meraas y
+Aldar Properties). No son material de la plataforma y no se usan para decir que esas empresas estén en
+BlockEstate: entran en la **vista previa del sandbox**, con el permiso expreso del dueño del proyecto,
+para que la lista de Developers se vea como se verá cuando esas empresas estén dadas de alta.
 
-| Promoter | File | Source | Licence |
-|---|---|---|---|
-| Emaar | `emaar.ico` | emaar.com (their own site) | their trademark · use authorised by the client |
-| Ellington | `ellington.ico` | ellingtonproperties.ae (their own site) | their trademark · use authorised by the client |
-| Danube | `danube.png` | danubeproperties.com (their own site) | their trademark · use authorised by the client |
-| Binghatti | `binghatti.png` | binghatti.com (their own site) | their trademark · use authorised by the client |
-| DAMAC | `damac.png` | Wikimedia Commons, `File:Damac logo.svg` | **CC BY-SA 4.0 — attribution and share-alike required** |
-| Aldar | `aldar.png` | Wikimedia Commons, `File:Aldar Properties Logo 2016.png` | public domain |
-| Azizi | `azizi.png` | Wikimedia Commons, `File:Azizi-developments.png` | **CC BY-SA 4.0 — attribution and share-alike required** |
+Cada uno viene de Wikimedia Commons, con la licencia que Commons le declara. El fichero se guarda tal
+cual se descarga; el front lo incrusta en base64 para que el artefacto de un solo fichero funcione sin
+red.
 
-Project photographs, taken from the owner's own site:
+| Logotipo | Fichero | Origen | Autor | Licencia declarada en Commons |
+| --- | --- | --- | --- | --- |
+| Emaar Properties | `emaar.svg` | [File:Emaar logo.svg](https://commons.wikimedia.org/wiki/File:Emaar_logo.svg) | Emaar Properties | Public domain (solo formas geométricas o texto, sin umbral de originalidad) |
+| DAMAC Properties | `damac.svg` | [File:Damac logo.svg](https://commons.wikimedia.org/wiki/File:Damac_logo.svg) | Bashar Khallouf | **CC BY-SA 4.0** (atribución obligatoria; el fichero no se modifica) |
+| Nakheel | `nakheel.svg` | [File:Nakheel logo.svg](https://commons.wikimedia.org/wiki/File:Nakheel_logo.svg) | Nakheel Properties | Public domain (solo formas geométricas o texto) |
+| Meraas | `meraas.svg` | [File:Meraas-logo.svg](https://commons.wikimedia.org/wiki/File:Meraas-logo.svg) | Meraas | Public domain (solo formas geométricas o texto) |
+| Aldar Properties | `aldar.png` | [File:Aldar Properties Logo 2016.png](https://commons.wikimedia.org/wiki/File:Aldar_Properties_Logo_2016.png) | Aldar Properties | Public domain (solo formas geométricas o texto) |
 
-| Promoter | File | Source | Licence |
-|---|---|---|---|
-| Emaar | `proyecto-emaar.jpg` | the image emaar.com uses to represent itself (`og:image`) | their copyright · use authorised by the client |
-| Ellington | `proyecto-ellington.jpg` | the image ellingtonproperties.ae uses to represent itself | their copyright · use authorised by the client |
-| Danube | `proyecto-danube.jpg` | the image danubeproperties.com uses to represent itself | their copyright · use authorised by the client |
+Notas que conviene no perder de vista:
 
-**Still missing** (their sites refuse automated access and they are not in a free repository):
-**Sobha Realty, Nakheel and Meraas.** Ask them directly, or accept a placeholder mark.
-
-**The two CC BY-SA 4.0 marks owe an attribution.** If they stay on the site, that attribution has to be
-visible to the reader, and the share-alike term travels with the file. If that is not wanted, ask those
-two developers for their own mark instead.
-
-Downloaded 9 October 2026. Every file is also in the working library with its hash, its origin and its
-licence written down (`/root/biblioteca-blockestate`, 41 pieces).
+- **Una licencia de Commons no es un permiso de marca.** Que el dibujo esté en dominio público (o en
+  CC BY-SA) no autoriza a usarlo como si esas empresas fueran clientes o socios. Mientras esto sea una
+  vista previa del sandbox, con su aviso, se sostiene; **para publicarlo en serio hay que pedir permiso
+  a cada empresa**.
+- **DAMAC es CC BY-SA 4.0**: exige atribución (esta tabla la da) y compartir igual cualquier derivado.
+  El fichero se usa sin modificar.
+- Los **nombres** de las inmobiliarias del sandbox se cambiaron a los reales en la base
+  (`datos/sandbox-empresas-reales.sql`), porque la lista de Developers solo enseña quien tiene stock
+  publicado. **NDC Development LLC y Marina Estates siguen siendo nuestras** (marcas dibujadas aquí):
+  no son empresas reales y no llevan logotipo ajeno.
