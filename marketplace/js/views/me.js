@@ -546,3 +546,14 @@ function exigirSesion() {
     '<p style="margin-top:12px"><a class="btn green" href="#/login">Sign in</a> or <a href="#/register">create an account</a></p>')}</div>`;
   return true;
 }
+
+// Las vistas de la cuenta se exportan: app.js las importa por nombre. Sin esto el módulo carga y el
+// navegador aborta con «does not provide an export named viewAuth»: la página queda vacía.
+export {
+  viewAuth,
+  viewFavorites,
+  viewNotifications,
+  viewPortfolio,
+  viewPurchase,
+  viewRegister,
+};
