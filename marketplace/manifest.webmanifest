@@ -1,0 +1,17 @@
+{
+  "name": "BlockEstate · property in the UAE, paid in crypto",
+  "short_name": "BlockEstate",
+  "description": "Verified property from licensed developers in the United Arab Emirates. Pay in crypto, the developer is paid in dirhams, the title is registered in the buyer's name.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#10222B",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

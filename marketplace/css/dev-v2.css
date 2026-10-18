@@ -1,0 +1,785 @@
+/* ============================================================================
+   El portal del desarrollador, con el sistema del panel del operador.
+
+   No es «parecido»: son las mismas medidas. La escala tipográfica del panel
+   (10,24 / 11,5 / 12,8 / 14 / 16 / 26 px), los filetes de 1 px en vez de sombras,
+   las tarjetas de radio 8 sobre el fondo gris, la barra lateral de 254 px y la
+   barra superior de 58 px, y el color reservado para lo que significa algo
+   (verde = libro publicado o dinero, ámbar = cola que espera a una persona).
+
+   Va acotado a las pantallas del portal (`data-ruta="dev"`), así que no puede
+   tocar la portada, el buscador ni la ficha del comprador.
+   ========================================================================== */
+
+body[data-ruta="dev"]{
+  /* los mismos tokens que el panel, con los mismos nombres */
+  --brand:#22C55E; --brand-deep:#16A34A; --brand-dark:#15803D;
+  --bg:#f5f7fa; --surface:#ffffff; --surface-2:#eff2f6; --surface-3:#e3e6ed;
+  --ink:#141824; --body:#31374a; --dim:#525b75; --muted:#6e7891; --soft:#8a94ad;
+  --line:#e3e6ed; --line-2:#cbd0dd; --borde:rgba(203,208,221,.6);
+  --ok:#15803D; --ok-bg:#e8f8ec; --ok-bd:#a7e5bb;
+  --warn:#B45309; --warn-bg:#fff4e5; --warn-bd:#fcd9a5;
+  --bad:#b3261e; --bad-bg:#fdeae7; --bad-bd:#f6c9c2;
+  --fs-xs:10.24px; --fs-sm:11.5px; --fs:12.8px; --fs-md:14px; --fs-t:16px; --fs-h1:26px;
+  --tr:-.04em; --r:8px; --r-sm:6px; --r-xs:4px;
+  --lado:254px; --barra:58px; --pad:24px;
+  background:var(--bg);
+}
+
+body[data-ruta="dev"] .lab{font-size:var(--fs-xs); letter-spacing:.14em; color:var(--soft);
+  margin-bottom:6px}
+body[data-ruta="dev"] .lab .dash{background:var(--line-2)}
+
+/* ------------------------------- la barra de la organización (barra superior) */
+body[data-ruta="dev"] .dev-bar{position:sticky; top:0; z-index:20; display:flex; align-items:center;
+  gap:12px; min-height:var(--barra); padding:8px 20px; background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line); backdrop-filter:saturate(180%) blur(6px); margin:0}
+body[data-ruta="dev"] .dev-bar-org{display:flex; align-items:center; gap:10px; min-width:0}
+body[data-ruta="dev"] .dev-marca{width:32px; height:32px; flex:none; display:grid; place-items:center;
+  border-radius:var(--r); background:var(--ok-bg); color:var(--ok); border:1px solid var(--ok-bd)}
+body[data-ruta="dev"] .dev-bar-txt{display:flex; flex-direction:column; line-height:1.2; min-width:0}
+body[data-ruta="dev"] .dev-bar-txt b{font-size:var(--fs-md); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+body[data-ruta="dev"] .dev-bar-txt small{display:flex; align-items:center; gap:8px; font-size:var(--fs-xs);
+  color:var(--muted)}
+body[data-ruta="dev"] .dev-bar-txt small i{font-style:normal; color:var(--soft)}
+body[data-ruta="dev"] .dev-bar-acciones{margin-left:auto; display:flex; align-items:center; gap:8px}
+
+/* ------------------------------------------- barra lateral (254 px) + lienzo */
+body[data-ruta="dev"] .dev-shell{display:grid; grid-template-columns:var(--lado) minmax(0,1fr);
+  align-items:start; margin:0}
+body[data-ruta="dev"] .dev-nav{position:sticky; top:var(--barra); height:calc(100vh - var(--barra));
+  overflow-y:auto; display:flex; flex-direction:column; gap:18px; padding:14px 10px 24px;
+  background:var(--surface); border-right:1px solid var(--line)}
+body[data-ruta="dev"] .dev-nav-grupo{display:flex; flex-direction:column; gap:2px}
+body[data-ruta="dev"] .dev-nav-lab{display:block; padding:0 10px 6px; font-size:var(--fs-xs);
+  font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--soft)}
+body[data-ruta="dev"] .dev-nav a{display:flex; align-items:center; gap:9px; padding:7px 10px;
+  border-radius:var(--r); color:var(--body); font-size:var(--fs); font-weight:600; text-decoration:none;
+  transition:background .12s ease, color .12s ease}
+body[data-ruta="dev"] .dev-nav a svg{flex:none; color:var(--soft)}
+body[data-ruta="dev"] .dev-nav a:hover{background:var(--surface-2); color:var(--ink)}
+body[data-ruta="dev"] .dev-nav a:hover svg{color:var(--dim)}
+body[data-ruta="dev"] .dev-nav a.on{background:var(--ok-bg); color:var(--ok)}
+body[data-ruta="dev"] .dev-nav a.on svg{color:var(--ok)}
+body[data-ruta="dev"] .dev-nav a .n{margin-left:auto; font-style:normal; font-size:var(--fs-xs);
+  font-weight:700; padding:2px 7px; border-radius:var(--r-xs); background:var(--surface-2); color:var(--dim)}
+body[data-ruta="dev"] .dev-nav a.on .n{background:#fff; color:var(--ok)}
+body[data-ruta="dev"] .dev-main{min-width:0; padding:22px var(--pad) 64px; background:var(--bg)}
+
+/* ------------------------------------------------------------- las tarjetas */
+body[data-ruta="dev"] .mod{display:flex; flex-direction:column; background:var(--surface);
+  border:1px solid var(--borde); border-radius:var(--r); box-shadow:none; padding:0; overflow:hidden;
+  margin:0 0 14px}
+body[data-ruta="dev"] .mod > header{display:flex; align-items:center; gap:8px; padding:11px 16px;
+  border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em}
+body[data-ruta="dev"] .mod > header h4{margin:0; font-size:var(--fs-t); font-weight:700; color:var(--ink)}
+body[data-ruta="dev"] .mod > header svg{color:var(--brand-deep); flex:none}
+body[data-ruta="dev"] .mod > header a{margin-left:auto; font-size:var(--fs-sm); font-weight:650;
+  color:var(--brand-dark); text-decoration:none; white-space:nowrap}
+body[data-ruta="dev"] .mod > header a:hover{text-decoration:underline}
+body[data-ruta="dev"] .mod > .list{padding:10px 16px 12px}
+body[data-ruta="dev"] .mod .list .item b{font-size:var(--fs); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .mod .list .item .muted{font-size:var(--fs-sm)}
+body[data-ruta="dev"] .mod .list .item .when{font-size:var(--fs-xs); color:var(--soft)}
+body[data-ruta="dev"] .dev-barras-nota{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
+  color:var(--muted)}
+body[data-ruta="dev"] .mod > p,
+body[data-ruta="dev"] .mod > .note{padding:12px 16px; margin:0; font-size:var(--fs-sm); color:var(--muted)}
+/* La regla que evita el fallo de verdad: TODO lo que va suelto dentro de una tarjeta lleva el mismo
+   relleno a los lados. Solo piden la excepción los bloques que ya traen el suyo o que se pintan a
+   sangre, y así el texto no puede acabar pegado al borde por olvido. */
+body[data-ruta="dev"] .mod > *{padding-left:16px; padding-right:16px}
+body[data-ruta="dev"] .mod > .kv,
+body[data-ruta="dev"] .mod > .dev-tabla-caja,
+body[data-ruta="dev"] .mod > .dev-dos,
+body[data-ruta="dev"] .mod > .lay{padding-left:0; padding-right:0}
+/* el formulario que no usa grupos: su contenido también va dentro de los mismos 16 px */
+body[data-ruta="dev"] .mod > form{padding:0 16px 14px}
+body[data-ruta="dev"] .mod > form > fieldset{margin:0 -16px; padding:14px 16px 16px}
+body[data-ruta="dev"] .mod > form > .dev-form-pie{margin:0 -16px; padding:12px 16px}
+body[data-ruta="dev"] .mod > form > p,
+body[data-ruta="dev"] .mod > form > .note{margin:0 -16px; padding:12px 16px 0}
+body[data-ruta="dev"] .mod > form > *:last-child{padding-bottom:12px}
+body[data-ruta="dev"] .dev-dos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px; align-items:stretch; margin:0 0 12px}
+/* Dos paneles en la misma fila que NO acaban a la misma altura se leen como un descuido: se estiran
+   los dos y el contenido se reparte solo (la cifra o la gráfica arriba, la nota o la leyenda abajo).
+   Dos columnas y no tres: a tres, una tarjeta se queda en 266 px y ahí no cabe ni una cifra con su
+   etiqueta sin pegarse a los bordes. Cuando un panel necesita la fila entera, la pide. */
+body[data-ruta="dev"] .dev-dos > .mod{height:100%; margin:0}
+body[data-ruta="dev"] .dev-dos-c > .mod:first-child{grid-column:1/-1}
+/* cuando una columna lleva varias piezas de alto distinto, estirarlas deja un hueco muerto al final */
+body[data-ruta="dev"] .dev-dos-arriba{align-items:start}
+body[data-ruta="dev"] .dev-dos > div > .mod:last-child,
+body[data-ruta="dev"] .dev-dos > div > .mod:only-child{margin-bottom:0}
+
+/* --------------------------------------------------- las cifras de un vistazo */
+body[data-ruta="dev"] .destacados{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px; background:none; border:0; padding:0; margin:0 0 14px}
+body[data-ruta="dev"] .destacados .dest{display:flex; flex-direction:column; gap:2px; background:var(--surface);
+  border:1px solid var(--borde); border-radius:var(--r); padding:12px 14px}
+body[data-ruta="dev"] .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+  color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.15}
+body[data-ruta="dev"] .destacados .dest b.chico{font-size:var(--fs-t); font-weight:650;
+  letter-spacing:-.02em}
+body[data-ruta="dev"] .dev-carga{margin-top:12px}
+body[data-ruta="dev"] .mod > header > .muted,
+body[data-ruta="dev"] .mod > header > span:not(:first-child){margin-left:auto; font-size:var(--fs-sm);
+  color:var(--muted); font-weight:500}
+body[data-ruta="dev"] .destacados .dest-lab{font-size:var(--fs-xs); font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted)}
+
+/* --------------------------------------------------------------- las tablas */
+body[data-ruta="dev"] .dev-tabla-caja{overflow-x:auto; border-radius:0}
+body[data-ruta="dev"] .dev-tabla{width:100%; border-collapse:collapse; font-size:var(--fs-md)}
+body[data-ruta="dev"] .dev-tabla th{position:sticky; top:0; background:var(--surface-2); text-align:left;
+  padding:8px 16px; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
+body[data-ruta="dev"] .dev-tabla td{padding:10px 16px; border-bottom:1px solid var(--line); color:var(--body);
+  vertical-align:middle}
+body[data-ruta="dev"] .dev-tabla tbody tr:last-child td{border-bottom:0}
+body[data-ruta="dev"] .dev-tabla tbody tr:hover td{background:#fbfdfe}
+body[data-ruta="dev"] .dev-tabla td b{display:block; font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-tabla td small{display:block; margin-top:1px; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-tabla td.num,
+body[data-ruta="dev"] .dev-tabla th.num{text-align:right; font-variant-numeric:tabular-nums;
+  font-weight:650; color:var(--ink); white-space:nowrap; width:1%}
+body[data-ruta="dev"] .dev-tabla td.abrir{width:28px; text-align:right; color:var(--soft)}
+body[data-ruta="dev"] .dev-tabla tbody tr{cursor:pointer}
+body[data-ruta="dev"] .dev-tabla tbody tr:hover td.abrir{color:var(--brand-deep)}
+
+/* las etiquetas de estado: color solo cuando significa algo */
+body[data-ruta="dev"] .tag{display:inline-flex; align-items:center; gap:4px; padding:2px 8px;
+  border-radius:var(--r-xs); font-size:var(--fs-xs); font-weight:700; letter-spacing:.03em;
+  background:var(--surface-2); color:var(--dim); border:1px solid var(--line)}
+body[data-ruta="dev"] .tag.green{background:var(--ok-bg); color:var(--ok); border-color:var(--ok-bd)}
+body[data-ruta="dev"] .tag.coin{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-bd)}
+body[data-ruta="dev"] .tag.err{background:var(--bad-bg); color:var(--bad); border-color:var(--bad-bd)}
+
+/* --------------------------------------------- las barras y las listas de datos */
+body[data-ruta="dev"] .dev-barras{padding:12px 16px 14px; flex:1}
+body[data-ruta="dev"] .dev-barra{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px;
+  align-items:center; padding:9px 0; border-bottom:1px solid var(--line); text-decoration:none}
+body[data-ruta="dev"] .dev-barra:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-barra b{font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-barra i.n{font-style:normal; font-size:var(--fs-sm); font-weight:700; color:var(--dim)}
+body[data-ruta="dev"] .dev-barra .pista{grid-column:1/-1; display:block; height:6px; border-radius:999px;
+  background:var(--surface-2); overflow:hidden}
+body[data-ruta="dev"] .dev-barra .relleno{display:block; height:100%; border-radius:999px; background:var(--brand)}
+body[data-ruta="dev"] .dev-barra small{grid-column:1/-1; font-size:var(--fs-sm); color:var(--muted)}
+
+/* --------------------------------------------------- avisos, notas y respuestas */
+body[data-ruta="dev"] .msg{padding:10px 14px; border-radius:var(--r); font-size:var(--fs); margin:0 0 14px;
+  border:1px solid var(--line); background:var(--surface)}
+body[data-ruta="dev"] .msg.err{background:var(--bad-bg); border-color:var(--bad-bd); color:#7a1d18}
+body[data-ruta="dev"] .msg.warn{background:var(--warn-bg); border-color:var(--warn-bd); color:#7c3d06}
+body[data-ruta="dev"] .msg.ok{background:var(--ok-bg); border-color:var(--ok-bd); color:#0f5c2c}
+
+/* ------------------------------------------------------------- los formularios */
+body[data-ruta="dev"] form{padding:14px 16px}
+body[data-ruta="dev"] label{display:block; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:4px}
+body[data-ruta="dev"] input,body[data-ruta="dev"] select,body[data-ruta="dev"] textarea{
+  width:100%; min-height:38px; padding:6px 10px; font-size:var(--fs-md); color:var(--ink);
+  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
+body[data-ruta="dev"] input:focus,body[data-ruta="dev"] select:focus,body[data-ruta="dev"] textarea:focus{
+  outline:none; border-color:var(--brand-deep); box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+body[data-ruta="dev"] .btn{display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  min-height:38px; padding:0 14px; border-radius:var(--r-sm); border:1px solid var(--line-2);
+  background:var(--surface); color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer;
+  text-decoration:none}
+body[data-ruta="dev"] .btn:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .btn.green{background:var(--brand); border-color:var(--brand); color:#04140c}
+body[data-ruta="dev"] .btn.green:hover{background:var(--brand-deep); border-color:var(--brand-deep); color:#04140c}
+body[data-ruta="dev"] .btn.green svg,body[data-ruta="dev"] .btn.green path{color:#04140c; fill:currentColor}
+
+/* las pestañas de una sección, como las del panel */
+body[data-ruta="dev"] .dev-sec{display:flex; gap:4px; flex-wrap:wrap; padding:10px 16px 0;
+  border-bottom:1px solid var(--line)}
+body[data-ruta="dev"] .dev-sec button{display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+  background:none; border:0; border-bottom:2px solid transparent; color:var(--muted);
+  font-size:var(--fs); font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .dev-sec button:hover{color:var(--ink)}
+body[data-ruta="dev"] .dev-sec button.on{color:var(--brand-dark); border-color:var(--brand)}
+
+/* ------------------------------------------------------------- las gráficas */
+body[data-ruta="dev"] .dev-grafica{display:flex; flex-direction:column; gap:10px; flex:1;
+  padding:12px 16px 14px}
+body[data-ruta="dev"] .dev-grafica canvas{display:block; width:100%; height:190px; flex:none}
+body[data-ruta="dev"] .dev-grafica-nota{margin:auto 0 0; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-leyenda{display:flex; flex-wrap:wrap; gap:8px 16px; margin:auto 0 0; padding:0;
+  list-style:none}
+body[data-ruta="dev"] .dev-leyenda li{display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-sm);
+  color:var(--body)}
+body[data-ruta="dev"] .dev-leyenda i{width:9px; height:9px; border-radius:2px; background:var(--brand)}
+
+/* en el teléfono el portal se apila: la barra lateral pasa arriba, en una fila que se desliza */
+/* ============================================================================
+   Las piezas de TODAS las pantallas del portal, no solo el resumen.
+
+   Un repaso completo: todo lo que quedaba con el diseño viejo del mercado
+   (radios de 17 px, degradados, tamaños en `rem`, etiquetas a 10 px con
+   separación de 0,2 em) pasa al sistema del panel. Es el mismo cambio que se
+   hizo en el resumen, aplicado a la ficha de una venta, a la de una propiedad,
+   a los listados, a los formularios y a las herramientas.
+   ========================================================================== */
+
+body[data-ruta="dev"] .dev-ancho{grid-column:1/-1}
+body[data-ruta="dev"] .row-between{display:flex; align-items:center; justify-content:space-between;
+  gap:12px; flex-wrap:wrap}
+body[data-ruta="dev"] h1{margin:0 0 6px; font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+  color:var(--ink); line-height:1.15}
+body[data-ruta="dev"] .dev-titulo{margin:0 0 14px}
+
+/* ------------------- las dos columnas de una ficha: el contenido y el carril */
+body[data-ruta="dev"] .lay{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:12px;
+  align-items:start; margin-top:12px}
+body[data-ruta="dev"] .rail{position:sticky; top:calc(var(--barra) + 12px); display:grid; gap:12px}
+body[data-ruta="dev"] .rail-box{background:var(--surface); border:1px solid var(--borde);
+  border-radius:var(--r); overflow:hidden}
+body[data-ruta="dev"] .rail-box > h3{display:flex; align-items:center; gap:8px; margin:0; padding:11px 16px;
+  border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
+  letter-spacing:-.01em}
+body[data-ruta="dev"] .rail-box > h3 svg{color:var(--brand-deep); flex:none}
+body[data-ruta="dev"] .rail-box > p,
+body[data-ruta="dev"] .rail-box > .note{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
+  color:var(--muted)}
+body[data-ruta="dev"] .rail-box > p:last-child{padding-bottom:14px}
+body[data-ruta="dev"] .rail-box > .kv{padding:0}
+body[data-ruta="dev"] .rail-box > .dev-mini,
+body[data-ruta="dev"] .rail-box > a,
+body[data-ruta="dev"] .rail-box > .btn{margin:12px 16px 14px}
+
+/* ---------------------------------------- el dato y su valor, en filas de filete */
+body[data-ruta="dev"] .kv{display:grid; grid-template-columns:auto minmax(0,1fr); margin:0;
+  font-size:var(--fs-md)}
+body[data-ruta="dev"] .kv dt{display:flex; align-items:center; padding:9px 12px 9px 16px;
+  font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
+body[data-ruta="dev"] .kv dd{display:flex; align-items:center; justify-content:flex-end; gap:6px;
+  margin:0; padding:9px 16px; border-bottom:1px solid var(--line); color:var(--ink); font-weight:650;
+  text-align:right; font-variant-numeric:tabular-nums}
+body[data-ruta="dev"] .kv dt:nth-last-of-type(1),
+body[data-ruta="dev"] .kv dd:last-of-type{border-bottom:0}
+body[data-ruta="dev"] .kv .dev-mono{font-variant-numeric:normal}
+
+/* --------------------- los pasos de una venta: una línea de tiempo, con jerarquía */
+body[data-ruta="dev"] .dev-paso{display:grid; grid-template-columns:16px minmax(0,1fr); gap:10px;
+  align-items:center; padding:7px 16px; border-bottom:1px solid var(--line); font-size:var(--fs);
+  color:var(--soft)}
+body[data-ruta="dev"] .dev-paso:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-paso .punto{justify-self:center; width:9px; height:9px; border-radius:50%;
+  background:var(--surface); border:2px solid var(--line-2)}
+body[data-ruta="dev"] .dev-paso.hecho{color:var(--body)}
+body[data-ruta="dev"] .dev-paso.hecho .punto{background:var(--brand); border-color:var(--brand)}
+body[data-ruta="dev"] .dev-paso.aqui{background:var(--ok-bg); color:var(--ink); font-weight:650}
+body[data-ruta="dev"] .dev-paso.aqui .punto{background:var(--brand-deep); border-color:var(--brand-deep);
+  box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+
+/* ------------------------------------------------------------- los formularios */
+body[data-ruta="dev"] .dev-form{display:grid; gap:14px; margin:0}
+body[data-ruta="dev"] .dev-form fieldset{margin:0; padding:14px 16px 16px; border:0;
+  border-top:1px solid var(--line)}
+body[data-ruta="dev"] .dev-form fieldset:first-of-type{border-top:0}
+body[data-ruta="dev"] .dev-form legend{padding:0 0 10px; font-size:var(--fs-t); font-weight:700;
+  color:var(--ink); letter-spacing:-.01em}
+body[data-ruta="dev"] .dev-form-2{display:grid; grid-template-columns:1fr 1fr; gap:14px 16px}
+body[data-ruta="dev"] .dev-form-2 label:only-child{grid-column:1/-1}
+body[data-ruta="dev"] .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:12px 16px; border-top:1px solid var(--line); background:#fbfdfe}
+body[data-ruta="dev"] .dev-form-pie .note{flex:1 1 260px; margin:0}
+body[data-ruta="dev"] .dev-etiqueta{display:block; margin:0 0 4px; font-size:var(--fs-xs); font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+body[data-ruta="dev"] .dev-mini{display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-mini b{color:var(--ink)}
+body[data-ruta="dev"] .dev-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:var(--fs-sm); color:var(--ink)}
+body[data-ruta="dev"] .note{font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .muted{color:var(--muted)}
+
+/* -------------------------------------------------- los archivos y sus etiquetas */
+body[data-ruta="dev"] .dev-archivo{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+body[data-ruta="dev"] .archivo-dicho{font-size:var(--fs-sm); color:var(--muted); line-height:1.5}
+body[data-ruta="dev"] .dev-archivo{margin-top:2px}
+body[data-ruta="dev"] .btn-archivo{display:inline-flex; align-items:center; gap:7px; min-height:38px;
+  padding:0 14px; border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
+  color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .btn-archivo:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .btn.ghost{background:transparent}
+/* escondido de verdad: un campo que no se ve pero ocupa 197 px descoloca la fila que lo contiene */
+body[data-ruta="dev"] .solo-lector{position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0}
+
+/* ------------------------------------------- las herramientas de una lista larga */
+body[data-ruta="dev"] .dev-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px}
+body[data-ruta="dev"] .dev-find{display:flex; align-items:center; gap:8px; flex:1 1 240px; min-width:0;
+  padding:0 12px; background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
+body[data-ruta="dev"] .dev-find svg{color:var(--soft); flex:none}
+body[data-ruta="dev"] .dev-find input{width:100%; min-height:38px; padding:0; border:0; outline:0;
+  background:none; font-size:var(--fs-md); color:var(--ink)}
+body[data-ruta="dev"] .dev-chips{display:flex; gap:6px; flex-wrap:wrap}
+body[data-ruta="dev"] .chip-f{min-height:34px; padding:0 12px; border:1px solid var(--line-2);
+  border-radius:var(--r-sm); background:var(--surface); color:var(--body); font-size:var(--fs);
+  font-weight:650; cursor:pointer}
+body[data-ruta="dev"] .chip-f:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+body[data-ruta="dev"] .chip-f.on,
+body[data-ruta="dev"] .chip-f[aria-pressed="true"]{background:var(--ok-bg); border-color:var(--ok-bd);
+  color:var(--ok)}
+body[data-ruta="dev"] .dev-orden select{width:auto; min-height:38px; padding:0 10px;
+  border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
+  font-size:var(--fs); color:var(--body)}
+body[data-ruta="dev"] .dev-cuenta{margin-left:auto; font-size:var(--fs-sm); color:var(--muted);
+  font-variant-numeric:tabular-nums}
+
+/* ----------------------------------------------- la calculadora y lo que repasa */
+body[data-ruta="dev"] .dev-calc{margin:0; padding:14px 16px; border-top:1px solid var(--line);
+  background:#fbfdfe; font-size:var(--fs-sm); color:var(--body)}
+body[data-ruta="dev"] .dev-calc-tasas{display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 2px;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-calc-salida,
+body[data-ruta="dev"] .dev-calc-vuelta{display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; padding:6px 0; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums}
+body[data-ruta="dev"] .dev-calc-salida:last-child{border-bottom:0}
+body[data-ruta="dev"] .dev-calc-activo{font-size:var(--fs); font-weight:650; color:var(--ink)}
+body[data-ruta="dev"] .dev-calc-aviso{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
+body[data-ruta="dev"] .dev-marcas{display:flex; flex-wrap:wrap; gap:6px}
+body[data-ruta="dev"] .dev-marca-caja{margin:0; padding:0; border:0; font-size:var(--fs-sm)}
+body[data-ruta="dev"] .dev-repaso{display:grid; gap:4px; margin-top:8px; font-size:var(--fs-sm)}
+body[data-ruta="dev"] .dev-repaso .si{color:var(--ok)}
+body[data-ruta="dev"] .dev-progreso{list-style:none; display:grid; gap:3px; margin:10px 0 0; padding:0;
+  font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-progreso li{position:relative; padding-left:16px}
+body[data-ruta="dev"] .dev-progreso li::before{content:''; position:absolute; left:0; top:.42em;
+  width:7px; height:7px; border-radius:50%; background:var(--line-2)}
+body[data-ruta="dev"] .dev-progreso li.si::before{background:var(--brand)}
+body[data-ruta="dev"] .dev-vista{display:flex; align-items:center; gap:10px; font-size:var(--fs-sm);
+  color:var(--muted)}
+body[data-ruta="dev"] .dev-vista img{width:40px; height:40px; border-radius:var(--r);
+  object-fit:cover; border:1px solid var(--line-2)}
+
+/* la calculadora y el repaso también dentro de una tarjeta con relleno */
+body[data-ruta="dev"] .mod > .dev-calc,
+body[data-ruta="dev"] .mod > .dev-tools{margin:0}
+
+/* ------------------------- las tres piezas de una explicación (qué hace, qué no, qué deja) ---- */
+body[data-ruta="dev"] .dev-tres{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;
+  margin:12px 0 4px}
+body[data-ruta="dev"] .dev-tres > div{background:#fbfdfe; border:1px solid var(--line);
+  border-radius:var(--r); padding:11px 13px}
+body[data-ruta="dev"] .dev-tres b{display:block; margin-bottom:4px; font-size:var(--fs-xs);
+  font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+body[data-ruta="dev"] .dev-tres span{font-size:var(--fs); color:var(--body); line-height:1.5}
+/* el alcance del sello, debajo del sello que lo firma */
+body[data-ruta="dev"] .alcance{display:block; margin-top:4px; font-size:var(--fs-sm); color:var(--muted)}
+body[data-ruta="dev"] .dev-tabla td .sello-vss{transform:scale(.92); transform-origin:left center}
+
+@media (max-width:900px){
+  body[data-ruta="dev"] .dev-shell{grid-template-columns:minmax(0,1fr)}
+  body[data-ruta="dev"] .dev-nav{position:static; height:auto; flex-direction:row; gap:12px;
+    overflow-x:auto; padding:10px 12px; border-right:0; border-bottom:1px solid var(--line)}
+  body[data-ruta="dev"] .dev-nav-grupo{flex-direction:row; align-items:center; gap:6px}
+  body[data-ruta="dev"] .dev-nav-lab{display:none}
+  body[data-ruta="dev"] .dev-nav a{white-space:nowrap}
+  body[data-ruta="dev"] .dev-main{padding:16px 12px 48px}
+  body[data-ruta="dev"] .destacados{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body[data-ruta="dev"] .dev-tres{grid-template-columns:minmax(0,1fr)}
+  body[data-ruta="dev"] .dev-dos{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- ancho perdido en móvil ----------
+   El contenedor de página ya trae 18px a cada lado, y dentro había OTRO .wrap con los mismos 18px:
+   en un teléfono de 390 se iban 72px en aire y la tarjeta quedaba en 318px de ancho. Una caja
+   dentro de otra no vuelve a acolchar; medido, esto devuelve 54px a la tarjeta. */
+.wrap .wrap{padding-inline:0}
+
+/* ---------- la barra del avance declarado ----------
+   El marcado y el número existían, pero no había estilo para la barra: se pintaba un <i> en línea,
+   sin altura ni color, así que el avance se veía como un hueco vacío con el "100%" al lado.
+   El valor llega en puntos básicos (10000 = 100%), que es lo que ya muestra el texto. */
+.progreso{margin:.55rem 0 .2rem}
+.progreso .barra{height:8px; background:var(--line-2,#e6e8e7); border-radius:999px;
+  overflow:hidden; margin:.45rem 0 .4rem}
+.progreso .barra i{display:block; height:100%; min-width:2px; background:var(--green,#22C55E);
+  border-radius:999px; transition:width .45s ease}
+.progreso .note{font-size:12px; color:var(--ink-60,rgba(17,17,17,.55))}
+@media (max-width:560px){ .progreso .barra{height:7px} .progreso .note{font-size:11.5px} }
+
+/* La barra comparte el nombre `.progreso` con las filas del recorrido de compra del portal, y esa
+   regla —`body:not([data-ruta="inicio"]) .progreso > *`— le metía 12,8px de relleno arriba y abajo
+   más un borde inferior. Con `box-sizing:border-box`, su `height:8px` no cabía en esa caja: la barra
+   medía 26,6px de alto y el relleno verde, al ser el 100% de un contenido de 0, medía 0. El avance
+   declarado se veía como un hueco al lado de su propio "100%". Se exceptúa la barra —y su nota— con
+   el mismo peso y en la última hoja, sin tocar la regla del portal. */
+body:not([data-ruta="inicio"]) .progreso > .barra,
+body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
+
+/* ---------- los destacados de la tarjeta ----------
+   El renglón corto entre los datos y la dirección: "Furnished · Parking · Freehold". Da la
+   sensación de ficha cuidada que tienen los portales del mercado, y sale de datos que ya tenemos. */
+.card .highlights{font-size:12px; line-height:1.5; color:var(--ink-60,rgba(17,17,17,.6));
+  margin:.15rem 0 .35rem; letter-spacing:.01em}
+@media (max-width:560px){ .card .highlights{font-size:11.5px} }
+
+/* ---------- suelo de texto en móvil ----------
+   Medido a 390px: quedaban cuatro clases por debajo de 12px dentro de la tarjeta. En un teléfono eso
+   no se lee. La etiqueta de "Handover" estaba a 9,6px; "Verysset" a 10,9. La referencia del mercado
+   no baja de 12. Sólo se toca esto, y sólo en móvil. */
+@media (max-width:620px){
+  .card .obra span{font-size:12px}
+  .card .obra b{font-size:12.5px}
+  .card .sello-vss b, .card .sello-vss span{font-size:12px}
+  .card .foto-cuenta{font-size:12px}
+  .card .highlights{font-size:12px}
+}
+
+/* ---------- áreas táctiles en móvil ----------
+   Medido a 390px: los botones de contacto estaban a 32x32, el de información a 18x18, las píldoras
+   de moneda a 28 de alto, los selectores a 38-40 y las miniaturas a 36. En un teléfono el mínimo
+   cómodo es 44. Sólo se toca la altura (y el ancho en los cuadrados), y sólo en móvil: en escritorio
+   el ratón no necesita esto y la densidad se mantiene. */
+@media (max-width:620px){
+  .canal-mini, .canal-nota, .ctrl, .chip, .mini, .foot-top, .foto-flecha,
+  .card button, .card .heart, .hero-cambios button, .vista button{min-height:44px}
+  .canal-mini, .canal-nota, .foto-flecha{min-width:44px}
+  .canal-nota{display:inline-flex; align-items:center; justify-content:center}
+}
+
+/* Las chinchetas de zona y el conmutador de medios: su altura la fija una regla con selector
+   condicional (body:not([data-ruta="inicio"]) .chip / .chip-f / .ms) que pesa más que un `.chip` o un
+   `.medios-sel .ms` a secas — y además pone `min-height:0`. Medido a 390px: el conmutador
+   "Photos / Video / 360° / Floor plan" de la ficha medía 27,5. Se iguala el peso, y hace falta
+   `!important` porque la regla que gana también gana por orden. */
+@media (max-width:620px){
+  .chip, body:not([data-ruta="inicio"]) .chip,
+  body:not([data-ruta="inicio"]) .chip-f,
+  body:not([data-ruta="inicio"]) .ms{min-height:44px !important}
+}
+
+/* ---------- el panel del menú, con la gramática del mercado ----------
+   Era una lista de enlaces con separadores. Mauricio mandó el panel de Bayut y le gustó: grupos que
+   se abren y se cierran, y al pie los ajustes del sitio —idioma, moneda y unidad de área—, cada uno
+   con su icono a la izquierda y su valor a la derecha, separados por una línea fina. Se copia la
+   gramática, no los colores ni las medidas de ellos. */
+.menu{min-width:288px; max-width:min(92vw,368px); padding:8px;
+  /* Medido: anclado al botón el panel empieza en y=100 y con dos grupos abiertos llegaba a 818 de
+     alto, o sea 918 sobre una ventana de 900: los ajustes del pie quedaban fuera. Se le da el hueco
+     que de verdad hay (ventana menos la barra, el hueco de anclaje y un margen) y scrollea dentro. */
+  max-height:calc(100vh - var(--bar) - 51px); overflow:auto}
+.menu .menu-grupos{display:grid; gap:2px}
+.menu .menu-cabeza{display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+  width:100%; min-height:44px; padding:.5rem .7rem; border:0; background:none; cursor:pointer;
+  font:inherit; font-size:.95rem; font-weight:700; letter-spacing:-.01em; color:var(--ink);
+  border-radius:.5rem}
+.menu .menu-cabeza:hover{background:var(--card)}
+.menu .menu-flecha{width:8px; height:8px; flex:none; border-right:2px solid var(--ink-45);
+  border-bottom:2px solid var(--ink-45); transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform .2s}
+.menu .menu-cabeza[aria-expanded="true"] .menu-flecha{transform:rotate(-135deg) translate(-2px,-2px)}
+.menu .menu-hijos{display:grid; padding:0 0 .35rem .55rem}
+.menu .menu-hijos[hidden]{display:none}
+.menu .menu-hijos a{display:flex; align-items:center; min-height:44px; padding:.35rem .7rem;
+  border-radius:.5rem; font-size:.92rem; font-weight:400; color:var(--ink-72)}
+.menu .menu-hijos a:hover{background:var(--card); color:var(--green-deep)}
+.menu .menu-bloque, .menu .menu-set{border-top:1px solid var(--line); margin-top:6px; padding-top:6px}
+.menu .menu-quien{display:block; padding:.35rem .7rem .1rem; font-size:.72rem; font-weight:800;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-45)}
+.menu .menu-set-titulo{display:block; padding:.35rem .7rem .15rem; font-size:.72rem; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45)}
+.menu .menu-set-fila{display:grid; grid-template-columns:18px 1fr auto; align-items:center; gap:.6rem;
+  width:100%; min-height:44px; padding:.4rem .7rem; border:0; border-radius:.5rem; background:none;
+  text-align:left; font:inherit; font-size:.92rem; color:var(--ink); cursor:default}
+.menu button.menu-set-fila{cursor:pointer}
+.menu button.menu-set-fila:hover{background:var(--card)}
+.menu .menu-set-ico{display:inline-flex; color:var(--ink-45)}
+.menu .menu-set-fila b{font-size:.86rem; font-weight:700; color:var(--green-deep); white-space:nowrap}
+
+/* En el teléfono el panel tampoco se ancla al borde: `position:fixed` NO funciona aquí, porque la
+   barra lleva `backdrop-filter` y eso convierte a la barra en el bloque contenedor —el panel se
+   quedaba en 18px de alto y empezaba en y=162—. Medido: el panel cuelga del botón en y=158 sobre una
+   ventana de 844, así que se le da el alto que queda (ventana menos la barra, el hueco del botón y un
+   margen) y scrollea dentro. */
+@media (max-width:620px){
+  .menu{min-width:0; width:min(92vw,360px); max-height:calc(100vh - var(--bar) - 108px)}
+}
+
+/* ---------- las páginas informativas: banda, tarjetas y numeración ----------
+   Se leen como el resto del producto: una banda oscura con la marca al agua y una luz verde que entra
+   por la derecha, y debajo el texto en tarjetas sobre el blanco. Los términos van numerados porque son
+   once reglas que conviene poder citar por su número, y la de «lo que no somos» va sobre el verde
+   oscuro, que es la que tiene que parar el ojo. */
+.prosa{padding:26px 0 52px}
+.prosa-hero{position:relative; isolation:isolate; overflow:hidden; margin-inline:calc(50% - 50vw);
+  background:var(--teal); padding:56px 0 60px}
+.prosa-hero::before{content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(58% 120% at 86% 0%, rgba(34,197,94,.30) 0%, rgba(34,197,94,0) 64%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 1px, rgba(255,255,255,0) 1px 24px)}
+.prosa-marca{position:absolute; z-index:-1; right:-30px; top:-40px; width:330px; height:330px; opacity:.11}
+.prosa-inner{max-width:var(--wrap); margin:0 auto; padding-inline:20px}
+.prosa-eyebrow{display:inline-flex; align-items:center; gap:.55rem; margin:0 0 .95rem; font-size:11px;
+  font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--green)}
+.prosa-eyebrow::before{content:""; width:26px; height:2px; border-radius:2px; background:var(--green)}
+.prosa-hero h1{margin:0; color:#fff; font-size:clamp(1.9rem,3.6vw,2.8rem); font-weight:800;
+  letter-spacing:-.035em; line-height:1.06}
+.prosa-hero .prosa-lede{margin:.85rem 0 0; max-width:62ch; color:rgba(255,255,255,.74);
+  font-size:1.05rem; line-height:1.55}
+.prosa-cuerpo{display:grid; gap:12px; max-width:82ch}
+.prosa-sec{background:var(--white); border:1px solid var(--line-2); border-radius:var(--radius);
+  padding:20px 22px; box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.prosa-sec h2{display:flex; align-items:center; gap:.65rem; margin:0 0 .55rem; font-size:1.04rem;
+  font-weight:800; letter-spacing:-.015em}
+.prosa-sec p{margin:0 0 .7rem; font-size:.98rem; line-height:1.62; color:var(--ink-72)}
+.prosa-sec p:last-child{margin-bottom:0}
+.prosa-sec b{color:var(--ink)}
+.prosa-num{flex:none; display:grid; place-items:center; width:28px; height:28px; border-radius:50%;
+  border:1.5px solid rgba(34,197,94,.45); background:rgba(34,197,94,.06); color:var(--green-dark);
+  font-size:.72rem; font-weight:800; font-variant-numeric:tabular-nums}
+.prosa-oscura{background:var(--teal); border-color:transparent; box-shadow:var(--shadow)}
+.prosa-oscura h2{color:#fff}
+.prosa-oscura p{color:rgba(255,255,255,.76)}
+.prosa-oscura b{color:#fff}
+.prosa-cuerpo.ancho{max-width:none}
+.prosa-tarjetas{display:grid; grid-template-columns:repeat(auto-fit,minmax(232px,1fr)); gap:12px;
+  max-width:1040px}
+.prosa-tarjeta{background:var(--white); border:1px solid var(--line-2); border-radius:var(--radius);
+  padding:20px; box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.prosa-ico{display:grid; place-items:center; width:40px; height:40px; margin-bottom:.8rem;
+  border-radius:12px; background:rgba(34,197,94,.10); color:var(--green-dark)}
+.prosa-ico svg{width:20px; height:20px}
+.prosa-tarjeta b{display:block; margin-bottom:.3rem; font-size:1rem; letter-spacing:-.01em}
+.prosa-tarjeta p{margin:0; font-size:.92rem; line-height:1.55; color:var(--ink-60)}
+.prosa a{color:var(--green-dark); font-weight:700; text-decoration:none}
+.prosa a:hover{text-decoration:underline}
+.prosa-canal{font-size:1.1rem; font-weight:800; margin:.2rem 0 .6rem}
+.prosa-nota{margin:0 0 14px; padding:.8rem 1rem; border-left:3px solid var(--green); background:var(--card);
+  border-radius:0 .6rem .6rem 0; font-size:.88rem; color:var(--ink-60); line-height:1.55}
+.prosa-pie{margin:16px 0 0; font-size:.9rem; color:var(--ink-60)}
+@media (max-width:620px){
+  .prosa-hero{padding:40px 0 44px}
+  .prosa-marca{right:-52px; top:-26px; width:210px; height:210px}
+  .prosa-sec{padding:17px 16px}
+  .prosa-tarjetas{grid-template-columns:1fr}
+}
+
+/* ---------- lo que faltaba cerrar del punto 1: densidad y suelo táctil en el teléfono ----------
+   Medido a 390 px: la tarjeta del catálogo medía 824 de alto en una pantalla de 844 —una tarjeta y
+   nada más, donde el mercado enseña dos y media—; los enlaces del pie medían 17 px de alto, y el
+   portal del desarrollador tenía controles de 36, 38 y 40. Se recorta el AIRE, no el contenido: los
+   mismos datos, con menos hueco entre ellos, y los enlaces del pie como filas que se pueden pulsar. */
+@media (max-width:620px){
+  .card .body{padding:12px 13px 13px; gap:4px}
+  /* La foto, un poco más baja en el teléfono: la tarjeta del mercado no la lleva a 220. */
+  .card .photo, .card .photo img{height:190px}
+  .card .price-cripto{font-size:.82rem; line-height:1.15}
+  .card .price{font-size:1.14rem; letter-spacing:-.02em}
+  .card .tipo{font-size:.76rem}
+  .card h3{font-size:1rem; line-height:1.22; margin:1px 0}
+  /* El titular es un enlace de texto: el suelo de 44 es para los CONTROLES. La tarjeta ya tiene dos
+     superficies grandes para pulsar —la foto (220) y el botón (53)—, y subir el titular a 44 engordaba
+     la tarjeta justo lo que se está recortando. */
+  .card h3 a{display:block; padding:3px 0}
+  /* Las características, en una línea: envolverlas costaba 112 px de los 602 del cuerpo. */
+  .card .specs{flex-wrap:nowrap; overflow:hidden; gap:.34rem; font-size:.85rem; line-height:1.3; padding:0}
+  .card .specs > *{white-space:nowrap}
+  .card .highlights{font-size:.8rem; padding:0}
+  .card .zona{font-size:.85rem}
+  .card .verif{font-size:.78rem; padding:6px 8px; gap:.4rem; line-height:1.3}
+  .card .obra{gap:.5rem}
+  .card .obra b{font-size:.86rem}
+  /* La fila del vendedor no cabía (290 + 194 en 390) y saltaba a dos líneas: el nombre se recorta
+     y los canales quedan al lado, en una sola fila. */
+  .card .foot{margin-top:2px; padding-top:6px; flex-wrap:nowrap; gap:.5rem}
+  .card .foot .dev{max-width:54%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .card .canales-card{margin-left:auto}
+  .card .canal-mini, .card .canal-nota{width:38px; height:38px}
+  .card .btn.comprar{min-height:46px}
+  /* El pie: cada enlace es una fila de 44, no una línea de 17. */
+  .foot-col ul.plain li a{display:flex; align-items:center; min-height:44px}
+  .foot-col ul.plain li{margin:0}
+  /* La ficha: el nombre del proyecto y los enlaces de la línea del titular también se pulsan. */
+  .muted a, .ficha-head a, .migas a, .proyecto-linea a{display:inline-flex; align-items:center; min-height:44px}
+}
+/* El portal del desarrollador es una mesa de trabajo, pero se usa desde el teléfono. */
+@media (max-width:620px){
+  body[data-ruta="dev"] .dev-nav-grupo a, body[data-ruta="dev"] .nav a, body[data-ruta="dev"] .rail a,
+  body[data-ruta="dev"] aside a{min-height:44px; display:flex; align-items:center}
+  body[data-ruta="dev"] .btn.sm, body[data-ruta="dev"] .btn{min-height:44px; padding-top:0; padding-bottom:0}
+  body[data-ruta="dev"] input, body[data-ruta="dev"] select, body[data-ruta="dev"] textarea{min-height:44px}
+  body[data-ruta="dev"] .pestanas button, body[data-ruta="dev"] .seg button{min-height:44px}
+  /* Los «See all →» de las cabeceras de panel son enlaces sueltos, sin clase: se alcanzan por su
+     posición (el último enlace del encabezado), que es lo único que los distingue. */
+  body[data-ruta="dev"] header a, body[data-ruta="dev"] .encabezado a,
+  body[data-ruta="dev"] .link-btn{min-height:44px; display:inline-flex; align-items:center}
+  /* Los dos que quedaban: el buscador y el orden de la tabla de ventas. */
+  body[data-ruta="dev"] .dev-find input, body[data-ruta="dev"] .dev-orden select{min-height:44px}
+}
+
+/* Un enlace de texto que va solo en su línea es un control, y en móvil llega al suelo de 44: el
+   «Open in the marketplace →» de cada tarjeta del portal medía 18. */
+.dev-mini a{display:flex;align-items:center;min-height:44px}
+
+/* ---------- el avance de las obras: lo declarado y lo inspeccionado, nunca lo mismo ----------
+   Dos filas que se parecen y no son iguales: la declaración dice de qué mes habla y quién la firma;
+   la inspección dice el día en que se hizo y quién la hizo. Colores distintos para que no se
+   confundan de un vistazo. */
+.avance-obras{margin:22px 0;padding:16px 18px;border:1px solid var(--line-2);border-radius:var(--radius);background:var(--white)}
+.avance-obras h4{margin:0 0 12px;font-size:1rem;font-weight:800;letter-spacing:-.015em}
+.avance-filas{display:grid;gap:10px}
+.avance-fila{display:grid;grid-template-columns:auto auto 1fr;align-items:baseline;gap:.6rem;
+  padding:11px 13px;border-radius:.6rem;border-left:3px solid var(--line-2)}
+.avance-fila.declarado{background:rgba(34,197,94,.06);border-left-color:var(--green)}
+.avance-fila.inspeccionado{background:rgba(16,34,43,.05);border-left-color:var(--teal)}
+.avance-eti{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-45)}
+.avance-fila b{font-size:1.3rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.avance-quien{font-size:.84rem;color:var(--ink-60)}
+.avance-fila p{grid-column:1/-1;margin:.2rem 0 0;font-size:.9rem;color:var(--ink-72);line-height:1.5}
+.avance-obras .note{margin:12px 0 0}
+.avance-historial{margin-top:12px;border-top:1px solid var(--line-2);padding-top:10px}
+.avance-historial summary{cursor:pointer;font-size:.9rem;font-weight:700;color:var(--green-dark);min-height:44px;display:flex;align-items:center}
+.avance-meses{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.avance-meses li{display:grid;grid-template-columns:8.5rem 3.4rem 1fr;gap:.6rem;align-items:baseline;
+  font-size:.9rem;padding:6px 0;border-bottom:1px solid var(--line)}
+.avance-meses li b{font-variant-numeric:tabular-nums}
+.avance-meses li i{color:var(--ink-60);font-style:normal}
+.avance-meses li em{grid-column:3;font-size:.8rem;font-style:normal;color:var(--ink-45)}
+
+/* ---------- la sala de prensa: la lista y la noticia ----------
+   Se lee, no se hojea: una historia que abre con su foto, el resto en rejilla, y cada pieza firmada y
+   con su origen. La de la noticia es una columna de lectura con la foto a todo lo ancho, y la tarjeta
+   del origen cuando el texto no es nuestro. */
+.noti-cuerpo{display:grid;gap:18px;padding:22px 0 48px}
+.noti-abre{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:0;overflow:hidden;
+  border:1px solid var(--line-2);border-radius:var(--radius);background:var(--white);text-decoration:none;
+  color:inherit;box-shadow:var(--shadow)}
+.noti-abre:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);transition:transform .2s,box-shadow .2s}
+.noti-abre-foto{background-size:cover;background-position:center;min-height:290px}
+.noti-abre-foto.sin{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-2) 100%)}
+.noti-abre-txt{padding:24px;display:flex;flex-direction:column;justify-content:center;gap:.55rem}
+.noti-abre-txt h2{font-size:clamp(1.25rem,2.1vw,1.7rem);font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.15}
+.noti-abre-txt p{margin:0;color:var(--ink-72);font-size:.95rem;line-height:1.55}
+.noti-tag{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--green-dark)}
+.noti-firma{font-size:.84rem;color:var(--ink-45)}
+.noti-rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:14px}
+.noti-card{display:flex;flex-direction:column;gap:.5rem;border:1px solid var(--line-2);border-radius:var(--radius);
+  background:var(--white);overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.noti-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);transition:transform .2s,box-shadow .2s}
+.noti-card-foto{aspect-ratio:16/9;background-size:cover;background-position:center}
+.noti-card-foto.sin{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-2) 100%)}
+.noti-card h3{margin:0;font-size:1.02rem;font-weight:800;letter-spacing:-.015em;line-height:1.25;padding:0 16px}
+.noti-card p{margin:0;padding:0 16px;font-size:.9rem;color:var(--ink-60);line-height:1.5}
+.noti-card .noti-tag{padding:0 16px}
+.noti-card .noti-firma{padding:0 16px 16px;margin-top:auto}
+.noti-card .noti-card-foto + .noti-tag{padding-top:14px}
+.noti-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+.noti-chips.pie{margin:22px 0 0}
+.noti-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.34rem .7rem;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--white);color:var(--ink-72);font-size:.82rem;font-weight:600;
+  text-decoration:none;min-height:44px;box-sizing:border-box}
+.noti-chip span{color:var(--ink-45);font-size:.76rem}
+.noti-chip:hover{border-color:var(--green);color:var(--green-dark)}
+.noti-chip.on{background:var(--green);border-color:var(--green);color:#062;color:#052e16}
+.noti-hero .noti-chips{margin-top:1.1rem}
+.prosa-hero .noti-chips .noti-chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.86)}
+.prosa-hero .noti-chips .noti-chip span{color:rgba(255,255,255,.5)}
+.prosa-hero .noti-chips .noti-chip:hover{border-color:var(--green);color:#fff}
+.prosa-hero .noti-chips .noti-chip.on{background:var(--green);color:#052e16}
+/* la noticia */
+.noti{display:block;padding:22px 0 56px}
+.noti-volver{display:inline-block;font-size:.86rem;font-weight:700;color:var(--green-dark);text-decoration:none;min-height:44px;padding-top:10px}
+.noti-cabecera{max-width:78ch;margin-top:6px}
+.noti-cabecera h1{font-size:clamp(1.75rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.035em;line-height:1.08;margin:.5rem 0 0}
+.noti-lede{margin:.9rem 0 .6rem;font-size:1.1rem;color:var(--ink-72);line-height:1.5}
+.noti-foto{margin:26px 0 0}
+.noti-foto > div{aspect-ratio:16/9;border-radius:var(--radius);background-size:cover;background-position:center}
+.noti-foto figcaption{margin-top:.5rem;font-size:.84rem;color:var(--ink-45)}
+.noti-texto{max-width:72ch;margin:26px 0 0}
+.noti-texto p{margin:0 0 1.05rem;font-size:1.06rem;line-height:1.72;color:var(--ink-90)}
+.noti-texto p:first-of-type{font-size:1.16rem;color:var(--ink)}
+.noti-fuente{max-width:72ch;margin:26px 0 0;padding:18px 20px;border-radius:var(--radius);
+  border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.06)}
+.noti-fuente-eti{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--green-dark)}
+.noti-fuente p{margin:.5rem 0 .7rem;font-size:.93rem;color:var(--ink-72);line-height:1.55}
+.noti-fuente a{color:var(--green-dark);font-weight:700;text-decoration:none;font-size:.95rem}
+.noti-fuente a:hover{text-decoration:underline}
+.noti-relacionadas{margin-top:38px}
+.noti-relacionadas h2{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin:0 0 14px}
+@media (max-width:760px){
+  .noti-abre{grid-template-columns:minmax(0,1fr)}
+  .noti-abre-foto{min-height:200px}
+  .noti-texto p{font-size:1.02rem}
+}
+
+/* ---------- el mapa, con la gramática del mercado ----------
+   Mauricio mandó el mapa de Bayut: fondo claro, la chincheta con el precio y, al pulsarla, una
+   tarjeta con las cifras. No se copia su chincheta redonda con casita —la nuestra lleva el precio,
+   que es más útil— pero sí el fondo claro, la tarjeta y que la nota diga cuántas van en el mapa.
+   Leaflet vive dentro de `.mapa-lienzo`: el contenedor de la vista puede vaciarse sin llevarse por
+   delante sus paneles (que es lo que dejaba el mapa sin teselas). */
+.mapa-lienzo{position:absolute; inset:0}
+/* En el teléfono la vista de mapa dejaba el mapa DEBAJO de las doce tarjetas: medido, caía en y=10.286
+   sobre una ventana de 844, así que ninguna chincheta se veía. El mapa va primero y la lista sigue
+   debajo, que es como lo resuelve el mercado. */
+@media (max-width:900px){
+  .lay.mapa #mapa{order:-1; top:calc(var(--bar) + 8px)}
+}
+/* El aspecto claro de los portales, sin proveedor con clave: a las teselas de OpenStreetMap se les
+   quita el color y se les sube un punto el brillo. Medido con la captura: el fondo queda gris claro y
+   las chinchetas negras se leen igual de bien. */
+.mapa-lienzo .leaflet-tile-pane{filter:grayscale(1) brightness(1.07) contrast(.94) saturate(.2)}
+/* Con Google no se filtra nada: su mapa ya viene con su paleta (y su licencia). */
+.mapa-google .leaflet-tile-pane{filter:none}
+.mapa-google{border-color:var(--line-2)}
+.mapa-nota{position:absolute; left:12px; bottom:12px; z-index:500; padding:.3rem .6rem;
+  background:rgba(255,255,255,.92); border:1px solid var(--line-2); border-radius:999px;
+  font-size:.74rem; font-weight:700; color:var(--ink-60); box-shadow:0 4px 12px rgba(16,34,43,.10)}
+.marca{background:none; border:0}
+.marca span{display:inline-block; transform:translate(-50%,-100%);
+  background:var(--ink); color:#fff; font-weight:800; font-size:.76rem; letter-spacing:-.01em;
+  padding:.3rem .6rem; border-radius:999px; box-shadow:0 6px 16px rgba(16,34,43,.34); white-space:nowrap;
+  border:2px solid var(--white); transition:transform .15s ease, background .15s ease}
+.marca span::after{content:""; position:absolute; left:50%; bottom:-5px; width:8px; height:8px;
+  transform:translateX(-50%) rotate(45deg); background:inherit; border-right:2px solid var(--white);
+  border-bottom:2px solid var(--white)}
+.marca.on span{background:linear-gradient(135deg,var(--green),var(--green-deep));
+  transform:translate(-50%,-100%) scale(1.08)}
+.marca.on{z-index:600}
+/* la tarjeta de una chincheta: precio, cifras y el enlace, como la del mercado */
+.mapa-pop .leaflet-popup-content-wrapper{border-radius:14px; box-shadow:0 14px 36px rgba(16,34,43,.22);
+  padding:0}
+.mapa-pop .leaflet-popup-content{margin:0; width:auto !important}
+.mapa-pop .leaflet-popup-tip{box-shadow:none}
+.mapa-ficha{display:grid; gap:.35rem; padding:.7rem .8rem .75rem; min-width:216px}
+.mapa-ficha b{font-size:1.02rem; font-weight:800; letter-spacing:-.015em; color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.mapa-ficha-datos{display:flex; align-items:center; gap:.75rem; font-size:.8rem; color:var(--ink-72);
+  flex-wrap:wrap}
+.mapa-ficha-datos svg{color:var(--ink-45); vertical-align:-2px}
+.mapa-ficha-dir{font-size:.76rem; color:var(--ink-45); line-height:1.35}
+/* El pin de la demo está a nivel de comunidad, no de edificio: decirlo donde se ve, no en una nota al
+   pie. Es la misma frase que sirve la API, así que en producción desaparece sola cuando no viene. */
+.mapa-ficha-aviso{font-size:.7rem; color:var(--ink-45); line-height:1.35; font-style:italic}
+.nota-ubicacion{margin:.15rem 0 0; font-size:.78rem; color:var(--ink-45); font-style:italic}
+.mapa-ficha-ir{display:inline-flex; align-items:center; gap:.3rem; margin-top:.15rem; font-size:.8rem;
+  font-weight:800; color:var(--green-deep); text-decoration:none}
+.mapa-ficha-ir:hover{text-decoration:underline}
+.leaflet-container{font-family:inherit; background:#eaeef1}
+.leaflet-control-zoom a{border-radius:8px !important}
+
+/* ---------- suelo táctil, de una vez ----------
+   En móvil, todo lo que se pulsa mide 44 de alto. Pero un suelo escrito con selectores de tipo
+   (`button`, `a.btn`) NO alcanza a lo que vive dentro de un componente: una regla de clase pesa más
+   que un `button` a secas, y la hoja que llega después no cambia el peso — sólo el orden a igualdad
+   de peso. Por eso cuatro controles seguían por debajo aunque la regla existía. Medido a 390px:
+   el botón del activo en la barra 28 (`.sel-activo button`), el selector del hero 40, el compacto de
+   la barra de resultados 38 (`.control.compacto .ctrl`), los iconos del pie 38x38. Se nombran con el
+   mismo selector que gana, sin `!important`, y sólo en móvil: con ratón la densidad se mantiene. */
+@media (max-width:620px){
+  button, [role="button"], a.btn, .chip, select, summary{min-height:44px}
+  .ctrl, .hero-filtros .ctrl, .control.compacto .ctrl,
+  .hero-q input, .seg button, .medios-sel .ms,
+  .sel-activo button, .sel-activo .sel-tasa input{min-height:44px}
+  .foot-redes .red{width:44px; height:44px}
+}

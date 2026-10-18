@@ -1,0 +1,736 @@
+/* ============================================================================
+   BlockEstate · portal del comprador — capa 2, las pantallas de trabajo.
+
+   Se carga DESPUÉS de `app.css` y **solo se aplica fuera de la portada**: el
+   armazón marca la ruta en `body[data-ruta]` (lo hace el router) y todo lo de
+   aquí vive bajo `body:not([data-ruta="inicio"])`. La portada —el héroe, el
+   buscador y la rejilla de emiratos— no puede cambiar desde este fichero ni por
+   accidente: sus reglas no están tocadas.
+
+   Qué se mezcla y por qué:
+   · de la casa se conserva la voz (verde, tinta, precios grandes, pastillas)
+   · de la consola del operador se trae lo que hace que algo se lea como
+     herramienta y no como diapositiva: radios cortos, tarjetas separadas por un
+     filete en vez de por una sombra enorme, texto de interfaz a 13-14 px, filas
+     de datos con aire y etiquetas de estado pequeñas con fondo y borde propios.
+   ========================================================================== */
+
+body:not([data-ruta="inicio"]){
+  --r:10px; --r-sm:8px; --r-xs:5px;
+  --hairline:rgba(203,208,221,.75);
+  --sube:0 1px 2px rgba(16,34,43,.05);
+  --sube-2:0 2px 6px rgba(16,34,43,.07);
+}
+
+/* ---------------------------------------------------------------- tarjetas */
+/* La ficha de un inmueble: el precio manda, pero el bloque se separa con un
+   filete y una sombra de un píxel. La sombra de 32 px con desenfoque es lo que
+   hacía que todo flotara como una maqueta. */
+body:not([data-ruta="inicio"]) .card,
+body:not([data-ruta="inicio"]) .item,
+body:not([data-ruta="inicio"]) .form-card,
+body:not([data-ruta="inicio"]) .panel,
+body:not([data-ruta="inicio"]) .pm-panel,
+body:not([data-ruta="inicio"]) .rail-box{
+  border:1px solid var(--hairline); border-radius:var(--r); box-shadow:var(--sube);
+  background:var(--white); overflow:hidden}
+body:not([data-ruta="inicio"]) .card:hover{
+  box-shadow:var(--sube-2); transform:translateY(-1px); border-color:rgba(34,197,94,.45)}
+body:not([data-ruta="inicio"]) .card.elegida{box-shadow:var(--sube-2); border-color:var(--green)}
+body:not([data-ruta="inicio"]) .card .price{font-weight:800; font-size:1.56rem; letter-spacing:-.025em}
+body:not([data-ruta="inicio"]) .card h3{font-weight:600; font-size:1.2rem}
+body:not([data-ruta="inicio"]) .card .body{padding:18px 19px; gap:.42rem}
+body:not([data-ruta="inicio"]) .card .tipo,
+body:not([data-ruta="inicio"]) .card .zona{font-size:1rem; color:var(--ink-60)}
+/* el degradado del hueco de foto, más sobrio */
+body:not([data-ruta="inicio"]) .card .photo{background:linear-gradient(135deg,rgba(16,34,43,.9),rgba(22,48,60,.75))}
+
+/* ------------------------------------------------------------- datos sueltos */
+/* Las listas de características de la ficha: filas con filete, cifra a la
+   derecha y números tabulares. Sin cajas dentro de cajas. */
+body:not([data-ruta="inicio"]) .specs,
+body:not([data-ruta="inicio"]) .kv,
+body:not([data-ruta="inicio"]) .filas{font-size:1.06rem}
+body:not([data-ruta="inicio"]) .specs > *,
+body:not([data-ruta="inicio"]) .kv > *,
+body:not([data-ruta="inicio"]) .filas > *{
+  padding:.62rem 0; border-bottom:1px solid rgba(0,0,0,.055)}
+body:not([data-ruta="inicio"]) .specs > *:last-child,
+body:not([data-ruta="inicio"]) .kv > *:last-child,
+body:not([data-ruta="inicio"]) .filas > *:last-child{border-bottom:none}
+body:not([data-ruta="inicio"]) .kv .k,
+body:not([data-ruta="inicio"]) .filas .k{color:var(--ink-45)}
+
+/* ------------------------------------------------------------------ tablas */
+body:not([data-ruta="inicio"]) table{font-size:.88rem; border-collapse:collapse; width:100%}
+body:not([data-ruta="inicio"]) th{
+  font-size:.78rem; font-weight:800; color:var(--ink); text-align:left;
+  padding:.7rem .8rem; border-bottom:1px solid var(--hairline); white-space:nowrap}
+body:not([data-ruta="inicio"]) td{padding:.8rem; border-bottom:1px solid rgba(0,0,0,.055)}
+body:not([data-ruta="inicio"]) tr:last-child td{border-bottom:none}
+
+/* --------------------------------------------------------------- etiquetas */
+/* Una etiqueta de estado es pequeña, en negrita, con su fondo y su borde: se lee
+   de un golpe y no grita. Antes eran pastillas grandes sin significado de color. */
+body:not([data-ruta="inicio"]) .chip,
+body:not([data-ruta="inicio"]) .chip-f,
+body:not([data-ruta="inicio"]) .ms{
+  font-size:.72rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+  padding:.24rem .5rem; border-radius:var(--r-xs); border:1px solid var(--line-2);
+  background:var(--card); color:var(--ink-60); min-height:0}
+body:not([data-ruta="inicio"]) .chip{font-size:.8rem; letter-spacing:0; text-transform:none;
+  padding:.45rem .8rem; border-radius:999px; background:var(--white); min-height:38px;
+  text-transform:none}
+body:not([data-ruta="inicio"]) .chip.on{background:var(--ink); border-color:var(--ink); color:#fff}
+body:not([data-ruta="inicio"]) .chip:hover{background:var(--card)}
+body:not([data-ruta="inicio"]) .tag.on,
+body:not([data-ruta="inicio"]) .ms.on{background:var(--teal); border-color:var(--teal); color:#fff}
+/* el sello de verificación: pequeño, con su borde verde y el texto al lado */
+body:not([data-ruta="inicio"]) .sello-verif{
+  border-radius:var(--r-sm); border:1px solid rgba(34,197,94,.42); background:rgba(34,197,94,.08);
+  padding:.4rem .6rem}
+body:not([data-ruta="inicio"]) .badge-count{
+  background:var(--green-deep); font-size:.62rem; min-width:16px; height:16px; line-height:16px}
+
+/* --------------------------------------------------------------- controles */
+body:not([data-ruta="inicio"]) .controls{gap:10px; margin-top:14px}
+body:not([data-ruta="inicio"]) .control label{
+  font-size:.66rem; letter-spacing:.1em; color:var(--ink-45); margin-bottom:4px}
+body:not([data-ruta="inicio"]) .control select,
+body:not([data-ruta="inicio"]) .control input{
+  min-height:44px; border-radius:var(--r-sm); border:1px solid var(--line-2); background:var(--white)}
+body:not([data-ruta="inicio"]) .control select:focus,
+body:not([data-ruta="inicio"]) .control input:focus{
+  outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+body:not([data-ruta="inicio"]) .result-bar{margin:16px 0 6px}
+body:not([data-ruta="inicio"]) .result-bar .count{font-weight:700; letter-spacing:-.01em}
+
+/* --------------------------------------------------------------- botones */
+/* Fuera del héroe el botón no brilla: verde plano, radio corto, sin halo. */
+body:not([data-ruta="inicio"]) .btn{
+  border-radius:var(--r-sm); font-weight:650; box-shadow:none; letter-spacing:0}
+body:not([data-ruta="inicio"]) .btn.green{background:var(--green-deep); border-color:var(--green-deep)}
+body:not([data-ruta="inicio"]) .btn.green:hover{background:var(--green-dark); border-color:var(--green-dark)}
+body:not([data-ruta="inicio"]) .btn.ghost{border:1px solid var(--line-2); background:var(--white);
+  color:var(--ink-72)}
+body:not([data-ruta="inicio"]) .btn.ghost:hover{background:var(--card); color:var(--ink)}
+
+/* --------------------------------------------------------------- cabeceras */
+body:not([data-ruta="inicio"]) h1,
+body:not([data-ruta="inicio"]) h2{letter-spacing:-.025em}
+body:not([data-ruta="inicio"]) .sec-head{margin:28px 0 12px; padding-bottom:10px; align-items:center}
+body:not([data-ruta="inicio"]) .sec-head h2{font-size:clamp(1.15rem,2.2vw,1.5rem)}
+body:not([data-ruta="inicio"]) .note,
+body:not([data-ruta="inicio"]) .muted{font-size:.85rem; line-height:1.5}
+body:not([data-ruta="inicio"]) .lab{font-size:10.5px; letter-spacing:.26em; margin-bottom:.4rem}
+
+/* ------------------------------------------------------- capas flotantes */
+body:not([data-ruta="inicio"]) .popover,
+body:not([data-ruta="inicio"]) .menu{
+  border:1px solid var(--line-2); border-radius:var(--r); box-shadow:var(--sube-2)}
+body:not([data-ruta="inicio"]) .popover .close{border-radius:var(--r-sm); border-color:var(--line-2)}
+body:not([data-ruta="inicio"]) .menu a,
+body:not([data-ruta="inicio"]) .menu button{border-radius:var(--r-xs); font-size:.88rem}
+body:not([data-ruta="inicio"]) .menu a:hover,
+body:not([data-ruta="inicio"]) .menu button:hover{background:var(--card)}
+
+/* -------------------------------------------------- formularios y cuenta */
+/* El campo lleva su etiqueta encima en micro-mayúsculas y el borde fino: así una
+   pantalla de formulario se lee como un formulario y no como un folleto. */
+body:not([data-ruta="inicio"]) .form-card{padding:22px 22px 20px}
+body:not([data-ruta="inicio"]) .field label,
+body:not([data-ruta="inicio"]) .fields label{
+  display:block; font-size:.66rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-45); margin-bottom:5px}
+body:not([data-ruta="inicio"]) .field input,
+body:not([data-ruta="inicio"]) .field select,
+body:not([data-ruta="inicio"]) .fields input,
+body:not([data-ruta="inicio"]) .fields select{
+  min-height:44px; border-radius:var(--r-sm); border:1px solid var(--line-2); background:var(--white);
+  width:100%}
+body:not([data-ruta="inicio"]) .field input:focus,
+body:not([data-ruta="inicio"]) .field select:focus,
+body:not([data-ruta="inicio"]) .fields input:focus{
+  outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+body:not([data-ruta="inicio"]) .item{padding:14px 16px}
+body:not([data-ruta="inicio"]) .item + .item{margin-top:10px}
+body:not([data-ruta="inicio"]) .row-between{gap:12px; align-items:center}
+body:not([data-ruta="inicio"]) .when{font-size:.83rem; color:var(--ink-45); font-variant-numeric:tabular-nums}
+
+/* ------------------------------------------------- el recorrido de la compra */
+/* Los pasos de una compra, con la misma gramática que el panel del operador:
+   círculo hecho en verde, el actual con anillo, el resto en gris. */
+body:not([data-ruta="inicio"]) .steps-list,
+body:not([data-ruta="inicio"]) .progreso{gap:0}
+body:not([data-ruta="inicio"]) .steps-list > *,
+body:not([data-ruta="inicio"]) .progreso > *{
+  padding:.8rem 0; border-bottom:1px solid rgba(0,0,0,.055)}
+body:not([data-ruta="inicio"]) .steps-list > *:last-child,
+body:not([data-ruta="inicio"]) .progreso > *:last-child{border-bottom:none}
+body:not([data-ruta="inicio"]) .pm-panel{padding:16px 18px; margin-bottom:12px}
+body:not([data-ruta="inicio"]) .pm-linea{font-size:.88rem; padding:.35rem 0;
+  border-bottom:1px solid rgba(0,0,0,.05)}
+body:not([data-ruta="inicio"]) .pm-linea:last-child{border-bottom:none}
+body:not([data-ruta="inicio"]) .pm-head{font-weight:700; letter-spacing:-.01em}
+
+/* ------------------------------------------------------------- galería */
+body:not([data-ruta="inicio"]) .gal-caja{border-radius:var(--r)}
+body:not([data-ruta="inicio"]) .gal-flecha{border-radius:var(--r-sm); border:1px solid var(--line-2);
+  background:rgba(255,255,255,.94)}
+body:not([data-ruta="inicio"]) .gal-etiqueta{font-size:.72rem; font-weight:700; letter-spacing:.03em;
+  border-radius:var(--r-xs); padding:.24rem .5rem}
+body:not([data-ruta="inicio"]) .gal-datos{font-size:.88rem}
+
+/* --------------------------------------------------------------- mensajes */
+body:not([data-ruta="inicio"]) .msg{border-radius:var(--r-sm); font-size:.87rem; padding:.7rem .9rem}
+body:not([data-ruta="inicio"]) .mapa-aviso{border-radius:var(--r-sm); font-size:.85rem}
+
+/* =====================================================  títulos con menos grito */
+/* El peso 900 en todo, en mayúsculas, era lo que hacía que las pantallas de
+   trabajo parecieran un cartel. Se baja a 700, se quita la mayúscula de los
+   títulos de sección y se aprieta un poco el tracking: se lee igual de rápido y
+   no grita. La portada se queda como está. */
+body:not([data-ruta="inicio"]) h1,
+body:not([data-ruta="inicio"]) h2{font-weight:650; letter-spacing:-.02em}
+body:not([data-ruta="inicio"]) h3{font-weight:600}
+body:not([data-ruta="inicio"]) h2{text-transform:none;
+  font-size:clamp(1.2rem,2.3vw,1.5rem); line-height:1.2}
+body:not([data-ruta="inicio"]) h4{font-weight:700; letter-spacing:.08em}
+body:not([data-ruta="inicio"]) .price,
+body:not([data-ruta="inicio"]) .panel .price,
+body:not([data-ruta="inicio"]) .price-cripto b{font-weight:700}
+body:not([data-ruta="inicio"]) .card h3,
+body:not([data-ruta="inicio"]) .card h3 a{font-weight:600; letter-spacing:-.01em}
+
+/* ==================================================  menos verde, y más claro */
+/* El verde oscuro se queda para el texto pequeño, que es donde hace falta
+   contraste. Las superficies grandes van en el verde de la marca con tinta
+   encima: se ve más claro y sigue leyéndose (7,2:1 frente a 5:1 del blanco). */
+body:not([data-ruta="inicio"]) .btn.green{
+  background:var(--green); border-color:var(--green); color:var(--teal); font-weight:700}
+body:not([data-ruta="inicio"]) .btn.green:hover{
+  background:#1FB255; border-color:#1FB255; color:var(--teal)}
+body:not([data-ruta="inicio"]) .btn.green svg,
+body:not([data-ruta="inicio"]) .btn.green path{color:var(--teal); fill:currentColor}
+body:not([data-ruta="inicio"]) .lab{color:var(--ink-45)}
+body:not([data-ruta="inicio"]) .verif{color:var(--ink-60); font-weight:600}
+body:not([data-ruta="inicio"]) .verif .sello-ico{box-shadow:0 0 0 1.5px rgba(34,197,94,.18)}
+body:not([data-ruta="inicio"]) .note.ok{color:var(--green-dark); font-weight:600}
+/* Las tres puertas —Telegram, WhatsApp y correo— con el mismo aspecto. La regla que forzaba el fondo
+   del botón de WhatsApp ganaba por prioridad al estado «abierto», así que ese botón NUNCA se
+   iluminaba cuando sí sirve, a diferencia de los otros dos: parecía roto. El estado va aquí, y por
+   encima. */
+body:not([data-ruta="inicio"]) .canales .canal{background:var(--white); border-color:var(--line-2);
+  color:var(--ink-72)}
+body:not([data-ruta="inicio"]) .canales .canal.abierto{border-color:var(--green);
+  background:rgba(34,197,94,.12); color:var(--green-dark)}
+body:not([data-ruta="inicio"]) .menu a.on,
+body:not([data-ruta="inicio"]) .menu button.on{color:var(--green-dark)}
+
+/* =============================  el selector de fotos de la tarjeta  ========= */
+/* Vive sobre la fotografía, abajo: no toca la rejilla de la tarjeta ni le roba
+   sitio al precio. Ocho miniaturas como mucho; cuando hay más, la novena pieza
+   es la puerta a la galería de la ficha. */
+.micro-fotos{position:absolute; left:0; right:0; bottom:0; z-index:3; display:flex; gap:6px;
+  padding:9px 10px 11px; overflow-x:auto; scrollbar-width:none;
+  background:linear-gradient(0deg,rgba(8,20,16,.74),rgba(8,20,16,.30) 58%,transparent)}
+.micro-fotos[hidden]{display:none}
+.micro-fotos::-webkit-scrollbar{display:none}
+.micro-fotos .mini{flex:none; width:62px; height:44px; padding:0; border:1.5px solid rgba(255,255,255,.78);
+  border-radius:7px; overflow:hidden; background:rgba(255,255,255,.2); cursor:pointer; opacity:.9;
+  transition:border-color .12s ease, transform .12s ease, opacity .12s ease}
+.micro-fotos .mini img{width:100%; height:100%; object-fit:cover; display:block}
+.micro-fotos .mini:hover{transform:translateY(-1px); border-color:#fff; opacity:1}
+.micro-fotos .mini.on{border-color:var(--green); box-shadow:0 0 0 2px rgba(34,197,94,.55); opacity:1}
+.micro-fotos .mini.mas{display:grid; place-items:center; width:auto; min-width:36px; padding:0 8px;
+  background:rgba(8,20,16,.74); color:#fff; font-size:.72rem; font-weight:700; letter-spacing:.02em;
+  border-color:rgba(255,255,255,.35); text-decoration:none}
+.micro-fotos .mini.mas:hover{background:var(--teal); border-color:var(--teal)}
+
+/* =============================  las tres puertas, en la tarjeta  ============
+   WhatsApp, Telegram y correo. No son el contacto del vendedor —eso no se
+   publica nunca—: son la puerta que se abre con el código, igual que en la ficha.
+   Por eso cada una lleva a la ficha con ese canal ya elegido. */
+.canales-card{display:flex; align-items:center; gap:6px; flex:none}
+.canales-card .canal-mini{width:32px; height:32px; border-radius:50%; border:1px solid var(--line-2);
+  background:var(--white); display:grid; place-items:center; overflow:hidden;
+  transition:border-color .12s ease, transform .12s ease, background .12s ease}
+.canales-card .canal-mini img{width:17px; height:17px; object-fit:contain; display:block}
+.canales-card .canal-mini:hover{border-color:var(--green); transform:translateY(-1px); background:#f6fdf8}
+.canales-card .canal-mini.mail{color:var(--ink-60)}
+.canales-card .canal-mini.mail svg,.canales-card .canal-mini.mail .mail-ico svg{width:17px; height:17px;
+  fill:currentColor; display:block}
+.canales-card .canal-nota{width:18px; height:18px; border-radius:50%; border:1px solid var(--line-2);
+  display:grid; place-items:center; font-size:10px; font-weight:700; color:var(--ink-45); cursor:help}
+
+/* ===========================  el sello de Verysset  =========================
+   La píldora del ejemplo —degradado, letras blancas en negrita y la marca en un
+   círculo a la izquierda— con nuestro verde. Antes el texto iba oscuro sobre la
+   fotografía oscura (una regla mal puesta le cambiaba el color), y el degradado
+   acababa en un verde claro que no aguanta blanco encima. */
+.sello-vss{display:inline-flex; align-items:center; gap:.45rem; padding:3px 12px 3px 4px;
+  border-radius:999px; color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.1em;
+  text-transform:uppercase; white-space:nowrap; line-height:1;
+  background:linear-gradient(100deg,#06281A 0%,#0F5132 48%,#15803D 100%);
+  border:1px solid rgba(255,255,255,.22); box-shadow:0 2px 10px rgba(6,40,26,.35)}
+.sello-vss b{font-weight:800; letter-spacing:.1em; padding-right:.15rem}
+.sello-vss .vss-marca{width:22px; height:22px; border-radius:50%; background:#fff; color:#15803D;
+  flex:none; display:grid; place-items:center; box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
+.sello-vss .vss-marca svg{display:block}
+/* el bloque del sello en la ficha: la píldora arriba, su alcance debajo */
+.sello-linea{margin-bottom:.2rem}
+.sello-linea .note{margin-top:.5rem}
+/* la etiqueta de promoción: ámbar claro con letra oscura, legible sobre la foto */
+.tag.coin{display:inline-flex; align-items:center; gap:.35rem; padding:3px 10px; border-radius:999px;
+  background:linear-gradient(100deg,#FDE7B0,#FBBF24); border:1px solid rgba(255,255,255,.45);
+  color:#5A2E05; font-size:.68rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  box-shadow:0 2px 8px rgba(90,46,5,.25)}
+.tag.coin svg{fill:#5A2E05}
+
+/* ====================  la cabecera de un proyecto  ==========================
+   La imagen —o el vídeo— que pone el desarrollador, con el título encima. El velo
+   oscuro no es decoración: es lo que garantiza que el título se lea sobre
+   cualquier fotografía, que puede ser un cielo claro o una fachada a contraluz. */
+.proy-cabecera{position:relative; border-radius:var(--r); overflow:hidden; margin:.4rem 0 1.1rem;
+  min-height:clamp(250px,36vh,400px); display:flex; align-items:flex-end;
+  background:linear-gradient(120deg,#06281A,#0F5132)}
+.proy-cabecera .proy-media{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  display:block}
+.proy-cabecera .proy-velo{position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,20,16,.12) 0%,rgba(6,20,16,.45) 58%,rgba(6,20,16,.86) 100%)}
+.proy-cabecera .proy-texto{position:relative; z-index:1; width:100%; padding:26px 26px 22px; color:#fff}
+.proy-cabecera .proy-texto .lab{color:rgba(255,255,255,.92); margin-bottom:.3rem}
+.proy-cabecera .proy-texto .lab .dash{background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(255,255,255,0))}
+.proy-cabecera h1{color:#fff; font-weight:650; letter-spacing:-.03em; margin:0;
+  font-size:clamp(1.6rem,3.8vw,2.6rem); text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.proy-cabecera .proy-texto p{margin:.4rem 0 0; color:rgba(255,255,255,.88); font-size:.95rem}
+@media (max-width:620px){
+  .proy-cabecera{min-height:220px}
+  .proy-cabecera .proy-texto{padding:18px 16px 16px}
+}
+
+/* ====================  el bloque de medios de la ficha  =====================
+   Antes eran tres piezas peleándose: una barra de botones FUERA del marco, una
+   tira de miniaturas debajo y un cartel flotando en la esquina. Ahora es una
+   pieza sola: la foto manda, el conmutador de medios va sobre ella como una barra
+   de pestañas, abajo a la izquierda el contador de la foto en la que estás, a la
+   derecha la puerta a la galería completa, y el carril de miniaturas debajo. */
+.gallery{position:relative; border:1px solid var(--line-2); border-radius:var(--r); overflow:hidden;
+  background:var(--card); box-shadow:var(--sube)}
+.gallery .big{aspect-ratio:16/10; position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#0d2a22,#123c2e)}
+.gallery .big img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0}
+.gallery .big-medio{position:absolute; inset:0}
+
+/* el conmutador de medios, sobre la foto */
+.medios-sel{position:absolute; z-index:3; top:10px; left:10px; right:10px; display:flex; gap:6px;
+  flex-wrap:wrap; margin:0}
+.medios-sel .ms{display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 12px;
+  border-radius:999px; border:1px solid rgba(255,255,255,.28); background:rgba(8,20,16,.55);
+  color:#fff; font-size:.8rem; font-weight:650; cursor:pointer; backdrop-filter:blur(6px);
+  transition:background .12s ease, border-color .12s ease}
+.medios-sel .ms b{font-weight:800; font-variant-numeric:tabular-nums}
+.medios-sel .ms:hover{background:rgba(8,20,16,.76); border-color:rgba(255,255,255,.5)}
+.medios-sel .ms.on{background:var(--green); border-color:var(--green); color:var(--teal)}
+.medios-sel .ms.on svg{color:var(--teal)}
+
+/* abajo: en qué foto estás, y la puerta a la galería completa */
+.big-cuenta{position:absolute; z-index:3; left:10px; bottom:10px; display:inline-flex;
+  align-items:center; gap:4px; padding:5px 11px; border-radius:999px; background:rgba(8,20,16,.62);
+  color:#fff; font-size:.76rem; font-weight:600; font-variant-numeric:tabular-nums;
+  border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(6px)}
+.big-cuenta b{font-weight:800}
+.abrir-gal{position:absolute; z-index:3; right:10px; bottom:10px; left:auto; display:inline-flex;
+  align-items:center; gap:6px; padding:5px 12px; border-radius:999px;
+  background:rgba(255,255,255,.94); color:var(--ink); font-size:.78rem; font-weight:650;
+  box-shadow:0 2px 10px rgba(8,20,16,.25)}
+.abrir-gal b{font-weight:800}
+.abrir-gal svg{color:var(--green-dark)}
+
+/* el carril de miniaturas */
+.thumbs{display:flex; gap:8px; padding:10px 12px 12px; overflow-x:auto; scrollbar-width:none;
+  border-top:1px solid var(--line); background:var(--card)}
+.thumbs::-webkit-scrollbar{display:none}
+.thumbs .tb{flex:none; padding:0; border:2px solid transparent; border-radius:var(--r-sm);
+  background:none; cursor:pointer; overflow:hidden; line-height:0; opacity:.86;
+  transition:border-color .12s ease, transform .12s ease, opacity .12s ease}
+.thumbs .tb img{width:84px; height:60px; object-fit:cover; display:block}
+.thumbs .tb:hover{opacity:1; transform:translateY(-1px)}
+.thumbs .tb.on{border-color:var(--green); opacity:1; box-shadow:0 0 0 2px rgba(34,197,94,.28)}
+
+/* los datos de la ficha, legibles: la etiqueta iba en un gris al 45% que casi no se leía */
+.dest-lab{color:var(--ink-60)}
+.kv dt,.kv .k{color:var(--ink-60)}
+
+/* ---- el código de referido y quién te trajo -------------------------------
+   El campo y el resultado quedaban pegados —dos cuadros blancos seguidos— y el
+   avatar de quien te trajo aparecía como un disco oscuro suelto: no se entendía
+   qué era ni de quién. Ahora el resultado va separado y con su etiqueta, y el
+   avatar lleva las iniciales debajo del retrato, así que nunca queda vacío. */
+.quien{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .7rem; margin:.8rem 0 .1rem;
+  padding:.6rem .7rem; border:1px solid var(--line-2); border-radius:.85rem; background:var(--white)}
+.quien-lab{flex:1 1 100%; font-size:.66rem; font-weight:700; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--ink-45)}
+.quien .avatar{position:relative; overflow:hidden}
+.quien .avatar img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.quien-txt b{font-weight:650; color:var(--ink)}
+
+/* ====================  el visor: ver el medio grande  ======================
+   Es un pop-up para mirar la foto, el vídeo, el 360 o el plano EN GRANDE. Así
+   que el medio manda: ocupa todo el alto y todo el ancho que queda, sobre un
+   fondo oscuro, sin ningún blanco. El panel de datos ya no se queda abierto a un
+   lado robándole un tercio del ancho ni deja aire debajo: ahora se pide con el
+   botón «Info» y entra deslizándose por encima del medio, y se vuelve a cerrar.
+   Los mandos —flechas, cerrar, tira de miniaturas— van claros y opacos, que se
+   vean sin buscarlos. */
+.gal{background:rgba(3,10,8,.96)}
+/* El visor NO es una tarjeta de página: es una capa oscura, y su sitio no está en el barrido de
+   tarjetas blancas. Cuando estuvo, su fondo se volvía blanco y sus textos —que son claros— se
+   quedaban invisibles: no se leía el título ni el menú de tipos, y el hueco del panel parecía un
+   blanco. Aquí queda clavado, pase lo que pase con las tarjetas. */
+.gal-caja{background:linear-gradient(180deg,#0e1c22 0%,#091317 100%); color:#e9f2ee;
+  border:1px solid rgba(255,255,255,.08); border-radius:14px;
+  box-shadow:0 40px 120px rgba(0,0,0,.6); overflow:hidden}
+/* La barra no se aplasta: si no cabe todo, los tipos bajan a una segunda línea. Antes el título y
+   el menú competían por el mismo ancho y en pantallas más estrechas el menú quedaba aplastado y el
+   título recortado: el visitante no encontraba ni con qué cambiar de medio ni dónde estaba. */
+.gal-bar{display:flex; flex-wrap:wrap; align-items:center; border-bottom:1px solid rgba(255,255,255,.1);
+  padding:.6rem .8rem; gap:.5rem .6rem}
+.gal-id{flex:1 1 220px; min-width:0}
+
+/* los tipos, como pastillas: se ven y se tocan */
+.gal-tabs{display:flex; gap:.3rem; flex:0 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none;
+  padding:.22rem; border-radius:999px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12)}
+.gal-tabs::-webkit-scrollbar{display:none}
+.gtab{flex:none; display:inline-flex; align-items:center; gap:.4rem; min-height:36px; padding:0 .78rem;
+  border:1px solid transparent; border-radius:999px; background:rgba(255,255,255,.07); color:#fff;
+  font-size:.82rem; font-weight:650; cursor:pointer; white-space:nowrap;
+  transition:background .12s ease, border-color .12s ease}
+.gtab:hover{background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.25)}
+.gtab i{font-style:normal; font-size:.7rem; opacity:.7}
+.gtab.on{background:var(--green); border-color:var(--green); color:#04140c}
+.gtab.on i{opacity:.8}
+
+/* la escena se come todo el hueco: aquí no hay aire ni blanco */
+.gal-cuerpo{position:relative; display:block; flex:1; min-height:0; overflow:hidden; background:#04100c}
+.gal-escena{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:14px}
+.gal-medio{width:100%; height:100%; display:flex; align-items:center; justify-content:center}
+.gal-medio img,.gal-medio video{width:100%; height:100%; object-fit:contain;
+  border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.gal-medio iframe{width:min(1200px,100%); height:100%; border:0; border-radius:8px; background:#000}
+.gal-pano{width:min(1200px,100%); height:100%; overflow-x:auto; overflow-y:hidden; border-radius:8px}
+.gal-pano img{height:100%; max-height:100%; width:auto; max-width:none; border-radius:0; box-shadow:none}
+
+/* el panel de datos: se pide, entra por encima y se cierra */
+.gal-lado{position:absolute; top:0; right:0; bottom:0; width:min(352px,86%); max-height:none;
+  align-self:auto; overflow-y:auto; z-index:6; padding:1rem 1.05rem 1.4rem;
+  background:rgba(7,17,14,.97); border-left:1px solid rgba(255,255,255,.12);
+  box-shadow:-24px 0 60px rgba(0,0,0,.5); transform:translateX(102%);
+  transition:transform .18s ease}
+.gal-lado[data-abierto]{transform:none}
+.gal-info{display:inline-flex; align-items:center; gap:.4rem; min-height:40px; padding:0 .8rem;
+  border-radius:999px; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.06);
+  color:#fff; font-size:.8rem; font-weight:650; cursor:pointer}
+.gal-info:hover{background:rgba(255,255,255,.14)}
+.gal-info.on{background:rgba(255,255,255,.94); border-color:transparent; color:#0b1f18}
+.gal-info.on svg{color:#0b1f18}
+
+/* los datos del panel, legibles */
+.gal-lado h4{color:rgba(255,255,255,.6)}
+.gal-datos dt{color:rgba(255,255,255,.6)}
+.gal-datos dd{color:#f4fbf7}
+.gal-lado .note{color:rgba(255,255,255,.5); margin-top:1rem}
+
+/* ---- la información agrupada del visor ----------------------------------
+   Antes era una lista plana de veintitantas líneas: el número de habitaciones y el
+   número de permiso pesaban igual y había que leerlo entero. Ahora va en tres
+   bloques: las cifras de la vivienda en fichas (se leen de un vistazo), el papel
+   —tenencia, uso, estado, referencia— en filas, y el edificio al final. */
+.gal-grupo{margin:0 0 1.15rem}
+.gal-grupo h5{margin:0 0 .5rem; font-size:.67rem; font-weight:700; letter-spacing:.11em;
+  text-transform:uppercase; color:rgba(255,255,255,.55)}
+.gal-cifras{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+.gal-celda{display:flex; flex-direction:column; gap:.05rem; padding:.55rem .62rem; border-radius:10px;
+  border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.05)}
+.gal-celda svg{color:rgba(255,255,255,.5); margin-bottom:.2rem}
+.gal-celda b{font-size:1.02rem; font-weight:650; color:#fff; font-variant-numeric:tabular-nums}
+.gal-celda span{font-size:.68rem; letter-spacing:.05em; text-transform:uppercase;
+  color:rgba(255,255,255,.5)}
+.gal-filas{display:grid; grid-template-columns:minmax(0,1fr) auto; margin:0}
+.gal-filas dt,.gal-filas dd{margin:0; padding:.42rem 0; border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:.83rem; line-height:1.35}
+.gal-filas dt{color:rgba(255,255,255,.55)}
+.gal-filas dd{color:#f4fbf7; font-weight:650; text-align:right; padding-left:.8rem;
+  overflow-wrap:anywhere}
+
+/* el precio y el estado, dentro del visor */
+.gal-precio{display:flex; align-items:baseline; flex-wrap:wrap; gap:.5rem; margin:0 0 .9rem;
+  padding-bottom:.8rem; border-bottom:1px solid rgba(255,255,255,.12)}
+.gal-precio b{font-size:1.32rem; font-weight:650; color:#fff; letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums}
+.gal-estado{padding:.16rem .55rem; border-radius:999px; background:rgba(255,255,255,.94);
+  color:#0b1f18; font-size:.7rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase}
+
+/* los mandos, claros y opacos: se ven sin buscarlos */
+.gal-flecha{width:54px; height:54px; background:rgba(255,255,255,.95); border:0;
+  box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.gal-flecha:hover{background:#fff}
+.gal-flecha svg,.gal-x svg{color:#0b1f18}
+.gal-flecha.izq{left:12px} .gal-flecha.der{right:12px}
+.gal-x{background:rgba(255,255,255,.95); border:0; box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.gal-x:hover{background:#fff}
+
+/* en qué pieza estás */
+.gal-cuenta{background:rgba(255,255,255,.95); color:#0b1f18; font-weight:800; padding:.28rem .62rem}
+.gal-etiqueta{color:#fff; font-weight:650; text-shadow:0 2px 8px rgba(0,0,0,.65)}
+
+/* la tira: todas las piezas, y la activa en verde */
+.gal-tiras{gap:10px; padding:.7rem .95rem .85rem; border-top:1px solid rgba(255,255,255,.1)}
+.gtira{width:112px; height:74px; border-radius:10px; opacity:.62;
+  transition:opacity .14s ease, box-shadow .14s ease}
+.gtira:hover{opacity:.92}
+.gtira.on{opacity:1; border-color:var(--green); box-shadow:0 0 0 3px rgba(34,197,94,.35)}
+/* El rótulo de la pieza (VIDEO, 360° TOUR, FLOOR PLAN) iba a 9,6 px: estaba, pero no se leía. */
+.gtira em{font-weight:800; font-size:.72rem; letter-spacing:.03em; padding:.22rem .3rem;
+  background:linear-gradient(180deg,rgba(3,10,8,.35),rgba(3,10,8,.92)); text-shadow:0 1px 3px rgba(0,0,0,.8)}
+
+/* en el teléfono el panel de datos sube desde abajo, y el visor va a pantalla completa */
+@media (max-width:620px){
+  .gal{padding:0}
+  .gal-caja{border-radius:0; height:100vh; width:100vw}
+  .gal-lado{left:0; right:0; top:auto; bottom:0; width:auto; height:72%; border-left:0;
+    border-top:1px solid rgba(255,255,255,.12); transform:translateY(102%);
+    box-shadow:0 -24px 60px rgba(0,0,0,.55)}
+  .gal-lado[data-abierto]{transform:none}
+  .gal-bar{padding:.5rem .6rem; gap:.4rem}
+  .gal-id span{display:none}
+  /* En el teléfono el tipo va con su icono y su cuenta: los cuatro caben sin desplazar nada. */
+  .gtab span{display:none}
+  .gtab{padding:0 .6rem}
+  .gtira{width:94px; height:64px}
+}
+
+/* ====================  el recorrido del dinero  ============================
+   Al pie de la columna del precio quedaba un tramo en blanco —la columna se
+   estira para igualar la de la izquierda— y ahí no había nada. Ahora va, paso a
+   paso, por dónde pasa el dinero entre que el comprador lo manda y el título
+   queda a su nombre: es la pregunta que se hace cualquiera que paga en cripto.
+   Solo el orden de los actores y los tiempos del modelo; ninguna cifra inventada. */
+.ruta{margin-top:20px; padding-top:16px; border-top:1px solid var(--line)}
+.ruta h4{margin:0 0 8px; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-45); font-weight:700}
+.ruta-intro{margin:0 0 14px; font-size:.86rem; line-height:1.5; color:var(--ink-72)}
+.ruta-pasos{list-style:none; margin:0; padding:0; counter-reset:paso}
+.ruta-pasos li{counter-increment:paso; position:relative; padding:0 0 14px 32px}
+.ruta-pasos li::before{content:counter(paso); position:absolute; left:0; top:1px; width:21px; height:21px;
+  display:grid; place-items:center; border-radius:50%; background:rgba(34,197,94,.14);
+  color:var(--green-dark); font-size:.7rem; font-weight:800}
+.ruta-pasos li:not(:last-child)::after{content:''; position:absolute; left:10px; top:25px; bottom:3px;
+  width:1px; background:var(--line)}
+.ruta-pasos b{display:block; font-size:.87rem; font-weight:650; color:var(--ink)}
+.ruta-pasos span{display:block; margin-top:1px; font-size:.81rem; line-height:1.45; color:var(--ink-60)}
+.ruta-nota{margin:10px 0 0; font-size:.78rem; line-height:1.5; color:var(--ink-60)}
+
+/* ---- el sello de Verysset, que se pulsa --------------------------------
+   El sello es la puerta al informe del activo: lo que Verysset comprobó, dónde
+   está anclada la evidencia, en qué red, y qué lee el gemelo digital. Tiene que
+   parecer pulsable en todas partes y decir que está trabajando mientras carga. */
+/* ---- la ventana de la imagen satelital entera -----------------------------
+   Fondo oscuro con la imagen grande dentro. Los mandos y la X son de 44 px o más: en un teléfono
+   un botón pequeño no se acierta. Se cierra con la X, con Escape o pulsando fuera. */
+.sat{position:fixed; inset:0; z-index:120; display:flex; align-items:center; justify-content:center;
+  padding:16px; background:rgba(6,14,18,.74); backdrop-filter:blur(3px)}
+.sat-caja{display:flex; flex-direction:column; width:min(1400px,96vw); max-height:94vh; overflow:hidden;
+  background:#0e1c22; border:1px solid rgba(255,255,255,.14); border-radius:12px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.sat-bar{display:flex; align-items:center; gap:10px; padding:9px 12px; flex-wrap:wrap;
+  border-bottom:1px solid rgba(255,255,255,.12)}
+.sat-lab{display:inline-flex; align-items:center; gap:7px; font-size:10.5px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:#9fb8b0}
+.sat-tit{font-size:13px; color:#eaf4f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sat-mandos{margin-left:auto; display:flex; align-items:center; gap:6px}
+.sat-btn,.sat-x{display:grid; place-items:center; min-width:44px; min-height:44px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.07); color:#fff; font-size:17px;
+  font-weight:700; cursor:pointer; text-decoration:none}
+.sat-btn:hover,.sat-x:hover{background:rgba(255,255,255,.16)}
+.sat-lienzo{position:relative; flex:1; min-height:62vh; overflow:hidden; background:#08121a;
+  cursor:grab; touch-action:none}
+.sat-lienzo.arrastrando{cursor:grabbing}
+/* La imagen y el marcador van en la MISMA capa: se mueven juntos con el arrastre y el zoom, así que
+   el pin no se queda flotando por el centro mientras el edificio se va. */
+.sat-capa{position:absolute; inset:0; transform-origin:center; transition:transform .1s ease-out}
+.sat-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; user-select:none;
+  pointer-events:none}
+/* El pin señala con la punta el punto exacto y no crece con el zoom (lo contrarresta su escala). */
+.sat-pin{position:absolute; left:50%; top:50%; display:block; transform:translate(-50%,-100%);
+  transform-origin:bottom center; color:#22C55E; pointer-events:none;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.75))}
+.sat-pin svg{display:block; width:26px; height:26px}
+.sat-coord{display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:999px;
+  background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.18); color:#e6f1ec;
+  font-size:11px; font-variant-numeric:tabular-nums; white-space:nowrap}
+.sat-pie{display:flex; align-items:center; gap:12px; padding:8px 12px;
+  border-top:1px solid rgba(255,255,255,.12); font-size:11px; color:#9fb8b0}
+.sat-pista{margin-left:auto}
+.sat-nivel{min-width:44px; text-align:right; font-variant-numeric:tabular-nums; color:#eaf4f0}
+@media (max-width:700px){ .sat-pista{display:none} .sat-lienzo{min-height:56vh} }
+
+.sello-vss[data-unidad]{cursor:pointer}
+.sello-vss[data-unidad]:hover{transform:translateY(-1px); box-shadow:0 4px 14px rgba(6,40,26,.35)}
+.sello-vss[data-unidad]:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+.sello-vss.cargando{opacity:.7; pointer-events:none}
+.sello-vss.cargando b::after{content:' ·'; animation:puntos 1s steps(4, end) infinite}
+@keyframes puntos{0%{content:' ·'}25%{content:' ··'}50%{content:' ···'}75%{content:' ·'}}
+
+/* ==============  el informe de Verysset: un dossier, no un panel  ===========
+   Es la pieza que sostiene la promesa del marketplace —por qué deberías creerme—
+   así que se lee como un documento: cabecera con el sello del verificador, la
+   posición del activo abierta con su vista satelital, y el contenido en dos
+   columnas (el activo y lo verificado | la cadena y el gemelo). Superficie clara,
+   tipografía de la casa, hairlines de 1 px y ningún adorno: el peso lo llevan el
+   satélite y los datos. */
+.vs{position:fixed; inset:0; z-index:90; display:flex; align-items:center; justify-content:center;
+  padding:clamp(8px,2vw,28px); background:rgba(6,14,12,.66)}
+.vs-caja{width:min(1060px,100%); max-height:94vh; display:flex; flex-direction:column; overflow:hidden;
+  background:#fff; color:var(--ink); border-radius:14px; box-shadow:0 40px 120px rgba(8,20,16,.45)}
+.vs-bar{display:flex; align-items:center; gap:.6rem; padding:.65rem .85rem;
+  border-bottom:1px solid var(--line); background:#fff}
+.vs-id{flex:1; min-width:0; display:flex; flex-direction:column; line-height:1.25}
+.vs-id b{font-size:.95rem; font-weight:650; letter-spacing:-.01em}
+.vs-id span{font-size:.78rem; color:var(--ink-60); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.vs-x{flex:none; width:38px; height:38px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--line-2); background:#fff; color:var(--ink); cursor:pointer}
+.vs-x:hover{background:var(--card); border-color:var(--ink-30)}
+
+/* la posición: mapa satelital que se arrastra y se acerca, como cualquier mapa */
+.vs-hero{position:relative; aspect-ratio:16/6; min-height:210px; overflow:hidden; background:#0b1418}
+.vs-mapa{position:absolute; inset:0; overflow:hidden; cursor:grab; touch-action:none}
+.vs-mapa.agarrando{cursor:grabbing}
+.vs-mapa-teselas{position:absolute; inset:0}
+.vs-tesela{position:absolute; left:0; top:0; width:256px; height:256px; will-change:transform}
+/* la imagen que trae el fichero: se ve mientras llegan las teselas, y se queda si no hay red */
+.vs-mapa-fija{position:absolute; left:50%; top:50%; width:100%; height:100%; object-fit:cover;
+  transform:translate(-50%,-50%); opacity:1; transition:opacity .25s ease}
+.vs-mapa.con-teselas .vs-mapa-fija{opacity:0}
+.vs-mapa.sin-teselas .vs-mapa-teselas{display:none}
+.vs-mapa.sin-teselas .vs-mapa-pin{left:50%; top:50%; margin:0; transform:translate(-50%,-100%)}
+.vs-mapa-pin{position:absolute; left:0; top:0; width:34px; height:34px; margin:-32px 0 0 -17px;
+  display:grid; place-items:center; pointer-events:none; filter:drop-shadow(0 3px 6px rgba(0,0,0,.65))}
+.vs-mapa-pin svg{width:26px; height:26px; color:var(--green)}
+.vs-mapa-mandos{position:absolute; right:10px; top:10px; z-index:4; display:flex; flex-direction:column; gap:6px}
+.vs-mapa-btn{width:44px; height:44px; display:grid; place-items:center; border-radius:9px; cursor:pointer;
+  border:1px solid rgba(255,255,255,.22); background:rgba(10,20,18,.72); color:#fff;
+  font-size:1.05rem; font-weight:700; line-height:1; backdrop-filter:blur(6px)}
+.vs-mapa-btn:hover{background:rgba(10,20,18,.92); border-color:rgba(255,255,255,.4)}
+.vs-mapa-btn svg{color:#fff}
+.vs-mapa-credito{position:absolute; right:8px; bottom:6px; z-index:4; font-size:.62rem;
+  color:rgba(255,255,255,.74); text-shadow:0 1px 3px rgba(0,0,0,.75)}
+.vs-hero-velo{position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,14,12,.05) 0%,rgba(6,14,12,.34) 55%,rgba(6,14,12,.9) 100%)}
+.vs-hero-txt{position:absolute; left:16px; right:74px; bottom:13px; z-index:3; color:#fff;
+  pointer-events:none}
+.vs-hero-lab{display:inline-flex; align-items:center; gap:.35rem; font-size:.75rem; font-weight:650;
+  color:rgba(255,255,255,.92); text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.vs-hero-txt h3{margin:.3rem 0 .55rem; font-size:clamp(1.1rem,2.4vw,1.45rem); font-weight:650;
+  letter-spacing:-.015em; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.vs-chips{display:flex; flex-wrap:wrap; gap:6px}
+.vs-chip{display:inline-flex; align-items:center; gap:.3rem; padding:.22rem .55rem; border-radius:999px;
+  font-size:.72rem; font-weight:650; color:#fff; background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.26); backdrop-filter:blur(4px)}
+.vs-chip.ok{background:rgba(34,197,94,.94); border-color:transparent; color:#04140c}
+
+/* el código de la imagen: va con la foto, no en otra pantalla */
+.vs-codigo{display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; padding:.5rem .85rem;
+  border-bottom:1px solid var(--line); background:#fbfdfc}
+.vs-codigo-lab{display:inline-flex; align-items:center; gap:.3rem; font-size:.62rem; font-weight:700;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--ink-45)}
+.vs-codigo-lab svg{color:var(--ink-45)}
+.vs-codigo-id{font-size:.78rem; font-weight:650; color:var(--ink)}
+.vs-codigo-hash{flex:1 1 260px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.7rem; color:var(--ink-60)}
+.vs-btn.mini{min-height:32px; padding:0 .6rem; font-size:.73rem}
+
+/* el contenido, en dos columnas que se leen de arriba abajo */
+.vs-cuerpo{flex:1; min-height:0; overflow-y:auto; display:grid; grid-template-columns:1fr 1fr;
+  background:#f6f8f9}
+.vs-col{display:flex; flex-direction:column; gap:12px; padding:14px}
+.vs-col:first-child{border-right:1px solid var(--line)}
+.vs-mod{background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 13px}
+.vs-mod h5{display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin:0 0 .35rem;
+  font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-45)}
+.vs-filas{display:grid; grid-template-columns:minmax(0,1fr) auto; margin:0}
+.vs-filas dt,.vs-filas dd{margin:0; padding:.38rem 0; border-bottom:1px solid var(--line); font-size:.82rem}
+.vs-filas dt{display:flex; align-items:center; gap:.4rem; color:var(--ink-60)}
+.vs-filas dt svg{color:var(--ink-45)}
+.vs-filas dd{color:var(--ink); font-weight:650; text-align:right; padding-left:.9rem;
+  overflow-wrap:anywhere}
+.vs-cuadros{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:10px}
+.vs-cuadros > div{border:1px solid var(--line); border-radius:8px; padding:.5rem .55rem; background:#fbfdfc}
+.vs-cuadros span{display:block; font-size:.63rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-45)}
+.vs-cuadros b{font-size:1rem; font-weight:650; font-variant-numeric:tabular-nums}
+.vs-cadena{margin-top:10px}
+.vs-mono-lab{display:block; margin-bottom:.22rem; font-size:.63rem; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-45)}
+.vs-mono{display:block; padding:.5rem .6rem; border-radius:8px; border:1px solid var(--line);
+  background:#f4f7f6; color:var(--ink-90); overflow-wrap:anywhere;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.71rem; line-height:1.5}
+.vs-acciones{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+.vs-btn{display:inline-flex; align-items:center; gap:.4rem; min-height:38px; padding:0 .8rem;
+  border-radius:8px; border:1px solid var(--line-2); background:#fff; color:var(--ink-90);
+  font-size:.8rem; font-weight:650; cursor:pointer; text-decoration:none}
+.vs-btn:hover{border-color:var(--green); color:var(--green-dark)}
+.vs-nota{margin:.6rem 0 0; font-size:.76rem; line-height:1.5; color:var(--ink-60)}
+.vs-tag{display:inline-block; padding:.1rem .45rem; border-radius:999px; background:rgba(34,197,94,.14);
+  color:var(--green-dark); font-size:.61rem; font-weight:700; letter-spacing:.05em; text-transform:none}
+.vs-live{display:inline-flex; align-items:center; gap:.35rem; font-size:.64rem; letter-spacing:.08em;
+  color:var(--green-dark); text-transform:none}
+.vs-live i{width:7px; height:7px; border-radius:50%; background:var(--green);
+  box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+.vs-pie{display:flex; flex-wrap:wrap; gap:.4rem 1rem; justify-content:space-between; align-items:baseline;
+  padding:.65rem .9rem; border-top:1px solid var(--line); background:#fff;
+  font-size:.72rem; line-height:1.45; color:var(--ink-45)}
+.vs-credito{white-space:nowrap; color:var(--ink-30)}
+@media (max-width:760px){
+  .vs{padding:0}
+  .vs-caja{border-radius:0; max-height:100vh; height:100vh}
+  .vs-cuerpo{grid-template-columns:1fr}
+  .vs-col:first-child{border-right:0; border-bottom:1px solid var(--line)}
+  .vs-hero{aspect-ratio:4/3}
+}
+
+/* --------------------------------------------------------------- móvil */
+@media (max-width:620px){
+  body:not([data-ruta="inicio"]) .card{border-radius:var(--r)}
+  body:not([data-ruta="inicio"]) .card .price{font-size:1.46rem}
+  body:not([data-ruta="inicio"]) .form-card{padding:18px 16px}
+  .micro-fotos{padding:8px}
+  .micro-fotos .mini{width:50px; height:36px}
+}
+
+/* Los canales de una tarjeta eran enlaces; ahora son puertas (botones) que piden el código. Mismo
+   aspecto, pero un botón trae su propio fondo y su borde: se limpian. */
+.canales-card .canal-mini, .canales-card .canal-nota{background:none; padding:0; cursor:pointer;
+  font: inherit; color:inherit}
+.canales-card .canal-nota{display:grid; place-items:center; font-size:11px; font-weight:800;
+  color:var(--ink-60)}
+.canales-card .canal-mini:focus-visible, .canales-card .canal-nota:focus-visible{outline:2px solid var(--green);
+  outline-offset:2px}
+
+/* ---------- el chip de un filtro puesto, y su × ------------------------------------------------
+   Dos fallos que se veían juntos: el chip ACTIVO se ponía blanco al pasar el ratón (una regla de
+   hover para los chips apagados) mientras su texto y su × son blancos, así que desaparecía justo
+   cuando el ratón estaba encima; y la × solo se enseñaba al pasar el ratón, así que en un teléfono
+   —o para quien no adivina— no existía. El filtro puesto se ve siempre, y su × también. */
+body:not([data-ruta="inicio"]) .chip:not(.on):hover{background:var(--card)}
+body:not([data-ruta="inicio"]) .chip.on,
+body:not([data-ruta="inicio"]) .chip.on:hover{background:var(--ink); border-color:var(--ink); color:#fff}
+.chip .x{opacity:.85; width:auto; overflow:visible; display:inline-block; min-width:14px; text-align:center;
+  margin-left:.25rem}
+.chip:hover .x, .chip:focus-visible .x{opacity:1}
+
+/* Los logos de la lista de inmobiliarias, igualados por TINTA y no por caja: medido el área de
+   tinta de cada fichero, cada logo lleva su relleno para que todos pesen lo mismo. Un cuadrado
+   lleno y una palabra alargada, en la misma caja con contain, no se ven igual: el cuadrado ocupa
+   todo y la palabra flota. Relleno calculado, no a ojo. */
