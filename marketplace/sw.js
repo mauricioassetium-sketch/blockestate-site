@@ -1,6 +1,6 @@
 /* The shell of the app, for when the network is not there.
    The API is never cached: a price or an availability served from a cache would be a lie. */
-const CACHE = 'blockestate-shell-v2';
+const CACHE = 'blockestate-shell-v3';
 const SHELL = [
   './',
   './index.html',
