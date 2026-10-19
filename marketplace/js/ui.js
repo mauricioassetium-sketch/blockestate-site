@@ -321,7 +321,7 @@ function monograma(nombre) {
 export function marcaPlana(nombre, logoUrl) {
   const limpio = String(nombre ?? '').trim();
   const src = logoUrl || LOGOS[limpio];
-  if (src) return `<span class="logo-plano"><img src="${esc(src)}" alt="" loading="lazy"></span>`;
+  if (src) return `<span class="logo-plano"><img src="${esc(src)}" alt="" decoding="async"></span>`;
   const dibujo = MARCAS[limpio];
   if (dibujo) return `<span class="logo-plano dibujo" aria-hidden="true">${dibujo}</span>`;
   const { iniciales, fondo } = monograma(nombre);

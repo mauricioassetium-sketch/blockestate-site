@@ -377,3 +377,59 @@
   .list .card .tipo { font-size: .94rem; }
   .list .card .puerta { padding: 0 8px; }
 }
+
+/* ----------------------------------------------------------------------------------------------
+   Las marcas de los promotores en el rail y en la lista de proyectos.
+   Todas dentro de la misma caja, para que la fila no baile: antes cada logotipo traía su altura
+   puesta en línea (21, 40, 35, 32 px según la casa) y las filas se veían de cinco tamaños distintos.
+   ---------------------------------------------------------------------------------------------- */
+.rail-logo {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--line-2);
+}
+
+.rail-logo .logo-plano {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.rail-logo .logo-plano img,
+.rail-logo .logo-plano svg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.rail-logo .logo-plano.dibujo svg,
+.rail-logo .logo-plano.mono {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+}
+
+.rail-logo .logo-plano.mono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+  .rail-logo { flex: 0 0 50px; width: 50px; height: 40px; padding: 5px; }
+}

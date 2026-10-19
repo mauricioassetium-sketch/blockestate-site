@@ -7,7 +7,7 @@
  * (initials) instead of an invented image.
  */
 import { api } from '../api.js';
-import { esc, logoHtml, money } from '../ui.js';
+import { esc, marcaPlana, money } from '../ui.js';
 
 /** A mark from the name lives in `ui.js`: the card and the rail share it. */
 
@@ -35,7 +35,7 @@ export async function pintarRail(contenedor) {
           ? devs.map((d) => `
             <div class="dev-fila">
               <a class="dev-row${d.logo_url ? ' con-logo' : ''}" href="#/search?desarrollador_id=${esc(d.id)}">
-                ${logoHtml(d.nombre, d.logo_url)}
+                <span class="rail-logo">${marcaPlana(d.nombre, d.logo_url)}</span>
                 <span class="meta">
                   <b>${esc(d.nombre)}</b>
                   <span>${d.propiedades ? `${d.propiedades} propert${d.propiedades === 1 ? 'y' : 'ies'}${d.desde_aed ? ` · from ${esc(d.desde_aed)}` : ''}` : 'No published properties yet'}</span>
@@ -49,7 +49,7 @@ export async function pintarRail(contenedor) {
         <h3>Significant projects</h3>
         ${proys.map((p) => `
           <a class="dev-row${p.foto ? ' con-foto' : ''}" href="#/project/${esc(p.id)}">
-            ${p.foto ? `<img class="proy-foto" src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">` : logoHtml(p.desarrollador, p.desarrollador_logo)}
+            ${p.foto ? `<img class="proy-foto" src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">` : `<span class="rail-logo">${marcaPlana(p.desarrollador, p.desarrollador_logo)}</span>`}
             <span class="meta">
               <b>${esc(p.nombre)}</b>
               <span>${esc(p.comunidad ?? p.ciudad)} · ${p.propiedades}${p.desde_aed ? ` · from ${esc(p.desde_aed)}` : ''}</span>
