@@ -514,3 +514,42 @@
 
 .enlace-verde:hover,
 .enlace-verde:hover b { color: #0F5132; text-decoration: underline; }
+
+/* La cadena del dinero, paso a paso. Cada marca es un enlace a su casa y la lista dice qué hace cada
+   una, en el orden en que ocurre. */
+.flujo-marca.mbk { background: #fff; border-color: var(--line-2); padding: .38rem .55rem; }
+.flujo-marca { text-decoration: none; transition: box-shadow .15s ease, transform .15s ease; }
+a.flujo-marca:hover { box-shadow: 0 2px 10px rgba(16,34,43,.12); transform: translateY(-1px); }
+
+.flujo-cadena {
+  list-style: none;
+  margin: .7rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .45rem;
+  font-size: .72rem;
+  color: var(--ink-45);
+}
+
+.flujo-cadena li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .3rem;
+}
+
+.flujo-cadena li + li::before {
+  content: "→";
+  color: var(--ink-30);
+  margin-right: .15rem;
+}
+
+.flujo-cadena b { color: var(--ink); font-weight: 700; }
+
+.flujo-tiempo {
+  display: block;
+  margin-top: .35rem;
+  font-size: .72rem;
+  color: var(--ink-45);
+}

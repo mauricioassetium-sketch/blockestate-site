@@ -281,15 +281,33 @@ export async function viewUnit(id) {
             Paying in digital assets is quoted at the moment of payment, with an expiry.</p>
           <div class="flujo-pago">
             <div class="flujo-marcas">
-              <span class="flujo-marca ptf"><img src="img/paythefly.svg" alt="PayTheFly" height="20"></span>
+              <a class="flujo-marca ptf" href="https://pro.paythefly.com" target="_blank" rel="noopener noreferrer" title="PayTheFly: on-chain collection, non-custodial">
+                <img src="img/paythefly.svg" alt="PayTheFly" height="20">
+              </a>
               <span class="flujo-paso" aria-hidden="true">›</span>
-              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="18"></span>
+              <a class="flujo-marca chg" href="https://changer.ae" target="_blank" rel="noopener noreferrer" title="Changer.ae: licensed OTC custodian">
+                <img src="img/changer.png" alt="Changer" height="18">
+              </a>
+              <span class="flujo-paso" aria-hidden="true">›</span>
+              <span class="flujo-marca mbk" title="mbank: the fiat leg">
+                <img src="img/mbank.png" alt="mbank" height="18">
+              </span>
             </div>
+
+            <ol class="flujo-cadena">
+              <li><b>Buyer</b></li>
+              <li><b>Developer's wallet</b> · collected by PayTheFly, non-custodial</li>
+              <li><b>Changer</b> · digital asset into dirhams</li>
+              <li><b>mbank</b> · the fiat leg</li>
+              <li><b>Developer's account</b> · AED</li>
+            </ol>
+
             <p class="flujo-txt">
               <b>PayTheFly</b> collects the payment on-chain and non-custodial: the money never sits with us.
-              <b>Changer</b>, a licensed OTC custodian, converts the digital asset into dirhams and delivers them
-              to the developer's account. BlockEstate runs on this protocol: the buyer touches digital assets,
-              the developer touches fiat.
+              <b>Changer</b>, a licensed OTC custodian, converts the digital asset into dirhams, <b>mbank</b>
+              carries the fiat, and the money reaches the developer's dirham account. BlockEstate runs on this
+              protocol: the buyer touches digital assets, the developer touches fiat.
+              <span class="flujo-tiempo">One continuous flow: seconds on-chain, minutes to the account.</span>
             </p>
           </div>
           ${u.badge ? `<div class="verif-linea con-sello">${selloVerysset('Verified by Verysset', datoSello)}<span>${u.badge?.validado_en ? `on ${esc(date(u.badge.validado_en))}` : ''}${u.badge?.vigencia ? ` · until ${esc(date(u.badge.vigencia))}` : ''}</span></div>` : ''}
