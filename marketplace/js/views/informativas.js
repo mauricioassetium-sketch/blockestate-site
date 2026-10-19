@@ -65,22 +65,22 @@ function canal(ico, titulo, texto) {
 export function viewAbout() {
   view().innerHTML = `
   ${banda('About BlockEstate', 'A marketplace of verified property in the United Arab Emirates. The '
-    + 'buyer pays in crypto, the developer is paid in dirhams, and the title is registered with the '
+    + 'buyer pays in digital assets, the developer is paid in dirhams, and the title is registered with the '
     + 'Dubai Land Department in the buyer\u2019s name.')}
   <div class="prosa">
     ${cuerpo([
       ['What we are', `<p>BlockEstate is a property marketplace. It publishes assets that have been `
         + `verified by Verysset, orchestrates the payment, and follows the purchase through to the `
-        + `registration of the title. The contract price is always in dirhams; the crypto figure is an `
+        + `registration of the title. The contract price is always in dirhams; the digital asset figure is an `
         + `equivalent with an expiry, never a fixed price.</p>`],
       ['Who is behind it', `<p>NDC operates the marketplace: it brings the developers in, reviews `
         + `listings, checks the buyer\u2019s identity by hand and handles the exceptions. The platform `
         + `is built and owned by Aradina Technologies LLC. Each step of a purchase runs on a licensed `
-        + `or contracted provider: the on-chain collection, the licensed exchange from crypto to `
+        + `or contracted provider: the on-chain collection, the licensed exchange from digital assets to `
         + `dirhams, the bank that receives the money and the Land Department that registers the `
         + `deed.</p>`],
       ['What we are not', `<p>BlockEstate is not a bank, a custodian, a broker or an auditor. It does `
-        + `not hold your crypto or your dirhams, and it does not give investment, tax or legal advice. `
+        + `not hold your digital assets or your dirhams, and it does not give investment, tax or legal advice. `
         + `It is the gateway that connects licensed and technology providers into one purchase.</p>`],
       ['Where this is going', `<p>What you are reading is the first release: the buyer marketplace `
         + `with a captured catalogue, the developer portal and the operations console. The assets on `
@@ -121,7 +121,7 @@ export function viewTerms() {
       + `contract wins. None of this is legal, tax or investment advice.</p>
     ${cuerpo([
       ['The price is in dirhams', `<p>Every listing carries its price in AED, and that is the `
-        + `contract price. A figure in crypto is an <b>equivalent</b> read from a rate that carries an `
+        + `contract price. A figure in digital assets is an <b>equivalent</b> read from a rate that carries an `
         + `expiry: it is an indication, and it is not a fixed price. When a rate is not known, the `
         + `marketplace shows nothing rather than a made-up number.</p>`],
       ['What \u201Cverified\u201D means, and what it does not', `<p>A verified badge declares the `
@@ -144,7 +144,7 @@ export function viewTerms() {
         + `buyer\u2019s name. The deed is the legal instrument; nothing on this site transfers a title `
         + `or promises one.</p>`],
       ['What BlockEstate is not', `<p>Not a bank, a custodian, a broker or an auditor. The `
-        + `marketplace does not hold your crypto or your dirhams, and the crypto leg is collected `
+        + `marketplace does not hold your digital assets or your dirhams, and the digital asset leg is collected `
         + `on-chain by a payment layer that never takes custody of it.</p>`],
       ['The price you accept does not move', `<p>The price and any discount you accept are fixed for `
         + `that purchase. If the listing changes afterwards, your purchase is not changed by it.</p>`],

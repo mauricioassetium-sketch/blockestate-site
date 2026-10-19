@@ -1,7 +1,7 @@
 /**
  * The bridge between dirhams and the two currencies the buyer pays with.
  *
- * The rule of the model is BR-002, and it is the whole reason this file exists: **a crypto equivalent
+ * The rule of the model is BR-002, and it is the whole reason this file exists: **a digital asset equivalent
  * is a time-bounded quote**, never a promise. So nothing here invents a rate. The platform has no rate
  * feed yet, and until it has one the rate is the one the user types, the seller quoting, or the
  * buyer reading, and every figure that comes out of it says the rate and says that it is an
@@ -53,7 +53,7 @@ export const ACTIVOS_VER = ['USDT', 'BNB'];
 
 /**
  * Which asset the reader wants to see. Stored with the rates, because it is the same decision: how
- * this platform talks about money in crypto.
+ * this platform talks about money in digital assets.
  */
 export function activoElegido() {
   return estadoCambio.ver && ACTIVOS_VER.includes(estadoCambio.ver) ? estadoCambio.ver : 'USDT';

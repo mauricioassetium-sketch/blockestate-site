@@ -807,7 +807,7 @@ export async function viewDevNuevaPropiedad() {
             contract never carries a rounded decimal.</p>
 
           <div class="dev-calc" id="dev-calc">
-            <span class="dev-etiqueta">The price in crypto · a calculator, not a quote</span>
+            <span class="dev-etiqueta">The price in digital assets · a calculator, not a quote</span>
             <div class="dev-calc-tasas">
               <label>1 USDT =
                 <input name="tasa_usdt" inputmode="decimal" placeholder="3.6725"> <span>AED</span></label>
@@ -816,7 +816,7 @@ export async function viewDevNuevaPropiedad() {
             </div>
             <p class="note">The platform has no rate feed yet, so the rate is the one you write, the
               one you are quoting with. It is stamped with its moment and it is never a promise: the
-              contract price is the one in dirhams, and BR-002 says the crypto figure is a time-bounded
+              contract price is the one in dirhams, and BR-002 says the digital asset figure is a time-bounded
               quote.</p>
             <div class="dev-calc-salida" id="dev-calc-salida">Type the rate and the price: the
               equivalent appears here.</div>
@@ -1596,7 +1596,7 @@ export async function viewDevCollections() {
       </div>
       <section class="mod">
         <header>${ico('banco', 15)}<h4>Collections</h4></header>
-        <p class="note">The dirhams arrive through the licensed off-ramp: the OTC converts the crypto
+        <p class="note">The dirhams arrive through the licensed off-ramp: the OTC converts the digital assets
           and the bank credits your account. Your share is frozen only when it has arrived, before
           that there is nothing to promise, and nothing here is a receipt.</p>
         <div class="dev-tabla-caja">

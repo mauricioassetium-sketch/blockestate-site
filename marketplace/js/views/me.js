@@ -215,7 +215,7 @@ async function viewPurchase(id) {
             ${cartera.referencia_dld ? `<dt>DLD reference</dt><dd>${esc(cartera.referencia_dld)}</dd>` : ''}
           </dl>
           <p class="note">The deposit is 10% of the price, the practice off plan. Each leg is paid with its
-            own quote: a crypto amount is an equivalent with an expiry, not a fixed price.</p>
+            own quote: a digital asset amount is an equivalent with an expiry, not a fixed price.</p>
         </div>
 
         <div class="section">
@@ -233,7 +233,7 @@ async function viewPurchase(id) {
               <span class="ptf-marca">PayTheFly</span>
               <span class="ptf-que">on-chain collection · not custody</span>
             </div>
-            <p class="note">The crypto leg of this purchase is collected on chain by PayTheFly, which keeps
+            <p class="note">The digital asset leg of this purchase is collected on chain by PayTheFly, which keeps
               nothing: no fiat, no bank, no exchange, no off-ramp. The dirhams reach the developer through the
               licensed OTC and the bank, and the Land Department registers the title.</p>
           </div>
@@ -454,7 +454,7 @@ async function pintarSiguiente(caja, i, estado, repintar) {
       <p><a class="btn green" href="${esc(pedido.payment_url ?? '#')}" target="_blank" rel="noopener">Open the payment link</a></p>`
         : `<p class="muted">The order for this leg was issued in an earlier session. The state below is the
             one the platform records.</p>`}
-      <p class="muted" style="font-size:.9rem">Once the crypto is on chain the platform confirms it and the
+      <p class="muted" style="font-size:.9rem">Once the digital assets are on chain the platform confirms it and the
         settlement in dirhams to the developer follows. From that moment there is no way back: the
         network does not reverse a payment, and the marketplace does not hide that.</p>
       <button class="btn ghost" id="refrescar">Refresh the state</button>`;

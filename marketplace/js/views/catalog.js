@@ -60,7 +60,7 @@ export async function viewCatalog() {
     <section class="hero">
       <div class="wrap inner">
         <div class="hero-foot">
-        <h1>Real homes,<br><span class="verde">paid in crypto</span></h1>
+        <h1>Real homes,<br><span class="verde">paid in digital assets</span></h1>
         <p class="sub">Verified property in the United Arab Emirates</p>
 
         <div class="buscador">
@@ -124,7 +124,7 @@ export async function viewCatalog() {
         <article class="promo promo-dev">
           <div class="promo-txt">
             <span class="promo-lab">For developers</span>
-            <h2>Sell in crypto. Get paid in dirhams.</h2>
+            <h2>Sell for digital assets. Get paid in dirhams.</h2>
             <p>Your units, verified before they are listed, in front of buyers who pay on-chain. The
               settlement reaches your account and the title is registered in the buyer's name at the
               Dubai Land Department.</p>

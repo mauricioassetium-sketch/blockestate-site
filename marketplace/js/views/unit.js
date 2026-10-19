@@ -278,7 +278,7 @@ export async function viewUnit(id) {
               ${d.plan_pagos ? `<div><span>Payment plan</span><b>${esc(d.plan_pagos)}</b></div>` : ''}
             </div>` : ''}
           <p class="muted" style="font-size:.85rem;margin:.2rem 0 .8rem">Contract price in dirhams.
-            Paying in crypto is quoted at the moment of payment, with an expiry.</p>
+            Paying in digital assets is quoted at the moment of payment, with an expiry.</p>
           ${badgeHtml(u.badge, u.procedencia_verificacion, datoSello)}
           <div id="accion" style="margin-top:1rem"></div>
           <p class="note">Seller: ${esc('the developer of the project')}. The marketplace does not publish
@@ -325,14 +325,14 @@ export async function viewUnit(id) {
                el orden de los actores y los tiempos están en el modelo, y nada más. -->
           <div class="ruta" aria-label="How the payment travels">
             <h4>How the payment travels</h4>
-            <p class="ruta-intro">The buyer pays in crypto; the developer is paid in dirhams. In between
+            <p class="ruta-intro">The buyer pays in digital assets; the developer is paid in dirhams. In between
               there are three licensed hands and no shortcuts.</p>
             <ol class="ruta-pasos">
               <li><b>Your wallet</b><span>USDT, BTC or ETH, from the wallet you declare. The network has to
                 match: a wrong network is an exception that gets shown, never swallowed.</span></li>
               <li><b>On-chain collection</b><span>PayTheFly collects on-chain and does not custody: no fiat
                 and no bank on its side.</span></li>
-              <li><b>Crypto into dirhams</b><span>Changer, the licensed OTC, makes the exchange. Seconds to
+              <li><b>Digital assets into dirhams</b><span>Changer, the licensed OTC, makes the exchange. Seconds to
                 minutes.</span></li>
               <li><b>The bank</b><span>mbank receives the cash and delivers it to the developer's account.
                 Minutes to hours.</span></li>
@@ -561,9 +561,9 @@ export async function viewUnit(id) {
           ${'\u2192'} The referral code, if you have one, is in <b>Get in touch</b>: it is the same field.</p>`;
       accion.innerHTML = compra
         ? `<a class="btn green" href="#/portfolio/${esc(compra.intencion_id ?? compra.id)}" style="width:100%">
-             Buy with crypto · continue to the payment</a>
+             Pay with digital assets · continue to the payment</a>
            <p class="note">Your purchase for this unit is under way: the next step is the payment. PayTheFly
-             collects the crypto on chain and the dirhams reach the developer through the licensed OTC and
+             collects the digital assets on chain and the dirhams reach the developer through the licensed OTC and
              the bank.</p>
            <button class="btn ghost" id="reservar" style="width:100%"${reservada ? ' disabled' : ''}>
              ${reservada ? 'Already reserved by someone' : 'Reserve again'}</button>`

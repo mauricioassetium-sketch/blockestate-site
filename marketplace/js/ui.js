@@ -118,7 +118,7 @@ export function selectorActivo() {
 }
 
 /**
- * Rewrites the crypto figure of every card IN PLACE, without repainting the view.
+ * Rewrites the digital asset figure of every card IN PLACE, without repainting the view.
  *
  * This is the whole reason the page used to jump: changing the asset re-rendered the screen, and
  * re-rendering the screen throws the reader back to the top. Nothing about changing a currency means
@@ -227,7 +227,7 @@ export function card(r) {
           <button type="button" class="canal-nota" data-dev="${esc(r.desarrollador?.nombre ?? '')}" aria-label="How the contact works" title="The seller's contact is never published: your code is the door.">i</button>
         </span>
       </div>
-      <a class="btn green comprar" href="${enlace}" data-comprar="${esc(r.unidad_id)}">Buy with crypto</a>
+      <a class="btn green comprar" href="${enlace}" data-comprar="${esc(r.unidad_id)}">Pay with digital assets</a>
     </div>
   </article>`;
 }
