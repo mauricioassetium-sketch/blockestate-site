@@ -622,7 +622,8 @@ body:has(.lay.mapa) .lay.mapa {
 
 /* La lista tiene su propio scroll: la página no se mueve y el mapa nunca se va de la pantalla. */
 body:has(.lay.mapa) .lay.mapa > div:first-child {
-  max-height: calc(100dvh - var(--bar) - 34px);
+  max-height: calc(100dvh - 340px);
+  min-height: 480px;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-right: 6px;
@@ -631,11 +632,13 @@ body:has(.lay.mapa) .lay.mapa > div:first-child {
 
 /* Sin sticky: el desplazamiento del contenedor de scroll dejaba una franja gris encima del mapa.
    El mapa arranca a la misma altura que la primera tarjeta y ocupa el alto de la ventana. */
+/* El alto se mide contra la ventana menos el hueco real que ocupa la cabecera y los filtros, para
+   que el mapa acabe dentro de la pantalla y un pin no abra su ficha fuera del recorte. */
 body:has(.lay.mapa) .mapa {
   position: relative;
   top: auto;
-  height: calc(100dvh - var(--bar) - 34px);
-  min-height: 520px;
+  height: calc(100dvh - 340px);
+  min-height: 480px;
   border-radius: .9rem;
   align-self: start;
 }
