@@ -651,7 +651,7 @@ body:has(.lay.mapa) .mapa .leaflet-container {
 /* En el mapa manda la referencia: tarjeta pequeña y horizontal, foto a la izquierda y solo lo que
    se decide (precio, qué es, medidas, dónde y quién lo vende). El resto vive en la ficha. */
 body:has(.lay.mapa) .list .card {
-  grid-template-columns: 158px minmax(0, 1fr);
+  grid-template-columns: 186px minmax(0, 1fr);
   border-radius: .6rem;
 }
 
