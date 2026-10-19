@@ -205,6 +205,8 @@ export function card(r) {
       <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
         title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
+      <button type="button" class="foto-flecha prev" aria-label="Previous photo" hidden>‹</button>
+      <button type="button" class="foto-flecha next" aria-label="Next photo" hidden>›</button>
       <div class="puntos" data-fotos="${esc(r.unidad_id)}" hidden></div>
     </div>
     <div class="body">
@@ -712,7 +714,9 @@ export function pintarSelector(caja, fotos) {
   cuenta.textContent = `1 / ${fotos.length}`;
   if (foto) foto.appendChild(cuenta);
 
+  let actual = 0;
   const poner = (i) => {
+    actual = i;
     const img = fotoPrincipal();
     if (img) {
       img.src = fotos[i];
@@ -732,4 +736,17 @@ export function pintarSelector(caja, fotos) {
     ev.stopPropagation();
     poner(Number(b.dataset.i));
   });
+
+  // Las flechas de la foto: aparecen al pasar el ratón (o al enfocar la tarjeta con el teclado) y dan
+  // la vuelta al llegar al final. Se ocultan mientras no haya más de una foto, que es cuando sobran.
+  const flechas = foto ? [...foto.querySelectorAll('.foto-flecha')] : [];
+  const mover = (paso) => poner((actual + paso + fotos.length) % fotos.length);
+  for (const f of flechas) {
+    f.hidden = false;
+    if (f.classList.contains('prev')) {
+      f.addEventListener('click', (ev) => { ev.preventDefault(); ev.stopPropagation(); mover(-1); });
+    } else {
+      f.addEventListener('click', (ev) => { ev.preventDefault(); ev.stopPropagation(); mover(1); });
+    }
+  }
 }

@@ -554,3 +554,30 @@ a.flujo-marca:hover { box-shadow: 0 2px 10px rgba(16,34,43,.12); transform: tran
   font-size: .72rem;
   color: var(--ink-45);
 }
+
+/* Las flechas de la foto: escondidas hasta que el ratón entra en la tarjeta (o el foco llega por
+   teclado). En pantalla táctil no hay hover, así que se quedan visibles: ahí son la única pista. */
+.list .card .photo .foto-flecha {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .16s ease;
+  background: rgba(10, 20, 16, .55);
+  border: 1px solid rgba(255, 255, 255, .55);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.list .card:hover .photo .foto-flecha,
+.list .card:focus-within .photo .foto-flecha {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .list .card .photo .foto-flecha { opacity: 1; pointer-events: auto; }
+}
