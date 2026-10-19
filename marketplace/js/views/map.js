@@ -226,7 +226,8 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   // más arriba.
   ajustarAlto();
   requestAnimationFrame(ajustarAlto);
-  setTimeout(ajustarAlto, 300);
+  // La lista llega después y empuja el mapa hacia abajo: se vuelve a medir cuando el layout ya está.
+  [300, 900, 1600].forEach((t) => setTimeout(ajustarAlto, t));
   if (!ajustePuesto) {
     window.addEventListener('resize', ajustarAlto);
     window.addEventListener('orientationchange', ajustarAlto);
