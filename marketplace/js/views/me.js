@@ -32,7 +32,7 @@ async function viewAuth() {
         <div id="aviso"></div>
       </div>
       <p class="muted" style="margin-top:14px">No account yet?
-        <a href="#/register"><b>Create one</b></a> to keep a shortlist and buy.</p>
+        <a href="#/register" class="enlace-verde"><b>Create one</b></a> to keep a shortlist and buy.</p>
     </div>`;
 
   let pendiente = null;

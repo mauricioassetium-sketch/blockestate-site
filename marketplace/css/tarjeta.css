@@ -502,3 +502,15 @@
 }
 
 .verif-linea.con-sello .sello-vss { transform: scale(.86); transform-origin: left center; }
+
+/* El enlace de crear cuenta, en el verde de la casa: es la salida que tiene el que llega sin cuenta,
+   y en negro se leía como parte de la frase. */
+.enlace-verde,
+.enlace-verde b {
+  color: #15803D;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.enlace-verde:hover,
+.enlace-verde:hover b { color: #0F5132; text-decoration: underline; }
