@@ -607,3 +607,55 @@ a.flujo-marca:hover { box-shadow: 0 2px 10px rgba(16,34,43,.12); transform: tran
 @media (max-width: 760px) {
   .list .card .photo .foto-flecha { width: 34px; height: 34px; }
 }
+
+/* ----------------------------------------------------------------------------------------------
+   La vista de mapa, con la lista al lado. Aquí la tarjeta NO puede ser la horizontal ancha: la
+   columna mide ~420 px y el texto se quedaba en 150, con todo cortado y el sello encima del precio.
+   En esta vista la tarjeta se apila (foto arriba, texto debajo), el sello vuelve al flujo y el mapa
+   ocupa el alto de la ventana sin banda gris encima.
+   ---------------------------------------------------------------------------------------------- */
+body:has(.lay.mapa) .lay.mapa {
+  grid-template-columns: minmax(360px, 430px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+body:has(.lay.mapa) .mapa {
+  top: calc(var(--bar) + 10px);
+  height: calc(100dvh - var(--bar) - 26px);
+  min-height: 520px;
+  border-radius: .9rem;
+}
+
+body:has(.lay.mapa) .mapa .leaflet-container {
+  border-radius: .9rem;
+  background: #e9edee;
+}
+
+body:has(.lay.mapa) .list .card { grid-template-columns: 1fr; }
+
+body:has(.lay.mapa) .list .card .photo {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  min-height: 0;
+}
+
+body:has(.lay.mapa) .list .card .body { padding: 12px 14px 13px; }
+
+body:has(.lay.mapa) .list .card .price { font-size: 1.26rem; }
+
+/* El sello deja de flotar: en una columna estrecha tapaba el precio. Va arriba del todo, en flujo. */
+body:has(.lay.mapa) .list .card .sello-cuerpo {
+  position: static;
+  display: inline-block;
+  margin: 0 0 .45rem;
+}
+
+body:has(.lay.mapa) .list .card:has(.sello-cuerpo) .precio { padding-right: 0; }
+
+body:has(.lay.mapa) .list .card .frases { white-space: normal; }
+
+@media (max-width: 900px) {
+  body:has(.lay.mapa) .lay.mapa { grid-template-columns: 1fr; }
+  body:has(.lay.mapa) .mapa { height: 64dvh; min-height: 0; }
+}
