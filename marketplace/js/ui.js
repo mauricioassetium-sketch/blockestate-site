@@ -234,10 +234,10 @@ export function card(r) {
 
 /** The photo, with the gradient of the card showing if there is none or it does not load. */
 export function photoInner(url, alt) {
-  const fallback = `<span class="fallback">${esc(tipoLabel(alt))}</span>`;
-  if (!url) return fallback;
-  return `${fallback}<img src="${esc(url)}" alt="${esc(alt)}" loading="lazy"
-    onerror="this.remove()">`;
+  // Sin foto, la tarjeta dice de qué es; con foto, no se pinta ningún rótulo debajo: se veía un
+  // instante antes de que la imagen pintara y dejaba el texto suelto en el HTML.
+  if (!url) return `<span class="fallback">${esc(tipoLabel(alt))}</span>`;
+  return `<img src="${esc(url)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
 }
 
 export function loading(n = 6) {
