@@ -1,5 +1,5 @@
 /* BlockEstate · the buyer marketplace.
-   Brand tokens from blockestate.ae (white, ink, green, deep green, teal, coin ambers; Inter 300-900).
+   Brand tokens from blockestate.ae (white, ink, green, deep green, teal, coin ambers; Lato 300-900, the typeface Bayut uses).
    Layout follows the references Mauricio sent: a loud hero with the promise, a grid of emirates
    overlapping its bottom edge, one tab bar for what we sell, a single row of controls on the search
    page and cards that read price first. Simplicity is subtraction: what is not needed is not here. */
@@ -21,7 +21,7 @@
 html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
 body{
   margin:0; background:var(--white); color:var(--ink);
-  font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-family:"Lato","Inter",system-ui,-apple-system,Segoe UI,sans-serif;
   font-weight:400; line-height:1.55; font-size:16px;
   text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
 }
