@@ -289,9 +289,9 @@ export async function viewUnit(id) {
                 <img src="img/changer.png" alt="Changer" height="18">
               </a>
               <span class="flujo-paso" aria-hidden="true">›</span>
-              <span class="flujo-marca mbk" title="mbank: the fiat leg">
+              <a class="flujo-marca mbk" href="https://www.mbank.ae" target="_blank" rel="noopener noreferrer" title="mbank: the fiat leg">
                 <img src="img/mbank.png" alt="mbank" height="18">
-              </span>
+              </a>
             </div>
 
             <ol class="flujo-cadena">
