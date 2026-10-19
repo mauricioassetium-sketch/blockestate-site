@@ -620,11 +620,15 @@ body:has(.lay.mapa) .lay.mapa {
   align-items: start;
 }
 
+/* Sin sticky: el desplazamiento del contenedor de scroll dejaba una franja gris encima del mapa.
+   El mapa arranca a la misma altura que la primera tarjeta y ocupa el alto de la ventana. */
 body:has(.lay.mapa) .mapa {
-  top: calc(var(--bar) + 10px);
-  height: calc(100dvh - var(--bar) - 26px);
+  position: relative;
+  top: auto;
+  height: calc(100dvh - var(--bar) - 34px);
   min-height: 520px;
   border-radius: .9rem;
+  align-self: start;
 }
 
 body:has(.lay.mapa) .mapa .leaflet-container {
