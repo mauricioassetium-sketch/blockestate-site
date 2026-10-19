@@ -650,7 +650,15 @@ function elegirEnLista(unidadId) {
   if (!carta) return;
   for (const c of view().querySelectorAll('.card.elegida')) c.classList.remove('elegida');
   carta.classList.add('elegida');
-  carta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Desplazar SOLO la columna de tarjetas. `scrollIntoView` arrastraba la página entera y sacaba el
+  // mapa de la pantalla justo al pulsar un pin, que es cuando hay que verlo.
+  const caja = carta.closest('.lay.mapa > div:first-child');
+  if (caja) {
+    const rc = carta.getBoundingClientRect();
+    const rj = caja.getBoundingClientRect();
+    const destino = caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2;
+    caja.scrollTo({ top: Math.max(0, destino), behavior: 'smooth' });
+  }
   centrarEn(unidadId);
 }
 

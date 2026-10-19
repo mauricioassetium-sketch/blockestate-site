@@ -615,9 +615,18 @@ a.flujo-marca:hover { box-shadow: 0 2px 10px rgba(16,34,43,.12); transform: tran
    ocupa el alto de la ventana sin banda gris encima.
    ---------------------------------------------------------------------------------------------- */
 body:has(.lay.mapa) .lay.mapa {
-  grid-template-columns: minmax(360px, 430px) minmax(0, 1fr);
+  grid-template-columns: minmax(460px, 540px) minmax(0, 1fr);
   gap: 18px;
   align-items: start;
+}
+
+/* La lista tiene su propio scroll: la página no se mueve y el mapa nunca se va de la pantalla. */
+body:has(.lay.mapa) .lay.mapa > div:first-child {
+  max-height: calc(100dvh - var(--bar) - 34px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-gutter: stable;
 }
 
 /* Sin sticky: el desplazamiento del contenedor de scroll dejaba una franja gris encima del mapa.
@@ -639,7 +648,7 @@ body:has(.lay.mapa) .mapa .leaflet-container {
 /* En el mapa manda la referencia: tarjeta pequeña y horizontal, foto a la izquierda y solo lo que
    se decide (precio, qué es, medidas, dónde y quién lo vende). El resto vive en la ficha. */
 body:has(.lay.mapa) .list .card {
-  grid-template-columns: 118px minmax(0, 1fr);
+  grid-template-columns: 150px minmax(0, 1fr);
   border-radius: .6rem;
 }
 
