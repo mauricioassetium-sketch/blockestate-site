@@ -652,7 +652,13 @@ body:has(.lay.mapa) .list .card .photo {
   min-height: 0;
 }
 
-body:has(.lay.mapa) .list .card .body { padding: 10px 12px 9px; }
+body:has(.lay.mapa) .list .card .body { padding: 10px 12px 9px; gap: 0; row-gap: 0; column-gap: 0; }
+
+/* La palabra del tipo sobra aquí: el título ya dice qué es. */
+body:has(.lay.mapa) .list .card .tipo { display: none; }
+
+body:has(.lay.mapa) .list .card .specs { align-items: center; line-height: 1.2; }
+body:has(.lay.mapa) .list .card .specs svg { width: 13px; height: 13px; }
 
 body:has(.lay.mapa) .list .card .price { font-size: 1.06rem; }
 
