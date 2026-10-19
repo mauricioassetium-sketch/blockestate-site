@@ -188,46 +188,46 @@ export function initSelectorActivo() {
 export function card(r) {
   const fav = store.logged() && store.isFav(r.unidad_id);
   const enlace = `#/unit/${esc(r.unidad_id)}`;
+  const donde = [r.zona, r.emirato].filter(Boolean).join(', ');
+  const tipo = tipoLabel(r.tipo);
+  const obra = r.estado_obra ? obraLabel(r.estado_obra) : '';
+  // Una línea de frases cortas separadas por barra, como la referencia: lo que se lee de un vistazo.
+  const frases = [
+    ...destacados(r),
+    r.estado_obra === 'off_plan' && r.plan_pagos ? `${r.plan_pagos} payment plan` : '',
+    r.estado_obra === 'off_plan' && r.entrega_prevista ? `handover ${r.entrega_prevista}` : '',
+  ].filter(Boolean);
   return `
   <article class="card" data-unidad="${esc(r.unidad_id)}">
     <div class="photo">
       <a href="${enlace}" aria-label="${esc(r.titulo)}">${photoInner(r.foto_principal, r.tipo)}</a>
-      <span class="tags">
-        ${r.distintivo?.badge_alcance ? selloVerysset('Verified by Verysset',
-          { unidad: r.unidad_id, titulo: r.titulo, ref: r.referencia }) : ''}
-        ${r.distintivo?.promocionado ? `<span class="tag coin">${ICO.promocion}${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
-      </span>
+      ${r.distintivo?.promocionado ? `<span class="tag coin sola">${ICO.promocion}${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
       <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
         title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
-      <div class="micro-fotos" data-fotos="${esc(r.unidad_id)}" hidden></div>
+      <div class="puntos" data-fotos="${esc(r.unidad_id)}" hidden></div>
     </div>
     <div class="body">
-      ${cifraCripto(r)
-        ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b>
-           <i>indicative</i></div>` : ''}
-      <div class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</div>
-      <div class="tipo">${esc(tipoLabel(r.tipo))}${r.estado_obra ? ` · ${esc(obraLabel(r.estado_obra))}` : ''}</div>
+      ${r.distintivo?.badge_alcance ? `<span class="sello-cuerpo">${selloVerysset('Verified by Verysset', { unidad: r.unidad_id, titulo: r.titulo, ref: r.referencia })}</span>` : ''}
+      <div class="precio">
+        <span class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</span>
+      </div>
+      ${cifraCripto(r) ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b><i>indicative</i></div>` : ''}
+      <div class="tipo">${esc(tipo)}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
-      ${destacados(r).length ? `<div class="highlights">${destacados(r).map((t) => esc(t)).join(' · ')}</div>` : ''}
-      <div class="zona">${ICO.pin}${esc(r.zona ?? r.emirato)}${r.zona && r.emirato ? `, ${esc(r.emirato)}` : ''}</div>
-      ${r.distintivo?.badge_alcance ? `<div class="verif">${iconoAprobado()} Verified by Verysset${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</div>` : ''}
-      ${r.estado_obra === 'off_plan' && (r.entrega_prevista || r.plan_pagos) ? `
-        <div class="obra">
-          ${r.entrega_prevista ? `<div>${ICO.obra}<span>Handover</span><b>${esc(r.entrega_prevista)}</b></div>` : ''}
-          ${r.plan_pagos ? `<div>${ICO.plan}<span>Payment plan</span><b>${esc(r.plan_pagos)}</b></div>` : ''}
-        </div>` : ''}
+      ${frases.length ? `<div class="frases">${frases.map((t) => esc(t)).join(' <i>|</i> ')}</div>` : ''}
+      <div class="zona">${ICO.pin}<span>${esc(donde)}</span></div>
+      ${r.distintivo?.badge_alcance ? `<div class="verif-linea">${iconoAprobado()}<span>Verified by Verysset${r.distintivo.badge_validado_en ? ` on ${esc(date(r.distintivo.badge_validado_en))}` : ''}${r.distintivo.badge_vigencia ? ` · until ${esc(date(r.distintivo.badge_vigencia))}` : ''}</span></div>` : ''}
       <div class="foot">
-        <span class="dev">${logoHtml(r.desarrollador?.nombre, r.desarrollador?.logo_url, true)}${esc(r.desarrollador?.nombre ?? '')}</span>
-        <span class="canales-card">
-          <button type="button" class="canal-mini tg" data-canal="telegram" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="Telegram"><img src="${MARCA_TG}" alt="Telegram" loading="lazy"></button>
-          <button type="button" class="canal-mini wa" data-canal="whatsapp" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="WhatsApp"><img src="${MARCA_WA}" alt="WhatsApp" loading="lazy"></button>
-          <button type="button" class="canal-mini mail" data-canal="correo" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="Email"><span class="mail-ico">${MARCA_MAIL}</span></button>
-          <button type="button" class="canal-nota" data-dev="${esc(r.desarrollador?.nombre ?? '')}" aria-label="How the contact works" title="The seller's contact is never published: your code is the door.">i</button>
+        <span class="puertas">
+          <button type="button" class="puerta correo" data-canal="correo" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="Email" aria-label="Email"><span class="mail-ico">${MARCA_MAIL}</span><span class="lbl">Email</span></button>
+          <button type="button" class="puerta wa" data-canal="whatsapp" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="WhatsApp" aria-label="WhatsApp"><img src="${MARCA_WA}" alt="" loading="lazy"><span class="lbl">WhatsApp</span></button>
+          <button type="button" class="puerta tg" data-canal="telegram" data-dev="${esc(r.desarrollador?.nombre ?? '')}" title="Telegram" aria-label="Telegram"><img src="${MARCA_TG}" alt="" loading="lazy"><span class="lbl">Telegram</span></button>
         </span>
+        <span class="marca-dev" title="${esc(r.desarrollador?.nombre ?? '')}">${marcaPlana(r.desarrollador?.nombre, r.desarrollador?.logo_url)}</span>
       </div>
-      <a class="btn green comprar" href="${enlace}" data-comprar="${esc(r.unidad_id)}">Pay with digital assets</a>
+      <span class="canales-card" hidden></span>
     </div>
   </article>`;
 }
@@ -313,6 +313,21 @@ function monograma(nombre) {
  * marca dibujada aquí miden lo mismo y los nombres empiezan en la misma línea. Las iniciales de una
  * persona no llevan caja: son su propio cuadro.
  */
+/**
+ * La marca del promotor para la tarjeta, plana: sin caja, sin borde y sin las alturas por casa que
+ * logoHtml lleva en línea (esas existen para alinear listas, y aquí solo estorban). Lo que devuelve ya
+ * trae su forma: imagen, marca dibujada o monograma.
+ */
+export function marcaPlana(nombre, logoUrl) {
+  const limpio = String(nombre ?? '').trim();
+  const src = logoUrl || LOGOS[limpio];
+  if (src) return `<span class="logo-plano"><img src="${esc(src)}" alt="" loading="lazy"></span>`;
+  const dibujo = MARCAS[limpio];
+  if (dibujo) return `<span class="logo-plano dibujo" aria-hidden="true">${dibujo}</span>`;
+  const { iniciales, fondo } = monograma(nombre);
+  return `<span class="logo-plano mono" style="background:${fondo}" aria-hidden="true">${esc(iniciales)}</span>`;
+}
+
 export function logoHtml(nombre, logoUrl, chico = false, caja = false) {
   const talla = chico ? ' sm' : '';
   const marco = caja ? ' caja' : '';
@@ -641,7 +656,7 @@ export function hidratarTarjetas() {
     for (const e of entradas) {
       if (!e.isIntersecting) continue;
       observador.unobserve(e.target);
-      const caja = e.target.querySelector('.micro-fotos');
+      const caja = e.target.querySelector('.puntos');
       if (caja) llenarMiniaturas(caja);
     }
   }, { rootMargin: '240px' });
@@ -663,79 +678,53 @@ async function llenarMiniaturas(caja) {
     const m = await api.media(id);
     fotos = (m?.fotos ?? []).filter(Boolean);
   } catch { caja.hidden = true; return; }
-  if (fotos.length < 2) { caja.hidden = true; return; }
-  const visibles = fotos.slice(0, MAX_MINI);
-  const resto = fotos.length - visibles.length;
+  pintarSelector(caja, fotos);
+}
+
+/**
+ * El selector de la tarjeta: puntos y recuento. Recibe las fotos ya resueltas para que la vista previa
+ * pueda usar las suyas sin una segunda implementación que se desvíe de esta.
+ */
+export function pintarSelector(caja, fotos) {
+  if (!fotos || fotos.length < 2) { caja.hidden = true; return; }
   const tarjeta = caja.closest('.card');
   const foto = caja.parentElement;
-  // La foto principal se busca EN EL MOMENTO DE USARLA, no al pintar: la lista se vuelve a pintar
-  // (filtros, favoritos) y una referencia guardada apunta a una tarjeta que ya no está en pantalla.
+  // La foto principal se busca EN EL MOMENTO DE USARLA: la lista se repinta y una referencia
+  // guardada apunta a una tarjeta que ya no está en pantalla.
   const fotoPrincipal = () => tarjeta?.querySelector('.photo > a img, .photo > img') ?? null;
-  // El recuento NO va dentro de la tira: la tira se desplaza sola al avanzar y la etiqueta o se
-  // corría con el contenido, o al fijarla se montaba encima de las miniaturas. Va anclada a la
-  // propia foto (que ya es position:relative), así que puede correr sobre la imagen sin tapar nada.
-  caja.innerHTML = visibles.map((f, i) => `<button type="button" class="mini${i === 0 ? ' on' : ''}"
-      data-foto="${esc(f)}" data-i="${i}" title="Photo ${i + 1} of ${fotos.length}"><img src="${esc(f)}" alt="" loading="lazy"
-      onerror="this.closest('.mini').remove()"></button>`).join('')
-    + (resto > 0 ? `<a class="mini mas" href="#/unit/${esc(id)}"
-        title="${resto} more photo${resto === 1 ? '' : 's'}, open the gallery">+${resto}</a>` : '');
-  if (foto) {
-    for (const viejo of foto.querySelectorAll('.foto-cuenta')) viejo.remove();
-    const cuenta = document.createElement('span');
-    cuenta.className = 'foto-cuenta';
-    cuenta.textContent = `${fotos.length} photos`;
-    cuenta.title = `${fotos.length} photos in this listing`;
-    cuenta.setAttribute('style', 'position:absolute;left:10px;bottom:74px;z-index:3;'
-      + 'background:rgba(17,17,17,.62);color:#fff;border-radius:999px;padding:.22rem .6rem;'
-      + 'font-size:12px;font-weight:700;letter-spacing:.04em;white-space:nowrap;pointer-events:none');
-    foto.appendChild(cuenta);
-  }
+
+  // Puntos, no miniaturas: en una tarjeta de 230 px ocho cuadraditos con borde pesan más que la foto
+  // y no se ven. Un punto por foto, el activo más ancho, y el recuento en una píldora.
+  caja.innerHTML = fotos.map((f, i) => `<button type="button" class="punto${i === 0 ? ' on' : ''}"
+      data-i="${i}" aria-label="Photo ${i + 1} of ${fotos.length}"></button>`).join('');
   caja.hidden = false;
 
-  /* Cuál se está viendo, y qué pasa al moverse: en círculo. De la última se pasa a la primera y de la
-     primera a la última, hacia la derecha y hacia la izquierda. La tira acompaña, llevando a la vista
-     la miniatura que toca. */
-  let actual = 0;
-  const pintar = (i, moverLaTira = true) => {
-    actual = ((i % fotos.length) + fotos.length) % fotos.length;
-    const im = fotoPrincipal();
-    if (im) im.src = fotos[actual];
-    const piezas = [...caja.querySelectorAll('.mini')];
-    const mas = caja.querySelector('.mini.mas');
-    piezas.forEach((m) => {
-      if (m === mas) { m.classList.toggle('on', actual >= MAX_MINI); return; }
-      m.classList.toggle('on', m.dataset.foto === fotos[actual]);
-    });
-    const activa = (actual < MAX_MINI ? piezas[actual] : mas) ?? piezas[0];
-    if (moverLaTira && activa) activa.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  };
-
-  // Elegir foto con el dedo. Esto se hacía con un stopPropagation en fase de captura sobre la tira,
-  // que mataba el clic antes de llegar a la miniatura: la foto principal no cambiaba nunca.
-  caja.addEventListener('click', (ev) => {
-    const b = ev.target.closest('.mini');
-    if (!b || b.classList.contains('mas')) return;   // el +N es la puerta a la galería
-    ev.preventDefault();
-    ev.stopPropagation();                            // elegir la foto no puede abrir la ficha
-    pintar(Number(b.dataset.i ?? 0));
-  });
-
-  /* Las flechas laterales, solo cuando la tarjeta tiene más de una fotografía: sacan la siguiente o la
-     anterior, y dan la vuelta por los dos lados. */
-  if (foto && fotos.length > 1 && !foto.querySelector('.foto-flecha')) {
-    for (const [lado, salto, etiqueta] of [['prev', -1, 'Previous photo'], ['next', 1, 'Next photo']]) {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = `foto-flecha ${lado}`;
-      b.setAttribute('aria-label', etiqueta);
-      b.title = etiqueta;
-      b.textContent = lado === 'prev' ? '‹' : '›';
-      b.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();                        // la flecha tampoco abre la ficha
-        pintar(actual + salto);
-      });
-      foto.appendChild(b);
-    }
+  if (foto) {
+    for (const viejo of foto.querySelectorAll('.foto-cuenta')) viejo.remove();
   }
+  const cuenta = document.createElement('span');
+  cuenta.className = 'foto-cuenta';
+  cuenta.textContent = `1 / ${fotos.length}`;
+  if (foto) foto.appendChild(cuenta);
+
+  const poner = (i) => {
+    const img = fotoPrincipal();
+    if (img) {
+      img.src = fotos[i];
+      img.removeAttribute('srcset');
+    }
+    cuenta.textContent = `${i + 1} / ${fotos.length}`;
+    for (const b of caja.querySelectorAll('.punto')) {
+      const on = Number(b.dataset.i) === i;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-current', on ? 'true' : 'false');
+    }
+  };
+  caja.addEventListener('click', (ev) => {
+    const b = ev.target.closest('.punto');
+    if (!b) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    poner(Number(b.dataset.i));
+  });
 }

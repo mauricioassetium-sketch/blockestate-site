@@ -1,0 +1,379 @@
+/*
+ * La tarjeta del catálogo, con la anatomía de la referencia que él aprobó.
+ *
+ * Foto a la izquierda con el sello encima, y a la derecha: precio, tipo, medidas, una línea de frases
+ * cortas, la dirección, y al pie las tres puertas de contacto con la marca del promotor a la derecha.
+ * Nada más: cada línea que sobra engorda la tarjeta y retrasa la decisión.
+ *
+ * Va en su propio fichero, cargado después de app.css, y todo se declara bajo `.list .card`: esas dos
+ * clases ganan a las reglas sueltas de `.card` sin necesidad de `!important`, y las demás variantes de
+ * tarjeta se quedan como están.
+ *
+ * Tipografía: Lato, la que usa Bayut en su catálogo (comprobado en su CSS: `font-family:Lato,
+ * Helvetica, sans-serif`). El resto del sitio sigue en Inter mientras él decida si se cambia entero.
+ */
+
+.list .card {
+  --card-tipo: "Lato", "Inter", system-ui, sans-serif;
+  grid-template-columns: 360px minmax(0, 1fr);
+  min-height: 0;
+  border-radius: .7rem;
+  overflow: hidden;
+  font-family: var(--card-tipo);
+}
+
+.list .card .photo {
+  min-height: 0;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.list .card .body {
+  position: relative;
+  padding: 14px 16px 13px;
+  gap: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.list .card .precio {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.list .card .price {
+  font-family: var(--card-tipo);
+  font-size: 1.42rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.list .card .price-cripto {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 3px;
+  font-size: .82rem;
+  line-height: 1.35;
+  color: #15803D;
+  font-variant-numeric: tabular-nums;
+}
+
+.list .card .price-cripto b {
+  font-weight: 800;
+  letter-spacing: -.005em;
+  color: #15803D;
+}
+
+.list .card .price-cripto i {
+  font-style: normal;
+  font-weight: 400;
+  font-size: .68rem;
+  color: var(--ink-45);
+}
+
+.list .card .tipo {
+  font-family: var(--card-tipo);
+  font-size: .98rem;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  text-transform: none;
+  color: var(--ink);
+  margin: 6px 0 0;
+}
+
+.list .card h3 {
+  font-family: var(--card-tipo);
+  font-size: .86rem;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  line-height: 1.3;
+  color: var(--ink-60);
+  margin: 3px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list .card h3 a:hover { color: var(--green-deep); }
+
+.list .card .specs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: .84rem;
+  color: var(--ink-72);
+  margin-top: 5px;
+}
+
+.list .card .specs span {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+.list .card .specs svg {
+  width: 15px;
+  height: 15px;
+  color: var(--ink-45);
+}
+
+/* La línea de frases: negrita, separada por barras, y se corta en una sola línea. */
+.list .card .frases {
+  margin-top: 6px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--ink-72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list .card .frases i {
+  font-style: normal;
+  color: var(--ink-30);
+  margin: 0 .15rem;
+}
+
+.list .card .zona {
+  display: flex;
+  align-items: center;
+  gap: .32rem;
+  margin-top: 6px;
+  font-size: .8rem;
+  color: var(--ink-45);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list .card .zona span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list .card .zona svg {
+  width: 14px;
+  height: 14px;
+  color: var(--ink-30);
+  flex: none;
+}
+
+/* El sello de Verysset vive ahora en el cuerpo, arriba a la derecha, y la etiqueta de promocionado
+   ocupa su sitio sobre la foto. */
+.list .card .sello-cuerpo {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  display: block;
+}
+
+.list .card .sello-cuerpo .sello-vss {
+  transform: scale(.9);
+  transform-origin: right top;
+}
+
+.list .card .tag.sola {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  font-size: .64rem;
+  padding: .16rem .42rem;
+}
+
+/* La línea del verificador: el alcance y las fechas, que es lo que hace que el sello no sea un adorno
+   (BR-008). Va debajo de la dirección, en el verde de la casa y en una sola línea. */
+.list .card .verif-linea {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: .74rem;
+  font-weight: 600;
+  color: #15803D;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.list .card .verif-linea svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+
+.list .card .verif-linea span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* El pie: las tres puertas con el color de su dueño y la marca a la derecha, como la referencia. */
+.list .card .foot {
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid var(--line-2);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.list .card .puertas {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+
+.list .card .puerta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  font-family: var(--card-tipo);
+  font-size: .74rem;
+  font-weight: 650;
+  cursor: pointer;
+  background: none;
+}
+
+.list .card .puerta svg,
+.list .card .puerta img,
+.list .card .puerta .mail-ico svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.list .card .puerta.correo { background: #eef2ff; border-color: #dbe3ff; color: #2443a8; }
+.list .card .puerta.wa     { background: #f1faf6; border-color: #d3f0e0; color: #12804a; }
+.list .card .puerta.tg     { background: #eaf7fd; border-color: #cfe9f8; color: #16719b; }
+.list .card .puerta:hover  { filter: brightness(.97); }
+.list .card .puerta.correo .mail-ico svg path { fill: currentColor; }
+
+/* La marca del promotor, plana: sin caja, sin borde y sin sombra, apoyada en el blanco de la tarjeta,
+   que es como la pone Bayut (su logo de agencia mide 48 px y no lleva marco). Un marco alrededor de un
+   logotipo convierte una firma en un botón. */
+.list .card .marca-dev {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+
+.list .card .logo-plano {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.list .card .logo-plano img,
+.list .card .logo-plano svg {
+  height: 40px;
+  width: auto;
+  max-width: 104px;
+  display: block;
+  object-fit: contain;
+}
+
+.list .card .logo-plano.dibujo svg {
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+}
+
+.list .card .logo-plano.mono {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  font-size: .82rem;
+  letter-spacing: .02em;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Puntos del selector de fotos, anclados al pie de la imagen. */
+.list .card .puntos {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.list .card .punto {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, .55);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .12);
+  cursor: pointer;
+  transition: width .15s ease, background .15s ease;
+}
+
+.list .card .punto.on {
+  width: 16px;
+  background: #fff;
+}
+
+/* El recuento, arriba a la derecha de la foto, como la píldora oscura de la referencia. */
+.list .card .foto-cuenta {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  background: rgba(12, 20, 18, .66);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: .68rem;
+  font-weight: 650;
+  letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+/* Si la tarjeta lleva la etiqueta, el precio le deja su sitio: un importe largo no puede meterse
+   debajo de la píldora. */
+.list .card:has(.sello-cuerpo) .precio { padding-right: 118px; }
+
+@media (max-width: 760px) {
+  .list .card { grid-template-columns: 1fr; }
+  /* En el ancho del teléfono las tres etiquetas y la marca no caben sin apretarse: los botones se
+     quedan con su icono (que ya se reconoce) y la marca conserva su tamaño. */
+  .list .card .puerta { width: 38px; padding: 0; justify-content: center; }
+  .list .card .puerta .lbl { display: none; }
+  .list .card .marca-dev { height: 38px; min-width: 38px; max-width: 92px; padding: 5px 8px; }
+  .list .card .marca-dev .logo,
+  .list .card .marca-dev img,
+  .list .card .marca-dev .mono { height: 24px; }
+  /* La línea del verificador se parte en dos renglones antes que cortar la fecha: una fecha a medias
+     no dice si la verificación está vigente. */
+  .list .card .verif-linea { white-space: normal; align-items: flex-start; }
+  .list .card .verif-linea svg { margin-top: 2px; }
+  .list .card .verif-linea span { text-overflow: clip; line-height: 1.35; }
+  .list .card .photo { aspect-ratio: 4 / 3; min-height: 0; }
+  .list .card .body { padding: 12px 14px 12px; }
+  .list .card .price { font-size: 1.3rem; }
+  .list .card .tipo { font-size: .94rem; }
+  .list .card .puerta { padding: 0 8px; }
+}
