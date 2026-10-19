@@ -654,10 +654,16 @@ function elegirEnLista(unidadId) {
   // mapa de la pantalla justo al pulsar un pin, que es cuando hay que verlo.
   const caja = carta.closest('.lay.mapa > div:first-child');
   if (caja) {
-    const rc = carta.getBoundingClientRect();
-    const rj = caja.getBoundingClientRect();
-    const destino = caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2;
-    caja.scrollTo({ top: Math.max(0, destino), behavior: 'smooth' });
+    const llevar = () => {
+      const rc = carta.getBoundingClientRect();
+      const rj = caja.getBoundingClientRect();
+      const destino = caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2;
+      caja.scrollTo({ top: Math.max(0, destino), behavior: 'smooth' });
+    };
+    // La lista se repinta al elegir: se lleva en el siguiente fotograma y otra vez al poco, para que
+    // el desplazamiento no lo pise un repintado que llegue tarde.
+    requestAnimationFrame(llevar);
+    setTimeout(llevar, 180);
   }
   centrarEn(unidadId);
 }
