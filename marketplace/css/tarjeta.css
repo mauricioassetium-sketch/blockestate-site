@@ -636,28 +636,51 @@ body:has(.lay.mapa) .mapa .leaflet-container {
   background: #e9edee;
 }
 
-body:has(.lay.mapa) .list .card { grid-template-columns: 1fr; }
+/* En el mapa manda la referencia: tarjeta pequeña y horizontal, foto a la izquierda y solo lo que
+   se decide (precio, qué es, medidas, dónde y quién lo vende). El resto vive en la ficha. */
+body:has(.lay.mapa) .list .card {
+  grid-template-columns: 118px minmax(0, 1fr);
+  border-radius: .6rem;
+}
 
 body:has(.lay.mapa) .list .card .photo {
-  aspect-ratio: 16 / 10;
-  height: auto;
+  aspect-ratio: 1 / 1;
+  height: 100%;
   min-height: 0;
 }
 
-body:has(.lay.mapa) .list .card .body { padding: 12px 14px 13px; }
+body:has(.lay.mapa) .list .card .body { padding: 10px 12px 9px; }
 
-body:has(.lay.mapa) .list .card .price { font-size: 1.26rem; }
+body:has(.lay.mapa) .list .card .price { font-size: 1.06rem; }
 
-/* El sello deja de flotar: en una columna estrecha tapaba el precio. Va arriba del todo, en flujo. */
-body:has(.lay.mapa) .list .card .sello-cuerpo {
-  position: static;
-  display: inline-block;
-  margin: 0 0 .45rem;
+body:has(.lay.mapa) .list .card .price-cripto { font-size: .7rem; margin-top: 1px; }
+
+body:has(.lay.mapa) .list .card .tipo { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-45); margin-top: 3px; }
+
+body:has(.lay.mapa) .list .card h3 { font-size: .82rem; color: var(--ink); font-weight: 600; }
+
+body:has(.lay.mapa) .list .card .specs { font-size: .76rem; gap: .6rem; margin-top: 3px; }
+
+body:has(.lay.mapa) .list .card .zona { font-size: .74rem; margin-top: 3px; }
+
+/* Fuera de la tarjeta del mapa: el sello grande, la línea de frases, la de verificación y las puertas.
+   Todo eso sigue en la ficha, que es donde se decide. */
+body:has(.lay.mapa) .list .card .sello-cuerpo,
+body:has(.lay.mapa) .list .card .frases,
+body:has(.lay.mapa) .list .card .verif-linea,
+body:has(.lay.mapa) .list .card .puertas,
+body:has(.lay.mapa) .list .card .foto-cuenta { display: none; }
+
+body:has(.lay.mapa) .list .card .foot {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line-2);
+  justify-content: flex-end;
 }
 
-body:has(.lay.mapa) .list .card:has(.sello-cuerpo) .precio { padding-right: 0; }
-
-body:has(.lay.mapa) .list .card .frases { white-space: normal; }
+body:has(.lay.mapa) .list .card .marca-dev { height: 26px; }
+body:has(.lay.mapa) .list .card .logo-plano img,
+body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px; }
 
 @media (max-width: 900px) {
   body:has(.lay.mapa) .lay.mapa { grid-template-columns: 1fr; }
