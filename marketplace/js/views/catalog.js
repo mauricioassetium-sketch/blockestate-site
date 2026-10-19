@@ -658,7 +658,7 @@ function elegirEnLista(unidadId) {
       const rc = carta.getBoundingClientRect();
       const rj = caja.getBoundingClientRect();
       const destino = caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2;
-      caja.scrollTo({ top: Math.max(0, destino), behavior: 'smooth' });
+      caja.scrollTop = Math.max(0, destino);
     };
     // La lista se repinta al elegir: se lleva en el siguiente fotograma y otra vez al poco, para que
     // el desplazamiento no lo pise un repintado que llegue tarde.
