@@ -674,9 +674,22 @@ body:has(.lay.mapa) .list .card .verif-linea,
 body:has(.lay.mapa) .list .card .puertas,
 body:has(.lay.mapa) .list .card .foto-cuenta { display: none; }
 
+body:has(.lay.mapa) .list .card .specs {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  gap: .5rem;
+  margin-top: 2px;
+}
+
+body:has(.lay.mapa) .list .card .price-cripto { margin-top: 0; line-height: 1.15; font-size: .68rem; }
+body:has(.lay.mapa) .list .card .tipo { margin-top: 2px; }
+body:has(.lay.mapa) .list .card h3 { margin-top: 1px; }
+body:has(.lay.mapa) .list .card .zona { margin-top: 2px; }
+
 body:has(.lay.mapa) .list .card .foot {
-  margin-top: 6px;
-  padding-top: 6px;
+  margin-top: 5px;
+  padding-top: 5px;
   border-top: 1px solid var(--line-2);
   justify-content: flex-end;
 }
