@@ -255,6 +255,12 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   mapa.fitBounds(puntos, { padding: [48, 48], maxZoom: 14 });
   // Leaflet measures the container when it is created; inside a grid it may need a nudge.
   setTimeout(() => mapa?.invalidateSize(), 60);
+  // La columna cambia de alto cuando llega la lista y al cambiar de vista. Sin esto Leaflet conserva
+  // el tamaño con el que nació y las teselas no llegan al borde superior: queda una franja gris.
+  if (typeof ResizeObserver === 'function' && mapa && !mapa._observando) {
+    mapa._observando = true;
+    new ResizeObserver(() => mapa.invalidateSize()).observe(mapa.getContainer());
+  }
 
   // Y se dice cuántas se han podido poner: la mayoría de las unidades todavía no trae coordenadas, y
   // callarlo haría creer que el mapa está completo.
