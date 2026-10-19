@@ -9,7 +9,7 @@
   *{margin:0;box-sizing:border-box}
   html,body{height:100%}
   body{background:radial-gradient(120% 90% at 50% 32%,#1e2d40 0%,var(--bg) 60%,#060b14 100%);
-    color:#e6eef6;font-family:system-ui,-apple-system,sans-serif;
+    color:#e6eef6;font-family:"Lato","Inter",system-ui,sans-serif;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:20px;overflow:hidden}
   .halo{position:fixed;left:50%;top:44%;width:min(74vmin,580px);height:min(74vmin,580px);
@@ -33,6 +33,8 @@
   body.splashmode{background:#000}
   body.splashmode nav,body.splashmode .cap,body.splashmode .halo{opacity:0}
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="halo"></div>

@@ -12,7 +12,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  font-family:'Inter',-apple-system,system-ui,sans-serif;
+  font-family:'Lato','Inter',-apple-system,system-ui,sans-serif;
   background:var(--dark); color:var(--white); line-height:1.6;
   -webkit-font-smoothing:antialiased; overflow:hidden;
 }
