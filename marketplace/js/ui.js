@@ -663,7 +663,12 @@ export function hidratarTarjetas() {
   const revisar = () => {
     document.querySelectorAll('.card:not([data-fotos-pedidas])').forEach((c) => {
       c.dataset.fotosPedidas = '1';
-      observador.observe(c);
+      // Lo que ya está en pantalla se pide en el acto: el observador no siempre avisa de un elemento
+      // que nace ya visible, y la tarjeta se quedaba sin puntos hasta scrollear.
+      const cajaYa = c.querySelector('.puntos');
+      const r = c.getBoundingClientRect();
+      if (cajaYa && r.top < innerHeight + 240 && r.bottom > -240) llenarMiniaturas(cajaYa);
+      else observador.observe(c);
     });
   };
   revisar();
