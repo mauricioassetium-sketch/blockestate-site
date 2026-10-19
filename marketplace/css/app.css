@@ -949,10 +949,10 @@ body.sin-scroll{overflow:hidden}
   .hero-filtros{grid-template-columns:1fr 1fr}
 }
 @media (max-width:620px){
-  .buscador{padding:9px; border-radius:.9rem; margin-top:.9rem}
-  .hero-tabs a{padding:.4rem .7rem; font-size:.82rem}
+  .buscador{padding:8px; border-radius:.9rem; margin-top:.9rem}
+  .hero-tabs a{padding:.36rem .66rem; font-size:.8rem}
   .hero-q input{min-height:42px; font-size:.9rem}
-  .hero-campos .btn{min-height:42px; padding-inline:1.3rem}
+  .hero-campos .btn{min-height:44px; padding-inline:1.1rem}
   .hero-filtros{gap:6px; margin-top:6px}
   .hero-filtros .ctrl{min-height:36px; font-size:.82rem}
   .hero-filtros .control label{font-size:.56rem}
@@ -962,23 +962,30 @@ body.sin-scroll{overflow:hidden}
   /* La foto ancha no sirve en vertical: hay un recorte propio del grupo, con las caras en la mitad
      de arriba, y el contenido (titular y buscador) se ancla abajo. Así las caras caen enteras en la
      franja libre que queda entre la barra y el panel, que es lo que el panel no tapa. */
+  /* En vertical la foto no se recorta para "que quepa": se recorta para que la cara quede despejada
+     arriba y el titular caiga sobre la parte baja, que es la que oscurece el degradado. */
   .hero{display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
-    min-height:clamp(600px,80vh,700px); padding-top:calc(var(--bar) + 8px); padding-bottom:12px;
+    min-height:clamp(660px,86vh,760px); padding-top:calc(var(--bar) + 40px); padding-bottom:10px;
     background-image:
-      radial-gradient(92% 42% at 50% 65%, rgba(6,16,24,.34) 0%, rgba(6,16,24,.22) 48%, rgba(6,16,24,0) 84%),
-      linear-gradient(180deg, rgba(6,16,24,.10) 0%, rgba(6,16,24,.21) 40%, rgba(6,16,24,.49) 76%, rgba(6,16,24,.60) 100%),
-      linear-gradient(90deg, rgba(6,16,24,.10) 0%, rgba(6,16,24,.01) 50%, rgba(6,16,24,.10) 100%),
+      linear-gradient(180deg, rgba(4,10,16,.58) 0%, rgba(4,10,16,.30) 24%, rgba(4,10,16,.12) 48%,
+                                rgba(4,10,16,.42) 74%, rgba(4,10,16,.72) 100%),
+      radial-gradient(120% 60% at 50% 100%, rgba(4,10,16,.55) 0%, rgba(4,10,16,.18) 60%, rgba(4,10,16,0) 85%),
+      linear-gradient(90deg, rgba(4,10,16,.28) 0%, rgba(4,10,16,.04) 45%, rgba(4,10,16,.28) 100%),
       url(../img/hero-azotea-dubai.jpg);
-    background-size:auto, auto, auto, cover;   /* cover y no 100 %: en pantallas anchas (430 px) el
-                                             recorte vertical no llega al borde por los lados */
-    background-position:center, center, center, 50% 42%}
-  .hero h1{font-size:1.45rem; max-width:none}
-  .hero .inner{justify-content:flex-end; align-items:center; text-align:center; gap:8px}
+    background-size:auto, auto, auto, cover;
+    background-position:center, center, center, 50% 30%}
+  /* El titular pesa: es lo único que se lee en dos segundos, y sobre una foto clara necesita tamaño y
+     una sombra de verdad, no la que apenas se nota. */
+  .hero h1{font-size:clamp(2rem,8.8vw,2.55rem); line-height:1.05; letter-spacing:-.045em;
+    max-width:11ch; text-shadow:0 3px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.55)}
+  .hero h1 .verde{color:#3be27a; text-shadow:0 3px 22px rgba(0,0,0,.62)}
+  .hero .inner{justify-content:flex-start; align-items:center; text-align:center; gap:10px}
   .hero-campos{grid-template-columns:1fr}
   .hero-tabs{overflow-x:auto; scrollbar-width:none}
   .hero-tabs::-webkit-scrollbar{display:none}
   .hero-tabs a{white-space:nowrap}
-  .hero-pie{font-size:.72rem}
+  .hero-pie{font-size:.7rem; line-height:1.4; max-width:32ch; margin-inline:auto;
+    text-wrap:balance; color:rgba(8,20,28,.72)}
 }
 
 /* ---------- the developer's portal: five desks, and the tools of each one ----------
@@ -1760,3 +1767,41 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
 .ptf-que{font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45)}
 .ptf .kv{margin:0}
 .ptf .note{margin:.4rem 0 0}
+
+/* ---------- hero en el móvil, versión final ----------
+   La foto manda, pero el titular tiene que leerse en un segundo. En vertical: la banda crece para que
+   la foto enseñe a la gente por encima del panel, el titular se ancla arriba sobre la zona que oscurece
+   el degradado, y el recorte baja el punto de interés para que la cara no quede detrás de la tipografía.
+   Se declara al final y con doble clase para no depender del orden de los bloques anteriores. */
+@media (max-width:760px){
+  .hero.hero{
+    min-height:clamp(600px,84vh,720px);
+    padding-top:calc(var(--bar) + 12px);
+    padding-bottom:12px;
+    background-image:
+      linear-gradient(180deg, rgba(4,10,16,.66) 0%, rgba(4,10,16,.44) 22%, rgba(4,10,16,.16) 46%,
+                                rgba(4,10,16,.34) 70%, rgba(4,10,16,.74) 100%),
+      radial-gradient(130% 58% at 50% 100%, rgba(4,10,16,.52) 0%, rgba(4,10,16,.16) 62%, rgba(4,10,16,0) 88%),
+      linear-gradient(90deg, rgba(4,10,16,.74) 0%, rgba(4,10,16,.48) 34%, rgba(4,10,16,.06) 66%, rgba(4,10,16,.22) 100%),
+      url(../img/hero-azotea-dubai.jpg);
+    background-size:auto, auto, auto, cover;
+    /* La persona a la derecha y el titular a la izquierda: el texto no se pelea con la cara. */
+    background-position:center, center, center, 68% 32%;
+  }
+  /* Titular arriba, buscador abajo: el aire de la foto queda en medio, que es donde está la gente. */
+  .hero.hero{align-items:stretch; justify-content:flex-start}
+  .hero.hero .inner{height:100%; align-items:flex-start; text-align:left; gap:10px;
+    padding-inline:18px; justify-content:flex-start}
+  .hero.hero{position:relative}
+  .hero.hero .inner{position:static}
+  /* El buscador se ancla al borde inferior del héroe, pase lo que pase con el alto del contenido. */
+  .hero.hero .buscador{position:absolute; left:16px; right:16px; bottom:14px; width:auto; margin:0}
+  .hero.hero h1{
+    font-size:clamp(2.05rem,8.7vw,2.5rem); line-height:1.05; letter-spacing:-.045em; max-width:9ch;
+    text-shadow:0 3px 26px rgba(0,0,0,.6), 0 1px 3px rgba(0,0,0,.55);
+  }
+  .hero.hero h1 .verde{color:#3ee37a; text-shadow:0 3px 22px rgba(0,0,0,.66)}
+  .hero.hero .buscador{padding:8px; margin-top:.85rem}
+  .hero.hero .hero-pie{font-size:.7rem; line-height:1.4; max-width:32ch; margin-inline:auto;
+    text-wrap:balance; color:rgba(8,20,28,.72)}
+}
