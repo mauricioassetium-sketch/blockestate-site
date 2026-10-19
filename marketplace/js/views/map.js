@@ -242,7 +242,8 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
       iconAnchor: [0, 0],
     });
     const m = L.marker([r.latitud, r.longitud], { icon: icono, title: r.titulo }).addTo(capa);
-    m.bindPopup(fichaDeMapa(r), { className: 'mapa-pop', closeButton: true, offset: [0, -34], minWidth: 236 });
+    m.bindPopup(fichaDeMapa(r), { className: 'mapa-pop', closeButton: true, offset: [0, -34], minWidth: 236,
+      autoPan: true, autoPanPadding: [28, 84] });
     // Pulsar la chincheta abre su tarjeta y marca su ficha en la lista; pasar por encima la resalta.
     m.on('click', () => { alElegir?.(r.unidad_id); resaltar(r.unidad_id, true); });
     m.on('mouseover', () => resaltar(r.unidad_id, true));
