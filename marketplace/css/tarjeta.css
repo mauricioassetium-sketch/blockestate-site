@@ -651,7 +651,7 @@ body:has(.lay.mapa) .mapa .leaflet-container {
 /* En el mapa manda la referencia: tarjeta pequeña y horizontal, foto a la izquierda y solo lo que
    se decide (precio, qué es, medidas, dónde y quién lo vende). El resto vive en la ficha. */
 body:has(.lay.mapa) .list .card {
-  grid-template-columns: 150px minmax(0, 1fr);
+  grid-template-columns: 158px minmax(0, 1fr);
   border-radius: .6rem;
 }
 
@@ -689,8 +689,23 @@ body:has(.lay.mapa) .list .card .zona { font-size: .74rem; margin-top: 3px; }
 body:has(.lay.mapa) .list .card .sello-cuerpo,
 body:has(.lay.mapa) .list .card .frases,
 body:has(.lay.mapa) .list .card .verif-linea,
-body:has(.lay.mapa) .list .card .puertas,
 body:has(.lay.mapa) .list .card .foto-cuenta { display: none; }
+
+/* Las puertas vuelven, solo con su icono: WhatsApp y Telegram se reconocen sin etiqueta y son la
+   acción que se busca desde el mapa. */
+body:has(.lay.mapa) .list .card .puertas { display: flex; }
+
+body:has(.lay.mapa) .list .card .puerta {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+body:has(.lay.mapa) .list .card .puerta .lbl { display: none; }
+body:has(.lay.mapa) .list .card .puerta svg,
+body:has(.lay.mapa) .list .card .puerta img { width: 15px; height: 15px; }
 
 body:has(.lay.mapa) .list .card .specs {
   flex-wrap: nowrap;
@@ -709,7 +724,8 @@ body:has(.lay.mapa) .list .card .foot {
   margin-top: 5px;
   padding-top: 5px;
   border-top: 1px solid var(--line-2);
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 body:has(.lay.mapa) .list .card .marca-dev { height: 26px; }
