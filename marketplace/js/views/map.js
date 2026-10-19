@@ -180,7 +180,10 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
    */
   function ajustarAlto() {
     const barra = document.querySelector('header.top')?.getBoundingClientRect().height ?? 61;
-    const alto = Math.max(420, Math.round(window.innerHeight - barra - 16));
+    // El mapa no arranca pegado a la barra: debajo van el buscador y los filtros. Se mide su posición
+    // real, o el alto calculado (ventana menos barra) lo deja saliéndose por abajo de la pantalla.
+    const arriba = Math.max(0, Math.round(el.getBoundingClientRect().top));
+    const alto = Math.max(420, Math.round(window.innerHeight - arriba - 16));
     el.style.height = `${alto}px`;
     if (mapa) mapa.invalidateSize();
   }
