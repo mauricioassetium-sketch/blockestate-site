@@ -3,7 +3,7 @@ import { api, urlDeMedio } from '../api.js';
 import { cifraCripto } from '../cambio.js';
 import { go } from '../router.js';
 import { store } from '../store.js';
-import { amenLabel, areaTxt, badgeHtml, date, empty, error, esc, ico, money, obraLabel, photoInner, specs, tipoLabel } from '../ui.js';
+import { amenLabel, areaTxt, date, empty, error, esc, ico, money, obraLabel, photoInner, selloVerysset, specs, tipoLabel } from '../ui.js';
 import { abrirGaleria } from './galeria.js';
 
 const view = () => document.getElementById('view');
@@ -279,7 +279,20 @@ export async function viewUnit(id) {
             </div>` : ''}
           <p class="muted" style="font-size:.85rem;margin:.2rem 0 .8rem">Contract price in dirhams.
             Paying in digital assets is quoted at the moment of payment, with an expiry.</p>
-          ${badgeHtml(u.badge, u.procedencia_verificacion, datoSello)}
+          <div class="flujo-pago">
+            <div class="flujo-marcas">
+              <span class="flujo-marca ptf"><img src="img/paythefly.svg" alt="PayTheFly" height="20"></span>
+              <span class="flujo-paso" aria-hidden="true">›</span>
+              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="16"></span>
+            </div>
+            <p class="flujo-txt">
+              <b>PayTheFly</b> collects the payment on-chain and non-custodial: the money never sits with us.
+              <b>Changer</b>, a licensed OTC custodian, converts the digital asset into dirhams and delivers them
+              to the developer's account. BlockEstate runs on this protocol: the buyer touches digital assets,
+              the developer touches fiat.
+            </p>
+          </div>
+          ${u.badge ? `<div class="verif-linea con-sello">${selloVerysset('Verified by Verysset', datoSello)}<span>${u.badge?.validado_en ? `on ${esc(date(u.badge.validado_en))}` : ''}${u.badge?.vigencia ? ` · until ${esc(date(u.badge.vigencia))}` : ''}</span></div>` : ''}
           <div id="accion" style="margin-top:1rem"></div>
           <p class="note">Seller: ${esc('the developer of the project')}. The marketplace does not publish
             the developer's contact details, and the money does not pass through the buyer's hands: the
@@ -303,7 +316,20 @@ export async function viewUnit(id) {
               </div>
             </div>
             <div class="sello-verif">
-              ${badgeHtml(u.badge, u.procedencia_verificacion, datoSello)}
+              <div class="flujo-pago">
+            <div class="flujo-marcas">
+              <span class="flujo-marca ptf"><img src="img/paythefly.svg" alt="PayTheFly" height="20"></span>
+              <span class="flujo-paso" aria-hidden="true">›</span>
+              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="16"></span>
+            </div>
+            <p class="flujo-txt">
+              <b>PayTheFly</b> collects the payment on-chain and non-custodial: the money never sits with us.
+              <b>Changer</b>, a licensed OTC custodian, converts the digital asset into dirhams and delivers them
+              to the developer's account. BlockEstate runs on this protocol: the buyer touches digital assets,
+              the developer touches fiat.
+            </p>
+          </div>
+          ${u.badge ? `<div class="verif-linea con-sello">${selloVerysset('Verified by Verysset', datoSello)}<span>${u.badge?.validado_en ? `on ${esc(date(u.badge.validado_en))}` : ''}${u.badge?.vigencia ? ` · until ${esc(date(u.badge.vigencia))}` : ''}</span></div>` : ''}
               <span class="sello-txt">Property authenticity was validated by Verysset. The badge states
                 its scope and its date, not a promise about the future.</span>
             </div>

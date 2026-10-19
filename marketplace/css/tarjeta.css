@@ -433,3 +433,72 @@
 @media (max-width: 760px) {
   .rail-logo { flex: 0 0 50px; width: 50px; height: 40px; padding: 5px; }
 }
+
+/* ----------------------------------------------------------------------------------------------
+   El camino del dinero, en la ficha: PayTheFly cobra en cadena y Changer cambia el activo a
+   dirhams y los entrega al desarrollador. Las dos marcas juntas, porque el comprador hace una
+   sola cosa (pagar) y detrás hay dos piezas.
+   ---------------------------------------------------------------------------------------------- */
+.flujo-pago {
+  margin: .9rem 0 .2rem;
+  padding: .8rem .85rem .85rem;
+  border: 1px solid var(--line-2);
+  border-radius: .8rem;
+  background: #FBFCFC;
+}
+
+.flujo-marcas {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.flujo-marca {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .3rem .55rem;
+  border-radius: .5rem;
+  background: #fff;
+  border: 1px solid var(--line-2);
+}
+
+/* Changer solo publica su marca en blanco: sobre fondo blanco no se veía, así que va en su
+   propio recuadro oscuro, que es como la usa su web. */
+.flujo-marca.chg {
+  background: #0E2A21;
+  border-color: #0E2A21;
+  padding: .42rem .6rem;
+}
+
+.flujo-marca img { display: block; width: auto; }
+
+.flujo-paso {
+  color: var(--ink-30);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.flujo-txt {
+  margin: .6rem 0 0;
+  font-size: .79rem;
+  line-height: 1.5;
+  color: var(--ink-60);
+}
+
+.flujo-txt b { color: var(--ink); font-weight: 700; }
+
+/* La verificación en la ficha: el sello (que abre su informe) y las fechas al lado, en una línea. */
+.verif-linea.con-sello {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin: .1rem 0 .2rem;
+  font-size: .74rem;
+  color: #15803D;
+  font-weight: 600;
+}
+
+.verif-linea.con-sello .sello-vss { transform: scale(.86); transform-origin: left center; }
