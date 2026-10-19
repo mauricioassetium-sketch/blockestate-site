@@ -283,7 +283,7 @@ export async function viewUnit(id) {
             <div class="flujo-marcas">
               <span class="flujo-marca ptf"><img src="img/paythefly.svg" alt="PayTheFly" height="20"></span>
               <span class="flujo-paso" aria-hidden="true">›</span>
-              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="16"></span>
+              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="18"></span>
             </div>
             <p class="flujo-txt">
               <b>PayTheFly</b> collects the payment on-chain and non-custodial: the money never sits with us.
@@ -316,20 +316,7 @@ export async function viewUnit(id) {
               </div>
             </div>
             <div class="sello-verif">
-              <div class="flujo-pago">
-            <div class="flujo-marcas">
-              <span class="flujo-marca ptf"><img src="img/paythefly.svg" alt="PayTheFly" height="20"></span>
-              <span class="flujo-paso" aria-hidden="true">›</span>
-              <span class="flujo-marca chg"><img src="img/changer.png" alt="Changer" height="16"></span>
-            </div>
-            <p class="flujo-txt">
-              <b>PayTheFly</b> collects the payment on-chain and non-custodial: the money never sits with us.
-              <b>Changer</b>, a licensed OTC custodian, converts the digital asset into dirhams and delivers them
-              to the developer's account. BlockEstate runs on this protocol: the buyer touches digital assets,
-              the developer touches fiat.
-            </p>
-          </div>
-          ${u.badge ? `<div class="verif-linea con-sello">${selloVerysset('Verified by Verysset', datoSello)}<span>${u.badge?.validado_en ? `on ${esc(date(u.badge.validado_en))}` : ''}${u.badge?.vigencia ? ` · until ${esc(date(u.badge.vigencia))}` : ''}</span></div>` : ''}
+              ${selloVerysset('Verified by Verysset', datoSello)}
               <span class="sello-txt">Property authenticity was validated by Verysset. The badge states
                 its scope and its date, not a promise about the future.</span>
             </div>
