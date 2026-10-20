@@ -100,7 +100,7 @@ function panelDetalle() {
   const z = zonas.find((x) => x.comunidad === elegida);
   if (!z) {
     return `<div class="zona-detalle vacio">
-      <p class="muted">Pick an area on the map to see what it costs.</p>
+      <p class="zona-vacia">Click an area on the map to see what it costs.</p>
     </div>`;
   }
   const sqft = z.mediana_sqft_fils ? `AED ${(z.mediana_sqft_fils / 100).toFixed(0)}/sqft` : '—';
@@ -285,7 +285,7 @@ async function cargar() {
     caja.innerHTML = `<p class="msg err">The areas could not be loaded. ${esc(e?.message ?? '')}</p>`;
     return;
   }
-  if (!elegida || !zonas.some((z) => z.comunidad === elegida)) elegida = zonas[0]?.comunidad ?? null;
+  if (elegida && !zonas.some((z) => z.comunidad === elegida)) elegida = null;
   pintarPanel();
   pintarBurbujas();
   const nota = view().querySelector('#areas-nota');
@@ -324,7 +324,7 @@ export async function viewAreas() {
       const capaGeo = L.geoJSON(geo).addTo(mapa);
       const b = capaGeo.getBounds();
       capaGeo.remove();
-      if (b.isValid()) mapa.fitBounds(b, { padding: [30, 30] });
+      if (b.isValid()) mapa.fitBounds(b, { padding: [20, 20], maxZoom: 11 });
     } else if (zonas.length) {
       const pts = zonas.filter((z) => Number.isFinite(z.latitud)).map((z) => [z.latitud, z.longitud]);
       if (pts.length) mapa.fitBounds(pts, { padding: [48, 48], maxZoom: 11 });
