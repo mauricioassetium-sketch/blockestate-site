@@ -122,10 +122,28 @@ function elegir(nombre) {
   }
 }
 
+function pintarLeyenda(tramos) {
+  const caja = view().querySelector('#areas-mapa');
+  if (!caja) return;
+  let ley = caja.querySelector('.areas-leyenda');
+  if (!ley) {
+    ley = document.createElement('div');
+    ley.className = 'areas-leyenda';
+    caja.appendChild(ley);
+  }
+  if (!tramos.length) { ley.innerHTML = ''; return; }
+  ley.innerHTML = `
+    <div class="ley-tit">Median price</div>
+    ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
+      <span>${esc(money(t.desde))} – ${esc(money(t.hasta))}</span></div>`).join('')}
+    <div class="ley-nota">Bubble size = number of units</div>`;
+}
+
 function pintarBurbujas() {
   if (!window.L || !mapa || !capa) return;
   capa.clearLayers();
   const tramos = bandas(zonas.map((z) => z.mediana_fils));
+  pintarLeyenda(tramos);
   const maxN = Math.max(1, ...zonas.map((z) => z.unidades));
   for (const z of zonas) {
     if (!Number.isFinite(z.latitud) || !Number.isFinite(z.longitud)) continue;
