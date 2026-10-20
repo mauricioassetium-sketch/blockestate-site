@@ -157,8 +157,17 @@ function elegir(nombre) {
   pintarPanel();
   pintarBurbujas();
   const z = zonas.find((x) => x.comunidad === nombre);
-  if (z && mapa && Number.isFinite(z.latitud) && Number.isFinite(z.longitud)) {
-    mapa.panTo([z.latitud, z.longitud], { animate: true });
+  if (!z || !mapa) return;
+  // Encuadrar la zona: la referencia lleva el mapa al barrio elegido, no deja al usuario buscándolo.
+  const oficial = POLIGONO[z.comunidad];
+  if (window.L && geo && oficial) {
+    const capaZona = L.geoJSON(geo, { filter: (f) => f.properties?.name === oficial, style: { opacity: 0, fillOpacity: 0 } }).addTo(mapa);
+    const b = capaZona.getBounds();
+    capaZona.remove();
+    if (b.isValid()) { mapa.fitBounds(b, { padding: [40, 40], maxZoom: 14 }); return; }
+  }
+  if (Number.isFinite(z.latitud) && Number.isFinite(z.longitud)) {
+    mapa.flyTo([z.latitud, z.longitud], 13, { duration: .6 });
   }
 }
 
@@ -202,21 +211,31 @@ function pintarBurbujas() {
           // no los tienen, y negro en la elegida. Sin borde, dos verdes contiguos se funden.
           color: on ? '#0B1220' : (z ? '#FFFFFF' : 'rgba(16,34,43,.28)'),
           weight: on ? 2.6 : (z ? 1.6 : 0.7),
-          fillColor: z ? colorDe(z.mediana_fils, tramos) : '#EDF1EF',
-          fillOpacity: z ? (on ? 0.95 : 0.85) : 0.55,
+          // La zona elegida va en azul claro con borde negro, como en la referencia: el color de la
+          // banda dice cuánto cuesta, y el azul dice cuál estás mirando. Mezclar las dos cosas en
+          // verde hacía que la selección se confundiera con una banda de precio.
+          fillColor: on ? '#CFE1F6' : (z ? colorDe(z.mediana_fils, tramos) : '#EDF1EF'),
+          fillOpacity: on ? 0.95 : (z ? 0.85 : 0.55),
         };
       },
       onEachFeature: (f, capaPol) => {
         const z = porPoligono[f.properties?.name];
+        // Etiqueta en todas las zonas: de cerca se leen los barrios vecinos, que es lo que da contexto
+        // en la referencia. Las que no tienen datos van más tenues y solo aparecen al acercarse.
+        if (window.L && f.properties?.name) {
+          const centro = capaPol.getBounds().getCenter();
+          const clase = z ? 'etiqueta-zona' : 'etiqueta-zona etiqueta-tenue';
+          L.marker(centro, {
+            interactive: false,
+            icon: L.divIcon({
+              className: 'etiqueta-wrap',
+              html: `<span class="${clase}">${esc(z ? z.comunidad : f.properties.name)}</span>`,
+              iconSize: [0, 0],
+            }),
+          }).addTo(capa);
+        }
         if (!z) return;
         capaPol.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', sticky: true });
-        // La etiqueta va como marcador con icono de texto: un tooltip permanente de Leaflet se cierra
-        // al pasar por encima de otra capa y en esta pantalla el nombre tiene que quedarse fijo.
-        const centro = capaPol.getBounds().getCenter();
-        L.marker(centro, {
-          interactive: false,
-          icon: L.divIcon({ className: 'etiqueta-wrap', html: `<span class="etiqueta-zona">${esc(z.comunidad)}</span>`, iconSize: [0, 0] }),
-        }).addTo(capa);
         capaPol.on('click', () => elegir(z.comunidad));
         capaPol.on('mouseover', () => capaPol.setStyle({ weight: 2.2 }));
         capaPol.on('mouseout', () => capaPol.setStyle({ weight: z.comunidad === elegida ? 2.6 : 1.6 }));
@@ -308,6 +327,9 @@ export async function viewAreas() {
       const pts = zonas.filter((z) => Number.isFinite(z.latitud)).map((z) => [z.latitud, z.longitud]);
       if (pts.length) mapa.fitBounds(pts, { padding: [48, 48], maxZoom: 11 });
     }
+    const marcarZoom = () => mapa.getContainer().classList.toggle('zoom-cerca', mapa.getZoom() >= 12);
+    mapa.on('zoomend', marcarZoom);
+    marcarZoom();
     setTimeout(() => mapa?.invalidateSize(), 80);
   } catch {
     const caja = view().querySelector('#areas-mapa');

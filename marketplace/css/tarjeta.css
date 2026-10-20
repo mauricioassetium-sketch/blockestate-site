@@ -799,6 +799,8 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
   box-shadow: none;
 }
 .etiqueta-zona::before { display: none; }
+.etiqueta-tenue { opacity: 0; transition: opacity .2s ease; }
+.leaflet-container.zoom-cerca .etiqueta-tenue { opacity: 1; background: rgba(255,255,255,.72); color: #4A5A55; font-weight: 600; }
 
 @media (max-width: 900px) {
   .areas { height: auto; min-height: 0; display: flex; flex-direction: column-reverse; gap: 10px; }
