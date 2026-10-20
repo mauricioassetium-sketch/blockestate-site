@@ -13,8 +13,10 @@ import { api } from '../api.js';
 import { esc, money } from '../ui.js';
 
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
-const TESELAS = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-const ATRIBUCION = '&copy; OpenStreetMap &copy; CARTO';
+// OpenStreetMap, aclarado por CSS: CARTO y Mapbox piden clave para producción y sin ella las
+// teselas salen con la marca de agua «API KEY REQUIRED».
+const TESELAS = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ATRIBUCION = '&copy; OpenStreetMap';
 
 // Nuestro nombre de comunidad → el nombre oficial del polígono del municipio. Dubai Municipality no
 // llama «Dubai Marina» a Dubai Marina: es MARSA DUBAI. Sin esta tabla, cuatro de nuestras seis zonas

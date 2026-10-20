@@ -743,6 +743,9 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 .areas { position: relative; height: calc(100dvh - 150px); min-height: 560px; border-radius: 1rem; overflow: hidden; }
 .areas-mapa { position: absolute; inset: 0; background: #EEF1F0; }
 .areas-mapa .leaflet-container { border-radius: 1rem; }
+/* El mapa de la referencia es claro y sin ruido: se consigue lavando las teselas de OpenStreetMap,
+   sin clave de ningún proveedor. */
+.areas-mapa .leaflet-tile-pane { filter: grayscale(1) brightness(1.07) contrast(.9); }
 
 .areas-panel {
   position: absolute;
