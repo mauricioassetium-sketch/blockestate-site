@@ -198,10 +198,12 @@ function pintarBurbujas() {
         const z = porPoligono[f.properties?.name];
         const on = z && z.comunidad === elegida;
         return {
-          color: on ? '#0B1220' : 'rgba(16,34,43,.22)',
-          weight: on ? 2.4 : 0.8,
-          fillColor: z ? colorDe(z.mediana_fils, tramos) : '#E7ECEA',
-          fillOpacity: z ? (on ? 0.92 : 0.8) : 0.35,
+          // La zonificación se lee por el borde: blanco en las zonas con datos, gris tenue en las que
+          // no los tienen, y negro en la elegida. Sin borde, dos verdes contiguos se funden.
+          color: on ? '#0B1220' : (z ? '#FFFFFF' : 'rgba(16,34,43,.28)'),
+          weight: on ? 2.6 : (z ? 1.6 : 0.7),
+          fillColor: z ? colorDe(z.mediana_fils, tramos) : '#EDF1EF',
+          fillOpacity: z ? (on ? 0.95 : 0.85) : 0.55,
         };
       },
       onEachFeature: (f, capaPol) => {
@@ -216,6 +218,8 @@ function pintarBurbujas() {
           icon: L.divIcon({ className: 'etiqueta-wrap', html: `<span class="etiqueta-zona">${esc(z.comunidad)}</span>`, iconSize: [0, 0] }),
         }).addTo(capa);
         capaPol.on('click', () => elegir(z.comunidad));
+        capaPol.on('mouseover', () => capaPol.setStyle({ weight: 2.2 }));
+        capaPol.on('mouseout', () => capaPol.setStyle({ weight: z.comunidad === elegida ? 2.6 : 1.6 }));
       },
     }).addTo(capa);
   }
