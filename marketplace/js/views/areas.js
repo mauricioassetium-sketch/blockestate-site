@@ -185,7 +185,7 @@ function pintarLeyenda(tramos) {
     <div class="ley-tit">Median price</div>
     ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
       <span>${esc(corto(t.desde))} – ${esc(corto(t.hasta))}</span></div>`).join('')}
-    <div class="ley-nota"><i style="background:#DDE7F0"></i>No published units<br><i style="background:#BBD7F2"></i>Selected area<br>Bubble = no boundary yet</div>`;
+    <div class="ley-nota"><i style="background:#D3E3F2"></i>No published units<br><i style="background:#BBD7F2"></i>Selected area<br>Bubble = no boundary yet</div>`;
 }
 
 function pintarBurbujas() {
@@ -216,8 +216,8 @@ function pintarBurbujas() {
           // La zona elegida va en azul claro con borde negro, como en la referencia: el color de la
           // banda dice cuánto cuesta, y el azul dice cuál estás mirando. Mezclar las dos cosas en
           // verde hacía que la selección se confundiera con una banda de precio.
-          fillColor: on ? '#BBD7F2' : (z ? colorDe(z.mediana_fils, tramos) : '#DDE7F0'),
-          fillOpacity: on ? 0.95 : (z ? 0.88 : 0.72),
+          fillColor: on ? '#B4D2F0' : (z ? colorDe(z.mediana_fils, tramos) : '#D3E3F2'),
+          fillOpacity: on ? 0.95 : (z ? 0.9 : 0.85),
         };
       },
       onEachFeature: (f, capaPol) => {
