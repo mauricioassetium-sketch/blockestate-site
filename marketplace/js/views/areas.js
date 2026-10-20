@@ -64,12 +64,6 @@ const corto = (fils) => {
   return `AED ${aed.toFixed(0)}`;
 };
 
-function colorDe(valor, tramos) {
-  if (!tramos.length) return '#94A3B8';
-  for (const t of tramos) if (valor <= t.hasta) return t.color;
-  return tramos[tramos.length - 1].color;
-}
-
 function cargarLeaflet() {
   if (window.L) return Promise.resolve(window.L);
   return new Promise((resolve, reject) => {
@@ -189,7 +183,7 @@ function fichaPopup(z) {
   </div>`;
 }
 
-function pintarLeyenda(tramos) {
+function pintarLeyenda() {
   const caja = view().querySelector('#areas-mapa');
   if (!caja) return;
   let ley = caja.querySelector('.areas-leyenda');
@@ -198,20 +192,17 @@ function pintarLeyenda(tramos) {
     ley.className = 'areas-leyenda';
     caja.appendChild(ley);
   }
-  if (!tramos.length) { ley.innerHTML = ''; return; }
   ley.innerHTML = `
-    <div class="ley-tit">Median price</div>
-    ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
-      <span>${esc(corto(t.desde))} – ${esc(corto(t.hasta))}</span></div>`).join('')}
-    <div class="ley-nota"><i style="background:#D3E3F2"></i>No published units<br><i style="background:#BBD7F2"></i>Selected area<br>Bubble = no boundary yet</div>`;
+    <div class="ley-fila"><i style="background:#CFE0F2;border:1px solid #8FB3D9"></i> Communities of Dubai</div>
+    <div class="ley-fila"><i style="background:#22C55E"></i> Selected area</div>
+    <div class="ley-nota">Colour is not price here: click a sector for its figures.<br>Bubble = no municipal boundary yet.</div>`;
 }
 
 function pintarBurbujas() {
   if (!window.L || !mapa || !capa) return;
   capa.clearLayers();
   capasZona = new Map();
-  const tramos = bandas(zonas.map((z) => z.mediana_fils));
-  pintarLeyenda(tramos);
+  pintarLeyenda();
   const porPoligono = {};
   for (const z of zonas) {
     const nombre = POLIGONO[z.comunidad];
@@ -226,17 +217,12 @@ function pintarBurbujas() {
         const z = porPoligono[f.properties?.name];
         const on = z && z.comunidad === elegida;
         return {
-          // La zonificación se lee por el borde: blanco en las zonas con datos, gris tenue en las que
-          // no los tienen, y negro en la elegida. Sin borde, dos verdes contiguos se funden.
-          // Todas las zonas se marcan: azul muy claro las que no tienen unidades, blanco el borde.
-          // Si solo se pintan las que tienen datos, el mapa parece vacío y no se lee la zonificación.
-          color: on ? '#0B1220' : '#FFFFFF',
-          weight: on ? 2.6 : 1.1,
-          // La zona elegida va en azul claro con borde negro, como en la referencia: el color de la
-          // banda dice cuánto cuesta, y el azul dice cuál estás mirando. Mezclar las dos cosas en
-          // verde hacía que la selección se confundiera con una banda de precio.
-          fillColor: on ? '#22C55E' : (z ? colorDe(z.mediana_fils, tramos) : '#D3E3F2'),
-          fillOpacity: on ? 0.95 : (z ? 0.9 : 0.8),
+          // La zonificación entera va en celeste con un contorno azul fino: se lee la trama completa
+          // y el borde no compite con las carreteras. La zona pulsada, en verde.
+          color: on ? '#0B1220' : '#8FB3D9',
+          weight: on ? 2.4 : 1,
+          fillColor: on ? '#22C55E' : '#CFE0F2',
+          fillOpacity: on ? 0.95 : 0.78,
         };
       },
       onEachFeature: (f, capaPol) => {
@@ -272,8 +258,8 @@ function pintarBurbujas() {
       radius: on ? r + 4 : r,
       color: on ? '#0B1220' : '#ffffff',
       weight: on ? 3 : 2,
-      fillColor: colorDe(z.mediana_fils, tramos),
-      fillOpacity: 0.85,
+      fillColor: on ? '#22C55E' : '#CFE0F2',
+      fillOpacity: 0.9,
     }).addTo(capa);
     c.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top' });
     c.on('click', () => elegir(z.comunidad));
