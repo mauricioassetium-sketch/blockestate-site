@@ -206,7 +206,13 @@ function pintarBurbujas() {
         const z = porPoligono[f.properties?.name];
         if (!z) return;
         capaPol.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', sticky: true });
-        capaPol.bindTooltip(esc(z.comunidad), { permanent: true, direction: 'center', className: 'etiqueta-zona' });
+        // La etiqueta va como marcador con icono de texto: un tooltip permanente de Leaflet se cierra
+        // al pasar por encima de otra capa y en esta pantalla el nombre tiene que quedarse fijo.
+        const centro = capaPol.getBounds().getCenter();
+        L.marker(centro, {
+          interactive: false,
+          icon: L.divIcon({ className: 'etiqueta-wrap', html: `<span class="etiqueta-zona">${esc(z.comunidad)}</span>`, iconSize: [0, 0] }),
+        }).addTo(capa);
         capaPol.on('click', () => elegir(z.comunidad));
       },
     }).addTo(capa);

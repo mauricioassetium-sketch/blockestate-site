@@ -783,6 +783,8 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 .zona-hint { margin: 8px 0 0; font-size: .68rem; color: var(--ink-45); text-align: center; }
 
 /* Las etiquetas de las zonas con datos, sobre su polígono */
+.etiqueta-wrap { background: none; border: 0; }
+.etiqueta-wrap .etiqueta-zona { transform: translate(-50%, -50%); display: inline-block; }
 .etiqueta-zona {
   background: rgba(255, 255, 255, .92);
   border: 1px solid rgba(16, 34, 43, .12);
