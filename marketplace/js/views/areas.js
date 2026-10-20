@@ -16,6 +16,16 @@ const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
 const TESELAS = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATRIBUCION = '&copy; OpenStreetMap';
 
+// Nuestro nombre de comunidad → el nombre oficial del polígono del municipio. Dubai Municipality no
+// llama «Dubai Marina» a Dubai Marina: es MARSA DUBAI. Sin esta tabla, cuatro de nuestras seis zonas
+// se quedarían en gris aunque tengan datos.
+const POLIGONO = {
+  'Dubai Marina': 'MARSA DUBAI',
+  'Palm Jumeirah': 'NAKHLAT JUMEIRA',
+  'Downtown Dubai': 'BURJ KHALIFA',
+  'Business Bay': 'BUSINESS BAY',
+};
+
 const TIPOS = [['', 'Any type'], ['apartment', 'Apartments'], ['villa', 'Villas'], ['retail', 'Retail'], ['office', 'Offices']];
 const DORM = [['', 'Any'], ['0', 'Studio'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5+']];
 
@@ -24,6 +34,8 @@ let capa = null;
 let zonas = [];
 let elegida = null;
 let filtros = { emirato: '', tipo: '', habitaciones: '' };
+let geo = null;          // los 224 polígonos del municipio, cargados una vez
+let geoPromesa = null;
 
 const view = () => document.getElementById('view');
 
@@ -100,9 +112,9 @@ function panelDetalle() {
     </div>
     <a class="btn green zona-cta" href="#/search?comunidad=${encodeURIComponent(z.comunidad)}">
       View ${z.unidades} ${z.unidades === 1 ? 'property' : 'properties'}</a>
-    <p class="zona-nota">${z.centro_aproximado
-      ? 'The point is the community centre from OpenStreetMap, not a plot: the price is the median of its published units.'
-      : 'The point is the average position of the community\'s projects.'}</p>
+    <p class="zona-nota">${POLIGONO[z.comunidad]
+      ? 'Boundary: Dubai Municipality community divisions (Dubai Pulse). The figure is the median of the units published in it, not a valuation of the area.'
+      : 'This community has no boundary in the municipal layer yet: it is drawn as a point at its approximate centre. The figure is the median of its published units.'}</p>
   </div>`;
 }
 
@@ -143,7 +155,7 @@ function pintarLeyenda(tramos) {
     <div class="ley-tit">Median price</div>
     ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
       <span>${esc(corto(t.desde))} – ${esc(corto(t.hasta))}</span></div>`).join('')}
-    <div class="ley-nota">Bubble size = number of units</div>`;
+    <div class="ley-nota">Grey = no published units<br>Bubble = no boundary yet</div>`;
 }
 
 function pintarBurbujas() {
@@ -151,8 +163,39 @@ function pintarBurbujas() {
   capa.clearLayers();
   const tramos = bandas(zonas.map((z) => z.mediana_fils));
   pintarLeyenda(tramos);
+  const porPoligono = {};
+  for (const z of zonas) {
+    const nombre = POLIGONO[z.comunidad];
+    if (nombre) porPoligono[nombre] = z;
+  }
+
+  // Los polígonos del municipio: los que tienen datos, por banda; el resto, gris tenue para que se
+  // vea que la zona existe pero no hay unidades publicadas.
+  if (geo) {
+    L.geoJSON(geo, {
+      style: (f) => {
+        const z = porPoligono[f.properties?.name];
+        const on = z && z.comunidad === elegida;
+        return {
+          color: on ? '#0B1220' : 'rgba(16,34,43,.22)',
+          weight: on ? 2.4 : 0.8,
+          fillColor: z ? colorDe(z.mediana_fils, tramos) : '#E7ECEA',
+          fillOpacity: z ? (on ? 0.92 : 0.8) : 0.35,
+        };
+      },
+      onEachFeature: (f, capaPol) => {
+        const z = porPoligono[f.properties?.name];
+        if (!z) return;
+        capaPol.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', sticky: true });
+        capaPol.on('click', () => elegir(z.comunidad));
+      },
+    }).addTo(capa);
+  }
+
+  // Lo que no tiene polígono (hoy Deira y Yas Island) sigue como burbuja, y se dice.
   const maxN = Math.max(1, ...zonas.map((z) => z.unidades));
   for (const z of zonas) {
+    if (POLIGONO[z.comunidad]) continue;
     if (!Number.isFinite(z.latitud) || !Number.isFinite(z.longitud)) continue;
     const r = 16 + 22 * Math.sqrt(z.unidades / maxN);
     const on = z.comunidad === elegida;
@@ -163,7 +206,7 @@ function pintarBurbujas() {
       fillColor: colorDe(z.mediana_fils, tramos),
       fillOpacity: 0.85,
     }).addTo(capa);
-    c.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', offset: [0, -6] });
+    c.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top' });
     c.on('click', () => elegir(z.comunidad));
   }
 }
@@ -224,6 +267,7 @@ export async function viewAreas() {
     });
   }
 
+  await cargarGeo();
   await cargar();
 
   try {
@@ -232,9 +276,15 @@ export async function viewAreas() {
     if (mapa) { mapa.remove(); mapa = null; }
     mapa = L.map(caja, { scrollWheelZoom: true }).setView([25.15, 55.22], 10);
     L.tileLayer(TESELAS, { maxZoom: 19, attribution: ATRIBUCION }).addTo(mapa);
+    mapa.attributionControl.addAttribution('Community divisions: Dubai Municipality · Dubai Pulse');
     capa = L.layerGroup().addTo(mapa);
     pintarBurbujas();
-    if (zonas.length) {
+    if (geo) {
+      const capaGeo = L.geoJSON(geo).addTo(mapa);
+      const b = capaGeo.getBounds();
+      capaGeo.remove();
+      if (b.isValid()) mapa.fitBounds(b, { padding: [30, 30] });
+    } else if (zonas.length) {
       const pts = zonas.filter((z) => Number.isFinite(z.latitud)).map((z) => [z.latitud, z.longitud]);
       if (pts.length) mapa.fitBounds(pts, { padding: [48, 48], maxZoom: 11 });
     }
