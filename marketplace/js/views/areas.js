@@ -38,7 +38,8 @@ let elegida = null;
 let filtros = { emirato: '', tipo: '', habitaciones: '' };
 let geo = null;          // los 224 polígonos del municipio, cargados una vez
 let geoPromesa = null;
-let capasZona = new Map();   // nombre oficial del polígono → su capa, para reabrir el popup tras repintar
+let capasZona = new Map();
+let elegidaPoligono = null;   // nombre oficial del polígono pulsado, tenga datos o no   // nombre oficial del polígono → su capa, para reabrir el popup tras repintar
 
 const view = () => document.getElementById('view');
 
@@ -94,8 +95,12 @@ function filaZona(z) {
 function panelDetalle() {
   const z = zonas.find((x) => x.comunidad === elegida);
   if (!z) {
+    const nombre = elegidaPoligono;
     return `<div class="zona-detalle vacio">
-      <p class="zona-vacia">Click an area on the map to see what it costs.</p>
+      ${nombre
+        ? `<div class="zona-det-tit"><h2>${esc(nombre)}</h2></div>
+           <p class="zona-vacia">No units published in this community yet. When a developer lists one here, its figures appear in this panel.</p>`
+        : '<p class="zona-vacia">Click an area on the map to see what it costs.</p>'}
     </div>`;
   }
   const sqft = z.mediana_sqft_fils ? `AED ${(z.mediana_sqft_fils / 100).toFixed(0)}/sqft` : '—';
@@ -149,6 +154,7 @@ function pintarPanel() {
 
 function elegir(nombre) {
   elegida = nombre;
+  elegidaPoligono = POLIGONO[nombre] ?? null;
   pintarPanel();
   pintarBurbujas();
   const z = zonas.find((x) => x.comunidad === nombre);
@@ -168,6 +174,19 @@ function elegir(nombre) {
   if (Number.isFinite(z.latitud) && Number.isFinite(z.longitud)) {
     mapa.flyTo([z.latitud, z.longitud], 13, { duration: .6 });
   }
+}
+
+function estiloDe(f) {
+  const z = porPoligono[f.properties?.name];
+  const on = f.properties?.name === elegidaPoligono;
+  // Toda la zonificación en celeste con contorno azul fino; el sector pulsado, en verde. El color no
+  // codifica precio: eso vive en el popup y en el panel.
+  return {
+    color: on ? '#0B1220' : '#8FB3D9',
+    weight: on ? 2.4 : 1,
+    fillColor: on ? '#22C55E' : '#CFE0F2',
+    fillOpacity: on ? 0.95 : 0.78,
+  };
 }
 
 function fichaPopup(z) {
@@ -213,18 +232,8 @@ function pintarBurbujas() {
   // vea que la zona existe pero no hay unidades publicadas.
   if (geo) {
     L.geoJSON(geo, {
-      style: (f) => {
-        const z = porPoligono[f.properties?.name];
-        const on = z && z.comunidad === elegida;
-        return {
-          // La zonificación entera va en celeste con un contorno azul fino: se lee la trama completa
-          // y el borde no compite con las carreteras. La zona pulsada, en verde.
-          color: on ? '#0B1220' : '#8FB3D9',
-          weight: on ? 2.4 : 1,
-          fillColor: on ? '#22C55E' : '#CFE0F2',
-          fillOpacity: on ? 0.95 : 0.78,
-        };
-      },
+      style: estiloDe,
+
       onEachFeature: (f, capaPol) => {
         const z = porPoligono[f.properties?.name];
         // Sin nombres fijos: cada sector abre su popup al pulsarlo. Un mapa lleno de etiquetas no deja
@@ -239,8 +248,18 @@ function pintarBurbujas() {
           );
         }
         capasZona.set(f.properties.name, capaPol);
-        if (!z) return;
-        capaPol.on('click', () => elegir(z.comunidad));
+        capaPol.on('click', () => {
+          elegidaPoligono = f.properties.name;
+          elegida = z ? z.comunidad : null;
+          for (const [nombre, capaPol2] of capasZona) {
+            const feat = { properties: { name: nombre } };
+            capaPol2.setStyle(estiloDe(feat));
+          }
+          pintarPanel();
+          capaPol.openPopup();
+          const b = capaPol.getBounds();
+          if (b.isValid()) mapa.fitBounds(b, { padding: [40, 40], maxZoom: 14 });
+        });
         capaPol.on('mouseover', () => capaPol.setStyle({ weight: 2.2 }));
         capaPol.on('mouseout', () => capaPol.setStyle({ weight: z.comunidad === elegida ? 2.6 : 1.6 }));
       },
