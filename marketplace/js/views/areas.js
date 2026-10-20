@@ -354,8 +354,9 @@ export async function viewAreas() {
     mapa.on('zoomend', marcarZoom);
     marcarZoom();
     setTimeout(() => mapa?.invalidateSize(), 80);
-  } catch {
+  } catch (e) {
+    console.error('areas: map', e);
     const caja = view().querySelector('#areas-mapa');
-    if (caja) caja.innerHTML = '<p class="muted" style="padding:18px">The map could not be loaded. The figures on the left are still the real ones.</p>';
+    if (caja) caja.innerHTML = `<p class="muted" style="padding:18px">The map could not be loaded (${esc(e?.message ?? 'unknown')}). The figures on the left are still the real ones.</p>`;
   }
 }
