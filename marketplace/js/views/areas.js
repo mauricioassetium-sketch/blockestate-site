@@ -42,6 +42,13 @@ function bandas(valores) {
   }));
 }
 
+const corto = (fils) => {
+  const aed = fils / 100;
+  if (aed >= 1_000_000) return `AED ${(aed / 1_000_000).toFixed(aed >= 10_000_000 ? 1 : 2)}M`;
+  if (aed >= 1_000) return `AED ${Math.round(aed / 1_000)}K`;
+  return `AED ${aed.toFixed(0)}`;
+};
+
 function colorDe(valor, tramos) {
   if (!tramos.length) return '#94A3B8';
   for (const t of tramos) if (valor <= t.hasta) return t.color;
@@ -135,7 +142,7 @@ function pintarLeyenda(tramos) {
   ley.innerHTML = `
     <div class="ley-tit">Median price</div>
     ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
-      <span>${esc(money(t.desde))} – ${esc(money(t.hasta))}</span></div>`).join('')}
+      <span>${esc(corto(t.desde))} – ${esc(corto(t.hasta))}</span></div>`).join('')}
     <div class="ley-nota">Bubble size = number of units</div>`;
 }
 
@@ -229,7 +236,7 @@ export async function viewAreas() {
     pintarBurbujas();
     if (zonas.length) {
       const pts = zonas.filter((z) => Number.isFinite(z.latitud)).map((z) => [z.latitud, z.longitud]);
-      if (pts.length) mapa.fitBounds(pts, { padding: [40, 40], maxZoom: 12 });
+      if (pts.length) mapa.fitBounds(pts, { padding: [48, 48], maxZoom: 11 });
     }
     setTimeout(() => mapa?.invalidateSize(), 80);
   } catch {
