@@ -38,6 +38,7 @@ let elegida = null;
 let filtros = { emirato: '', tipo: '', habitaciones: '' };
 let geo = null;          // los 224 polígonos del municipio, cargados una vez
 let geoPromesa = null;
+let capasZona = new Map();   // nombre oficial del polígono → su capa, para reabrir el popup tras repintar
 
 const view = () => document.getElementById('view');
 
@@ -164,11 +165,28 @@ function elegir(nombre) {
     const capaZona = L.geoJSON(geo, { filter: (f) => f.properties?.name === oficial, style: { opacity: 0, fillOpacity: 0 } }).addTo(mapa);
     const b = capaZona.getBounds();
     capaZona.remove();
-    if (b.isValid()) { mapa.fitBounds(b, { padding: [40, 40], maxZoom: 14 }); return; }
+    if (b.isValid()) {
+      mapa.fitBounds(b, { padding: [40, 40], maxZoom: 14 });
+      setTimeout(() => capasZona.get(oficial)?.openPopup(), 380);
+      return;
+    }
   }
   if (Number.isFinite(z.latitud) && Number.isFinite(z.longitud)) {
     mapa.flyTo([z.latitud, z.longitud], 13, { duration: .6 });
   }
+}
+
+function fichaPopup(z) {
+  return `<div class="popup-zona-in">
+    <div class="popup-cab"><b>${esc(z.comunidad)}</b><span>${esc(z.emirato)}</span></div>
+    <div class="popup-precio">${esc(money(z.mediana_fils))}<small>median</small></div>
+    <div class="popup-filas">
+      <span>Highest</span><b>${esc(money(z.maximo_fils))}</b>
+      <span>Lowest</span><b>${esc(money(z.minimo_fils))}</b>
+      <span>Units</span><b>${z.unidades}</b>
+    </div>
+    <a class="popup-cta" href="#/search?comunidad=${encodeURIComponent(z.comunidad)}">View ${z.unidades} ${z.unidades === 1 ? 'property' : 'properties'}</a>
+  </div>`;
 }
 
 function pintarLeyenda(tramos) {
@@ -191,6 +209,7 @@ function pintarLeyenda(tramos) {
 function pintarBurbujas() {
   if (!window.L || !mapa || !capa) return;
   capa.clearLayers();
+  capasZona = new Map();
   const tramos = bandas(zonas.map((z) => z.mediana_fils));
   pintarLeyenda(tramos);
   const porPoligono = {};
@@ -216,28 +235,25 @@ function pintarBurbujas() {
           // La zona elegida va en azul claro con borde negro, como en la referencia: el color de la
           // banda dice cuánto cuesta, y el azul dice cuál estás mirando. Mezclar las dos cosas en
           // verde hacía que la selección se confundiera con una banda de precio.
-          fillColor: on ? '#B4D2F0' : (z ? colorDe(z.mediana_fils, tramos) : '#D3E3F2'),
-          fillOpacity: on ? 0.95 : (z ? 0.9 : 0.85),
+          fillColor: on ? '#22C55E' : (z ? colorDe(z.mediana_fils, tramos) : '#D3E3F2'),
+          fillOpacity: on ? 0.95 : (z ? 0.9 : 0.8),
         };
       },
       onEachFeature: (f, capaPol) => {
         const z = porPoligono[f.properties?.name];
-        // Etiqueta en todas las zonas: de cerca se leen los barrios vecinos, que es lo que da contexto
-        // en la referencia. Las que no tienen datos van más tenues y solo aparecen al acercarse.
-        if (window.L && f.properties?.name) {
-          const centro = capaPol.getBounds().getCenter();
-          const clase = z ? 'etiqueta-zona' : 'etiqueta-zona etiqueta-tenue';
-          L.marker(centro, {
-            interactive: false,
-            icon: L.divIcon({
-              className: 'etiqueta-wrap',
-              html: `<span class="${clase}">${esc(z ? z.comunidad : f.properties.name)}</span>`,
-              iconSize: [0, 0],
-            }),
-          }).addTo(capa);
+        // Sin nombres fijos: cada sector abre su popup al pulsarlo. Un mapa lleno de etiquetas no deja
+        // ver la zonificación, y el nombre ya sale en el popup y en el panel.
+        if (z) {
+          capaPol.bindPopup(fichaPopup(z), { className: 'popup-zona', maxWidth: 260, autoPan: true, autoPanPadding: [24, 90] });
+        } else {
+          capaPol.bindPopup(
+            `<div class="popup-zona-in"><b>${esc(f.properties?.name ?? 'Community')}</b>
+             <p class="popup-muted">No units published in this community yet.</p></div>`,
+            { className: 'popup-zona', maxWidth: 240 },
+          );
         }
+        capasZona.set(f.properties.name, capaPol);
         if (!z) return;
-        capaPol.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', sticky: true });
         capaPol.on('click', () => elegir(z.comunidad));
         capaPol.on('mouseover', () => capaPol.setStyle({ weight: 2.2 }));
         capaPol.on('mouseout', () => capaPol.setStyle({ weight: z.comunidad === elegida ? 2.6 : 1.6 }));

@@ -785,6 +785,21 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 .zona-nota { margin: 10px 0 0; font-size: .68rem; line-height: 1.45; color: var(--ink-45); }
 .zona-hint { margin: 8px 0 0; font-size: .68rem; color: var(--ink-45); text-align: center; }
 
+/* El popup de un sector: lo mínimo para decidir, con nuestro verde en el botón. */
+.popup-zona .leaflet-popup-content-wrapper { border-radius: .7rem; box-shadow: 0 8px 24px rgba(16,34,43,.18); }
+.popup-zona .leaflet-popup-content { margin: 10px 12px; }
+.popup-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.popup-cab b { font-size: .92rem; }
+.popup-cab span { font-size: .66rem; color: var(--ink-45); }
+.popup-precio { font-size: 1.18rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.popup-precio small { font-size: .62rem; font-weight: 600; color: var(--ink-45); margin-left: 5px; text-transform: uppercase; letter-spacing: .08em; }
+.popup-filas { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 8px 0; font-size: .72rem; }
+.popup-filas span { color: var(--ink-45); }
+.popup-filas b { text-align: right; font-variant-numeric: tabular-nums; }
+.popup-cta { display: block; text-align: center; background: #22C55E; color: #04120A; font-weight: 800; font-size: .78rem;
+  padding: .45rem .6rem; border-radius: .45rem; text-decoration: none; }
+.popup-muted { margin: 6px 0 0; font-size: .74rem; color: var(--ink-45); }
+
 /* Las etiquetas de las zonas con datos, sobre su polígono */
 .etiqueta-wrap { background: none; border: 0; }
 .etiqueta-wrap .etiqueta-zona { transform: translate(-50%, -50%); display: inline-block; }
