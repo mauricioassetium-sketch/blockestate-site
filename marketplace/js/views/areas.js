@@ -185,7 +185,7 @@ function pintarLeyenda(tramos) {
     <div class="ley-tit">Median price</div>
     ${tramos.map((t) => `<div class="ley-fila"><i style="background:${t.color}"></i>
       <span>${esc(corto(t.desde))} – ${esc(corto(t.hasta))}</span></div>`).join('')}
-    <div class="ley-nota">Grey = no published units<br>Bubble = no boundary yet</div>`;
+    <div class="ley-nota"><i style="background:#DDE7F0"></i>No published units<br><i style="background:#BBD7F2"></i>Selected area<br>Bubble = no boundary yet</div>`;
 }
 
 function pintarBurbujas() {
@@ -209,13 +209,15 @@ function pintarBurbujas() {
         return {
           // La zonificación se lee por el borde: blanco en las zonas con datos, gris tenue en las que
           // no los tienen, y negro en la elegida. Sin borde, dos verdes contiguos se funden.
-          color: on ? '#0B1220' : (z ? '#FFFFFF' : 'rgba(16,34,43,.28)'),
-          weight: on ? 2.6 : (z ? 1.6 : 0.7),
+          // Todas las zonas se marcan: azul muy claro las que no tienen unidades, blanco el borde.
+          // Si solo se pintan las que tienen datos, el mapa parece vacío y no se lee la zonificación.
+          color: on ? '#0B1220' : '#FFFFFF',
+          weight: on ? 2.6 : 1.1,
           // La zona elegida va en azul claro con borde negro, como en la referencia: el color de la
           // banda dice cuánto cuesta, y el azul dice cuál estás mirando. Mezclar las dos cosas en
           // verde hacía que la selección se confundiera con una banda de precio.
-          fillColor: on ? '#CFE1F6' : (z ? colorDe(z.mediana_fils, tramos) : '#EDF1EF'),
-          fillOpacity: on ? 0.95 : (z ? 0.85 : 0.55),
+          fillColor: on ? '#BBD7F2' : (z ? colorDe(z.mediana_fils, tramos) : '#DDE7F0'),
+          fillOpacity: on ? 0.95 : (z ? 0.88 : 0.72),
         };
       },
       onEachFeature: (f, capaPol) => {
