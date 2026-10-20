@@ -39,7 +39,8 @@ let filtros = { emirato: '', tipo: '', habitaciones: '' };
 let geo = null;          // los 224 polígonos del municipio, cargados una vez
 let geoPromesa = null;
 let capasZona = new Map();
-let elegidaPoligono = null;   // nombre oficial del polígono pulsado, tenga datos o no   // nombre oficial del polígono → su capa, para reabrir el popup tras repintar
+let elegidaPoligono = null;
+let porPoligono = {};   // nombre oficial del polígono → la zona con datos (lo usa estiloDe)   // nombre oficial del polígono pulsado, tenga datos o no   // nombre oficial del polígono → su capa, para reabrir el popup tras repintar
 
 const view = () => document.getElementById('view');
 
@@ -222,7 +223,7 @@ function pintarBurbujas() {
   capa.clearLayers();
   capasZona = new Map();
   pintarLeyenda();
-  const porPoligono = {};
+  porPoligono = {};
   for (const z of zonas) {
     const nombre = POLIGONO[z.comunidad];
     if (nombre) porPoligono[nombre] = z;
