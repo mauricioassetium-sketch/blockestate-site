@@ -13,8 +13,8 @@ import { api } from '../api.js';
 import { esc, money } from '../ui.js';
 
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
-const TESELAS = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const ATRIBUCION = '&copy; OpenStreetMap';
+const TESELAS = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+const ATRIBUCION = '&copy; OpenStreetMap &copy; CARTO';
 
 // Nuestro nombre de comunidad → el nombre oficial del polígono del municipio. Dubai Municipality no
 // llama «Dubai Marina» a Dubai Marina: es MARSA DUBAI. Sin esta tabla, cuatro de nuestras seis zonas
@@ -98,36 +98,55 @@ function panelDetalle() {
   const z = zonas.find((x) => x.comunidad === elegida);
   if (!z) {
     return `<div class="zona-detalle vacio">
-      <p class="muted">Pick an area on the map or in the list to see what it costs.</p>
+      <p class="muted">Pick an area on the map to see what it costs.</p>
     </div>`;
   }
-  const sqft = z.mediana_sqft_fils ? `AED ${(z.mediana_sqft_fils / 100).toFixed(0)} / sqft` : 'not enough data';
+  const sqft = z.mediana_sqft_fils ? `AED ${(z.mediana_sqft_fils / 100).toFixed(0)}/sqft` : '—';
   return `<div class="zona-detalle">
-    <div class="zona-det-tit"><h3>${esc(z.comunidad)}</h3><span class="zona-em">${esc(z.emirato)}</span></div>
-    <div class="zona-cifras">
-      <div><span>Median</span><b>${esc(money(z.mediana_fils))}</b></div>
-      <div><span>Lowest</span><b>${esc(money(z.minimo_fils))}</b></div>
-      <div><span>Highest</span><b>${esc(money(z.maximo_fils))}</b></div>
-      <div><span>Per sqft</span><b>${esc(sqft)}</b></div>
+    <div class="zona-det-tit">
+      <h2>${esc(z.comunidad)}</h2>
+      <span class="zona-em">${esc(z.emirato)}</span>
     </div>
+    <div class="zona-tipo">Sale · ${z.unidades} ${z.unidades === 1 ? 'property' : 'properties'} published</div>
+
+    <div class="zona-precio">
+      <span class="zona-precio-lab">Median</span>
+      <b>${esc(money(z.mediana_fils))}</b>
+      <span class="zona-sqft">${esc(sqft)}</span>
+    </div>
+
+    <div class="zona-cifras">
+      <div><span>Highest</span><b>${esc(money(z.maximo_fils))}</b></div>
+      <div><span>Average</span><b>${esc(money(z.media_fils ?? z.mediana_fils))}</b></div>
+      <div><span>Lowest</span><b>${esc(money(z.minimo_fils))}</b></div>
+    </div>
+
     <a class="btn green zona-cta" href="#/search?comunidad=${encodeURIComponent(z.comunidad)}">
       View ${z.unidades} ${z.unidades === 1 ? 'property' : 'properties'}</a>
     <p class="zona-nota">${POLIGONO[z.comunidad]
-      ? 'Boundary: Dubai Municipality community divisions (Dubai Pulse). The figure is the median of the units published in it, not a valuation of the area.'
-      : 'This community has no boundary in the municipal layer yet: it is drawn as a point at its approximate centre. The figure is the median of its published units.'}</p>
+      ? 'Boundary: Dubai Municipality community divisions (Dubai Pulse). Median of the units published in it, not a valuation of the area.'
+      : 'No municipal boundary for this community yet: shown as a point at its approximate centre.'}</p>
   </div>`;
 }
 
 function pintarPanel() {
   const caja = view().querySelector('#areas-panel');
   if (!caja) return;
-  caja.innerHTML = panelDetalle() + `
-    <div class="zonas-lista">
-      <div class="zonas-lista-cab"><span>Area</span><span>Median</span></div>
-      ${zonas.map(filaZona).join('')}
-    </div>`;
-  for (const b of caja.querySelectorAll('[data-zona]')) {
-    b.addEventListener('click', () => elegir(b.dataset.zona));
+  caja.innerHTML = `
+    <div class="areas-filtros">
+      <div class="filtro-chips"><span class="filtro-lab">Type</span>${chips('tipo', TIPOS, filtros.tipo)}</div>
+      <div class="filtro-chips"><span class="filtro-lab">Beds</span>${chips('habitaciones', DORM, filtros.habitaciones)}</div>
+    </div>
+    ${panelDetalle()}
+    <p class="zona-hint">Click any area on the map to compare it.</p>`;
+  for (const b of caja.querySelectorAll('[data-filtro]')) {
+    b.addEventListener('click', () => {
+      const campo = b.dataset.filtro;
+      filtros = { ...filtros, [campo]: b.dataset.valor };
+      for (const otro of caja.querySelectorAll(`[data-filtro="${campo}"]`)) otro.classList.toggle('on', otro === b);
+      elegida = null;
+      cargar();
+    });
   }
 }
 
@@ -187,6 +206,7 @@ function pintarBurbujas() {
         const z = porPoligono[f.properties?.name];
         if (!z) return;
         capaPol.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top', sticky: true });
+        capaPol.bindTooltip(esc(z.comunidad), { permanent: true, direction: 'center', className: 'etiqueta-zona' });
         capaPol.on('click', () => elegir(z.comunidad));
       },
     }).addTo(capa);
@@ -251,32 +271,9 @@ function chips(nombre, valores, actual) {
 export async function viewAreas() {
   view().innerHTML = `
     <div class="areas">
-      <div class="areas-cab">
-        <div class="lab"><span>Prices</span><span class="dash"></span></div>
-        <h1>Compare prices by area</h1>
-        <p class="muted" id="areas-nota">Sale prices in dirhams, grouped by community.</p>
-      </div>
-      <div class="areas-filtros">
-        <div class="filtro-chips"><span class="filtro-lab">Type</span>${chips('tipo', TIPOS, filtros.tipo)}</div>
-        <div class="filtro-chips"><span class="filtro-lab">Beds</span>${chips('habitaciones', DORM, filtros.habitaciones)}</div>
-      </div>
-      <div class="areas-lay">
-        <div class="areas-panel" id="areas-panel"></div>
-        <div class="areas-mapa" id="areas-mapa"></div>
-      </div>
+      <div class="areas-mapa" id="areas-mapa"></div>
+      <aside class="areas-panel" id="areas-panel"></aside>
     </div>`;
-
-  for (const b of view().querySelectorAll('[data-filtro]')) {
-    b.addEventListener('click', () => {
-      const campo = b.dataset.filtro;
-      filtros = { ...filtros, [campo]: b.dataset.valor };
-      for (const otro of view().querySelectorAll(`[data-filtro="${campo}"]`)) {
-        otro.classList.toggle('on', otro === b);
-      }
-      elegida = null;
-      cargar();
-    });
-  }
 
   await cargarGeo();
   await cargar();

@@ -738,67 +738,66 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 }
 
 /* ----------------------------------------------------------------------------------------------
-   Comparar precios por zona.
+   Comparar precios por zona: el mapa manda y el panel flota encima, como en el portal de referencia.
    ---------------------------------------------------------------------------------------------- */
-.areas { padding-bottom: 40px; }
-.areas-cab { margin: 4px 0 14px; }
-.areas-cab h1 { font-size: clamp(1.5rem, 2.6vw, 2rem); letter-spacing: -.02em; margin: 2px 0 4px; }
-.areas-cab .muted { margin: 0; font-size: .9rem; }
+.areas { position: relative; height: calc(100dvh - 150px); min-height: 560px; border-radius: 1rem; overflow: hidden; }
+.areas-mapa { position: absolute; inset: 0; background: #EEF1F0; }
+.areas-mapa .leaflet-container { border-radius: 1rem; }
 
-.areas-filtros { display: flex; flex-wrap: wrap; gap: 18px; margin: 0 0 14px; }
-.filtro-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.filtro-lab { font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); margin-right: 2px; }
+.areas-panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 600;
+  width: 340px;
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: .9rem;
+  box-shadow: 0 10px 30px rgba(16, 34, 43, .18), 0 2px 6px rgba(16, 34, 43, .10);
+  padding: 14px;
+}
 
-.areas-lay { display: grid; grid-template-columns: minmax(320px, 420px) minmax(0, 1fr); gap: 16px; align-items: start; }
-.areas-panel { min-width: 0; }
-.areas-mapa { height: calc(100dvh - 260px); min-height: 420px; border: 1px solid var(--line-2); border-radius: .9rem; overflow: hidden; background: #e9edee; }
-.areas-mapa .leaflet-container { border-radius: .9rem; }
+.areas-filtros { display: grid; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line-2); }
+.filtro-chips { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.filtro-lab { font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); margin-right: 2px; }
+.areas-panel .chip { font-size: .72rem; padding: .28rem .5rem; }
 
-.zona-detalle { border: 1px solid var(--line-2); border-radius: .8rem; padding: 14px 15px; background: #FBFCFC; }
+.zona-detalle { padding-top: 10px; }
 .zona-det-tit { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.zona-det-tit h3 { margin: 0; font-size: 1.1rem; }
-.zona-em { font-size: .74rem; color: var(--ink-45); }
-.zona-cifras { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin: 12px 0; }
-.zona-cifras div { display: flex; flex-direction: column; gap: 1px; }
-.zona-cifras span { font-size: .66rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-45); }
-.zona-cifras b { font-size: .95rem; font-variant-numeric: tabular-nums; }
-.zona-cta { display: block; text-align: center; }
-.zona-nota { margin: 10px 0 0; font-size: .72rem; line-height: 1.45; color: var(--ink-45); }
+.zona-det-tit h2 { margin: 0; font-size: 1.22rem; letter-spacing: -.02em; }
+.zona-em { font-size: .72rem; color: var(--ink-45); }
+.zona-tipo { font-size: .74rem; color: var(--ink-45); margin-top: 2px; }
 
-.zonas-lista { margin-top: 12px; border: 1px solid var(--line-2); border-radius: .8rem; overflow: hidden; }
-.zonas-lista-cab { display: grid; grid-template-columns: 1fr auto; padding: 8px 12px; background: #F6F8F8;
-  font-size: .64rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-45); font-weight: 800; }
-.zona-fila { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 10px;
-  width: 100%; text-align: left; padding: 9px 12px; border: 0; border-top: 1px solid var(--line-2);
-  background: none; cursor: pointer; }
-.zona-fila:hover { background: #F7FAF8; }
-.zona-fila.on { background: #ECFDF3; box-shadow: inset 3px 0 0 var(--green); }
-.zona-nom { font-size: .88rem; font-weight: 600; color: var(--ink); }
-.zona-cifra { font-size: .86rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink); }
-.zona-n { grid-column: 1 / -1; font-size: .72rem; color: var(--ink-45); }
+.zona-precio { margin: 12px 0 10px; display: flex; flex-direction: column; gap: 1px; }
+.zona-precio-lab { font-size: .64rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-45); font-weight: 800; }
+.zona-precio b { font-size: 1.42rem; font-weight: 800; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+.zona-sqft { font-size: .72rem; color: var(--ink-45); }
+
+.zona-cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 0 12px; border-top: 1px solid var(--line-2); }
+.zona-cifras div { display: flex; flex-direction: column; gap: 2px; }
+.zona-cifras span { font-size: .6rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-45); }
+.zona-cifras b { font-size: .78rem; font-variant-numeric: tabular-nums; }
+.zona-cta { display: block; text-align: center; }
+.zona-nota { margin: 10px 0 0; font-size: .68rem; line-height: 1.45; color: var(--ink-45); }
+.zona-hint { margin: 8px 0 0; font-size: .68rem; color: var(--ink-45); text-align: center; }
+
+/* Las etiquetas de las zonas con datos, sobre su polígono */
+.etiqueta-zona {
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid rgba(16, 34, 43, .12);
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0B1220;
+  box-shadow: none;
+}
+.etiqueta-zona::before { display: none; }
 
 @media (max-width: 900px) {
-  .areas-lay { grid-template-columns: 1fr; }
-  .areas-mapa { height: 60dvh; }
+  .areas { height: auto; min-height: 0; display: flex; flex-direction: column-reverse; gap: 10px; }
+  .areas-mapa { position: relative; height: 58dvh; border-radius: .9rem; }
+  .areas-panel { position: static; width: auto; max-height: none; box-shadow: none; border: 1px solid var(--line-2); }
+  .etiqueta-zona { display: none; }
 }
-
-/* La leyenda del mapa: sin ella un círculo grande no dice si es caro o si tiene muchas unidades. */
-.areas-mapa { position: relative; }
-.areas-leyenda {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  z-index: 500;
-  background: rgba(255, 255, 255, .96);
-  border: 1px solid var(--line-2);
-  border-radius: .6rem;
-  padding: 8px 10px;
-  box-shadow: 0 2px 10px rgba(16, 34, 43, .12);
-  font-size: .72rem;
-  color: var(--ink-72);
-  max-width: 220px;
-}
-.ley-tit { font-size: .64rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-45); margin-bottom: 4px; }
-.ley-fila { display: flex; align-items: center; gap: 6px; line-height: 1.6; }
-.ley-fila i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
-.ley-nota { margin-top: 5px; font-size: .66rem; color: var(--ink-45); }
