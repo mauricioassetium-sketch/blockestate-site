@@ -77,6 +77,12 @@ export const api = {
   projects: (filtros) => req('GET', `/catalog/projects${qs(filtros)}`, { auth: false }),
   unit: (id) => req('GET', `/catalog/units/${id}`, { auth: false }),
   media: (id) => req('GET', `/catalog/units/${id}/media`, { auth: false }),
+  priceMap: (filtros = {}) => {
+    const q = new URLSearchParams();
+    for (const [k, v] of Object.entries(filtros)) if (v !== '' && v !== undefined && v !== null) q.set(k, v);
+    const s = q.toString();
+    return req('GET', `/catalog/price-map${s ? `?${s}` : ''}`, { auth: false });
+  },
   // The report behind the Verysset badge, and what the asset's twin reads.
   twin: (id) => req('GET', `/catalog/units/${id}/twin`, { auth: false }),
   // El avance de las obras: lo que el promotor declara cada mes y lo que alguien fue a inspeccionar.

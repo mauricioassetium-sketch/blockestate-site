@@ -11,6 +11,7 @@ import { go, notFound, render, route, start } from './router.js';
 import { refrescarTasas, activoElegido, elegirActivo, unidadElegida, elegirUnidad } from './cambio.js';
 import { store } from './store.js';
 import { esc, empty, hidratarTarjetas, ICO, initSelectorActivo, marcarActivo, pintarPreciosCripto, selectorActivo, toast } from './ui.js';
+import { viewAreas } from './views/areas.js';
 import { viewCatalog, viewSearch } from './views/catalog.js';
 import { viewBroker, viewCreador } from './views/escritorios.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
@@ -36,6 +37,7 @@ const GRUPOS_MENU = [
     ['Villas', '#/search?tipo=villa'],
     ['Apartments', '#/search?tipo=apartment'],
     ['Off plan', '#/search?estado_obra=off_plan'],
+    ['Compare prices by area', '#/areas'],
   ]],
   ['Sell and develop', [
     ['Developer portal', '#/dev'],
@@ -234,6 +236,7 @@ document.addEventListener('click', async (e) => {
 
 route('/', () => viewCatalog());
 route('/search', ({ query }) => viewSearch(query));
+route('/areas', () => viewAreas());
 route('/unit/:id', ({ params }) => viewUnit(params.id));
 route('/project/:id', ({ params }) => viewProject(params.id));
 // La sala de prensa. Debajo de todo lo demás porque no vende nada: se lee.
