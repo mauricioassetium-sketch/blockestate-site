@@ -211,6 +211,17 @@ function pintarBurbujas() {
   }
 }
 
+function cargarGeo() {
+  if (geo) return Promise.resolve(geo);
+  if (!geoPromesa) {
+    geoPromesa = fetch('geo/comunidades.geojson')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { geo = d; return d; })
+      .catch(() => null);
+  }
+  return geoPromesa;
+}
+
 async function cargar() {
   const caja = view().querySelector('#areas-panel');
   caja.innerHTML = '<p class="muted">Loading the areas…</p>';
