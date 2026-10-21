@@ -208,6 +208,11 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
     const arriba = Math.max(0, Math.round(el.getBoundingClientRect().top));
     const alto = Math.max(320, Math.round(window.innerHeight - arriba - 8));
     el.style.height = `${alto}px`;
+    // En el móvil la tira de tarjetas se ancla al pie de la rejilla, así que la rejilla tiene que
+    // medir lo mismo que el mapa. Si no, la tira cae por debajo de la pantalla.
+    if (window.matchMedia('(max-width: 900px)').matches && el.parentElement) {
+      el.parentElement.style.height = `${alto}px`;
+    }
     if (mapa) mapa.invalidateSize();
   }
 
