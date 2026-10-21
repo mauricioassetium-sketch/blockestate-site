@@ -744,7 +744,9 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 
   /* El mapa va primero en el HTML: aquí solo se apila todo y el mapa se queda con su franja. */
   body:has(.lay.mapa) .lay.mapa { display: block; }
-  body:has(.lay.mapa) .lay.mapa > .mapa { height: 300px; min-height: 0; margin-bottom: 12px; }
+  /* `top` venía del desplazamiento sticky de escritorio: en el móvil empujaba el mapa 68px hacia
+     abajo y lo montaba encima de la primera tarjeta. */
+  body:has(.lay.mapa) .lay.mapa > .mapa { height: 300px; min-height: 0; top: 0; margin-bottom: 12px; }
   body:has(.lay.mapa) .lay.mapa > .col-lista {
     position: static; max-height: none; min-height: 0; overflow: visible; padding-right: 0;
   }
