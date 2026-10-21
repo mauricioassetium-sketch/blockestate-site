@@ -206,7 +206,7 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
     // El mapa no arranca pegado a la barra: debajo van el buscador y los filtros. Se mide su posición
     // real, o el alto calculado (ventana menos barra) lo deja saliéndose por abajo de la pantalla.
     const arriba = Math.max(0, Math.round(el.getBoundingClientRect().top));
-    const alto = Math.max(420, Math.round(window.innerHeight - arriba - 16));
+    const alto = Math.max(320, Math.round(window.innerHeight - arriba - 8));
     el.style.height = `${alto}px`;
     if (mapa) mapa.invalidateSize();
   }
@@ -250,7 +250,11 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   ajustarAlto();
   requestAnimationFrame(ajustarAlto);
   // La lista llega después y empuja el mapa hacia abajo: se vuelve a medir cuando el layout ya está.
-  [300, 900, 1600].forEach((t) => setTimeout(ajustarAlto, t));
+  // Varias pasadas: la cabecera, los filtros y la barra de resultados cambian de alto cuando entran
+  // la fuente y la lista, y con una sola medida el mapa nacía largo y se salía por abajo.
+  [80, 300, 700, 1200, 2000, 2800].forEach((t) => setTimeout(ajustarAlto, t));
+  if (document.fonts?.ready) document.fonts.ready.then(() => setTimeout(ajustarAlto, 60));
+  window.addEventListener('load', () => setTimeout(ajustarAlto, 120), { once: true });
   if (!ajustePuesto) {
     window.addEventListener('resize', ajustarAlto);
     window.addEventListener('orientationchange', ajustarAlto);
