@@ -733,135 +733,43 @@ body:has(.lay.mapa) .list .card .logo-plano img,
 body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px; }
 
 @media (max-width: 900px) {
-  /* En el móvil el mapa manda y las tarjetas van en una tira que se desliza sobre su pie. Antes la
-     lista caía debajo y el pliegue cortaba la primera tarjeta por la mitad: no se leía ni se podía
-     tocar, y el mapa parecía el único contenido de la pantalla. */
-  body:has(.lay.mapa) .lay.mapa { display: block; position: relative; }
+  /* En el móvil el mapa y las tarjetas se reparten la pantalla: el mapa arriba, la tira de tarjetas
+     debajo, las dos cosas dentro del pliegue. La tira flotando encima del mapa dejaba el mapa a
+     medias y la primera tarjeta cortada por el borde de la pantalla. */
+  body:has(.lay.mapa) .lay.mapa {
+    display: flex; flex-direction: column; gap: 10px; align-items: stretch; position: relative;
+  }
+
   /* Los cuatro filtros apilados empujaban el mapa por debajo del pliegue: en el mapa manda el mapa,
      y los filtros quedan detrás de su botón. */
   body:has(.lay.mapa) .controls { display: block; padding-bottom: 6px; }
   body:has(.lay.mapa) .controls .control { display: none; }
   body:has(.lay.mapa) .controls .control.ancho { display: flex; height: 56px; max-width: 230px; }
   body:has(.lay.mapa) .result-bar .tools { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 2px; scrollbar-width: none; }
-  body:has(.lay.mapa) .lay.mapa > .mapa { height: calc(100dvh - 250px); min-height: 320px; }
+
+  /* El alto lo reparte el flex: el mapa se queda con lo que sobra y la tira con lo suyo. */
+  body:has(.lay.mapa) .lay.mapa > .mapa {
+    order: 0; flex: 1 1 auto; min-height: 240px; height: auto; border-radius: .9rem;
+  }
 
   body:has(.lay.mapa) .lay.mapa > div:first-child {
-    position: absolute; left: 0; right: 0; bottom: 0; z-index: 600;
-    max-height: none; min-height: 0;
+    order: 1; position: static; flex: 0 0 auto;
+    height: 196px; min-height: 0; max-height: none;
     overflow-x: auto; overflow-y: hidden;
-    display: flex; gap: 10px;
-    padding: 26px 12px calc(10px + env(safe-area-inset-bottom, 0px));
-    background: linear-gradient(to top, rgba(255,255,255,.97) 58%, rgba(255,255,255,0));
+    display: flex; gap: 10px; padding: 0 12px 4px;
     scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
   }
   body:has(.lay.mapa) .lay.mapa > div:first-child::-webkit-scrollbar { display: none; }
   body:has(.lay.mapa) #resultados,
   body:has(.lay.mapa) .list { display: flex; gap: 10px; width: max-content; }
   body:has(.lay.mapa) .list .card { flex: 0 0 262px; grid-template-columns: 1fr; scroll-snap-align: center; }
-  body:has(.lay.mapa) .list .card .photo { height: 84px; }
-  /* La tira tiene que dejar ver el mapa: fuera el pie con el logo y las puertas. */
+  body:has(.lay.mapa) .list .card .photo { height: 82px; }
   body:has(.lay.mapa) .list .card .foot { display: none; }
   body:has(.lay.mapa) .list .card .body { padding: 8px 10px 9px; }
   body:has(.lay.mapa) .list .card .zona { display: none; }
   body:has(.lay.mapa) .list .card .price { font-size: .98rem; }
   body:has(.lay.mapa) .list .card h3 { font-size: .78rem; }
-
-  /* La atribución del mapa no puede quedar debajo de la tira: es una obligación de la licencia. */
-  body:has(.lay.mapa) .lay.mapa > .mapa .leaflet-bottom { bottom: 186px; }
 }
-
-/* ----------------------------------------------------------------------------------------------
-   Comparar precios por zona: el mapa manda y el panel flota encima, como en el portal de referencia.
-   ---------------------------------------------------------------------------------------------- */
-.areas { position: relative; height: calc(100dvh - 150px); min-height: 560px; border-radius: 1rem; overflow: hidden; }
-.areas-mapa { position: absolute; inset: 0; background: #EEF1F0; }
-.areas-mapa .leaflet-container { border-radius: 1rem; }
-/* El mapa de la referencia es claro y sin ruido: se consigue lavando las teselas de OpenStreetMap,
-   sin clave de ningún proveedor. */
-.areas-mapa .leaflet-tile-pane { filter: grayscale(1) brightness(1.07) contrast(.9); }
-
-.areas-panel {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 600;
-  width: 340px;
-  max-height: calc(100% - 32px);
-  overflow-y: auto;
-  background: #fff;
-  border-radius: .9rem;
-  box-shadow: 0 10px 30px rgba(16, 34, 43, .18), 0 2px 6px rgba(16, 34, 43, .10);
-  padding: 14px;
-}
-
-.areas-filtros { display: grid; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line-2); }
-.filtro-chips { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.filtro-lab { font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); margin-right: 2px; }
-.areas-panel .chip { font-size: .72rem; padding: .28rem .5rem; }
-
-.zona-detalle { padding-top: 10px; }
-.zona-det-tit { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.zona-det-tit h2 { margin: 0; font-size: 1.22rem; letter-spacing: -.02em; }
-.zona-em { font-size: .72rem; color: var(--ink-45); }
-.zona-tipo { font-size: .74rem; color: var(--ink-45); margin-top: 2px; }
-
-.zona-precio { margin: 12px 0 10px; display: flex; flex-direction: column; gap: 1px; }
-.zona-precio-lab { font-size: .64rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-45); font-weight: 800; }
-.zona-precio b { font-size: 1.42rem; font-weight: 800; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
-.zona-sqft { font-size: .72rem; color: var(--ink-45); }
-
-.zona-cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 0 12px; border-top: 1px solid var(--line-2); }
-.zona-cifras div { display: flex; flex-direction: column; gap: 2px; }
-.zona-cifras span { font-size: .6rem; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-45); }
-.zona-cifras b { font-size: .78rem; font-variant-numeric: tabular-nums; }
-.zona-cta { display: block; text-align: center; }
-.zona-nota { margin: 10px 0 0; font-size: .68rem; line-height: 1.45; color: var(--ink-45); }
-.zona-hint { margin: 8px 0 0; font-size: .68rem; color: var(--ink-45); text-align: center; }
-
-/* El nombre de la zona al pasar el ratón: una píldora oscura pequeña, que no tape la trama. */
-.tip-nombre {
-  background: rgba(11, 18, 32, .92);
-  border: 0;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.tip-nombre::before { border-top-color: rgba(11, 18, 32, .92); }
-
-/* El popup de un sector: lo mínimo para decidir, con nuestro verde en el botón. */
-.popup-zona .leaflet-popup-content-wrapper { border-radius: .7rem; box-shadow: 0 8px 24px rgba(16,34,43,.18); }
-.popup-zona .leaflet-popup-content { margin: 10px 12px; }
-.popup-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.popup-cab b { font-size: .92rem; }
-.popup-cab span { font-size: .66rem; color: var(--ink-45); }
-.popup-precio { font-size: 1.18rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin-top: 4px; }
-.popup-precio small { font-size: .62rem; font-weight: 600; color: var(--ink-45); margin-left: 5px; text-transform: uppercase; letter-spacing: .08em; }
-.popup-filas { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 8px 0; font-size: .72rem; }
-.popup-filas span { color: var(--ink-45); }
-.popup-filas b { text-align: right; font-variant-numeric: tabular-nums; }
-.popup-cta { display: block; text-align: center; background: #22C55E; color: #04120A; font-weight: 800; font-size: .78rem;
-  padding: .45rem .6rem; border-radius: .45rem; text-decoration: none; }
-.popup-muted { margin: 6px 0 0; font-size: .74rem; color: var(--ink-45); }
-
-/* Las etiquetas de las zonas con datos, sobre su polígono */
-.etiqueta-wrap { background: none; border: 0; }
-.etiqueta-wrap .etiqueta-zona { transform: translate(-50%, -50%); display: inline-block; }
-.etiqueta-zona {
-  background: rgba(255, 255, 255, .92);
-  border: 1px solid rgba(16, 34, 43, .12);
-  border-radius: 999px;
-  padding: 1px 7px;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #0B1220;
-  box-shadow: none;
-}
-.etiqueta-zona::before { display: none; }
-.etiqueta-tenue { opacity: 0; transition: opacity .2s ease; }
-.leaflet-container.zoom-cerca .etiqueta-tenue { opacity: 1; background: rgba(255,255,255,.72); color: #4A5A55; font-weight: 600; }
 
 @media (max-width: 900px) {
   .areas { height: auto; min-height: 0; display: flex; flex-direction: column-reverse; gap: 10px; }
