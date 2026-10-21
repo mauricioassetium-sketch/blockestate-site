@@ -742,7 +742,7 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 
   /* En el DOM la lista va antes que el mapa; aquí el mapa se sube con `order`, sin mover el HTML. */
   body:has(.lay.mapa) .lay.mapa { display: flex; flex-direction: column; }
-  body:has(.lay.mapa) .lay.mapa > .mapa { order: -1; height: 46vh; min-height: 320px; margin-bottom: 12px; }
+  body:has(.lay.mapa) .lay.mapa > .mapa { order: -1; flex: 0 0 auto; height: 46vh; min-height: 320px; margin-bottom: 12px; }
   body:has(.lay.mapa) .lay.mapa > div:first-child {
     position: static; max-height: none; min-height: 0; overflow: visible; padding-right: 0;
   }
