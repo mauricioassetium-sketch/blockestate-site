@@ -449,13 +449,16 @@ export async function viewSearch(query) {
         </div>
 
         <div class="lay${f.vista === 'mapa' ? ' mapa' : ''}" id="lay">
-        <div>
-        <div id="resultados">${loading(4)}</div>
-        </div>
         <!-- El mapa es una COLUMNA del grid (el CSS lo pone en .lay.mapa), no parte de la columna
              lateral. Estaba dentro de .rail, que en vista de mapa se oculta: se quedaba dentro de una
-             caja escondida y Leaflet no llegaba a pintarlo nunca. -->
+             caja escondida y Leaflet no llegaba a pintarlo nunca.
+             Va ANTES de la lista en el HTML: en el móvil el orden del documento es el que se ve, y
+             con la lista primero el mapa caía debajo de las tarjetas. En escritorio cada uno tiene su
+             columna asignada, así que el orden del HTML no cambia nada. -->
         <div id="mapa" class="mapa" ${f.vista === 'mapa' ? '' : 'hidden'}></div>
+        <div class="col-lista">
+        <div id="resultados">${loading(4)}</div>
+        </div>
         <div class="rail" id="columna">
         <div id="rail" ${f.vista === 'mapa' ? 'hidden' : ''}></div>
         </div>
@@ -652,7 +655,7 @@ function elegirEnLista(unidadId) {
   carta.classList.add('elegida');
   // Desplazar SOLO la columna de tarjetas. `scrollIntoView` arrastraba la página entera y sacaba el
   // mapa de la pantalla justo al pulsar un pin, que es cuando hay que verlo.
-  const caja = carta.closest('.lay.mapa > div:first-child');
+  const caja = carta.closest('.lay.mapa > .col-lista');
   if (caja) {
     const llevar = () => {
       const rc = carta.getBoundingClientRect();

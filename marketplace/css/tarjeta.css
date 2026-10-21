@@ -621,7 +621,7 @@ body:has(.lay.mapa) .lay.mapa {
 }
 
 /* La lista tiene su propio scroll: la página no se mueve y el mapa nunca se va de la pantalla. */
-body:has(.lay.mapa) .lay.mapa > div:first-child {
+body:has(.lay.mapa) .lay.mapa > .col-lista {
   max-height: calc(100dvh - 340px);
   min-height: 480px;
   overflow-y: auto;
@@ -634,7 +634,9 @@ body:has(.lay.mapa) .lay.mapa > div:first-child {
    El mapa arranca a la misma altura que la primera tarjeta y ocupa el alto de la ventana. */
 /* El alto se mide contra la ventana menos el hueco real que ocupa la cabecera y los filtros, para
    que el mapa acabe dentro de la pantalla y un pin no abra su ficha fuera del recorte. */
+body:has(.lay.mapa) .lay.mapa > .col-lista { grid-column: 1; grid-row: 1; }
 body:has(.lay.mapa) .lay.mapa > .mapa {
+  grid-column: 2; grid-row: 1;
   position: relative;
   top: auto;
   height: calc(100dvh - 340px);
@@ -740,10 +742,10 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
   body:has(.lay.mapa) .controls .control.ancho { display: flex; height: 56px; max-width: 230px; }
   body:has(.lay.mapa) .result-bar .tools { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 2px; scrollbar-width: none; }
 
-  /* En el DOM la lista va antes que el mapa; aquí el mapa se sube con `order`, sin mover el HTML. */
-  body:has(.lay.mapa) .lay.mapa { display: flex; flex-direction: column; }
-  body:has(.lay.mapa) .lay.mapa > .mapa { order: -1; flex: 0 0 auto; height: 46vh; min-height: 320px; margin-bottom: 12px; }
-  body:has(.lay.mapa) .lay.mapa > div:first-child {
+  /* El mapa va primero en el HTML: aquí solo se apila todo y el mapa se queda con su franja. */
+  body:has(.lay.mapa) .lay.mapa { display: block; }
+  body:has(.lay.mapa) .lay.mapa > .mapa { height: 300px; margin-bottom: 12px; }
+  body:has(.lay.mapa) .lay.mapa > .col-lista {
     position: static; max-height: none; min-height: 0; overflow: visible; padding-right: 0;
   }
 }
