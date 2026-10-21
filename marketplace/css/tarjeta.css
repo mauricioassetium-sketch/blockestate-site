@@ -634,7 +634,7 @@ body:has(.lay.mapa) .lay.mapa > div:first-child {
    El mapa arranca a la misma altura que la primera tarjeta y ocupa el alto de la ventana. */
 /* El alto se mide contra la ventana menos el hueco real que ocupa la cabecera y los filtros, para
    que el mapa acabe dentro de la pantalla y un pin no abra su ficha fuera del recorte. */
-body:has(.lay.mapa) .mapa {
+body:has(.lay.mapa) .lay.mapa > .mapa {
   position: relative;
   top: auto;
   height: calc(100dvh - 340px);
@@ -643,7 +643,7 @@ body:has(.lay.mapa) .mapa {
   align-self: start;
 }
 
-body:has(.lay.mapa) .mapa .leaflet-container {
+body:has(.lay.mapa) .lay.mapa > .mapa .leaflet-container {
   border-radius: .9rem;
   background: #e9edee;
 }
@@ -743,7 +743,7 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
   body:has(.lay.mapa) .controls .control { display: none; }
   body:has(.lay.mapa) .controls .control.ancho { display: flex; height: 56px; max-width: 230px; }
   body:has(.lay.mapa) .result-bar .tools { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 2px; scrollbar-width: none; }
-  body:has(.lay.mapa) .mapa { height: calc(100dvh - 250px); min-height: 320px; }
+  body:has(.lay.mapa) .lay.mapa > .mapa { height: calc(100dvh - 250px); min-height: 320px; }
 
   body:has(.lay.mapa) .lay.mapa > div:first-child {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 600;
@@ -767,7 +767,7 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
   body:has(.lay.mapa) .list .card h3 { font-size: .78rem; }
 
   /* La atribución del mapa no puede quedar debajo de la tira: es una obligación de la licencia. */
-  body:has(.lay.mapa) .mapa .leaflet-bottom { bottom: 186px; }
+  body:has(.lay.mapa) .lay.mapa > .mapa .leaflet-bottom { bottom: 186px; }
 }
 
 /* ----------------------------------------------------------------------------------------------
