@@ -207,14 +207,9 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
     // real, o el alto calculado (ventana menos barra) lo deja saliéndose por abajo de la pantalla.
     const arriba = Math.max(0, Math.round(el.getBoundingClientRect().top));
     const alto = Math.max(320, Math.round(window.innerHeight - arriba - 8));
-    if (window.matchMedia('(max-width: 900px)').matches && el.parentElement) {
-      // En el móvil manda el contenedor: el mapa toma lo que deja la tira de tarjetas. Fijarle al
-      // mapa un alto propio era lo que dejaba una franja gris y las teselas fuera de sitio.
-      el.style.height = '';
-      el.parentElement.style.height = `${alto}px`;
-    } else {
-      el.style.height = `${alto}px`;
-    }
+    // En el móvil el alto lo pone el CSS (46dvh): medir la ventana dejaba el mapa a merced de la
+    // cabecera y de los filtros, y el mapa se salía por abajo.
+    if (!window.matchMedia('(max-width: 900px)').matches) el.style.height = `${alto}px`;
     if (mapa) mapa.invalidateSize();
   }
 

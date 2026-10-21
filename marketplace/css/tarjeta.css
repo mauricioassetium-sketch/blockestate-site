@@ -733,45 +733,18 @@ body:has(.lay.mapa) .list .card .logo-plano img,
 body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px; }
 
 @media (max-width: 900px) {
-  /* En el móvil el mapa y las tarjetas se reparten la pantalla: el mapa arriba, la tira de tarjetas
-     debajo, las dos cosas dentro del pliegue. La tira flotando encima del mapa dejaba el mapa a
-     medias y la primera tarjeta cortada por el borde de la pantalla. */
-  body:has(.lay.mapa) .lay.mapa {
-    display: grid; grid-template-rows: minmax(0, 1fr) 196px; gap: 10px;
-    position: relative; overflow: hidden;
-  }
-
-  /* Los cuatro filtros apilados empujaban el mapa por debajo del pliegue: en el mapa manda el mapa,
-     y los filtros quedan detrás de su botón. */
+  /* En el móvil: mapa arriba con un alto fijo que deja sitio, y la lista debajo en flujo normal.
+     La tira flotante y el reparto por flex dejaban franjas en blanco y la primera tarjeta cortada. */
   body:has(.lay.mapa) .controls { display: block; padding-bottom: 6px; }
   body:has(.lay.mapa) .controls .control { display: none; }
   body:has(.lay.mapa) .controls .control.ancho { display: flex; height: 56px; max-width: 230px; }
   body:has(.lay.mapa) .result-bar .tools { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 2px; scrollbar-width: none; }
 
-  /* El alto lo reparte el flex: el mapa se queda con lo que sobra y la tira con lo suyo. */
-  body:has(.lay.mapa) .lay.mapa > .mapa {
-    grid-row: 1; order: 0 !important; height: 100% !important; min-height: 0;
-    position: relative; top: auto; align-self: stretch; border-radius: .9rem;
-  }
-  body:has(.lay.mapa) .lay.mapa > .rail { display: none; }
-
+  body:has(.lay.mapa) .lay.mapa { display: block; }
+  body:has(.lay.mapa) .lay.mapa > .mapa { height: 46dvh; min-height: 290px; margin-bottom: 12px; }
   body:has(.lay.mapa) .lay.mapa > div:first-child {
-    grid-row: 2; order: 0 !important; position: static;
-    height: auto; min-height: 0; max-height: none;
-    overflow-x: auto; overflow-y: hidden;
-    display: flex; gap: 10px; padding: 0 12px 4px;
-    scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    position: static; max-height: none; min-height: 0; overflow: visible; padding-right: 0;
   }
-  body:has(.lay.mapa) .lay.mapa > div:first-child::-webkit-scrollbar { display: none; }
-  body:has(.lay.mapa) #resultados,
-  body:has(.lay.mapa) .list { display: flex; gap: 10px; width: max-content; }
-  body:has(.lay.mapa) .list .card { flex: 0 0 262px; grid-template-columns: 1fr; scroll-snap-align: center; }
-  body:has(.lay.mapa) .list .card .photo { height: 82px; }
-  body:has(.lay.mapa) .list .card .foot { display: none; }
-  body:has(.lay.mapa) .list .card .body { padding: 8px 10px 9px; }
-  body:has(.lay.mapa) .list .card .zona { display: none; }
-  body:has(.lay.mapa) .list .card .price { font-size: .98rem; }
-  body:has(.lay.mapa) .list .card h3 { font-size: .78rem; }
 }
 
 @media (max-width: 900px) {
