@@ -723,7 +723,7 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
    sobre una ventana de 844, así que ninguna chincheta se veía. El mapa va primero y la lista sigue
    debajo, que es como lo resuelve el mercado. */
 @media (max-width:900px){
-  .lay.mapa #mapa{order:-1; top:calc(var(--bar) + 8px)}
+  .lay.mapa #mapa{order:-1; top:0}
 }
 /* El aspecto claro de los portales, sin proveedor con clave: a las teselas de OpenStreetMap se les
    quita el color y se les sube un punto el brillo. Medido con la captura: el fondo queda gris claro y
