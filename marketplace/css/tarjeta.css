@@ -737,7 +737,13 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
      lista caía debajo y el pliegue cortaba la primera tarjeta por la mitad: no se leía ni se podía
      tocar, y el mapa parecía el único contenido de la pantalla. */
   body:has(.lay.mapa) .lay.mapa { display: block; position: relative; }
-  body:has(.lay.mapa) .mapa { height: calc(100dvh - 300px); min-height: 340px; }
+  /* Los cuatro filtros apilados empujaban el mapa por debajo del pliegue: en el mapa manda el mapa,
+     y los filtros quedan detrás de su botón. */
+  body:has(.lay.mapa) .controls { display: block; padding-bottom: 6px; }
+  body:has(.lay.mapa) .controls .control { display: none; }
+  body:has(.lay.mapa) .controls .control.ancho { display: flex; height: 56px; max-width: 230px; }
+  body:has(.lay.mapa) .result-bar .tools { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 2px; scrollbar-width: none; }
+  body:has(.lay.mapa) .mapa { height: calc(100dvh - 250px); min-height: 320px; }
 
   body:has(.lay.mapa) .lay.mapa > div:first-child {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 600;
