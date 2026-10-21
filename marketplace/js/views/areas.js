@@ -249,6 +249,8 @@ function pintarBurbujas() {
           );
         }
         capasZona.set(f.properties.name, capaPol);
+        // El nombre, al pasar el ratón; la data, al pulsar. Sin nombre fijo en el mapa.
+        capaPol.bindTooltip(esc(f.properties.name), { direction: 'top', sticky: true, className: 'tip-nombre', opacity: 1 });
         capaPol.on('click', () => {
           elegidaPoligono = f.properties.name;
           elegida = z ? z.comunidad : null;
@@ -281,7 +283,7 @@ function pintarBurbujas() {
       fillColor: on ? '#22C55E' : '#CFE0F2',
       fillOpacity: 0.9,
     }).addTo(capa);
-    c.bindTooltip(`${esc(z.comunidad)} · ${esc(money(z.mediana_fils))}`, { direction: 'top' });
+    c.bindTooltip(esc(z.comunidad), { direction: 'top', className: 'tip-nombre', opacity: 1 });
     c.on('click', () => elegir(z.comunidad));
   }
 }

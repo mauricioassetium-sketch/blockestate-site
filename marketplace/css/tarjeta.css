@@ -785,6 +785,19 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
 .zona-nota { margin: 10px 0 0; font-size: .68rem; line-height: 1.45; color: var(--ink-45); }
 .zona-hint { margin: 8px 0 0; font-size: .68rem; color: var(--ink-45); text-align: center; }
 
+/* El nombre de la zona al pasar el ratón: una píldora oscura pequeña, que no tape la trama. */
+.tip-nombre {
+  background: rgba(11, 18, 32, .92);
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.tip-nombre::before { border-top-color: rgba(11, 18, 32, .92); }
+
 /* El popup de un sector: lo mínimo para decidir, con nuestro verde en el botón. */
 .popup-zona .leaflet-popup-content-wrapper { border-radius: .7rem; box-shadow: 0 8px 24px rgba(16,34,43,.18); }
 .popup-zona .leaflet-popup-content { margin: 10px 12px; }
