@@ -657,8 +657,12 @@ function elegirEnLista(unidadId) {
     const llevar = () => {
       const rc = carta.getBoundingClientRect();
       const rj = caja.getBoundingClientRect();
-      const destino = caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2;
-      caja.scrollTop = Math.max(0, destino);
+      // En el móvil la misma caja es una tira horizontal: se centra en horizontal, no en vertical.
+      if (caja.scrollWidth > caja.clientWidth + 4) {
+        caja.scrollLeft = Math.max(0, caja.scrollLeft + (rc.left - rj.left) - (rj.width - rc.width) / 2);
+      } else {
+        caja.scrollTop = Math.max(0, caja.scrollTop + (rc.top - rj.top) - (rj.height - rc.height) / 2);
+      }
     };
     // La lista se repinta al elegir: se lleva en el siguiente fotograma y otra vez al poco, para que
     // el desplazamiento no lo pise un repintado que llegue tarde.

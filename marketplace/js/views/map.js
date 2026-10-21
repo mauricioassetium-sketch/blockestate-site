@@ -20,6 +20,7 @@
  * and if there is no connection the map says so instead of pretending to be a map.
  */
 import { areaTxt, esc, ico, money } from '../ui.js';
+import { cifraCripto } from '../cambio.js';
 
 const LEAFLET = 'https://unpkg.com/leaflet@1.9.4/dist/';
 
@@ -105,9 +106,30 @@ function cargarLeaflet() {
 
 /** A price as short as it can be read: AED 1.5M, AED 950K. */
 export function precioCorto(fils) {
+  // Se queda para quien no tenga tasa: el precio en dirhams siempre existe.
   const n = Number(fils ?? 0) / 100;
   const corto = n >= 1e6 ? `AED ${(n / 1e6).toFixed(n % 1e6 ? 1 : 0)}M` : `AED ${Math.round(n / 1e3)}K`;
   return corto.replace(/\.0M$/, 'M');
+}
+
+/** «599,455 USDT» → «599K USDT»: en una chincheta no cabe el número completo. */
+function compacta(txt) {
+  const m = String(txt).match(/^([\d.,]+)\s+(\S+)$/);
+  if (!m) return txt;
+  const n = Number(m[1].replace(/,/g, ''));
+  if (!Number.isFinite(n)) return txt;
+  const suf = n >= 1e6 ? `${(n / 1e6).toFixed(1).replace(/\.0$/, '')}M`
+    : n >= 1e3 ? `${Math.round(n / 1e3)}K` : String(Math.round(n));
+  return `${suf} ${m[2]}`;
+}
+
+/**
+ * Lo que va escrito en la chincheta: la cifra en el activo que el lector eligió, si hay tasa, y si no
+ * el precio en dirhams. Antes iba siempre en AED y el selector de moneda parecía roto en el mapa.
+ */
+export function etiquetaPin(r) {
+  const c = cifraCripto(r);
+  return c ? compacta(c) : precioCorto(r.precio_fils);
 }
 
 let mapa = null;
@@ -133,6 +155,7 @@ function cifrasDe(r) {
 function fichaDeMapa(r) {
   return `<div class="mapa-ficha">
     <b>${esc(r.precio_aed ?? money(r.precio_fils))}</b>
+    ${cifraCripto(r) ? `<span class="mapa-ficha-cripto">${esc(cifraCripto(r))} indicative</span>` : ''}
     <span class="mapa-ficha-datos">${cifrasDe(r)}</span>
     ${r.titulo ? `<span class="mapa-ficha-dir">${esc(r.titulo)}</span>` : ''}
     ${r.aviso_ubicacion ? `<span class="mapa-ficha-aviso">${esc(r.aviso_ubicacion)}</span>` : ''}
@@ -238,10 +261,17 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   marcadores.clear();
   const puntos = [];
 
+  const pinesEnSitio = new Map();
   for (const r of conPunto) {
+    // Dos unidades del mismo edificio comparten coordenada: sin separarlas, la chincheta de arriba
+    // tapa a la de abajo y el mapa parece tener una sola propiedad.
+    const sitio = `${Number(r.latitud).toFixed(5)},${Number(r.longitud).toFixed(5)}`;
+    const repetidas = pinesEnSitio.get(sitio) ?? 0;
+    pinesEnSitio.set(sitio, repetidas + 1);
+    const desvio = repetidas * 30;
     const icono = L.divIcon({
       className: 'marca',
-      html: `<span>${esc(precioCorto(r.precio_fils))}</span>`,
+      html: `<span${desvio ? ` style="margin-top:-${desvio}px"` : ''}>${esc(etiquetaPin(r))}</span>`,
       iconSize: [0, 0],
       iconAnchor: [0, 0],
     });

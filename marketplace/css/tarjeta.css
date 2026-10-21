@@ -733,8 +733,31 @@ body:has(.lay.mapa) .list .card .logo-plano img,
 body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px; }
 
 @media (max-width: 900px) {
-  body:has(.lay.mapa) .lay.mapa { grid-template-columns: 1fr; }
-  body:has(.lay.mapa) .mapa { height: 64dvh; min-height: 0; }
+  /* En el móvil el mapa manda y las tarjetas van en una tira que se desliza sobre su pie. Antes la
+     lista caía debajo y el pliegue cortaba la primera tarjeta por la mitad: no se leía ni se podía
+     tocar, y el mapa parecía el único contenido de la pantalla. */
+  body:has(.lay.mapa) .lay.mapa { display: block; position: relative; }
+  body:has(.lay.mapa) .mapa { height: calc(100dvh - 300px); min-height: 340px; }
+
+  body:has(.lay.mapa) .lay.mapa > div:first-child {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 600;
+    max-height: none; min-height: 0;
+    overflow-x: auto; overflow-y: hidden;
+    display: flex; gap: 10px;
+    padding: 40px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(to top, rgba(255,255,255,.97) 58%, rgba(255,255,255,0));
+    scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  body:has(.lay.mapa) .lay.mapa > div:first-child::-webkit-scrollbar { display: none; }
+  body:has(.lay.mapa) #resultados,
+  body:has(.lay.mapa) .list { display: flex; gap: 10px; width: max-content; }
+  body:has(.lay.mapa) .list .card { flex: 0 0 266px; grid-template-columns: 1fr; scroll-snap-align: center; }
+  body:has(.lay.mapa) .list .card .photo { height: 102px; }
+  body:has(.lay.mapa) .list .card .price { font-size: .98rem; }
+  body:has(.lay.mapa) .list .card h3 { font-size: .78rem; }
+
+  /* La atribución del mapa no puede quedar debajo de la tira: es una obligación de la licencia. */
+  body:has(.lay.mapa) .mapa .leaflet-bottom { bottom: 196px; }
 }
 
 /* ----------------------------------------------------------------------------------------------
