@@ -744,20 +744,24 @@ body:has(.lay.mapa) .list .card .logo-plano svg { height: 24px; max-width: 74px;
     max-height: none; min-height: 0;
     overflow-x: auto; overflow-y: hidden;
     display: flex; gap: 10px;
-    padding: 40px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 26px 12px calc(10px + env(safe-area-inset-bottom, 0px));
     background: linear-gradient(to top, rgba(255,255,255,.97) 58%, rgba(255,255,255,0));
     scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
   }
   body:has(.lay.mapa) .lay.mapa > div:first-child::-webkit-scrollbar { display: none; }
   body:has(.lay.mapa) #resultados,
   body:has(.lay.mapa) .list { display: flex; gap: 10px; width: max-content; }
-  body:has(.lay.mapa) .list .card { flex: 0 0 266px; grid-template-columns: 1fr; scroll-snap-align: center; }
-  body:has(.lay.mapa) .list .card .photo { height: 102px; }
+  body:has(.lay.mapa) .list .card { flex: 0 0 262px; grid-template-columns: 1fr; scroll-snap-align: center; }
+  body:has(.lay.mapa) .list .card .photo { height: 84px; }
+  /* La tira tiene que dejar ver el mapa: fuera el pie con el logo y las puertas. */
+  body:has(.lay.mapa) .list .card .foot { display: none; }
+  body:has(.lay.mapa) .list .card .body { padding: 8px 10px 9px; }
+  body:has(.lay.mapa) .list .card .zona { display: none; }
   body:has(.lay.mapa) .list .card .price { font-size: .98rem; }
   body:has(.lay.mapa) .list .card h3 { font-size: .78rem; }
 
   /* La atribución del mapa no puede quedar debajo de la tira: es una obligación de la licencia. */
-  body:has(.lay.mapa) .mapa .leaflet-bottom { bottom: 196px; }
+  body:has(.lay.mapa) .mapa .leaflet-bottom { bottom: 186px; }
 }
 
 /* ----------------------------------------------------------------------------------------------

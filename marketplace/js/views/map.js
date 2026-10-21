@@ -287,7 +287,10 @@ async function dibujarMapa(contenedor, resultados, { alElegir } = {}) {
   }
 
   // The whole result, in view.
-  mapa.fitBounds(puntos, { padding: [48, 48], maxZoom: 14 });
+  // En el móvil la tira de tarjetas tapa el pie del mapa: el encuadre reserva ese alto para que
+  // ningún pin nazca debajo de una tarjeta.
+  const tapaPie = window.matchMedia('(max-width: 900px)').matches ? 210 : 48;
+  mapa.fitBounds(puntos, { paddingTopLeft: [48, 48], paddingBottomRight: [48, tapaPie], maxZoom: 14 });
   // Leaflet measures the container when it is created; inside a grid it may need a nudge.
   setTimeout(() => mapa?.invalidateSize(), 60);
   // La columna cambia de alto cuando llega la lista y al cambiar de vista. Sin esto Leaflet conserva
