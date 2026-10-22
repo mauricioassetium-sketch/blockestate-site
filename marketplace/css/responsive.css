@@ -175,3 +175,12 @@ button, .btn, select, input[type="submit"]{ min-height: var(--touch); }
   .lay .list .card h3{ font-size:16px; line-height:1.3; }
   .lay .list .card .price{ font-size:22px; }
 }
+
+/* ------------------------------------------------------------------ tablet: puertas solo con icono
+   A 768 las tres puertas de contacto (Email, WhatsApp, Telegram) no cabían en su fila y Telegram se
+   salía de la tarjeta. Con el icono solo caben las tres y siguen siendo reconocibles. */
+@media (max-width: 1023px){
+  .list .card .puertas{ gap:6px; flex-wrap:nowrap; overflow:visible; }
+  .list .card .puerta{ width:34px; min-width:34px; height:34px; padding:0; justify-content:center; }
+  .list .card .puerta .lbl{ display:none; }
+}
