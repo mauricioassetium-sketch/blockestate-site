@@ -601,8 +601,9 @@ export async function viewUnit(id) {
         : `<button class="btn green" id="reservar" style="width:100%"${reservada ? ' disabled' : ''}>
              ${reservada ? 'Already reserved by someone' : 'Reserve for 14 days'}</button>${nota}`;
       accion.querySelector('#reservar')?.addEventListener('click', (e) => reservar(e, d.id));
-      ponerBarraCompra(d, reservada);
     }
+    // La barra se monta en los tres casos: con sesión, sin sesión y con la compra en marcha.
+    if (!vendida) ponerBarraCompra(d, reservada);
   } catch (err) {
     error(caja, err);
   }
@@ -619,11 +620,16 @@ function ponerBarraCompra(d, reservada) {
   if (!window.matchMedia('(max-width: 767px)').matches) return;
   const precio = d.precio_aed ?? money(d.precio_fils);
   const cripto = cifraCripto(d);
+  const conSesion = store.logged();
   const barra = document.createElement('div');
   barra.className = 'unit-cta-movil';
   barra.innerHTML = `<div><div class="p">${esc(precio)}</div><div class="s">${esc(cripto || 'Contract price in AED')}</div></div>
-    <button class="btn green b" type="button"${reservada ? ' disabled' : ''}>${reservada ? 'Reserved' : 'Reserve'}</button>`;
-  barra.querySelector('button')?.addEventListener('click', () => document.querySelector('#reservar')?.click());
+    <button class="btn green b" type="button"${reservada ? ' disabled' : ''}>${reservada ? 'Reserved' : conSesion ? 'Reserve' : 'Sign in to reserve'}</button>`;
+  barra.querySelector('button')?.addEventListener('click', () => {
+    const real = document.querySelector('#reservar');
+    if (real) real.click();
+    else go('/login');
+  });
   view().appendChild(barra);
 }
 
