@@ -208,9 +208,12 @@ export function card(r) {
       <button type="button" class="foto-flecha prev" aria-label="Previous photo" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
       <button type="button" class="foto-flecha next" aria-label="Next photo" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
       <div class="puntos" data-fotos="${esc(r.unidad_id)}" hidden></div>
-      <!-- La marca del verificador va en la foto de TODAS las unidades verificadas, estén promocionadas
-           o no: el sello del cuerpo desaparecía en la rejilla y solo lo llevaban las promocionadas. -->
-      ${r.distintivo?.badge_alcance ? `<span class="sello-foto">${selloVerysset('Verified by Verysset', { unidad: r.unidad_id, titulo: r.titulo, ref: r.referencia })}</span>` : ''}
+      <!-- La marca del verificador va en la foto de TODAS las tarjetas, estén promocionadas o no.
+           Verde y con fecha cuando hay verificación; gris y sin fecha cuando todavía no la hay: el
+           logo dice quién verifica, no que ya esté verificado. -->
+      ${r.distintivo?.badge_alcance
+        ? `<span class="sello-foto">${selloVerysset('Verified by Verysset', { unidad: r.unidad_id, titulo: r.titulo, ref: r.referencia })}</span>`
+        : `<span class="sello-foto sin" title="Verification pending"><span class="sello-vss"><span class="vss-marca" aria-hidden="true"><svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><b>Verysset</b></span></span>`}
     </div>
     <div class="body">
       ${r.distintivo?.badge_alcance ? `<span class="sello-cuerpo">${selloVerysset('Verified by Verysset', { unidad: r.unidad_id, titulo: r.titulo, ref: r.referencia })}</span>` : ''}

@@ -231,3 +231,10 @@ body{ line-height:1.5; }
 .list .card .sello-foto .vss-marca svg{ width:9px; height:9px; }
 /* El sello grande del cuerpo ya no hace falta: repite la misma marca en otra parte de la tarjeta. */
 .list .card .sello-cuerpo{ display:none; }
+
+/* La misma marca, dos estados: verde con la unidad verificada, gris cuando aún no lo está. El logo dice
+   quién verifica; la fecha y el color dicen si ya se hizo. */
+.list .card .sello-foto.sin .sello-vss{
+  background:rgba(255,255,255,.92); color:#64748B; box-shadow:0 2px 8px rgba(11,18,32,.14);
+}
+.list .card .sello-foto.sin .vss-marca{ background:#94A3B8; color:#fff; }
