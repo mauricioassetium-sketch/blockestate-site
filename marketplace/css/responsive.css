@@ -33,8 +33,11 @@
 
 /* ------------------------------------------------------------------ foundations */
 body{ line-height:1.5; }
-/* Nada que se toque baja de 44 px de alto. Los enlaces de texto quedan fuera: su área la da el renglón. */
-button, .btn, select, input[type="submit"]{ min-height: var(--touch); }
+/* Nada que se toque baja de 44 px de alto, pero solo los botones de acción: aplicar el suelo a TODO
+   button convertía los puntos del carrusel y las flechas de la foto en barras de 44 px. */
+.btn, button.btn, select, input[type="submit"], .puerta, .control > button, .control > .ctrl{
+  min-height: var(--touch);
+}
 :where(button, a, input, select):focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
 
 /* ------------------------------------------------------------------ phone */
@@ -184,3 +187,15 @@ button, .btn, select, input[type="submit"]{ min-height: var(--touch); }
   .list .card .puerta{ width:34px; min-width:34px; height:34px; padding:0; justify-content:center; }
   .list .card .puerta .lbl{ display:none; }
 }
+
+/* ------------------------------------------------------------------ selector de fotos de la tarjeta
+   La regla global `button{min-height:44px}` convertía cada punto en una barra de 44 px de alto, y como
+   el activo medía 16 de ancho y los demás 6, la fila salía deforme. Aquí vuelven a ser cuatro barras
+   iguales: mismo ancho, mismo alto, mismo hueco. */
+.list .card .puntos{ gap:4px; bottom:12px; }
+.list .card .punto,
+.list .card .punto.on{
+  width:16px; min-width:0; height:3px; min-height:0; border-radius:2px;
+  background:rgba(255,255,255,.55); box-shadow:none;
+}
+.list .card .punto.on{ background:#fff; }
