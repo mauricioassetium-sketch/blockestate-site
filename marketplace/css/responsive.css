@@ -210,3 +210,24 @@ body{ line-height:1.5; }
   background:rgba(255,255,255,.55); box-shadow:none;
 }
 .list .card .punto.on{ background:#fff; }
+
+/* ------------------------------------------------------------------ la marca del verificador, en la foto
+   El sello del cuerpo se ocultaba en la rejilla y en el teléfono, así que las unidades verificadas que
+   no estaban promocionadas se quedaban sin la marca. Ahora va en la esquina de la foto, igual en todas. */
+.list .card .sello-foto{
+  position:absolute; left:10px; bottom:10px; z-index:3; line-height:1;
+}
+.list .card .sello-foto .sello-vss{
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(255,255,255,.94); color:#0F7A3D;
+  border-radius:999px; padding:4px 8px 4px 6px;
+  font-size:10px; font-weight:900; letter-spacing:.04em; text-transform:none;
+  box-shadow:0 2px 8px rgba(11,18,32,.18);
+}
+.list .card .sello-foto .vss-marca{
+  width:14px; height:14px; border-radius:50%; background:#0F7A3D; color:#fff;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.list .card .sello-foto .vss-marca svg{ width:9px; height:9px; }
+/* El sello grande del cuerpo ya no hace falta: repite la misma marca en otra parte de la tarjeta. */
+.list .card .sello-cuerpo{ display:none; }
