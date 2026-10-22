@@ -1,0 +1,142 @@
+/* =============================================================================================
+   BlockEstate · responsive model
+   Loaded last: it carries the design tokens and the phone rules that the older sheets did not have.
+   The scale lives here so every screen measures the same: 4 px grid, one type ramp, 44 px targets.
+   ============================================================================================= */
+
+:root{
+  /* Spacing, 4 px base */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:40px; --s8:48px; --s9:64px;
+
+  /* Type ramp: phone / desktop */
+  --fs-display:32px; --fs-h1:26px; --fs-h2:20px; --fs-h3:16px;
+  --fs-body:14px; --fs-small:12.5px; --fs-label:10.5px; --fs-price:20px;
+
+  /* Radii */
+  --r-chip:999px; --r-input:12px; --r-card:16px; --r-sheet:20px;
+
+  /* Touch */
+  --touch:44px; --touch-primary:48px;
+
+  /* Layout */
+  --container:1200px; --gutter:16px;
+}
+
+@media (min-width:768px){
+  :root{ --fs-display:44px; --fs-h1:34px; --fs-h2:24px; --fs-h3:17px;
+         --fs-body:15px; --fs-small:13px; --fs-label:11px; --fs-price:22px; --gutter:20px; }
+}
+@media (min-width:1280px){
+  :root{ --fs-display:56px; --fs-h1:40px; --fs-h2:26px; --fs-h3:18px;
+         --fs-body:15px; --fs-small:13px; --fs-price:24px; --gutter:32px; }
+}
+
+/* ------------------------------------------------------------------ foundations */
+body{ line-height:1.5; }
+/* Nada que se toque baja de 44 px de alto. Los enlaces de texto quedan fuera: su área la da el renglón. */
+button, .btn, select, input[type="submit"]{ min-height: var(--touch); }
+:where(button, a, input, select):focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
+
+/* ------------------------------------------------------------------ phone */
+@media (max-width: 767px){
+  /* ---------- cabecera: una fila, 56 px ---------- */
+  header.top{ height:56px; }
+
+  /* ---------- filtros: una tira que se desliza, no cuatro bloques apilados ----------
+     Antes medían 237 px apilados y empujaban el catálogo media pantalla hacia abajo. */
+  .controls{
+    display:flex; flex-wrap:nowrap; gap:var(--s2);
+    overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none;
+    padding:0 0 var(--s2); margin:0;
+  }
+  .controls::-webkit-scrollbar{ display:none; }
+  .controls .control{
+    flex:0 0 auto; min-width:142px; height:52px; padding:0 var(--s3);
+    border:1px solid var(--line-2); border-radius:var(--r-input); background:var(--white);
+  }
+  .controls .control.ancho{ min-width:132px; max-width:132px; }
+  .controls .control.ancho small{ display:none; }
+  .controls .control > .ctrl,
+  .controls .control > button.ctrl{ height:100%; padding:0; font-size:var(--fs-small); }
+
+  /* ---------- barra de resultados: una sola fila ---------- */
+  .result-bar{ display:flex; flex-wrap:nowrap; align-items:center; gap:var(--s2);
+               height:56px; padding:0 0 var(--s2); overflow:hidden; }
+  .result-bar .count{ font-size:var(--fs-small); font-weight:700; white-space:nowrap; }
+  .result-bar .tools{ display:flex; flex-wrap:nowrap; gap:var(--s2); margin-left:auto;
+                      overflow-x:auto; scrollbar-width:none; }
+  .result-bar .tools::-webkit-scrollbar{ display:none; }
+  /* El orden y el guardado son secundarios en el teléfono: viven en el menú de la lista. */
+  .result-bar .tools .control.compacto,
+  .result-bar .tools .link-btn,
+  .result-bar .tools .seg{ display:none; }
+  .result-bar .tools .switch{ font-size:11.5px; }
+  .result-bar .tools .vista{ flex:0 0 auto; }
+
+  /* ---------- tarjeta: foto 16:10 y solo lo que se decide ---------- */
+  .list .card{
+    grid-template-columns:1fr; border-radius:var(--r-card);
+  }
+  .list .card .photo{ aspect-ratio:16/10; width:100%; height:auto; }
+  .list .card .body{ padding:var(--s3) var(--s3) var(--s3); }
+  .list .card .price{ font-size:var(--fs-price); }
+  .list .card .price-cripto{ font-size:11px; margin-top:1px; }
+  .list .card .tipo{ font-size:10.5px; margin-top:4px; }
+  .list .card h3{ font-size:var(--fs-h3); margin-top:2px; }
+  .list .card .specs{ font-size:var(--fs-small); gap:10px; margin-top:4px; }
+  .list .card .zona{ font-size:var(--fs-small); margin-top:2px; }
+  /* La línea de verificación se queda: es la razón de comprar aquí. */
+  .list .card .verif-linea{ font-size:10.5px; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .list .card .frases, .list .card .foto-cuenta{ display:none; }
+  .list .card .foot{ margin-top:var(--s2); padding-top:var(--s2); }
+  .list .card .marca-dev{ height:26px; }
+
+  /* ---------- hoja de filtros: lo avanzado sigue a un toque ---------- */
+  #panel-filtros, .filtros-panel{ max-height:88dvh; border-radius:var(--r-sheet) var(--r-sheet) 0 0; }
+}
+
+/* ------------------------------------------------------------------ map controls */
+.leaflet-control-zoom a,
+.leaflet-touch .leaflet-control-zoom a{
+  width:var(--touch) !important; height:var(--touch) !important; line-height:var(--touch) !important;
+  font-size:20px !important; border-radius:10px !important;
+}
+.leaflet-control-zoom{ border:0 !important; box-shadow:0 6px 18px rgba(16,34,43,.16) !important; border-radius:12px !important; overflow:hidden; }
+/* La chincheta del precio, 32 px de alto y 12 px de letra: antes 26 px y 11 px. */
+.marca span{ font-size:12px !important; padding:.42rem .62rem !important; }
+
+@media (max-width: 767px){
+  /* ---------- áreas: el panel deja de flotar sobre el mapa y se pega al pie ---------- */
+  .areas{ height:auto; display:flex; flex-direction:column; }
+  .areas-mapa{ position:relative; height:46dvh; min-height:300px; }
+  .areas-panel{
+    position:sticky; bottom:0; width:auto; max-height:none;
+    border-radius:var(--r-sheet) var(--r-sheet) 0 0; margin-top:-18px;
+    box-shadow:0 -10px 30px rgba(16,34,43,.14);
+  }
+
+  /* ---------- ficha: precio y botón siempre a mano ---------- */
+  .unit-cta-movil{
+    position:fixed; left:0; right:0; bottom:0; z-index:900;
+    display:flex; align-items:center; gap:var(--s3);
+    padding:10px var(--s4) calc(10px + env(safe-area-inset-bottom, 0px));
+    background:rgba(255,255,255,.96); backdrop-filter:blur(12px);
+    border-top:1px solid var(--line-2);
+  }
+  .unit-cta-movil .p{ font-weight:900; font-size:16px; font-variant-numeric:tabular-nums; }
+  .unit-cta-movil .s{ font-size:10.5px; color:var(--ink-50); font-weight:700; }
+  .unit-cta-movil .b{ margin-left:auto; }
+  body:has(.unit-cta-movil) main{ padding-bottom:84px; }
+
+  /* ---------- pie: acordeón, no un mapa del sitio ---------- */
+  footer .pie-grupo{ border-top:1px solid var(--line-2); }
+  footer .pie-grupo > summary{
+    list-style:none; cursor:pointer; min-height:48px; display:flex; align-items:center;
+    justify-content:space-between; font-weight:800; font-size:13px; letter-spacing:.02em;
+  }
+  footer .pie-grupo > summary::-webkit-details-marker{ display:none; }
+  footer .pie-grupo > summary::after{ content:"+"; color:var(--ink-30); font-weight:900; }
+  footer .pie-grupo[open] > summary::after{ content:"–"; }
+  footer .pie-grupo .pie-lista{ padding:0 0 var(--s3); }
+  footer .pie-grupo .pie-lista a{ display:block; min-height:40px; line-height:40px; }
+}
