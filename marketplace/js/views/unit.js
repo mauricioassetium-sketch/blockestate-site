@@ -624,7 +624,7 @@ function ponerBarraCompra(d, reservada) {
   const barra = document.createElement('div');
   barra.className = 'unit-cta-movil';
   barra.innerHTML = `<div><div class="p">${esc(precio)}</div><div class="s">${esc(cripto || 'Contract price in AED')}</div></div>
-    <button class="btn green b" type="button"${reservada ? ' disabled' : ''}>${reservada ? 'Reserved' : conSesion ? 'Reserve' : 'Sign in to reserve'}</button>`;
+    <button class="btn green b" type="button"${conSesion && reservada ? ' disabled' : ''}>${!conSesion ? 'Sign in to reserve' : reservada ? 'Reserved' : 'Reserve'}</button>`;
   barra.querySelector('button')?.addEventListener('click', () => {
     const real = document.querySelector('#reservar');
     if (real) real.click();
