@@ -80,22 +80,26 @@ button, .btn, select, input[type="submit"]{ min-height: var(--touch); }
   .list .card .photo{ aspect-ratio:16/10; width:100%; height:auto; }
   .list .card .body{ padding:var(--s3) var(--s3) var(--s3); }
   /* El sello grande (44 px) y la palabra del tipo (24 px) sobran aquí: la línea de verificación ya
-     dice lo mismo con la fecha, y el título ya dice que es un apartamento. */
-  .list .card .sello-cuerpo{ display:none; }
-  .list .card .tipo{ display:none; }
+     dice lo mismo con la fecha, y el título ya dice que es un apartamento.
+     Los selectores llevan #resultados delante porque las hojas antiguas fijan tamaños con más
+     especificidad y, sin eso, estas reglas se quedaban escritas pero no aplicadas. */
+  #resultados .list .card .sello-cuerpo,
+  #resultados .list .card .tipo,
+  #resultados .list .card .frases,
+  #resultados .list .card .foto-cuenta { display:none; }
 
-  .list .card .price{ font-size:var(--fs-price); line-height:1.15; }
-  .list .card .price-cripto{ font-size:11px; line-height:1.2; margin:0; }
-  .list .card h3{ font-size:var(--fs-h3); margin-top:4px; line-height:1.3;
-                  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .list .card .specs{ font-size:var(--fs-small); gap:10px; margin-top:4px; flex-wrap:nowrap; overflow:hidden; }
-  .list .card .zona{ font-size:var(--fs-small); margin-top:2px; }
-  /* La línea de verificación se queda: es la razón de comprar aquí. */
-  .list .card .verif-linea{ font-size:10.5px; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .list .card .frases, .list .card .foto-cuenta{ display:none; }
-  .list .card .foot{ margin-top:6px; padding-top:6px; }
-  .list .card .marca-dev{ height:24px; }
-  .list .card .puertas .puerta{ width:32px; height:32px; }
+  #resultados .list .card .body{ padding:12px 14px 12px; gap:0; }
+  #resultados .list .card .price{ font-size:20px; line-height:1.15; font-weight:900; }
+  #resultados .list .card .price-cripto{ font-size:11px; line-height:1.25; margin:0; }
+  #resultados .list .card h3{ font-size:15px; line-height:1.3; margin-top:4px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  #resultados .list .card .specs{ font-size:12.5px; gap:10px; margin-top:4px; flex-wrap:nowrap; overflow:hidden; }
+  #resultados .list .card .zona{ font-size:12.5px; margin-top:2px; }
+  #resultados .list .card .verif-linea{ font-size:10.5px; line-height:1.3; margin-top:6px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #resultados .list .card .foot{ margin-top:6px; padding-top:6px; }
+  #resultados .list .card .marca-dev{ height:24px; }
+  #resultados .list .card .puertas .puerta{ width:30px; height:30px; }
 
   /* ---------- hoja de filtros: lo avanzado sigue a un toque ---------- */
   #panel-filtros, .filtros-panel{ max-height:88dvh; border-radius:var(--r-sheet) var(--r-sheet) 0 0; }
