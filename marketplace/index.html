@@ -101,6 +101,40 @@
 <script>document.getElementById('ir-arriba')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>
 
+<script>
+/* En el teléfono el pie se convierte en acordeón: cuatro filas de 48 px en vez de 1.456 px de
+   enlaces. En escritorio se deshace y vuelven las columnas. */
+(() => {
+  const pie = document.querySelector('footer.foot');
+  if (!pie) return;
+  const cols = () => [...pie.querySelectorAll('.foot-col')].filter((c) => c.querySelector('h4') && c.querySelector('ul'));
+  const aplicar = () => {
+    const movil = window.matchMedia('(max-width: 767px)').matches;
+    for (const col of cols()) {
+      const h = col.querySelector('h4');
+      const det = col.querySelector('details.pie-grupo');
+      if (movil && !det) {
+        const d = document.createElement('details');
+        d.className = 'pie-grupo';
+        const s = document.createElement('summary');
+        s.textContent = h.textContent;
+        const ul = col.querySelector('ul');
+        d.appendChild(s);
+        if (ul) d.appendChild(ul);
+        h.replaceWith(d);
+      } else if (!movil && det) {
+        const h4 = document.createElement('h4');
+        h4.textContent = det.querySelector('summary').textContent;
+        const ul = det.querySelector('ul');
+        det.replaceWith(h4);
+        if (ul) col.appendChild(ul);
+      }
+    }
+  };
+  aplicar();
+  window.matchMedia('(max-width: 767px)').addEventListener('change', aplicar);
+})();
+</script>
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <noscript><p class="wrap">This marketplace needs JavaScript to show prices and availability.</p></noscript>
 

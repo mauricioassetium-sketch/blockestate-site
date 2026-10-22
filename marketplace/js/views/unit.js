@@ -601,10 +601,30 @@ export async function viewUnit(id) {
         : `<button class="btn green" id="reservar" style="width:100%"${reservada ? ' disabled' : ''}>
              ${reservada ? 'Already reserved by someone' : 'Reserve for 14 days'}</button>${nota}`;
       accion.querySelector('#reservar')?.addEventListener('click', (e) => reservar(e, d.id));
+      ponerBarraCompra(d, reservada);
     }
   } catch (err) {
     error(caja, err);
   }
+}
+
+
+/**
+ * En el teléfono el precio y el botón de reservar viven en una barra fija abajo: la ficha es larga y
+ * bajar hasta la cadena de liquidación no puede costar perder de vista cómo se compra.
+ * La barra se cuelga de la vista, no del body, para que el router se la lleve al cambiar de pantalla.
+ */
+function ponerBarraCompra(d, reservada) {
+  document.querySelector('.unit-cta-movil')?.remove();
+  if (!window.matchMedia('(max-width: 767px)').matches) return;
+  const precio = d.precio_aed ?? money(d.precio_fils);
+  const cripto = cifraCripto(d);
+  const barra = document.createElement('div');
+  barra.className = 'unit-cta-movil';
+  barra.innerHTML = `<div><div class="p">${esc(precio)}</div><div class="s">${esc(cripto || 'Contract price in AED')}</div></div>
+    <button class="btn green b" type="button"${reservada ? ' disabled' : ''}>${reservada ? 'Reserved' : 'Reserve'}</button>`;
+  barra.querySelector('button')?.addEventListener('click', () => document.querySelector('#reservar')?.click());
+  view().appendChild(barra);
 }
 
 async function reservar(e, unidadId) {
