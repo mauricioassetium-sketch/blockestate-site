@@ -96,6 +96,7 @@ export const api = {
   // The developer's portal: the organisation, its inventory and its book. Every one of these is
   // scoped to the organisation of the session by the API, never by this layer.
   devMe: () => req('GET', '/me/developer'),
+  creadorMe: () => req('GET', '/me/creator'),
   devUnits: (filtros) => req('GET', `/me/units${qs(filtros)}`),
   devProjects: () => req('GET', '/me/projects'),
   devSales: (filtros) => req('GET', `/me/sales${qs(filtros)}`),

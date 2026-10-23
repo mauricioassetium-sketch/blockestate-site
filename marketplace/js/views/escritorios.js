@@ -8,6 +8,7 @@
  * they exist, this is a desk you can look at and walk through, not a desk that settles anything.
  */
 import { date, esc, ico, logoHtml, money } from '../ui.js';
+import { api } from '../api.js';
 import { COLORES, donaDeEstados, lineaDeMeses } from './graficas.js';
 import { go } from '../router.js';
 
@@ -239,6 +240,12 @@ export async function viewBroker() {
 /* ------------------------------------------------------------------ the creator's desk */
 
 export async function viewCreador() {
+  // Con sesión, el escritorio lee el dinero real del creador. Sin sesión, queda el libro de
+  // demostración, marcado como tal: la pantalla se puede mirar sin inventar cifras propias.
+  try {
+    const vivo = await api.creadorMe();
+    if (vivo && vivo.su_parte) return viewCreadorVivo(vivo);
+  } catch { /* sin sesión o sin cuenta de creador: se cae al libro de demostración */ }
   const c = LIBRO_CREADOR;
   const aed = (fils) => money(fils);
   const k = c.yo.kyc;
@@ -450,4 +457,102 @@ function abrirFichaVerificacion(yo, tipo = 'broker') {
   caja.querySelector('.kyc-x').addEventListener('click', cerrar);
   caja.addEventListener('click', (e) => { if (e.target === caja) cerrar(); });
   caja.querySelector('.kyc-x').focus();
+}
+
+
+/**
+ * El escritorio del creador con datos vivos: su código, su reparto, lo vendido y lo que le falta para
+ * cobrar. Nada de esto lo decide la pantalla: lee lo que el motor congeló en cada venta.
+ */
+function viewCreadorVivo(d) {
+  const cap = (s) => (s ? String(s).charAt(0).toUpperCase() + String(s).slice(1) : '');
+  const ESTADO = { devengada: 'Accrued', pagadera: 'Pending payment', pagada: 'Paid', revertida: 'Reversed' };
+  const nombre = d.beneficiario?.nombre ?? 'Content creator';
+  const kyc = d.beneficiario?.kyc_estado ?? null;
+  const codigos = d.codigos ?? [];
+  const ventas = d.ventas ?? [];
+  const p = d.su_parte ?? {};
+  const aprobado = kyc === 'aprobado';
+  const tramos = (d.reparto ?? []).flatMap((r) => r.tramos.map((t) => ({ ...t, codigo: r.codigo })));
+
+  view().innerHTML = `
+    <div class="wrap">
+      <div class="desk-head">
+        <div class="desk-quien">
+          ${logoHtml(nombre, null, false, true)}
+          <div>
+            <span class="dev-nav-lab">${codigos.some((c) => c.tipo === 'team_partner') ? 'Team partner' : 'Content creator'}</span>
+            <h1>${esc(nombre)}</h1>
+            <p class="muted">${codigos.map((c) => 'code <b>' + esc(c.codigo) + '</b>').join(' · ') || 'no code yet'}</p>
+          </div>
+        </div>
+        <div class="desk-nota">Your own money, read from the split frozen on each sale.</div>
+      </div>
+
+      <div class="desk-ficha">
+        ${logoHtml(nombre, null, false, true)}
+        <div class="desk-ficha-txt">
+          <b>${esc(nombre)}</b>
+          <span>${cap((d.codigos ?? []).map((c) => c.canal).slice(0, 1).join('')) || 'Influencer channel'}</span>
+          <span>${ventas.length} sale${ventas.length === 1 ? '' : 's'} · 1.00 % of each sale</span>
+        </div>
+        <button type="button" class="sello-kyc${aprobado ? ' ok' : ''}">
+          ${ico('sello', 15)}
+          <span>${aprobado ? 'Approved by NDC' : 'Waiting for NDC'}</span>
+          <i>${aprobado ? 'identified' : 'not identified'}</i>
+        </button>
+      </div>
+
+      <div class="desk-aviso">
+        <b>Before anything is paid:</b> NDC approves the account and identifies the person, by hand.
+        ${aprobado ? 'This account is approved.' : 'Today this account is <b>not approved</b>, so nothing can be released.'}
+      </div>
+
+      <div class="desk-kpis">
+        <div class="desk-cuadro"><span>Sales</span><b>${ventas.length}</b></div>
+        <div class="desk-cuadro"><span>Accrued</span><b class="chico">${esc(p.devengado_aed ?? 'AED 0.00')}</b></div>
+        <div class="desk-cuadro"><span>Pending payment</span><b class="chico">${esc(p.pendiente_aed ?? 'AED 0.00')}</b></div>
+        <div class="desk-cuadro"><span>Paid</span><b class="chico">${esc(p.liberado_aed ?? 'AED 0.00')}</b></div>
+      </div>
+
+      <div class="desk-dos">
+        <section class="desk-panel">
+          <header>${ico('campana', 15)}<h2>What needs you</h2></header>
+          <ul class="desk-aviso-lista">
+            ${(d.falta_para_cobrar ?? []).map((f) => `<li><b>Missing</b><span>${esc(f)}</span></li>`).join('') || '<li><b>Nothing</b><span>Your account is ready and your sales are counted.</span></li>'}
+          </ul>
+        </section>
+
+        <section class="desk-panel">
+          <header>${ico('permiso', 15)}<h2>Your split</h2></header>
+          <ul class="desk-aviso-lista">
+            ${tramos.length
+              ? tramos.map((t) => `<li><b>${t.rol === 'creador' ? 'You' : 'Who brought you'} · ${(t.pb / 100).toFixed(2)} %</b>
+                  <span>on every sale through <b>${esc(t.codigo)}</b>, inside the 1.00 % the channel pays.</span></li>`).join('')
+              : '<li><b>Not set</b><span>This code has no split yet, so nothing can be attributed.</span></li>'}
+          </ul>
+        </section>
+      </div>
+
+      <section class="desk-panel">
+        <header>${ico('sello', 15)}<h2>Your sales</h2></header>
+        ${ventas.length ? `<div class="tabla-wrap"><table class="tabla">
+          <thead><tr><th>Unit</th><th>Sale</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
+          <tbody>${ventas.map((v) => `<tr>
+            <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
+            <td>${esc(v.base_aed)}</td>
+            <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">(${(v.pb / 100).toFixed(2)} %)</span></td>
+            <td>${esc(ESTADO[v.estado] ?? v.estado)}</td>
+            <td>${esc(date(v.fecha))}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>` : '<p class="muted">No sale has closed through your code yet.</p>'}
+      </section>
+
+      <section class="desk-panel">
+        <header>${ico('permiso', 15)}<h2>What a creator cannot do</h2></header>
+        <ul class="desk-aviso-lista">
+          ${(d.lo_que_no_puede ?? []).map((x) => `<li><b>No</b><span>${esc(x)}</span></li>`).join('')}
+        </ul>
+      </section>
+    </div>`;
 }
