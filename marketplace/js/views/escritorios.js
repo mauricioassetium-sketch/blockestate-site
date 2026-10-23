@@ -467,13 +467,22 @@ function abrirFichaVerificacion(yo, tipo = 'broker') {
 function viewCreadorVivo(d) {
   const cap = (s) => (s ? String(s).charAt(0).toUpperCase() + String(s).slice(1) : '');
   const ESTADO = { devengada: 'Accrued', pagadera: 'Pending payment', pagada: 'Paid', revertida: 'Reversed' };
+  const KYC = { aprobado: 'approved', pendiente: 'pending', rechazado: 'rejected', not_started: 'not started' };
+  const TONO = { devengada: 'neu', pagadera: 'amb', pagada: 'ok', revertida: 'bad' };
   const nombre = d.beneficiario?.nombre ?? 'Content creator';
   const kyc = d.beneficiario?.kyc_estado ?? null;
+  const aprobado = kyc === 'aprobado';
+  const esPartner = d.tipo === 'team_partner';
   const codigos = d.codigos ?? [];
   const ventas = d.ventas ?? [];
   const p = d.su_parte ?? {};
-  const aprobado = kyc === 'aprobado';
-  const tramos = (d.reparto ?? []).flatMap((r) => r.tramos.map((t) => ({ ...t, codigo: r.codigo })));
+  const red = d.red;
+  const tramos = (d.reparto ?? []).flatMap((r) => r.tramos.map((x) => ({ ...x, codigo: r.codigo })));
+  const propio = tramos.find((x) => x.rol === 'creador');
+  const ajeno = tramos.find((x) => x.rol === 'introductor');
+  const total = Number(p.devengado_fils ?? 0) + Number(p.pendiente_fils ?? 0) + Number(p.liberado_fils ?? 0);
+  const codigo = codigos[0]?.codigo ?? '';
+  const pct = (pb) => (pb / 100).toFixed(2) + ' %';
 
   view().innerHTML = `
     <div class="wrap">
@@ -481,78 +490,117 @@ function viewCreadorVivo(d) {
         <div class="desk-quien">
           ${logoHtml(nombre, null, false, true)}
           <div>
-            <span class="dev-nav-lab">${codigos.some((c) => c.tipo === 'team_partner') ? 'Team partner' : 'Content creator'}</span>
+            <span class="dev-nav-lab">${esPartner ? 'Team partner' : 'Content creator'}</span>
             <h1>${esc(nombre)}</h1>
-            <p class="muted">${codigos.map((c) => 'code <b>' + esc(c.codigo) + '</b>').join(' · ') || 'no code yet'}</p>
+            <p class="muted">${codigo ? 'your code <b>' + esc(codigo) + '</b>' : 'no code yet'}</p>
           </div>
         </div>
-        <div class="desk-nota">Your own money, read from the split frozen on each sale.</div>
-      </div>
-
-      <div class="desk-ficha">
-        ${logoHtml(nombre, null, false, true)}
-        <div class="desk-ficha-txt">
-          <b>${esc(nombre)}</b>
-          <span>${cap((d.codigos ?? []).map((c) => c.canal).slice(0, 1).join('')) || 'Influencer channel'}</span>
-          <span>${ventas.length} sale${ventas.length === 1 ? '' : 's'} · 1.00 % of each sale</span>
+        <div class="desk-sellos">
+          <span class="pastilla ${aprobado ? 'ok' : 'amb'}">${aprobado ? 'KYC approved' : 'KYC ' + esc(kyc ?? 'pending')}</span>
+          ${esPartner ? '<span class="pastilla neu">Bringing creators</span>' : ''}
         </div>
-        <button type="button" class="sello-kyc${aprobado ? ' ok' : ''}">
-          ${ico('sello', 15)}
-          <span>${aprobado ? 'Approved by NDC' : 'Waiting for NDC'}</span>
-          <i>${aprobado ? 'identified' : 'not identified'}</i>
-        </button>
       </div>
 
-      <div class="desk-aviso">
-        <b>Before anything is paid:</b> NDC approves the account and identifies the person, by hand.
-        ${aprobado ? 'This account is approved.' : 'Today this account is <b>not approved</b>, so nothing can be released.'}
+      <div class="desk-saldo">
+        <div class="desk-saldo-fila">
+          <div class="desk-bloque">
+            <span>Available to withdraw</span>
+            <b>${esc(p.pendiente_aed ?? 'AED 0.00')}</b>
+            <i>statement issued, waiting for NDC to pay</i>
+          </div>
+          <div class="desk-bloque">
+            <span>Pending</span>
+            <b>${esc(p.devengado_aed ?? 'AED 0.00')}</b>
+            <i>sale closed, not yet in a statement</i>
+          </div>
+          <div class="desk-bloque">
+            <span>Paid to date</span>
+            <b>${esc(p.liberado_aed ?? 'AED 0.00')}</b>
+            <i>with a payment reference</i>
+          </div>
+          <div class="desk-bloque total">
+            <span>Lifetime</span>
+            <b>${esc(money(total))}</b>
+            <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${esPartner ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
+          </div>
+        </div>
+        <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.
+        ${aprobarAviso(aprobado)}</p>
       </div>
 
-      <div class="desk-kpis">
-        <div class="desk-cuadro"><span>Sales</span><b>${ventas.length}</b></div>
-        <div class="desk-cuadro"><span>Accrued</span><b class="chico">${esc(p.devengado_aed ?? 'AED 0.00')}</b></div>
-        <div class="desk-cuadro"><span>Pending payment</span><b class="chico">${esc(p.pendiente_aed ?? 'AED 0.00')}</b></div>
-        <div class="desk-cuadro"><span>Paid</span><b class="chico">${esc(p.liberado_aed ?? 'AED 0.00')}</b></div>
-      </div>
+      ${(d.historico ?? []).some((x) => x.fils > 0) ? `
+      <section class="desk-panel">
+        <header>${ico('pulso', 15)}<h2>Last six months</h2><span class="muted">what each month has produced</span></header>
+        <div class="desk-barras">
+          ${(() => {
+            const max = Math.max(...d.historico.map((x) => x.fils), 1);
+            return d.historico.map((x) => `<div class="desk-barra">
+              <span class="val">${x.fils ? esc(money(x.fils)) : ''}</span>
+              <i style="height:${Math.max(3, Math.round((x.fils / max) * 90))}%" class="${x.fils ? 'on' : ''}"></i>
+              <span class="mes">${new Date(x.mes + '-01T00:00:00Z').toLocaleString('en', { month: 'short' })}</span>
+            </div>`).join('');
+          })()}
+        </div>
+      </section>` : ''}
+
+      ${esPartner && red ? `
+      <section class="desk-panel">
+        <header>${ico('permiso', 15)}<h2>Your network</h2><span class="muted">the creators you brought, and what they earn you</span></header>
+        <div class="desk-red">
+          <div><span>Creators</span><b>${red.creadores}</b></div>
+          <div><span>Sales in your network</span><b>${red.ventas}</b></div>
+          <div><span>Your override</span><b>${esc(red.tu_override_aed)}</b><i>0.20 % of each of their sales</i></div>
+        </div>
+        ${red.equipo.length ? `<div class="tabla-wrap"><table class="tabla">
+          <thead><tr><th>Creator</th><th>Code</th><th>KYC</th><th>Sales</th><th>Their commission</th><th>You earned</th></tr></thead>
+          <tbody>${red.equipo.map((c) => `<tr>
+            <td><b>${esc(c.nombre)}</b></td>
+            <td><span class="mono">${esc(c.codigo)}</span></td>
+            <td><span class="pastilla ${c.kyc_estado === 'aprobado' ? 'ok' : 'amb'}">${esc(KYC[c.kyc_estado] ?? 'pending')}</span></td>
+            <td>${c.ventas}</td>
+            <td>${esc(c.vendido_aed)}</td>
+            <td><b>${esc(c.tu_override_aed)}</b></td>
+          </tr>`).join('')}</tbody>
+        </table></div>` : '<p class="muted">You have not brought any creator yet. Give them your code when they sign up.</p>'}
+        <p class="desk-pie">Your override sits inside the 1.00 % the channel pays: it is never charged on top of the creator.</p>
+      </section>` : ''}
 
       <div class="desk-dos">
         <section class="desk-panel">
-          <header>${ico('campana', 15)}<h2>What needs you</h2></header>
-          <ul class="desk-aviso-lista">
-            ${(d.falta_para_cobrar ?? []).map((f) => `<li><b>Missing</b><span>${esc(f)}</span></li>`).join('') || '<li><b>Nothing</b><span>Your account is ready and your sales are counted.</span></li>'}
-          </ul>
+          <header>${ico('sello', 15)}<h2>${esPartner ? 'Where your money comes from' : 'Your sales'}</h2></header>
+          ${ventas.length ? `<div class="tabla-wrap"><table class="tabla">
+            <thead><tr><th>Unit</th><th>${esPartner ? 'Source' : 'Sale'}</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
+            <tbody>${ventas.map((v) => `<tr>
+              <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
+              <td>${esPartner
+                ? (v.codigo_venta && v.codigo_venta !== codigo
+                  ? '<span class="pastilla neu">Override</span> <span class="mono">' + esc(v.codigo_venta) + '</span>'
+                  : '<span class="pastilla ok">Your code</span>')
+                : esc(v.base_aed)}</td>
+              <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">${pct(v.pb)}</span></td>
+              <td><span class="pastilla ${TONO[v.estado] ?? 'neu'}">${esc(ESTADO[v.estado] ?? v.estado)}</span></td>
+              <td>${esc(date(v.fecha))}</td>
+            </tr>`).join('')}</tbody>
+          </table></div>` : '<p class="muted">No sale has closed through your code yet.</p>'}
         </section>
 
         <section class="desk-panel">
-          <header>${ico('permiso', 15)}<h2>Your split</h2></header>
+          <header>${ico('permiso', 15)}<h2>How you are paid</h2></header>
           <ul class="desk-aviso-lista">
-            ${tramos.length
-              ? tramos.map((t) => `<li><b>${t.rol === 'creador' ? 'You' : 'Who brought you'} · ${(t.pb / 100).toFixed(2)} %</b>
-                  <span>on every sale through <b>${esc(t.codigo)}</b>, inside the 1.00 % the channel pays.</span></li>`).join('')
-              : '<li><b>Not set</b><span>This code has no split yet, so nothing can be attributed.</span></li>'}
+            ${esPartner
+              ? `<li><b>1.00 % on your own code</b><span>every sale that quotes ${esc(codigo)}.</span></li>
+                 <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>`
+              : `<li><b>You keep ${propio ? pct(propio.pb) : '1.00 %'}</b><span>of every sale through ${esc(codigo)}. The channel pays 1.00 % in total.</span></li>
+                 ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to who brought you</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
+            <li><b>Paid by BlockEstate</b><span>out of the influencer channel, once NDC approves the statement.</span></li>
           </ul>
         </section>
       </div>
 
-      <section class="desk-panel">
-        <header>${ico('sello', 15)}<h2>Your sales</h2></header>
-        ${ventas.length ? `<div class="tabla-wrap"><table class="tabla">
-          <thead><tr><th>Unit</th><th>Sale</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
-          <tbody>${ventas.map((v) => `<tr>
-            <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
-            <td>${esc(v.base_aed)}</td>
-            <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">(${(v.pb / 100).toFixed(2)} %)</span></td>
-            <td>${esc(ESTADO[v.estado] ?? v.estado)}</td>
-            <td>${esc(date(v.fecha))}</td>
-          </tr>`).join('')}</tbody>
-        </table></div>` : '<p class="muted">No sale has closed through your code yet.</p>'}
-      </section>
-
-      <section class="desk-panel">
-        <header>${ico('permiso', 15)}<h2>What a creator cannot do</h2></header>
-        <ul class="desk-aviso-lista">
-          ${(d.lo_que_no_puede ?? []).map((x) => `<li><b>No</b><span>${esc(x)}</span></li>`).join('')}
-        </ul>
-      </section>
+      <p class="desk-reglas">Cannot: ${(d.lo_que_no_puede ?? []).map((x) => esc(x)).join(' · ')}.</p>
     </div>`;
+
+  function aprobarAviso(ok) {
+    return ok ? '' : '<b> This account is not approved yet, so nothing can be released.</b>';
+  }
 }

@@ -1805,3 +1805,64 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
   .hero.hero .hero-pie{font-size:.7rem; line-height:1.4; max-width:32ch; margin-inline:auto;
     text-wrap:balance; color:rgba(8,20,28,.72)}
 }
+
+/* ---------- la banda de saldo del creador ------------------------------------------------------
+   Cuatro cifras que importan en ese orden: lo que puede cobrar, lo que viene, lo pagado y el total.
+   La última va en oscuro porque es la que resume; las otras tres se leen como estados del mismo
+   dinero, no como cuatro cosas distintas. */
+.desk-sellos{display:flex; gap:8px; flex-wrap:wrap}
+.pastilla{display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:999px;
+  font-size:.72rem; font-weight:750; letter-spacing:.01em; white-space:nowrap;
+  border:1px solid var(--line-2); background:#fff; color:var(--ink-60)}
+.pastilla.ok{background:#e8f8ec; border-color:#a7e5bb; color:#15803D}
+.pastilla.amb{background:#FFF6E5; border-color:#F3D9A4; color:#8A5A08}
+.pastilla.bad{background:#FDECEC; border-color:#F3C0C0; color:#A32626}
+.pastilla.neu{background:#EEF2F7; border-color:#DCE3EC; color:#475569}
+.desk-saldo{background:#fff; border:1px solid var(--line-2); border-radius:.6rem; margin:0 0 14px;
+  overflow:hidden}
+.desk-saldo-fila{display:grid; grid-template-columns:repeat(4,minmax(0,1fr))}
+.desk-bloque{display:flex; flex-direction:column; gap:3px; padding:16px 18px;
+  border-right:1px solid var(--line-2)}
+.desk-bloque:last-child{border-right:0}
+.desk-bloque span{font-size:.66rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-60)}
+.desk-bloque b{font-size:1.55rem; font-weight:650; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.desk-bloque i{font-style:normal; font-size:.75rem; color:var(--ink-60); line-height:1.35}
+.desk-bloque.total{background:#10222B; color:#fff}
+.desk-bloque.total span,.desk-bloque.total i{color:rgba(255,255,255,.7)}
+.desk-pie{margin:0; padding:10px 18px 13px; border-top:1px solid var(--line-2);
+  font-size:.78rem; color:var(--ink-60); line-height:1.45}
+.desk-red{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:14px 16px}
+.desk-red > div{display:flex; flex-direction:column; gap:2px; background:#F7F9F8; border-radius:.45rem;
+  padding:10px 12px}
+.desk-red span{font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-60)}
+.desk-red b{font-size:1.35rem; font-weight:650; font-variant-numeric:tabular-nums}
+.desk-red i{font-style:normal; font-size:.72rem; color:var(--ink-60)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.8rem}
+.desk-panel > header .muted{margin-left:auto; font-size:.74rem; font-weight:500}
+@media (max-width:900px){
+  .desk-saldo-fila{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .desk-bloque{border-bottom:1px solid var(--line-2)}
+  .desk-bloque:nth-child(2n){border-right:0}
+  .desk-bloque.total{border-bottom:0}
+  .desk-red{grid-template-columns:minmax(0,1fr)}
+}
+
+
+/* ---------- seis meses en barras, sin lienzo -----------------------------------------------
+   Una barra por mes, la altura en proporción al mejor mes. La cifra solo se escribe encima de la
+   barra que tiene dinero: llenar de números los meses vacíos es ruido, no información. */
+.desk-barras{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; align-items:end;
+  padding:18px 18px 12px; min-height:150px}
+.desk-barra{display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px;
+  height:120px}
+.desk-barra i{display:block; width:100%; max-width:44px; border-radius:4px 4px 2px 2px; background:#E7ECEA}
+.desk-barra i.on{background:#15803D}
+.desk-barra .mes{font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-60)}
+.desk-barra .val{font-size:.68rem; color:var(--ink-60); white-space:nowrap}
+.desk-reglas{margin:6px 0 0; font-size:.76rem; color:var(--ink-60); line-height:1.5}
+@media (max-width:900px){
+  .desk-barras{padding:14px 12px 10px; gap:6px}
+  .desk-barra .val{display:none}
+}
