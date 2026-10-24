@@ -322,7 +322,7 @@ export async function viewUnit(id) {
               you says who we put you in touch with, press a channel and we will ask you for it.</p>
             <div class="field">
               <label for="ref">Referral code <span class="muted" style="text-transform:none;letter-spacing:0">(optional)</span></label>
-              <input id="ref" placeholder="BROKER-ALPHA" autocomplete="off" spellcheck="false">
+              <input id="ref" placeholder="BROKER-ALPHA" autocomplete="off" spellcheck="false" value="${esc(localStorage.getItem('be.ref') ?? '')}">
               <span class="note" id="ref-nota">${AVISO_CODIGO}</span>
             </div>
             <div class="quien" id="quien" hidden>

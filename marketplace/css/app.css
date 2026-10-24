@@ -1866,3 +1866,26 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
   .desk-barras{padding:14px 12px 10px; gap:6px}
   .desk-barra .val{display:none}
 }
+
+
+/* ---------- pestañas y botones del escritorio -----------------------------------------------
+   Un programa de referidos se lee por pestañas: el resumen primero, y luego las ventas, el equipo
+   y los pagos. Las pestañas son botones de verdad, no un adorno: cambian el contenido sin recargar. */
+.desk-tabs{display:flex; gap:4px; margin:4px 0 14px; border-bottom:1px solid var(--line-2); flex-wrap:wrap}
+.desk-tab{appearance:none; border:0; background:none; cursor:pointer; padding:10px 14px; font:inherit;
+  font-size:.86rem; font-weight:700; color:var(--ink-60); border-bottom:2px solid transparent;
+  margin-bottom:-1px; min-height:44px}
+.desk-tab:hover{color:var(--ink)}
+.desk-tab.on{color:var(--ink); border-bottom-color:var(--green)}
+.desk-filtros{display:flex; gap:8px; flex-wrap:wrap; padding:12px 16px 4px}
+.chip{appearance:none; cursor:pointer; border:1px solid var(--line-2); background:#fff; color:var(--ink-60);
+  border-radius:999px; padding:6px 12px; font:inherit; font-size:.78rem; font-weight:700; min-height:36px}
+.chip:hover{border-color:var(--ink-60); color:var(--ink)}
+.chip.on{background:#10222B; border-color:#10222B; color:#fff}
+.btn-primario, .btn-ghost{appearance:none; cursor:pointer; border-radius:999px; padding:9px 16px; font:inherit;
+  font-size:.8rem; font-weight:750; min-height:40px; display:inline-flex; align-items:center; gap:6px}
+.btn-primario{background:#15803D; color:#fff; border:1px solid #15803D}
+.btn-primario:hover{background:#116B33}
+.btn-ghost{background:#fff; color:var(--ink); border:1px solid var(--line-2); text-decoration:none}
+.btn-ghost:hover{border-color:var(--ink-60)}
+.desk-acciones{display:flex; gap:8px; flex-wrap:wrap; padding:0 16px 14px}

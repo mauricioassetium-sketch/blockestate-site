@@ -467,13 +467,15 @@ function abrirFichaVerificacion(yo, tipo = 'broker') {
 function viewCreadorVivo(d) {
   const cap = (s) => (s ? String(s).charAt(0).toUpperCase() + String(s).slice(1) : '');
   const ESTADO = { devengada: 'Accrued', pagadera: 'Pending payment', pagada: 'Paid', revertida: 'Reversed' };
-  const KYC = { aprobado: 'approved', pendiente: 'pending', rechazado: 'rejected', not_started: 'not started' };
   const TONO = { devengada: 'neu', pagadera: 'amb', pagada: 'ok', revertida: 'bad' };
+  const KYC = { aprobado: 'approved', pendiente: 'pending', rechazado: 'rejected', not_started: 'not started' };
+
   const nombre = d.beneficiario?.nombre ?? 'Content creator';
   const kyc = d.beneficiario?.kyc_estado ?? null;
   const aprobado = kyc === 'aprobado';
   const esPartner = d.tipo === 'team_partner';
   const esLider = d.tipo === 'lider';
+  const conEquipo = esPartner || esLider;
   const codigos = d.codigos ?? [];
   const ventas = d.ventas ?? [];
   const p = d.su_parte ?? {};
@@ -483,142 +485,265 @@ function viewCreadorVivo(d) {
   const ajeno = tramos.find((x) => x.rol === 'introductor');
   const total = Number(p.devengado_fils ?? 0) + Number(p.pendiente_fils ?? 0) + Number(p.liberado_fils ?? 0);
   const codigo = codigos[0]?.codigo ?? '';
+  const link = codigo ? `https://blockestate.ae/marketplace/?ref=${encodeURIComponent(codigo)}` : '';
   const pct = (pb) => (pb / 100).toFixed(2) + ' %';
+  const rol = esLider ? 'Team leader' : esPartner ? 'Team partner' : 'Content creator';
 
-  view().innerHTML = `
-    <div class="wrap">
-      <div class="desk-head">
-        <div class="desk-quien">
-          ${logoHtml(nombre, null, false, true)}
-          <div>
-            <span class="dev-nav-lab">${esLider ? 'Team leader' : esPartner ? 'Team partner' : 'Content creator'}</span>
-            <h1>${esc(nombre)}</h1>
-            <p class="muted">${codigo ? 'your code <b>' + esc(codigo) + '</b>' : 'no code yet'}</p>
-          </div>
+  const estado = { tab: 'overview', filtro: 'todos' };
+
+  const copiar = async (texto, boton) => {
+    const etiqueta = boton.dataset.lbl || boton.textContent;
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(texto);
+      ok = true;
+    } catch {
+      // Sin permiso de portapapeles (navegador viejo o contexto no seguro): el método de siempre.
+      const area = document.createElement('textarea');
+      area.value = texto;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      area.remove();
+    }
+    boton.textContent = ok ? 'Copied' : 'Copy it by hand';
+    setTimeout(() => { boton.textContent = etiqueta; }, 1600);
+  };
+
+  const ventasFiltradas = () => (estado.filtro === 'todos'
+    ? ventas
+    : ventas.filter((v) => v.estado === estado.filtro));
+
+  const csv = () => {
+    const filas = [['unit', 'reference', 'sale_aed', 'your_part_aed', 'pb', 'state', 'closed']];
+    for (const v of ventas) {
+      filas.push([v.unidad ?? '', v.referencia ?? '', v.base_aed ?? '', v.su_parte_aed ?? '', String(v.pb ?? ''), v.estado ?? '', String(v.fecha ?? '')]);
+    }
+    return filas.map((f) => f.map((c) => String(c).replace(/"/g, '""')).map((c) => `"${c}"`).join(',')).join('\n');
+  };
+
+  const descargar = () => {
+    const blob = new Blob([csv()], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `blockestate-${codigo || 'creator'}-sales.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  const balance = () => `
+    <div class="desk-saldo">
+      <div class="desk-saldo-fila">
+        <div class="desk-bloque">
+          <span>Available to withdraw</span>
+          <b>${esc(p.pendiente_aed ?? 'AED 0.00')}</b>
+          <i>statement issued, waiting for NDC to pay</i>
         </div>
-        <div class="desk-sellos">
-          <span class="pastilla ${aprobado ? 'ok' : 'amb'}">${aprobado ? 'KYC approved' : 'KYC ' + esc(kyc ?? 'pending')}</span>
-          ${esLider ? '<span class="pastilla neu">Same rank</span>' : esPartner ? '<span class="pastilla neu">Bringing creators</span>' : ''}
+        <div class="desk-bloque">
+          <span>Pending</span>
+          <b>${esc(p.devengado_aed ?? 'AED 0.00')}</b>
+          <i>sale closed, not yet in a statement</i>
+        </div>
+        <div class="desk-bloque">
+          <span>Paid to date</span>
+          <b>${esc(p.liberado_aed ?? 'AED 0.00')}</b>
+          <i>with a payment reference</i>
+        </div>
+        <div class="desk-bloque total">
+          <span>Lifetime</span>
+          <b>${esc(money(total))}</b>
+          <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${conEquipo ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
         </div>
       </div>
-
-      <div class="desk-saldo">
-        <div class="desk-saldo-fila">
-          <div class="desk-bloque">
-            <span>Available to withdraw</span>
-            <b>${esc(p.pendiente_aed ?? 'AED 0.00')}</b>
-            <i>statement issued, waiting for NDC to pay</i>
-          </div>
-          <div class="desk-bloque">
-            <span>Pending</span>
-            <b>${esc(p.devengado_aed ?? 'AED 0.00')}</b>
-            <i>sale closed, not yet in a statement</i>
-          </div>
-          <div class="desk-bloque">
-            <span>Paid to date</span>
-            <b>${esc(p.liberado_aed ?? 'AED 0.00')}</b>
-            <i>with a payment reference</i>
-          </div>
-          <div class="desk-bloque total">
-            <span>Lifetime</span>
-            <b>${esc(money(total))}</b>
-            <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${(esPartner || esLider) ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
-          </div>
-        </div>
-        <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.
-        ${aprobarAviso(aprobado)}</p>
-      </div>
-
-      ${d.bono ? `
-      <div class="desk-saldo" style="margin-bottom:14px">
-        <div class="desk-saldo-fila" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-          <div class="desk-bloque">
-            <span>Leader bonus · 0.10 %</span>
-            <b>${esc(money(d.bono.fils))}</b>
-            <i>paid by BlockEstate on top of the channel, not taken from your team</i>
-          </div>
-          <div class="desk-bloque total">
-            <span>Until</span>
-            <b>${esc(d.bono.hasta ?? '—')}</b>
-            <i>${d.traido_por ? 'brought by ' + esc(d.traido_por) + ': they took a one-off bounty, never a cut of your team' : 'you came alone'}</i>
-          </div>
-        </div>
-      </div>` : ''}
-
-      ${(d.historico ?? []).some((x) => x.fils > 0) ? `
-      <section class="desk-panel">
-        <header>${ico('pulso', 15)}<h2>Last six months</h2><span class="muted">what each month has produced</span></header>
-        <div class="desk-barras">
-          ${(() => {
-            const max = Math.max(...d.historico.map((x) => x.fils), 1);
-            return d.historico.map((x) => `<div class="desk-barra">
-              <span class="val">${x.fils ? esc(money(x.fils)) : ''}</span>
-              <i style="height:${Math.max(3, Math.round((x.fils / max) * 90))}%" class="${x.fils ? 'on' : ''}"></i>
-              <span class="mes">${new Date(x.mes + '-01T00:00:00Z').toLocaleString('en', { month: 'short' })}</span>
-            </div>`).join('');
-          })()}
-        </div>
-      </section>` : ''}
-
-      ${(esPartner || esLider) && red ? `
-      <section class="desk-panel">
-        <header>${ico('permiso', 15)}<h2>Your team</h2><span class="muted">the creators you brought, and what they earn you</span></header>
-        <div class="desk-red">
-          <div><span>Creators</span><b>${red.creadores}</b></div>
-          <div><span>Sales in your network</span><b>${red.ventas}</b></div>
-          <div><span>${esLider ? 'Your team share' : 'Your override'}</span><b>${esc(red.tu_override_aed)}</b><i>0.20 % of each of their sales</i></div>
-        </div>
-        ${red.equipo.length ? `<div class="tabla-wrap"><table class="tabla">
-          <thead><tr><th>Creator</th><th>Code</th><th>KYC</th><th>Sales</th><th>Their commission</th><th>You earned</th></tr></thead>
-          <tbody>${red.equipo.map((c) => `<tr>
-            <td><b>${esc(c.nombre)}</b></td>
-            <td><span class="mono">${esc(c.codigo)}</span></td>
-            <td><span class="pastilla ${c.kyc_estado === 'aprobado' ? 'ok' : 'amb'}">${esc(KYC[c.kyc_estado] ?? 'pending')}</span></td>
-            <td>${c.ventas}</td>
-            <td>${esc(c.vendido_aed)}</td>
-            <td><b>${esc(c.tu_override_aed)}</b></td>
-          </tr>`).join('')}</tbody>
-        </table></div>` : '<p class="muted">You have not brought any creator yet. Give them your code when they sign up.</p>'}
-        <p class="desk-pie">This 0.20 % sits inside the 1.00 % the channel pays: it is never charged on top of the creator.</p>
-      </section>` : ''}
-
-      <div class="desk-dos">
-        <section class="desk-panel">
-          <header>${ico('sello', 15)}<h2>${(esPartner || esLider) ? 'Where your money comes from' : 'Your sales'}</h2></header>
-          ${ventas.length ? `<div class="tabla-wrap"><table class="tabla">
-            <thead><tr><th>Unit</th><th>${esPartner ? 'Source' : 'Sale'}</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
-            <tbody>${ventas.map((v) => `<tr>
-              <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
-              <td>${esPartner
-                ? (v.codigo_venta && v.codigo_venta !== codigo
-                  ? '<span class="pastilla neu">' + (esLider ? 'Team' : 'Override') + '</span> <span class="mono">' + esc(v.codigo_venta) + '</span>'
-                  : '<span class="pastilla ok">Your code</span>')
-                : esc(v.base_aed)}</td>
-              <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">${pct(v.pb)}</span></td>
-              <td><span class="pastilla ${TONO[v.estado] ?? 'neu'}">${esc(ESTADO[v.estado] ?? v.estado)}</span></td>
-              <td>${esc(date(v.fecha))}</td>
-            </tr>`).join('')}</tbody>
-          </table></div>` : '<p class="muted">No sale has closed through your code yet.</p>'}
-        </section>
-
-        <section class="desk-panel">
-          <header>${ico('permiso', 15)}<h2>How you are paid</h2></header>
-          <ul class="desk-aviso-lista">
-            ${esPartner || esLider
-              ? `<li><b>1.00 % on your own code</b><span>every sale that quotes ${esc(codigo)}.</span></li>
-                 <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>
-                 ${esLider ? '<li><b>Plus 0.10 % for twelve months</b><span>paid by BlockEstate on your own code, never from your team.</span></li>' : ''}`
-              : `<li><b>You keep ${propio ? pct(propio.pb) : '1.00 %'}</b><span>of every sale through ${esc(codigo)}. The channel pays 1.00 % in total.</span></li>
-                 ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to ${d.traido_por ? esc(d.traido_por) : 'who brought you'}</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
-            <li><b>Paid by BlockEstate</b><span>out of the influencer channel, once NDC approves the statement.</span></li>
-          </ul>
-        </section>
-      </div>
-
-      <p class="desk-reglas">Cannot: ${(d.lo_que_no_puede ?? []).map((x) => esc(x)).join(' · ')}.</p>
+      <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.${aprobado ? '' : ' <b>This account is not approved yet.</b>'}</p>
     </div>`;
 
-  function aprobarAviso(ok) {
-    return ok ? '' : '<b> This account is not approved yet, so nothing can be released.</b>';
-  }
+  const barras = () => (!(d.historico ?? []).some((x) => x.fils > 0) ? '' : `
+    <section class="desk-panel">
+      <header>${ico('pulso', 15)}<h2>Last six months</h2><span class="muted">what each month has produced</span></header>
+      <div class="desk-barras">
+        ${(() => {
+          const max = Math.max(...d.historico.map((x) => x.fils), 1);
+          return d.historico.map((x) => `<div class="desk-barra">
+            <span class="val">${x.fils ? esc(money(x.fils)) : ''}</span>
+            <i style="height:${Math.max(3, Math.round((x.fils / max) * 90))}%" class="${x.fils ? 'on' : ''}"></i>
+            <span class="mes">${new Date(x.mes + '-01T00:00:00Z').toLocaleString('en', { month: 'short' })}</span>
+          </div>`).join('');
+        })()}
+      </div>
+    </section>`);
+
+  const resumen = () => `
+    ${balance()}
+    ${d.bono ? `
+    <div class="desk-saldo" style="margin-bottom:14px">
+      <div class="desk-saldo-fila" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <div class="desk-bloque">
+          <span>Leader bonus · 0.10 %</span>
+          <b>${esc(money(d.bono.fils))}</b>
+          <i>paid by BlockEstate on top of the channel, not taken from your team</i>
+        </div>
+        <div class="desk-bloque total">
+          <span>Until</span>
+          <b>${esc(d.bono.hasta ?? '—')}</b>
+          <i>${d.traido_por ? 'brought by ' + esc(d.traido_por) + ': they took a one-off bounty, never a cut of your team' : 'you came alone'}</i>
+        </div>
+      </div>
+    </div>` : ''}
+    ${barras()}
+    <div class="desk-dos">
+      <section class="desk-panel">
+        <header>${ico('permiso', 15)}<h2>How you are paid</h2></header>
+        <ul class="desk-aviso-lista">
+          ${conEquipo
+            ? `<li><b>1.00 % on your own code</b><span>every sale that quotes ${esc(codigo)}.</span></li>
+               <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>
+               ${esLider ? '<li><b>Plus 0.10 % for twelve months</b><span>paid by BlockEstate on your own code, never from your team.</span></li>' : ''}`
+            : `<li><b>You keep ${propio ? pct(propio.pb) : '1.00 %'}</b><span>of every sale through ${esc(codigo)}. The channel pays 1.00 % in total.</span></li>
+               ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to ${d.traido_por ? esc(d.traido_por) : 'who brought you'}</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
+          <li><b>Paid by BlockEstate</b><span>out of the influencer channel, once NDC approves the statement.</span></li>
+        </ul>
+      </section>
+
+      <section class="desk-panel">
+        <header>${ico('campana', 15)}<h2>What needs you</h2></header>
+        <ul class="desk-aviso-lista">
+          ${(d.falta_para_cobrar ?? []).map((f) => `<li><b>Missing</b><span>${esc(f)}</span></li>`).join('')
+            || '<li><b>Nothing</b><span>Your account is ready and your sales are counted.</span></li>'}
+          <li><b>Statement</b><span>Issued by NDC by hand. You can ask about it at any time.</span></li>
+        </ul>
+        <div class="desk-acciones">
+          <a class="btn-ghost" href="mailto:info@blockestate.ae?subject=${encodeURIComponent('Statement · ' + (codigo || nombre))}">Ask NDC about a statement</a>
+        </div>
+      </section>
+    </div>`;
+
+  const ventasHTML = () => `
+    <section class="desk-panel">
+      <header>${ico('sello', 15)}<h2>${conEquipo ? 'Where your money comes from' : 'Your sales'}</h2>
+        <span class="muted">${ventas.length} sale${ventas.length === 1 ? '' : 's'}</span></header>
+      <div class="desk-filtros">
+        ${[['todos', 'All'], ['devengada', 'Accrued'], ['pagadera', 'Pending payment'], ['pagada', 'Paid']]
+          .map(([k, etiqueta]) => `<button type="button" class="chip${estado.filtro === k ? ' on' : ''}" data-filtro="${k}">${etiqueta}</button>`).join('')}
+        <button type="button" class="chip" id="bajar-csv" style="margin-left:auto">Download CSV</button>
+      </div>
+      ${ventasFiltradas().length ? `<div class="tabla-wrap"><table class="tabla">
+        <thead><tr><th>Unit</th><th>${conEquipo ? 'Source' : 'Sale'}</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
+        <tbody>${ventasFiltradas().map((v) => `<tr>
+          <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
+          <td>${conEquipo
+            ? (v.codigo_venta && v.codigo_venta !== codigo
+              ? '<span class="pastilla neu">' + (esLider ? 'Team' : 'Override') + '</span> <span class="mono">' + esc(v.codigo_venta) + '</span>'
+              : '<span class="pastilla ok">Your code</span>')
+            : esc(v.base_aed)}</td>
+          <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">${pct(v.pb)}</span></td>
+          <td><span class="pastilla ${TONO[v.estado] ?? 'neu'}">${esc(ESTADO[v.estado] ?? v.estado)}</span></td>
+          <td>${esc(date(v.fecha))}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>` : '<p class="muted" style="padding:14px 16px">No sale in this state.</p>'}
+    </section>`;
+
+  const equipoHTML = () => (!conEquipo ? '' : `
+    <section class="desk-panel">
+      <header>${ico('permiso', 15)}<h2>Your team</h2><span class="muted">the creators you brought, and what they earn you</span></header>
+      <div class="desk-red">
+        <div><span>Creators</span><b>${red?.creadores ?? 0}</b></div>
+        <div><span>Sales in your team</span><b>${red?.ventas ?? 0}</b></div>
+        <div><span>${esLider ? 'Your team share' : 'Your override'}</span><b>${esc(red?.tu_override_aed ?? 'AED 0.00')}</b><i>0.20 % of each of their sales</i></div>
+      </div>
+      ${(red?.equipo ?? []).length ? `<div class="tabla-wrap"><table class="tabla">
+        <thead><tr><th>Creator</th><th>Code</th><th>KYC</th><th>Sales</th><th>Their commission</th><th>You earned</th></tr></thead>
+        <tbody>${red.equipo.map((c) => `<tr>
+          <td><b>${esc(c.nombre)}</b></td>
+          <td><span class="mono">${esc(c.codigo)}</span></td>
+          <td><span class="pastilla ${c.kyc_estado === 'aprobado' ? 'ok' : 'amb'}">${esc(KYC[c.kyc_estado] ?? 'pending')}</span></td>
+          <td>${c.ventas}</td>
+          <td>${esc(c.vendido_aed)}</td>
+          <td><b>${esc(c.tu_override_aed)}</b></td>
+        </tr>`).join('')}</tbody>
+      </table></div>` : '<p class="muted" style="padding:14px 16px">You have not brought any creator yet. Give them your code when they sign up.</p>'}
+      <p class="desk-pie">This 0.20 % sits inside the 1.00 % the channel pays: it is never charged on top of the creator.</p>
+    </section>`);
+
+  const pagosHTML = () => `
+    <div class="desk-dos">
+      <section class="desk-panel">
+        <header>${ico('sello', 15)}<h2>How the money reaches you</h2></header>
+        <ul class="desk-aviso-lista">
+          <li><b>1 · Sale closes</b><span>the split is frozen, and your part shows as Pending.</span></li>
+          <li><b>2 · NDC issues the statement</b><span>by hand, at the close of the month. It becomes Available.</span></li>
+          <li><b>3 · Payment</b><span>a bank transfer with a reference. It shows as Paid here.</span></li>
+          <li><b>Identification</b><span>nothing moves before your KYC is approved. ${aprobado ? 'Yours is.' : 'Yours is not yet.'}</span></li>
+        </ul>
+        <div class="desk-acciones">
+          <a class="btn-ghost" href="mailto:info@blockestate.ae?subject=${encodeURIComponent('Payment details · ' + (codigo || nombre))}">Send payment details to NDC</a>
+          <button type="button" class="btn-ghost" id="bajar-csv-2">Download sales CSV</button>
+        </div>
+      </section>
+      <section class="desk-panel">
+        <header>${ico('campana', 15)}<h2>Statements</h2></header>
+        <p class="muted" style="padding:14px 16px">No statement yet. When NDC issues one it will appear here, with its amount and its reference.</p>
+      </section>
+    </div>`;
+
+  const contenido = () => (estado.tab === 'ventas' ? ventasHTML()
+    : estado.tab === 'equipo' ? equipoHTML()
+      : estado.tab === 'pagos' ? pagosHTML()
+        : resumen());
+
+  const render = () => {
+    view().innerHTML = `
+      <div class="wrap">
+        <div class="desk-head">
+          <div class="desk-quien">
+            ${logoHtml(nombre, null, false, true)}
+            <div>
+              <span class="dev-nav-lab">${rol}</span>
+              <h1>${esc(nombre)}</h1>
+              <p class="muted">${codigo ? 'your code <b>' + esc(codigo) + '</b>' : 'no code yet'}</p>
+            </div>
+          </div>
+          <div class="desk-sellos">
+            <span class="pastilla ${aprobado ? 'ok' : 'amb'}">${aprobado ? 'KYC approved' : 'KYC ' + esc(kyc ?? 'pending')}</span>
+            ${esLider ? '<span class="pastilla neu">Same rank</span>' : esPartner ? '<span class="pastilla neu">Bringing creators</span>' : ''}
+            ${codigo ? '<button type="button" class="btn-ghost" id="copiar-code" data-lbl="Copy code">Copy code</button>' : ''}
+            ${link ? '<button type="button" class="btn-primario" id="copiar-link" data-lbl="Copy referral link">Copy referral link</button>' : ''}
+          </div>
+        </div>
+
+        <nav class="desk-tabs" role="tablist">
+          ${[['overview', 'Overview'], ['ventas', 'Sales'], ['equipo', 'Team'], ['pagos', 'Payouts']]
+            .filter(([k]) => k !== 'equipo' || conEquipo)
+            .map(([k, etiqueta]) => `<button type="button" class="desk-tab${estado.tab === k ? ' on' : ''}" data-tab="${k}" role="tab">${etiqueta}</button>`).join('')}
+        </nav>
+
+        ${contenido()}
+
+        <p class="desk-reglas">Cannot: ${(d.lo_que_no_puede ?? []).map((x) => esc(x)).join(' · ')}.</p>
+      </div>`;
+
+    // pestañas
+    view().querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => {
+      estado.tab = b.dataset.tab;
+      render();
+    }));
+    // copiar
+    const cl = view().querySelector('#copiar-link');
+    if (cl) cl.addEventListener('click', () => copiar(link, cl));
+    const cc = view().querySelector('#copiar-code');
+    if (cc) cc.addEventListener('click', () => copiar(codigo, cc));
+    // filtros y descarga
+    view().querySelectorAll('[data-filtro]').forEach((b) => b.addEventListener('click', () => {
+      estado.filtro = b.dataset.filtro;
+      render();
+    }));
+    ['#bajar-csv', '#bajar-csv-2'].forEach((sel) => {
+      const b = view().querySelector(sel);
+      if (b) b.addEventListener('click', descargar);
+    });
+  };
+
+  render();
 }

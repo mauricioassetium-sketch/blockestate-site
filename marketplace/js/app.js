@@ -24,6 +24,13 @@ import {
   viewDevVerification,
 } from './views/dev.js';
 
+// Un enlace de referido (?ref=CODIGO) se recuerda para que la reserva lo lleve puesto.
+// Se lee del parámetro y se guarda; nunca se inventa un código.
+try {
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref && /^[A-Za-z0-9._-]{3,32}$/.test(ref)) localStorage.setItem('be.ref', ref.toUpperCase());
+} catch { /* sin almacenamiento no hay nada que recordar */ }
+
 const view = () => document.getElementById('view');
 
 /**
