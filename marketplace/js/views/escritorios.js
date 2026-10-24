@@ -473,6 +473,7 @@ function viewCreadorVivo(d) {
   const kyc = d.beneficiario?.kyc_estado ?? null;
   const aprobado = kyc === 'aprobado';
   const esPartner = d.tipo === 'team_partner';
+  const esLider = d.tipo === 'lider';
   const codigos = d.codigos ?? [];
   const ventas = d.ventas ?? [];
   const p = d.su_parte ?? {};
@@ -490,14 +491,14 @@ function viewCreadorVivo(d) {
         <div class="desk-quien">
           ${logoHtml(nombre, null, false, true)}
           <div>
-            <span class="dev-nav-lab">${esPartner ? 'Team partner' : 'Content creator'}</span>
+            <span class="dev-nav-lab">${esLider ? 'Team leader' : esPartner ? 'Team partner' : 'Content creator'}</span>
             <h1>${esc(nombre)}</h1>
             <p class="muted">${codigo ? 'your code <b>' + esc(codigo) + '</b>' : 'no code yet'}</p>
           </div>
         </div>
         <div class="desk-sellos">
           <span class="pastilla ${aprobado ? 'ok' : 'amb'}">${aprobado ? 'KYC approved' : 'KYC ' + esc(kyc ?? 'pending')}</span>
-          ${esPartner ? '<span class="pastilla neu">Bringing creators</span>' : ''}
+          ${esLider ? '<span class="pastilla neu">Same rank</span>' : esPartner ? '<span class="pastilla neu">Bringing creators</span>' : ''}
         </div>
       </div>
 
@@ -521,12 +522,28 @@ function viewCreadorVivo(d) {
           <div class="desk-bloque total">
             <span>Lifetime</span>
             <b>${esc(money(total))}</b>
-            <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${esPartner ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
+            <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${(esPartner || esLider) ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
           </div>
         </div>
         <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.
         ${aprobarAviso(aprobado)}</p>
       </div>
+
+      ${d.bono ? `
+      <div class="desk-saldo" style="margin-bottom:14px">
+        <div class="desk-saldo-fila" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+          <div class="desk-bloque">
+            <span>Leader bonus · 0.10 %</span>
+            <b>${esc(money(d.bono.fils))}</b>
+            <i>paid by BlockEstate on top of the channel, not taken from your team</i>
+          </div>
+          <div class="desk-bloque total">
+            <span>Until</span>
+            <b>${esc(d.bono.hasta ?? '—')}</b>
+            <i>${d.traido_por ? 'brought by ' + esc(d.traido_por) + ': they took a one-off bounty, never a cut of your team' : 'you came alone'}</i>
+          </div>
+        </div>
+      </div>` : ''}
 
       ${(d.historico ?? []).some((x) => x.fils > 0) ? `
       <section class="desk-panel">
@@ -543,13 +560,13 @@ function viewCreadorVivo(d) {
         </div>
       </section>` : ''}
 
-      ${esPartner && red ? `
+      ${(esPartner || esLider) && red ? `
       <section class="desk-panel">
-        <header>${ico('permiso', 15)}<h2>Your network</h2><span class="muted">the creators you brought, and what they earn you</span></header>
+        <header>${ico('permiso', 15)}<h2>Your team</h2><span class="muted">the creators you brought, and what they earn you</span></header>
         <div class="desk-red">
           <div><span>Creators</span><b>${red.creadores}</b></div>
           <div><span>Sales in your network</span><b>${red.ventas}</b></div>
-          <div><span>Your override</span><b>${esc(red.tu_override_aed)}</b><i>0.20 % of each of their sales</i></div>
+          <div><span>${esLider ? 'Your team share' : 'Your override'}</span><b>${esc(red.tu_override_aed)}</b><i>0.20 % of each of their sales</i></div>
         </div>
         ${red.equipo.length ? `<div class="tabla-wrap"><table class="tabla">
           <thead><tr><th>Creator</th><th>Code</th><th>KYC</th><th>Sales</th><th>Their commission</th><th>You earned</th></tr></thead>
@@ -562,19 +579,19 @@ function viewCreadorVivo(d) {
             <td><b>${esc(c.tu_override_aed)}</b></td>
           </tr>`).join('')}</tbody>
         </table></div>` : '<p class="muted">You have not brought any creator yet. Give them your code when they sign up.</p>'}
-        <p class="desk-pie">Your override sits inside the 1.00 % the channel pays: it is never charged on top of the creator.</p>
+        <p class="desk-pie">This 0.20 % sits inside the 1.00 % the channel pays: it is never charged on top of the creator.</p>
       </section>` : ''}
 
       <div class="desk-dos">
         <section class="desk-panel">
-          <header>${ico('sello', 15)}<h2>${esPartner ? 'Where your money comes from' : 'Your sales'}</h2></header>
+          <header>${ico('sello', 15)}<h2>${(esPartner || esLider) ? 'Where your money comes from' : 'Your sales'}</h2></header>
           ${ventas.length ? `<div class="tabla-wrap"><table class="tabla">
             <thead><tr><th>Unit</th><th>${esPartner ? 'Source' : 'Sale'}</th><th>Your part</th><th>State</th><th>Closed</th></tr></thead>
             <tbody>${ventas.map((v) => `<tr>
               <td>${esc(cap(v.unidad))}${v.referencia ? ' · <span class="muted">' + esc(v.referencia) + '</span>' : ''}</td>
               <td>${esPartner
                 ? (v.codigo_venta && v.codigo_venta !== codigo
-                  ? '<span class="pastilla neu">Override</span> <span class="mono">' + esc(v.codigo_venta) + '</span>'
+                  ? '<span class="pastilla neu">' + (esLider ? 'Team' : 'Override') + '</span> <span class="mono">' + esc(v.codigo_venta) + '</span>'
                   : '<span class="pastilla ok">Your code</span>')
                 : esc(v.base_aed)}</td>
               <td><b>${esc(v.su_parte_aed)}</b> <span class="muted">${pct(v.pb)}</span></td>
@@ -587,11 +604,12 @@ function viewCreadorVivo(d) {
         <section class="desk-panel">
           <header>${ico('permiso', 15)}<h2>How you are paid</h2></header>
           <ul class="desk-aviso-lista">
-            ${esPartner
+            ${esPartner || esLider
               ? `<li><b>1.00 % on your own code</b><span>every sale that quotes ${esc(codigo)}.</span></li>
-                 <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>`
+                 <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>
+                 ${esLider ? '<li><b>Plus 0.10 % for twelve months</b><span>paid by BlockEstate on your own code, never from your team.</span></li>' : ''}`
               : `<li><b>You keep ${propio ? pct(propio.pb) : '1.00 %'}</b><span>of every sale through ${esc(codigo)}. The channel pays 1.00 % in total.</span></li>
-                 ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to who brought you</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
+                 ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to ${d.traido_por ? esc(d.traido_por) : 'who brought you'}</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
             <li><b>Paid by BlockEstate</b><span>out of the influencer channel, once NDC approves the statement.</span></li>
           </ul>
         </section>
