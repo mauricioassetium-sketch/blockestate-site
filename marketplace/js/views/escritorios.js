@@ -245,7 +245,66 @@ export async function viewCreador() {
   try {
     const vivo = await api.creadorMe();
     if (vivo && vivo.su_parte) return viewCreadorVivo(vivo);
-  } catch { /* sin sesión o sin cuenta de creador: se cae al libro de demostración */ }
+  } catch { /* sin sesión: se enseña el programa, no cifras de nadie */ }
+  return viewCreadorPrograma();
+}
+
+/** La portada del programa para quien no ha entrado: qué se cobra, en qué orden, y cómo se empieza. */
+function viewCreadorPrograma() {
+  view().innerHTML = `
+    <div class="wrap">
+      <div class="desk-head">
+        <div class="desk-quien">
+          <div>
+            <span class="dev-nav-lab">Creator programme</span>
+            <h1>Bring a buyer. Get paid in dirhams.</h1>
+            <p class="muted">A code, a sale, a statement. Nothing else to learn.</p>
+          </div>
+        </div>
+        <div class="desk-sellos">
+          <button type="button" class="btn-primario" id="entrar">Sign in</button>
+          <a class="btn-ghost" href="mailto:info@blockestate.ae?subject=Creator%20programme">Talk to NDC</a>
+        </div>
+      </div>
+
+      <div class="desk-saldo">
+        <div class="desk-saldo-fila">
+          <div class="desk-bloque"><span>Creator</span><b>0.80 %</b><i>of the sale, when someone brought you</i></div>
+          <div class="desk-bloque"><span>Came alone</span><b>1.00 %</b><i>the whole channel commission</i></div>
+          <div class="desk-bloque"><span>Referrer</span><b>0.20 %</b><i>inside your 1.00 %, never on top</i></div>
+          <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year, paid by BlockEstate</i></div>
+        </div>
+        <p class="desk-pie">The buyer pays the property. The channel pays 1.00 % of the sale, and it is split the day the sale closes. NDC identifies you and issues the statement by hand, then the money leaves as a bank transfer with a reference.</p>
+      </div>
+
+      <div class="desk-dos">
+        <section class="desk-panel">
+          <header>${ico('permiso', 15)}<h2>The three roles</h2></header>
+          <ul class="desk-aviso-lista">
+            <li><b>Creator</b><span>your code, your sales. 0.80 % if someone brought you, 1.00 % if you came alone.</span></li>
+            <li><b>Team partner</b><span>your own code plus 0.20 % of the creators you bring.</span></li>
+            <li><b>Leader · same rank</b><span>full 1.00 % plus 0.10 % for a year. Whoever brought you takes a one-off bounty, never a cut of your team.</span></li>
+          </ul>
+        </section>
+        <section class="desk-panel">
+          <header>${ico('campana', 15)}<h2>How it works</h2></header>
+          <ul class="desk-aviso-lista">
+            <li><b>1 · You get a code</b><span>and a link. Quote it at the reservation.</span></li>
+            <li><b>2 · The sale closes</b><span>the split is frozen and your part shows as Pending.</span></li>
+            <li><b>3 · NDC issues the statement</b><span>it becomes Available, then paid with a reference.</span></li>
+            <li><b>There is no tree below you</b><span>if you are a creator: you are paid for your own sales, nobody else's.</span></li>
+          </ul>
+        </section>
+      </div>
+
+      <p class="desk-reglas">Badges declare the scope and the date of the evidence; they are not a guarantee of title. Nothing here is investment advice.</p>
+    </div>`;
+  const b = view().querySelector('#entrar');
+  if (b) b.addEventListener('click', () => go('/login'));
+}
+
+/** El libro de demostración de siempre, por si hiciera falta volver a él. */
+function viewCreadorDemo() {
   const c = LIBRO_CREADOR;
   const aed = (fils) => money(fils);
   const k = c.yo.kyc;
