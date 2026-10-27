@@ -24,15 +24,21 @@ const TABS = [
   ['All', {}],
   ['Ready', { estado_obra: 'ready' }],
   ['Off plan', { estado_obra: 'off_plan' }],
+  // Resale es otro producto: otro vendedor, otro pagador y otra ficha. Comparte barra, no modelo.
+  ['Resale', { producto: 'resale' }],
 ];
 
 function tabsHtml(query) {
   const tipo = query.get('tipo') ?? '';
   const obra = query.get('estado_obra') ?? '';
+  const producto = query.get('producto') ?? '';
   const enlaces = TABS.map(([texto, extra]) => {
-    const activo = extra.estado_obra ? obra === extra.estado_obra : !obra;
+    const activo = extra.producto
+      ? producto === extra.producto
+      : (!obra && !producto);
     const p = new URLSearchParams(query);
     p.delete('estado_obra');
+    p.delete('producto');
     for (const [k, v] of Object.entries(extra)) p.set(k, v);
     void tipo;
     return `<a class="${activo ? 'on' : ''}" href="#/search${p.toString() ? `?${p}` : ''}">${esc(texto)}</a>`;
@@ -49,6 +55,89 @@ const bandaElegida = (min, max) => {
   const v = `${min}-${max}`;
   return BANDAS.some(([k]) => k === v) ? v : '';
 };
+
+
+/* ------------------------------------------------------------------ resale */
+
+/**
+ * El estante de reventa. Es otro producto: el vendedor es un propietario con mandato de NDC, la ficha
+ * enseña título comprobado, NOC y gastos al día, y el comprador puede pagar la verificación.
+ * Nunca se enseña el número del título: se enseña que se comprobó.
+ */
+function tarjetaResale(r) {
+  const donde = [r.comunidad, r.emirato].filter(Boolean).join(', ');
+  const sello = r.sello
+    ? `<span class="sello-cuerpo">Verified by Verysset · until ${esc(String(r.sello.hasta).slice(0, 10))}</span>`
+    : '<span class="sello-cuerpo sin">Title checked by NDC</span>';
+  const frases = [
+    r.noc_caduca ? `NOC to ${String(r.noc_caduca).slice(0, 10)}` : '',
+    r.gastos_comunidad_al_dia ? 'Service charges settled' : '',
+    r.hipoteca ? 'Mortgage on the title' : 'No mortgage',
+  ].filter(Boolean);
+  return `
+  <article class="card">
+    <div class="photo">
+      <span class="tag resale">Resale</span>
+    </div>
+    <div class="body">
+      ${sello}
+      <div class="precio"><span class="price">${esc(money(r.precio_fils))}</span></div>
+      <div class="tipo">${esc(r.tipo === 'apartment' ? 'Apartment' : r.tipo === 'villa' ? 'Villa' : r.tipo)}</div>
+      <h3><span>${esc([r.dormitorios ? `${r.dormitorios} bed` : '', r.banos ? `${r.banos} bath` : '', r.superficie_sqft ? `${Math.round(Number(r.superficie_sqft))} sqft` : ''].filter(Boolean).join(' · '))}</span></h3>
+      ${frases.length ? `<div class="frases">${frases.map((x) => esc(x)).join(' <i>|</i> ')}</div>` : ''}
+      <div class="zona"><span>${esc(donde)}</span></div>
+    </div>
+  </article>`;
+}
+
+async function verResale(query) {
+  const emirato = query.get('emirato') ?? '';
+  const banda = query.get('banda') ?? '';
+  const [min, max] = banda.split('-');
+  const filtros = {
+    emirato: emirato || undefined,
+    precio_min: min || undefined,
+    precio_max: max || undefined,
+    limit: 24,
+  };
+  view().innerHTML = `
+    <div class="wrap">
+      ${tabsHtml(query)}
+      <div class="controls">
+        ${picker('emirato', {
+          label: 'Location', vacio: 'All emirates', valor: emirato,
+          grupos: [{ opciones: EMIRATOS.map((e) => ({ valor: e, texto: e })) }],
+        })}
+        ${picker('banda', {
+          label: 'Price', vacio: 'Any price', valor: banda,
+          grupos: [{ opciones: BANDAS.map(([v, t]) => ({ valor: v, texto: t })) }],
+        })}
+      </div>
+      <div id="resultados">${loading(4)}</div>
+    </div>`;
+
+  initPickers(view(), {
+    onPick: (id, val) => {
+      const p = new URLSearchParams(query);
+      if (val) p.set(id, val); else p.delete(id);
+      p.set('producto', 'resale');
+      go(`/search${p.toString() ? `?${p}` : ''}`);
+    },
+  });
+
+  try {
+    const r = await api.resale(filtros);
+    const caja = view().querySelector('#resultados');
+    if (!r.total) {
+      caja.innerHTML = empty('No resale listing yet. Owner listings appear here once NDC has the mandate and the title.');
+      return;
+    }
+    caja.innerHTML = `<p class="sub">${r.total} owner-listed propert${r.total === 1 ? 'y' : 'ies'}, through NDC, the licensed broker.</p>
+      <div class="list">${r.resultados.map(tarjetaResale).join('')}</div>`;
+  } catch (e) {
+    error(view().querySelector('#resultados'), e);
+  }
+}
 
 /* ------------------------------------------------------------------ front page */
 
@@ -338,6 +427,10 @@ function construir() {
 
 export async function viewSearch(query) {
   offset = 0;
+  if ((query.get('producto') ?? '') === 'resale') {
+    await verResale(query);
+    return;
+  }
   const f = filtrosDe(query);
   estado = { emirato: f.emirato, tipo: f.tipo, banda: f.banda, orden: f.orden, vista: f.vista, mob: f.amueblado };
 
@@ -465,6 +558,14 @@ export async function viewSearch(query) {
         </div>
         </div>
         `;
+
+  // Si no hay inventario de reventa, la pestaña no existe: una pestaña vacía parece un fallo.
+  api.resaleCount()
+    .then(({ total }) => {
+      const a = view().querySelector('.tabs a[href*="producto=resale"]');
+      if (a && !total) a.setAttribute('hidden', '');
+    })
+    .catch(() => { /* el catálogo no depende de esto */ });
 
   // The panels of the controls (including the one of Filters) are opened, closed and veiled by
   // `initPickers`: here only the chips of the panel need a listener of their own.

@@ -73,6 +73,9 @@ export function urlDeMedio(u) {
 export const api = {
   // public catalogue
   search: (filtros) => req('GET', `/catalog/search${qs(filtros)}`, { auth: false }),
+  // Resale: fichas publicadas de propietario. La pestaña se esconde si no hay ninguna.
+  resale: (filtros) => req('GET', `/catalog/resale${qs(filtros)}`, { auth: false }),
+  resaleCount: () => req('GET', '/catalog/resale/count', { auth: false }),
   project: (id) => req('GET', `/catalog/projects/${id}`, { auth: false }),
   projects: (filtros) => req('GET', `/catalog/projects${qs(filtros)}`, { auth: false }),
   unit: (id) => req('GET', `/catalog/units/${id}`, { auth: false }),

@@ -1889,3 +1889,9 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
 .btn-ghost{background:#fff; color:var(--ink); border:1px solid var(--line-2); text-decoration:none}
 .btn-ghost:hover{border-color:var(--ink-60)}
 .desk-acciones{display:flex; gap:8px; flex-wrap:wrap; padding:0 16px 14px}
+
+
+/* Reventa: la etiqueta del producto y el sello sin verificación. */
+.tag.resale{background:var(--teal);color:#fff}
+.sello-cuerpo.sin{opacity:.55}
+.card .photo{position:relative}
