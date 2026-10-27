@@ -1893,5 +1893,7 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
 
 /* Reventa: la etiqueta del producto y el sello sin verificación. */
 .tag.resale{background:var(--teal);color:#fff}
+/* Una pestaña oculta de verdad: `.tabs a` fija display:flex y el atributo hidden se quedaba sin efecto. */
+.tabs a[hidden]{display:none}
 .sello-cuerpo.sin{opacity:.55}
 .card .photo{position:relative}
