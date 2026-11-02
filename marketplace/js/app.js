@@ -385,8 +385,7 @@ if (SALA_NOTICIAS) {
   document.documentElement.classList.add('solo-sala');
   const barra = document.createElement('div');
   barra.className = 'sala-barra';
-  barra.innerHTML = '<b>BLOCKESTATE</b><span>Newsroom</span>'
-    + '<a href="/marketplace/" target="_blank" rel="noopener">Open the marketplace</a>';
+  barra.innerHTML = '<b>BLOCKESTATE</b><span>Newsroom</span>';
   document.body.prepend(barra);
 
   const enLaSala = () => /^#\/news(\/|$)/.test(location.hash || '#/news');
