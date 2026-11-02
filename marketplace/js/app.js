@@ -6,6 +6,7 @@
  * account, nothing else, because everything else is reachable from the account menu.
  */
 import { api } from './api.js';
+import { API_BASE } from './config.js';
 import { engancharSellos } from './views/verysset.js';
 import { go, notFound, render, route, start } from './router.js';
 import { refrescarTasas, activoElegido, elegirActivo, unidadElegida, elegirUnidad } from './cambio.js';
@@ -341,6 +342,59 @@ document.addEventListener('change', (e) => {
   const dicho = document.querySelector(`[data-dice="${i.dataset.archivo}"]`);
   if (dicho) dicho.textContent = i.files.length ? `${i.files.length} file${i.files.length === 1 ? '' : 's'} chosen` : 'No file chosen';
 });
+// Atribución del creador: si la visita llega con `?ref=CODIGO`, se guarda en la sesión y se avisa a la
+// plataforma una sola vez. El creador anuncia la plataforma, así que se mide el tráfico, no la ficha.
+(function registrarVisitaCreador() {
+  try {
+    const ref = new URLSearchParams(location.search).get('ref');
+    const codigo = (ref ? String(ref) : sessionStorage.getItem('be_ref') || '').toUpperCase().slice(0, 32);
+    if (!codigo) return;
+    sessionStorage.setItem('be_ref', codigo);
+    if (sessionStorage.getItem('be_ref_enviado')) return;
+    sessionStorage.setItem('be_ref_enviado', '1');
+    let sesion = sessionStorage.getItem('be_sesion');
+    if (!sesion) {
+      sesion = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      sessionStorage.setItem('be_sesion', sesion);
+    }
+    fetch(`${API_BASE}/public/visita`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({ codigo, sesion, ruta: location.hash || '/', referer: document.referrer || null }),
+    }).catch(() => { /* la atribución nunca debe romper la página */ });
+  } catch { /* idem */ }
+})();
+
+
+// ---------------------------------------------------------------------------
+// Sala de noticias: quien entra por ese enlace solo ve la sala.
+//
+// El enlace de la página de lanzamiento trae `?sala=noticias`. Se recuerda en la sesión, se esconden
+// la barra y el pie, y cualquier ruta que no sea la sala devuelve al lector a la sala.
+// ---------------------------------------------------------------------------
+const SALA_NOTICIAS = (() => {
+  try {
+    const pedido = new URLSearchParams(location.search).get('sala');
+    if (pedido === 'noticias') sessionStorage.setItem('be_sala', 'noticias');
+    return sessionStorage.getItem('be_sala') === 'noticias';
+  } catch { return false; }
+})();
+
+if (SALA_NOTICIAS) {
+  document.documentElement.classList.add('solo-sala');
+  const barra = document.createElement('div');
+  barra.className = 'sala-barra';
+  barra.innerHTML = '<b>BLOCKESTATE</b><span>Newsroom</span>'
+    + '<a href="/marketplace/" target="_blank" rel="noopener">Open the marketplace</a>';
+  document.body.prepend(barra);
+
+  const enLaSala = () => /^#\/news(\/|$)/.test(location.hash || '#/news');
+  const vigilar = () => { if (!enLaSala()) location.hash = '#/news'; };
+  window.addEventListener('hashchange', vigilar);
+  vigilar();
+}
+
 start();
 
 // Las tarjetas de inmueble llevan su selector de fotos: se engancha una vez y
