@@ -104,6 +104,14 @@ export const api = {
   devProjects: () => req('GET', '/me/projects'),
   devSales: (filtros) => req('GET', `/me/sales${qs(filtros)}`),
   devMarketing: () => req('GET', '/me/marketing'),
+  // El extracto llega como fichero: se pide aparte porque no es JSON.
+  creatorStatementPdf: async () => {
+    const res = await fetch(`${API_BASE}/creator/statement.pdf`, {
+      headers: { authorization: `Bearer ${store.token()}` },
+    });
+    if (!res.ok) throw new ApiError(res.status, 'no_pdf', 'The statement is not available');
+    return res.blob();
+  },
   devSale: (id) => req('GET', `/me/sales/${id}`),
   // The developer's own work: what they put up for sale, what is verified, and who sells for them.
   // The API scopes every one of these to the session's organisation; the permissions decide which

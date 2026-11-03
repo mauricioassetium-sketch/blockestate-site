@@ -623,6 +623,7 @@ function viewCreadorVivo(d) {
           <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${conEquipo ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
         </div>
       </div>
+      <p class="desk-pie" style="margin-top:10px"><button type="button" class="btn-ghost" id="bajar-extracto">Statement (PDF)</button></p>
       <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.${aprobado ? '' : ' <b>This account is not approved yet.</b>'}
         ${prog.pool_fils ? ` Pool so far: <b>${esc(money(prog.pool_fils))}</b>.` : ''}</p>
     </div>`;
@@ -846,6 +847,25 @@ function viewCreadorVivo(d) {
     ['#bajar-csv', '#bajar-csv-2'].forEach((sel) => {
       const b = view().querySelector(sel);
       if (b) b.addEventListener('click', descargar);
+    });
+    // El extracto llega del servidor como PDF, con el nombre de la fecha.
+    const pdf = view().querySelector('#bajar-extracto');
+    if (pdf) pdf.addEventListener('click', async () => {
+      pdf.disabled = true;
+      try {
+        const blob = await api.creatorStatementPdf();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `blockestate-statement-${new Date().toISOString().slice(0, 10)}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        pdf.textContent = 'Not available';
+        void e;
+      } finally {
+        pdf.disabled = false;
+      }
     });
   };
 
