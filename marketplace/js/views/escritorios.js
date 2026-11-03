@@ -687,7 +687,7 @@ function viewCreadorVivo(d) {
         <div class="desk-bloque">
           <span>Leader bonus · 0.10 %</span>
           <b>${esc(money(d.bono.fils))}</b>
-          <i>paid by BlockEstate on top of the channel, not taken from your team</i>
+          <i>on top of the channel, never taken from your team</i>
         </div>
         <div class="desk-bloque total">
           <span>Until</span>
@@ -704,7 +704,7 @@ function viewCreadorVivo(d) {
           ${conEquipo
             ? `<li><b>1.00 % on your own code</b><span>every sale that quotes ${esc(codigo)}.</span></li>
                <li><b>0.20 % on each creator you brought</b><span>taken from their 1.00 %, not added on top.</span></li>
-               ${esLider ? '<li><b>Plus 0.10 % for twelve months</b><span>paid by BlockEstate on your own code, never from your team.</span></li>' : ''}`
+               ${esLider ? '<li><b>Plus 0.10 % for twelve months</b><span>on your own code, never from your team.</span></li>' : ''}`
             : `<li><b>You keep ${propio ? pct(propio.pb) : '1.00 %'}</b><span>of every sale through ${esc(codigo)}. The channel pays 1.00 % in total.</span></li>
                ${ajeno ? `<li><b>${pct(ajeno.pb)} goes to ${d.traido_por ? esc(d.traido_por) : 'who brought you'}</b><span>it is theirs, not deducted from you.</span></li>` : '<li><b>You came alone</b><span>the whole 1.00 % is yours.</span></li>'}`}
           <li><b>Paid by BlockEstate</b><span>out of the influencer channel, once NDC approves the statement.</span></li>
