@@ -269,12 +269,12 @@ function viewCreadorPrograma() {
 
       <div class="desk-saldo">
         <div class="desk-saldo-fila">
-          <div class="desk-bloque"><span>Per approved lead</span><b>AED 120</b><i>paid by the developer, the month the buyer passes NDC</i></div>
+          <div class="desk-bloque"><span>Per approved lead</span><b>AED 120</b><i>the month the buyer passes NDC</i></div>
           <div class="desk-bloque"><span>Per sale</span><b>1.00 %</b><i>of the price, when it closes inside the 90 day window</i></div>
           <div class="desk-bloque"><span>If someone brought you</span><b>0.80 · 0.20</b><i>0.80 for you, 0.20 for them, inside the same 1.00 %</i></div>
-          <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year, paid by BlockEstate</i></div>
+          <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year</i></div>
         </div>
-        <p class="desk-pie">Two payments, both from the developer's side: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. NDC issues the statement by hand and pays it with a bank reference.</p>
+        <p class="desk-pie">Two payments: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. NDC issues the statement by hand and pays it with a bank reference.</p>
       </div>
 
       <div class="desk-dos">
