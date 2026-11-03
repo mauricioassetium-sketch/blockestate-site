@@ -269,19 +269,19 @@ function viewCreadorPrograma() {
 
       <div class="desk-saldo">
         <div class="desk-saldo-fila">
-          <div class="desk-bloque"><span>Creator</span><b>0.80 %</b><i>of the sale, when someone brought you</i></div>
-          <div class="desk-bloque"><span>Came alone</span><b>1.00 %</b><i>the whole channel commission</i></div>
-          <div class="desk-bloque"><span>Referrer</span><b>0.20 %</b><i>inside your 1.00 %, never on top</i></div>
+          <div class="desk-bloque"><span>Per approved lead</span><b>AED 120</b><i>paid by the developer, the month the buyer passes NDC</i></div>
+          <div class="desk-bloque"><span>Per sale</span><b>1.00 %</b><i>of the price, when it closes inside the 90 day window</i></div>
+          <div class="desk-bloque"><span>If someone brought you</span><b>0.80 · 0.20</b><i>0.80 for you, 0.20 for them, inside the same 1.00 %</i></div>
           <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year, paid by BlockEstate</i></div>
         </div>
-        <p class="desk-pie">The buyer pays the property. The channel pays 1.00 % of the sale, and it is split the day the sale closes. NDC identifies you and issues the statement by hand, then the money leaves as a bank transfer with a reference.</p>
+        <p class="desk-pie">Two payments, both from the developer's side: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. NDC issues the statement by hand and pays it with a bank reference.</p>
       </div>
 
       <div class="desk-dos">
         <section class="desk-panel">
           <header>${ico('permiso', 15)}<h2>The three roles</h2></header>
           <ul class="desk-aviso-lista">
-            <li><b>Creator</b><span>your code, your sales. 0.80 % if someone brought you, 1.00 % if you came alone.</span></li>
+            <li><b>Creator</b><span>your code, your leads and your sales. 120 AED per approved lead, 1.00 % when the sale closes.</span></li>
             <li><b>Team partner</b><span>your own code plus 0.20 % of the creators you bring.</span></li>
             <li><b>Leader · same rank</b><span>full 1.00 % plus 0.10 % for a year. Whoever brought you takes a one-off bounty, never a cut of your team.</span></li>
           </ul>
@@ -290,8 +290,9 @@ function viewCreadorPrograma() {
           <header>${ico('campana', 15)}<h2>How it works</h2></header>
           <ul class="desk-aviso-lista">
             <li><b>1 · You get a code</b><span>and a link. Quote it at the reservation.</span></li>
-            <li><b>2 · The sale closes</b><span>the split is frozen and your part shows as Pending.</span></li>
-            <li><b>3 · NDC issues the statement</b><span>it becomes Available, then paid with a reference.</span></li>
+            <li><b>2 · The buyer passes NDC</b><span>the lead is approved and 120 AED are accrued to you.</span></li>
+            <li><b>3 · The sale closes</b><span>your 1.00 % is frozen and shows as Pending.</span></li>
+            <li><b>4 · NDC pays</b><span>leads at the month close, commissions with the statement, always with a reference.</span></li>
             <li><b>There is no tree below you</b><span>if you are a creator: you are paid for your own sales, nobody else's.</span></li>
           </ul>
         </section>
