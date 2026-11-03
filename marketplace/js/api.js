@@ -103,6 +103,7 @@ export const api = {
   devUnits: (filtros) => req('GET', `/me/units${qs(filtros)}`),
   devProjects: () => req('GET', '/me/projects'),
   devSales: (filtros) => req('GET', `/me/sales${qs(filtros)}`),
+  devMarketing: () => req('GET', '/me/marketing'),
   devSale: (id) => req('GET', `/me/sales/${id}`),
   // The developer's own work: what they put up for sale, what is verified, and who sells for them.
   // The API scopes every one of these to the session's organisation; the permissions decide which

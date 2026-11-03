@@ -142,7 +142,7 @@ let DATOS = null;
  */
 async function cargar() {
   if (DATOS) return DATOS;
-  const [yo, unidades, ventas, proyectos, avisos, codigos] = await Promise.all([
+  const [yo, unidades, ventas, proyectos, avisos, codigos, marketing] = await Promise.all([
     api.devMe(), api.devUnits(), api.devSales(), api.devProjects(),
     // The `dev` flag only tells the offline capture of the preview apart from the buyer's inbox:
     // the live API ignores a parameter it does not know.
@@ -153,8 +153,10 @@ async function cargar() {
     api.devReferrals()
       .then((r) => ({ ...r, permitido: true }))
       .catch((e) => ({ codigos: [], permitido: false, motivo: e?.message ?? '' })),
+    // La cuenta de marketing: cuánto queda, cuántos leads y a qué precio salió cada venta.
+    api.devMarketing().catch(() => null),
   ]);
-  DATOS = { yo, unidades, ventas, proyectos, avisos, codigos };
+  DATOS = { yo, unidades, ventas, proyectos, avisos, codigos, marketing };
   return DATOS;
 }
 
@@ -547,7 +549,7 @@ function porBanco(ventas) {
     .map(([banco, n], i) => [banco, n, COLORES.serie[i % COLORES.serie.length]]);
 }
 
-function cuerpoResumen({ unidades, ventas, proyectos, avisos }) {
+function cuerpoResumen({ unidades, ventas, proyectos, avisos, marketing }) {
   const r = unidades.resumen ?? {};
   const resumen = ventas.resumen ?? {};
   const suyas = unidades.unidades ?? [];
@@ -605,6 +607,17 @@ function cuerpoResumen({ unidades, ventas, proyectos, avisos }) {
           <b>${esc(resumen.importe_aed ?? money(0))}</b> sold.</p>
         ${tabla([['Unit', ''], ['State', ''], ['Contract price', 'num']], filas)}
       </section>
+      ${marketing?.cuenta ? `
+      <section class="mod">
+        <header>${ico('campana', 15)}<h4>Marketing · lead account</h4></header>
+        <p class="note">You pay for the leads that NDC approves, never for the ones that are rejected:
+          <b>${esc(money(marketing.cuenta.saldo_fils ?? 0))}</b> left.</p>
+        <div class="mod-cifras">
+          <div><b>${esc(String(marketing.cuenta.aprobados ?? 0))}</b><span>leads approved</span></div>
+          <div><b>${esc(money(marketing.cuenta.gastado_fils ?? 0))}</b><span>spent on leads</span></div>
+          <div><b>${esc(marketing.cuenta.aprobados ? money(Math.round(Number(marketing.cuenta.gastado_fils) / marketing.cuenta.aprobados)) : '—')}</b><span>per lead</span></div>
+        </div>
+      </section>` : ''}
     </div>
 
     <div class="dev-dos">

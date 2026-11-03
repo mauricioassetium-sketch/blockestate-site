@@ -538,6 +538,7 @@ function viewCreadorVivo(d) {
   const codigos = d.codigos ?? [];
   const ventas = d.ventas ?? [];
   const p = d.su_parte ?? {};
+  const prog = d.programa ?? { leads_aprobados: 0, lead_fils: 0, pool_fils: 0, pagado_fils: 0, pendiente_fils: 0 };
   const red = d.red;
   const tramos = (d.reparto ?? []).flatMap((r) => r.tramos.map((x) => ({ ...x, codigo: r.codigo })));
   const propio = tramos.find((x) => x.rol === 'creador');
@@ -610,13 +611,19 @@ function viewCreadorVivo(d) {
           <b>${esc(p.liberado_aed ?? 'AED 0.00')}</b>
           <i>with a payment reference</i>
         </div>
+        <div class="desk-bloque">
+          <span>Leads approved</span>
+          <b>${esc(String(prog.leads_aprobados ?? 0))}</b>
+          <i>${esc(money(prog.lead_fils ?? 0))} at 120 AED each, paid at the month close</i>
+        </div>
         <div class="desk-bloque total">
           <span>Lifetime</span>
           <b>${esc(money(total))}</b>
           <i>${ventas.length} sale${ventas.length === 1 ? '' : 's'} ${conEquipo ? 'where you earned' : 'through ' + esc(codigo || 'your code')}</i>
         </div>
       </div>
-      <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.${aprobado ? '' : ' <b>This account is not approved yet.</b>'}</p>
+      <p class="desk-pie">NDC issues the statement by hand and pays it. Nothing is released before the account is approved and the person identified.${aprobado ? '' : ' <b>This account is not approved yet.</b>'}
+        ${prog.pool_fils ? ` Pool so far: <b>${esc(money(prog.pool_fils))}</b>.` : ''}</p>
     </div>`;
 
   const barras = () => (!(d.historico ?? []).some((x) => x.fils > 0) ? '' : `
@@ -634,8 +641,45 @@ function viewCreadorVivo(d) {
       </div>
     </section>`);
 
+
+  // Lo que trae su código y lo que ha firmado: sin los tres contratos, el código no paga.
+  const CONTRATO = { ndc: 'NDC · brokerage', blockestate: 'BlockEstate · platform', ustar: 'USTAR · marketing' };
+
+  const trafico = () => {
+    const t = d.trafico ?? { visitas_30d: 0, visitas_7d: 0, por_codigo: [] };
+    const porCodigo = (t.por_codigo ?? []).map((x) => `${esc(x.codigo)} · ${x.visitas}`).join(' · ');
+    return `
+    <section class="desk-panel" style="margin-bottom:14px">
+      <header>${ico('pulso', 15)}<h2>Your traffic</h2><span class="muted">last 30 days</span></header>
+      <div class="desk-saldo-fila" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div class="desk-bloque"><span>Visits</span><b>${t.visitas_30d}</b><i>${t.visitas_7d} in the last 7 days</i></div>
+        <div class="desk-bloque"><span>What you promote</span><b>The platform</b><i>not one property: the marketplace</i></div>
+        <div class="desk-bloque"><span>By code</span><b>${(t.por_codigo ?? []).length}</b><i>${porCodigo || 'no visits recorded yet'}</i></div>
+      </div>
+    </section>`;
+  };
+
+  const contratos = () => {
+    const l = d.contratos ?? [];
+    const firmados = l.filter((x) => x.estado === 'firmado').length;
+    return `
+    <section class="desk-panel" style="margin-bottom:14px">
+      <header>${ico('sello', 15)}<h2>Your contracts</h2><span class="muted">${firmados} of 3 signed</span></header>
+      <ul class="desk-aviso-lista">
+        ${Object.entries(CONTRATO).map(([k, nombre]) => {
+          const c = l.find((x) => x.actor === k);
+          const texto = !c ? 'pending' : c.estado === 'firmado' ? `signed ${esc(c.firmado_en ?? '')}` : esc(c.estado);
+          return `<li><b>${nombre}</b><span>${texto}</span></li>`;
+        }).join('')}
+      </ul>
+      <p class="muted" style="font-size:12px;margin:8px 0 0">A code only pays once the three contracts are signed and the identity is approved.</p>
+    </section>`;
+  };
+
   const resumen = () => `
     ${balance()}
+    ${trafico()}
+    ${contratos()}
     ${d.bono ? `
     <div class="desk-saldo" style="margin-bottom:14px">
       <div class="desk-saldo-fila" style="grid-template-columns:repeat(2,minmax(0,1fr))">
