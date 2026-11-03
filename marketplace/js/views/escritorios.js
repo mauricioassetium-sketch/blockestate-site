@@ -274,7 +274,7 @@ function viewCreadorPrograma() {
           <div class="desk-bloque"><span>If someone brought you</span><b>0.80 · 0.20</b><i>0.80 for you, 0.20 for them, inside the same 1.00 %</i></div>
           <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year</i></div>
         </div>
-        <p class="desk-pie">Two payments: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. NDC issues the statement by hand and pays it with a bank reference.</p>
+        <p class="desk-pie">Two payments: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. The statement is issued and paid with a bank reference.</p>
       </div>
 
       <div class="desk-dos">
@@ -292,7 +292,7 @@ function viewCreadorPrograma() {
             <li><b>1 · You get a code</b><span>and a link. Quote it at the reservation.</span></li>
             <li><b>2 · The buyer passes NDC</b><span>the lead is approved and 120 AED are accrued to you.</span></li>
             <li><b>3 · The sale closes</b><span>your 1.00 % is frozen and shows as Pending.</span></li>
-            <li><b>4 · NDC pays</b><span>leads at the month close, commissions with the statement, always with a reference.</span></li>
+            <li><b>4 · You get paid</b><span>leads at the month close, commissions with the statement, always with a reference.</span></li>
             <li><b>There is no tree below you</b><span>if you are a creator: you are paid for your own sales, nobody else's.</span></li>
           </ul>
         </section>
