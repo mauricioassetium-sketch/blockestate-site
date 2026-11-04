@@ -419,6 +419,7 @@ html,body{overflow-x:clip}
   text-transform:uppercase; letter-spacing:.12em; padding:.34rem .66rem; border-radius:999px;
   box-shadow:0 4px 14px rgba(0,0,0,.18); backdrop-filter:blur(6px)}
 .tag.green{background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff}
+.tag.reservada{background:#F59E0B; color:#1A1A1A; font-weight:700; letter-spacing:.02em;}
 .tag.coin{background:linear-gradient(135deg,var(--coin),var(--coin-deep)); color:#fff;
   display:inline-flex; align-items:center; gap:.25rem}
 /* the mark of Verysset, over the photograph: a dark pill with the approved stamp and the name */

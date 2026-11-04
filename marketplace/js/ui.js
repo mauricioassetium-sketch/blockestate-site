@@ -202,6 +202,7 @@ export function card(r) {
     <div class="photo">
       <a href="${enlace}" aria-label="${esc(r.titulo)}">${photoInner(r.foto_principal, r.tipo)}</a>
       ${r.distintivo?.promocionado ? `<span class="tag coin sola">${ICO.promocion}${esc(r.distintivo.etiqueta ?? 'Promoted')}</span>` : ''}
+      ${r.disponibilidad === 'held' ? '<span class="tag reservada sola">Reserved</span>' : ''}
       <button class="heart${fav ? ' on' : ''}" data-fav="${esc(r.unidad_id)}" type="button"
         title="${fav ? 'Remove from favourites' : 'Save to favourites'}"
         aria-label="${fav ? 'Remove from favourites' : 'Save to favourites'}">${fav ? '★' : '☆'}</button>
