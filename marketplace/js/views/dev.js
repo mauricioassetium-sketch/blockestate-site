@@ -1273,6 +1273,17 @@ export async function viewDevProjects() {
               <label>Community <input name="comunidad" placeholder="Business Bay"></label>
             </div>
             <label class="dev-ancho">Description <textarea name="descripcion" rows="2"></textarea></label>
+            <label class="dev-ancho">Who pays the DLD?
+              <select name="dld_modo">
+                <option value="comprador" selected>The buyer pays it (4 % of the price)</option>
+                <option value="mitad">Shared 50/50 (2 % each side)</option>
+                <option value="desarrollador">The developer pays it (an offer)</option>
+              </select>
+              <span class="note">The Dubai Land Department fee is 4 % of the price. In this market it is
+                often the developer who absorbs it as a promotion, and sometimes it is split. What you
+                choose here is what the buyer is told on the property page, and what the purchase is
+                settled with.</span>
+            </label>
             <div class="dev-form-pie">
               <label class="dev-ancho">Image of the project
                 <span class="dev-archivo">

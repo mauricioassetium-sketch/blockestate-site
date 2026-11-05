@@ -272,6 +272,12 @@ export async function viewUnit(id) {
             ${cifraCripto(d) ? `<div class="price-cripto"><b>${esc(cifraCripto(d))}</b>
               <i>indicative</i></div>` : ''}
           </div>
+          ${d.dld_modo === 'desarrollador' ? `
+            <div class="dld-nota"><b>DLD paid by the developer</b>
+              <span>The 4 % registry fee is on the developer, as an offer.</span></div>` : ''}
+          ${d.dld_modo === 'mitad' ? `
+            <div class="dld-nota"><b>DLD shared 50/50</b>
+              <span>2 % each side at the registry.</span></div>` : ''}
           ${d.estado_obra === 'off_plan' && (d.entrega_prevista || d.plan_pagos) ? `
             <div class="obra" style="margin:.6rem 0">
               ${d.entrega_prevista ? `<div><span>Handover</span><b>${esc(d.entrega_prevista)}</b></div>` : ''}
