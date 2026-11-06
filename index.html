@@ -780,6 +780,7 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
       caja.innerHTML = '<h3>We couldn\'t reach our server.</h3>' +
         '<p>Your registration is saved on this device. Send it now and it reaches us today.</p>' +
         '<p style="margin-top:14px"><a class="pre-mail" href="#" style="display:inline-block;padding:12px 18px;border-radius:9px;background:#22C55E;color:#04180F;font-weight:700;text-decoration:none">Send by email</a></p>' +
+        '<pre class="pre-datos" style="margin:12px 0 0;padding:10px;background:#f6f7f7;border-radius:8px;font-size:11px;line-height:1.5;white-space:pre-wrap;color:#374151"></pre>' +
         '<p style="margin-top:10px"><button class="pre-retry" type="button" style="background:none;border:0;color:#6b7280;text-decoration:underline;cursor:pointer;font:inherit">Try again</button></p>';
     }
     return caja;
@@ -806,6 +807,8 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
       var caja = panel(card);
       var a = caja.querySelector('.pre-mail');
       if (a) a.setAttribute('href', 'mailto:info@blockestate.ae?subject=' + encodeURIComponent('Pre-registration · ' + d.nombre) + '&body=' + encodeURIComponent(texto(d)));
+      var pre = caja.querySelector('.pre-datos');
+      if (pre) pre.textContent = texto(d);
       destino = caja;
     }
     if (destino) destino.style.display = 'block';
