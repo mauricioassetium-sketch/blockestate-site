@@ -601,7 +601,7 @@ function applyLang(lang){
 
 try{ window.BE_applyLang = applyLang; }catch(e){} window.addEventListener('load', function(){ var saved = 'en'; /* SIEMPRE ingles por defecto */ if(!(saved in LANGS)) saved = 'en'; // construir selectores de idioma document.querySelectorAll('.lang-sel').forEach(sel=>{ if(sel.options.length>5) return; sel.innerHTML = ''; Object.keys(LANGS).forEach(k=>{ const o = document.createElement('option'); o.value = k; o.textContent = LANGS[k].flag + ' ' + NAMES[k]; sel.appendChild(o); }); sel.addEventListener('change', e=>applyLang(e.target.value)); }); applyLang(saved);
 }); // ---- Developer pre-registration popup ----
-function bePopupInit(){ const P = document.getElementById('be-pre'); if(!P || P.dataset.ready) return; P.dataset.ready = '1'; // abrir document.querySelectorAll('[data-open-pre]').forEach(b=>{ b.addEventListener('click', e=>{ e.preventDefault(); bePreShow(); }); }); // cerrar P.querySelectorAll('.pre-close,.pre-bg').forEach(el=>el.addEventListener('click', bePreHide)); document.addEventListener('keydown', e=>{ if(e.key==='Escape') bePreHide(); }); const F = P.querySelector('form'); if(!F) return; F.addEventListener('submit', function(ev){ ev.preventDefault(); const btn = F.querySelector('[type=submit]'); const fd = new FormData(F); const cuerpo = { rol: String(fd.get('role') || 'developer').toLowerCase(), nombre: String(fd.get('name') || '').trim(), empresa: String(fd.get('company') || '').trim() || undefined, email: String(fd.get('email') || '').trim(), telefono: String(fd.get('phone') || '').trim() || undefined, proyectos: String(fd.get('projects') || '').trim() || undefined, emirato: String(fd.get('emirate') || '').trim() || undefined, idioma: (document.documentElement.lang || 'en').slice(0, 10) }; if(btn) btn.disabled = true; fetch(F.action, { method:'POST', headers:{'Content-Type':'application/json', 'Accept':'application/json'}, body:JSON.stringify(cuerpo) }) .then(function(r){ return r.json().then(function(j){ bePreResult(F, !!(j && j.ok)); }).catch(function(){ bePreResult(F, false); }); }) .catch(function(){ bePreResult(F, false); }); }); const R = P.querySelector('.pre-retry'); if(R) R.addEventListener('click', function(){ const err = F.closest('.pre-card').querySelector('.pre-err'); if(err) err.style.display = 'none'; F.style.display = ''; const b = F.querySelector('[type=submit]'); if(b) b.disabled = false; });
+function bePopupInit(){ const P = document.getElementById('be-pre'); if(!P || P.dataset.ready) return; P.dataset.ready = '1'; // abrir document.querySelectorAll('[data-open-pre]').forEach(b=>{ b.addEventListener('click', e=>{ e.preventDefault(); bePreShow(); }); }); // cerrar P.querySelectorAll('.pre-close,.pre-bg').forEach(el=>el.addEventListener('click', bePreHide)); document.addEventListener('keydown', e=>{ if(e.key==='Escape') bePreHide(); }); const F = P.querySelector('form'); if(!F) return; F.addEventListener('submit', function(ev){ if(window.__bePreEnvio) return; ev.preventDefault(); const btn = F.querySelector('[type=submit]'); const fd = new FormData(F); const cuerpo = { rol: String(fd.get('role') || 'developer').toLowerCase(), nombre: String(fd.get('name') || '').trim(), empresa: String(fd.get('company') || '').trim() || undefined, email: String(fd.get('email') || '').trim(), telefono: String(fd.get('phone') || '').trim() || undefined, proyectos: String(fd.get('projects') || '').trim() || undefined, emirato: String(fd.get('emirate') || '').trim() || undefined, idioma: (document.documentElement.lang || 'en').slice(0, 10) }; if(btn) btn.disabled = true; fetch(F.action, { method:'POST', headers:{'Content-Type':'application/json', 'Accept':'application/json'}, body:JSON.stringify(cuerpo) }) .then(function(r){ return r.json().then(function(j){ bePreResult(F, !!(j && j.ok)); }).catch(function(){ bePreResult(F, false); }); }) .catch(function(){ bePreResult(F, false); }); }); const R = P.querySelector('.pre-retry'); if(R) R.addEventListener('click', function(){ const err = F.closest('.pre-card').querySelector('.pre-err'); if(err) err.style.display = 'none'; F.style.display = ''; const b = F.querySelector('[type=submit]'); if(b) b.disabled = false; });
 }
 function bePreHide(){ var P=document.getElementById('be-pre'); if(P){P.classList.remove('on'); document.body.style.overflow='';} }
 /* Cierre a prueba de fallos: escucha en el documento, no en el boton. Da igual cuando se cree el boton o quien lo envuelva: siempre cierra. */
@@ -687,7 +687,7 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
     if(!H||!P) return;
     H.setAttribute('data-i18n',N[r].h); H.textContent=N[r].h;
     P.setAttribute('data-i18n',N[r].p); P.innerHTML=(window.BE_I18N&&window.BE_I18N[N[r].p]&&window.BE_I18N[N[r].p][document.documentElement.lang])||N[r].p;
-    document.querySelectorAll('#be-pre .only-dev').forEach(function(x){ x.style.display=(r==='buyer')?'none':''; });document.querySelectorAll('#be-pre .only-buy').forEach(function(x){ x.style.display=(r==='buyer')?'block':'none'; });try{ var F=document.getElementById('pre-dev-field'); }catch(e){} 
+    document.querySelectorAll('#be-pre .only-dev').forEach(function(x){ x.style.display=(r==='buyer')?'none':''; });document.querySelectorAll('#be-pre .only-buy').forEach(function(x){ x.style.display=(r==='buyer')?'block':'none'; });/* Un campo obligatorio escondido bloquea el envio sin decir nada: el navegador no puede enfocarlo ni ensenar el aviso. Al cambiar de papel se apaga y se desactiva lo que no se ve. */document.querySelectorAll('#be-pre .only-dev input').forEach(function(x){ x.required=(r!=='buyer'); x.disabled=(r==='buyer'); });document.querySelectorAll('#be-pre .only-buy input, #be-pre .only-buy select').forEach(function(x){ x.disabled=(r!=='buyer'); });try{ var F=document.getElementById('pre-dev-field'); }catch(e){} 
     if(R) R.value=(r==='buyer')?'Buyer':'Developer';
     document.querySelectorAll('.pre-role-b').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-role')===r); });
   }
@@ -715,38 +715,154 @@ window.BE_I18N_COPIA = {"How It Works":{"es":"Cómo Funciona","ar":"كيف يع�
 })();
 </script>
 
-<div class="pre" id="be-pre" role="dialog" aria-modal="true"> <div class="pre-bg"></div> <div class="pre-card"> <button type="button" class="pre-close" aria-label="Cerrar">&times;</button> <div class="pre-form-wrap"><div class="pre-role" role="group"><button type="button" class="pre-role-b on" data-role="dev" data-i18n="Developer">Developer</button><button type="button" class="pre-role-b" data-role="buyer" data-i18n="Buyer">Buyer</button></div> <h3 data-i18n="DEVELOPER PRE-REGISTRATION">DEVELOPER PRE-REGISTRATION</h3> <p class="pre-sub" data-i18n="Be among the first developers on the UAE's digital-asset property marketplace. List your projects. Get paid in AED. Reach global digital asset buyers.">Be among the first developers on the UAE's digital-asset property marketplace. List your projects. Get paid in AED. Reach global digital asset buyers.</p> <!-- El pre-registro entrega en info@blockestate.ae (dominio propio). FormSubmit exige confirmar la direccion UNA vez: en el primer envio manda un correo de confirmacion a esa cuenta y hasta que no se pulsa el enlace, los envios no se entregan. Ojo: mientras el MX del dominio no apunte a Zoho, ese correo de confirmacion no puede llegar. --> <form action="https://api.blockestate.ae/public/preregistros" method="POST" data-be-preregistro><input type="hidden" name="role" value="Developer"> <div> <label data-i18n="Full Name">Full Name</label> <input type="text" name="name" required data-i18n-ph="Full Name"> </div> <div id="pre-dev-field" class="only-dev"> <label data-i18n="Company / Developer Name (developers)">Company / Developer Name <span style="opacity:.5;font-weight:400">(developers)</span></label> <input type="text" name="company" required data-i18n-ph="Company / Developer Name"> </div> <div> <label data-i18n="Work Email">Work Email</label> <input type="email" name="email" required data-i18n-ph="Work Email"> </div> <div> <label data-i18n="Phone (optional)">Phone (optional)</label> <input type="tel" name="phone" data-i18n-ph="Phone (optional)"> </div>  <div class="only-dev"> <label data-i18n="Units or projects (optional)">Units or projects (optional)</label> <input type="text" name="projects" data-i18n-ph="Units or projects (optional)"> </div> <div class="only-buy" id="pre-buyer-field"><label data-i18n="Which emirate are you interested in buying in?">Which emirate are you interested in buying in?</label><select name="emirate" aria-label="Emirate"><option value="Dubai" data-i18n="Dubai">Dubai</option><option value="Abu Dhabi" data-i18n="Abu Dhabi">Abu Dhabi</option><option value="Sharjah" data-i18n="Sharjah">Sharjah</option><option value="Ajman" data-i18n="Ajman">Ajman</option><option value="Ras Al Khaimah" data-i18n="Ras Al Khaimah">Ras Al Khaimah</option><option value="Fujairah" data-i18n="Fujairah">Fujairah</option><option value="Umm Al Quwain" data-i18n="Umm Al Quwain">Umm Al Quwain</option></select></div>
+<div class="pre" id="be-pre" role="dialog" aria-modal="true"> <div class="pre-bg"></div> <div class="pre-card"> <button type="button" class="pre-close" aria-label="Cerrar">&times;</button> <div class="pre-form-wrap"><div class="pre-role" role="group"><button type="button" class="pre-role-b on" data-role="dev" data-i18n="Developer">Developer</button><button type="button" class="pre-role-b" data-role="buyer" data-i18n="Buyer">Buyer</button></div> <h3 data-i18n="DEVELOPER PRE-REGISTRATION">DEVELOPER PRE-REGISTRATION</h3> <p class="pre-sub" data-i18n="Be among the first developers on the UAE's digital-asset property marketplace. List your projects. Get paid in AED. Reach global digital asset buyers.">Be among the first developers on the UAE's digital-asset property marketplace. List your projects. Get paid in AED. Reach global digital asset buyers.</p> <!-- El pre-registro entrega en info@blockestate.ae (dominio propio). FormSubmit exige confirmar la direccion UNA vez: en el primer envio manda un correo de confirmacion a esa cuenta y hasta que no se pulsa el enlace, los envios no se entregan. Ojo: mientras el MX del dominio no apunte a Zoho, ese correo de confirmacion no puede llegar. --> <form action="https://api.blockestate.ae/public/preregistros" method="POST" data-be-preregistro novalidate><input type="hidden" name="role" value="Developer"> <div> <label data-i18n="Full Name">Full Name</label> <input type="text" name="name" required data-i18n-ph="Full Name"> </div> <div id="pre-dev-field" class="only-dev"> <label data-i18n="Company / Developer Name (developers)">Company / Developer Name <span style="opacity:.5;font-weight:400">(developers)</span></label> <input type="text" name="company" required data-i18n-ph="Company / Developer Name"> </div> <div> <label data-i18n="Work Email">Work Email</label> <input type="email" name="email" required data-i18n-ph="Work Email"> </div> <div> <label data-i18n="Phone (optional)">Phone (optional)</label> <input type="tel" name="phone" data-i18n-ph="Phone (optional)"> </div>  <div class="only-dev"> <label data-i18n="Units or projects (optional)">Units or projects (optional)</label> <input type="text" name="projects" data-i18n-ph="Units or projects (optional)"> </div> <div class="only-buy" id="pre-buyer-field"><label data-i18n="Which emirate are you interested in buying in?">Which emirate are you interested in buying in?</label><select name="emirate" aria-label="Emirate"><option value="Dubai" data-i18n="Dubai">Dubai</option><option value="Abu Dhabi" data-i18n="Abu Dhabi">Abu Dhabi</option><option value="Sharjah" data-i18n="Sharjah">Sharjah</option><option value="Ajman" data-i18n="Ajman">Ajman</option><option value="Ras Al Khaimah" data-i18n="Ras Al Khaimah">Ras Al Khaimah</option><option value="Fujairah" data-i18n="Fujairah">Fujairah</option><option value="Umm Al Quwain" data-i18n="Umm Al Quwain">Umm Al Quwain</option></select></div>
  <button type="submit" data-i18n="PRE-REGISTER">PRE-REGISTER</button> <p class="pre-note" data-i18n="Priority onboarding at launch. No fees to join.">Priority onboarding at launch. No fees to join.</p> </form> </div> <div class="pre-ok"> <h3 data-i18n="You're on the list. We'll be in touch at the address you gave us.">You're on the list. We'll be in touch at the address you gave us.</h3> <p><button class="pre-close" type="button" data-i18n="Maybe later">Maybe later</button></p> </div> <div class="pre-err" role="alert"> <h3 data-i18n="We couldn't send your registration.">We couldn't send your registration.</h3> <p data-i18n="Nothing was saved. Write to us at info@blockestate.ae and we'll add you by hand.">Nothing was saved. Write to us at <a href="mailto:info@blockestate.ae">info@blockestate.ae</a> and we'll add you by hand.</p> <p><button class="pre-retry" type="button" data-i18n="Try again">Try again</button></p> </div> </div>
 </div>
-<script>/* BE-envio-seguro: el formulario del pre-registro no puede sacar al visitante de la web.
-   Hay mas de un inicializador del popup y el navegador acababa enviando el formulario de verdad: quien se
-   inscribia y recibia un aviso terminaba viendo un JSON en crudo en una pagina de FormSubmit. Esto va en
-   captura sobre el documento, asi que gana a cualquier otro manejador y no depende de cuando se cree el
-   formulario ni de cuantas veces se inicialice. */
+<script>/* BE-pre-envio: una sola ruta de envio, con limite de tiempo y final siempre visible.
+   Antes habia dos manejadores del submit y el de captura ganaba: si la API no respondia, el fetch se
+   quedaba colgado y el visitante no veia ni exito ni error. Ahora: validacion, estado "enviando",
+   8 segundos de limite, exito, y si no hay API el registro queda guardado y se puede mandar por correo
+   con un clic. Nunca termina en silencio. */
 (function(){
-  if (window.__beEnvioSeguro) return; window.__beEnvioSeguro = true;
+  if (window.__bePreEnvio) return; window.__bePreEnvio = true;
+  var API = 'https://api.blockestate.ae/public/preregistros';
+  var LIMITE_MS = 8000;
+
+  function leer(F){
+    var fd = new FormData(F);
+    return {
+      rol: String(fd.get('role') || 'developer').toLowerCase(),
+      nombre: String(fd.get('name') || '').trim(),
+      empresa: String(fd.get('company') || '').trim(),
+      email: String(fd.get('email') || '').trim(),
+      telefono: String(fd.get('phone') || '').trim(),
+      emirato: String(fd.get('emirate') || '').trim(),
+      proyectos: String(fd.get('projects') || '').trim(),
+      idioma: (document.documentElement.lang || 'en').slice(0, 10),
+      cuando: new Date().toISOString()
+    };
+  }
+
+  function valido(d){
+    if (d.nombre.length < 2) return 'Please write your name.';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(d.email)) return 'Please write a valid email.';
+    if (d.rol === 'developer' && !d.empresa) return 'Please write the company name.';
+    return '';
+  }
+
+  function guardar(d){
+    try {
+      var k = 'be_pre_pendientes';
+      var a = JSON.parse(localStorage.getItem(k) || '[]');
+      a.push(d); localStorage.setItem(k, JSON.stringify(a.slice(-25)));
+    } catch(e) {}
+  }
+
+  function texto(d){
+    return [
+      'Pre-registration · BlockEstate',
+      'Role: ' + (d.rol === 'buyer' ? 'Buyer' : 'Developer'),
+      'Name: ' + d.nombre,
+      d.empresa ? 'Company: ' + d.empresa : '',
+      'Email: ' + d.email,
+      d.telefono ? 'Phone: ' + d.telefono : '',
+      d.emirato ? 'Emirate: ' + d.emirato : '',
+      d.proyectos ? 'Projects: ' + d.proyectos : '',
+      'Language: ' + d.idioma,
+      'Date: ' + d.cuando
+    ].filter(Boolean).join('\n');
+  }
+
+  function panel(card){
+    var caja = card.querySelector('.pre-err');
+    if (caja && !caja.dataset.listo){
+      caja.dataset.listo = '1';
+      caja.innerHTML = '<h3>We couldn\'t reach our server.</h3>' +
+        '<p>Your registration is saved on this device. Send it now and it reaches us today.</p>' +
+        '<p style="margin-top:14px"><a class="pre-mail" href="#" style="display:inline-block;padding:12px 18px;border-radius:9px;background:#22C55E;color:#04180F;font-weight:700;text-decoration:none">Send by email</a></p>' +
+        '<p style="margin-top:10px"><button class="pre-retry" type="button" style="background:none;border:0;color:#6b7280;text-decoration:underline;cursor:pointer;font:inherit">Try again</button></p>';
+    }
+    return caja;
+  }
+
+  function mensaje(F, txt){
+    var m = F.querySelector('.pre-msg');
+    if (!m){
+      m = document.createElement('p');
+      m.className = 'pre-msg';
+      m.setAttribute('role', 'alert');
+      m.style.cssText = 'color:#c0392b;font-size:13px;margin:6px 0 0';
+      var b = F.querySelector('[type=submit]');
+      b.parentNode.insertBefore(m, b);
+    }
+    m.textContent = txt || '';
+    m.style.display = txt ? 'block' : 'none';
+  }
+
+  function terminar(card, F, boton, textoOriginal, ok, d){
+    F.style.display = 'none';
+    var destino = card.querySelector(ok ? '.pre-ok' : '.pre-err');
+    if (!ok){
+      var caja = panel(card);
+      var a = caja.querySelector('.pre-mail');
+      if (a) a.setAttribute('href', 'mailto:info@blockestate.ae?subject=' + encodeURIComponent('Pre-registration · ' + d.nombre) + '&body=' + encodeURIComponent(texto(d)));
+      destino = caja;
+    }
+    if (destino) destino.style.display = 'block';
+    if (boton){ boton.disabled = false; boton.textContent = textoOriginal; }
+  }
+
   document.addEventListener('submit', function(ev){
     var F = ev.target;
     if (!F || !F.hasAttribute || !F.hasAttribute('data-be-preregistro')) return;
     ev.preventDefault();
     if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
-    var btn = F.querySelector('[type=submit]');
-    var fd = new FormData(F);
-    var cuerpo = {
-      rol: String(fd.get('role') || 'developer').toLowerCase(),
-      nombre: String(fd.get('name') || '').trim(),
-      empresa: String(fd.get('company') || '').trim() || undefined,
-      email: String(fd.get('email') || '').trim(),
-      telefono: String(fd.get('phone') || '').trim() || undefined,
-      proyectos: String(fd.get('projects') || '').trim() || undefined,
-      emirato: String(fd.get('emirate') || '').trim() || undefined,
-      idioma: (document.documentElement.lang || 'en').slice(0, 10)
-    };
-    if (btn) btn.disabled = true;
-    fetch(F.action, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(cuerpo) })
-      .then(function(r){ return r.json().then(function(j){ return !!(j && j.ok); }).catch(function(){ return false; }); })
-      .then(function(ok){ if (typeof bePreResult === 'function') bePreResult(F, ok); })
-      .catch(function(){ if (typeof bePreResult === 'function') bePreResult(F, false); if (btn) btn.disabled = false; });
+
+    var card = F.closest('.pre-card') || F.parentNode;
+    var boton = F.querySelector('[type=submit]');
+    var original = boton ? boton.textContent : '';
+    var d = leer(F);
+    var problema = valido(d);
+    if (problema){ mensaje(F, problema); return; }
+    mensaje(F, '');
+
+    if (boton){ boton.disabled = true; boton.textContent = 'SENDING…'; }
+
+    var control = ('AbortController' in window) ? new AbortController() : null;
+    var reloj = setTimeout(function(){ if (control) control.abort(); }, LIMITE_MS);
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(d),
+      signal: control ? control.signal : undefined
+    }).then(function(r){
+      clearTimeout(reloj);
+      return r.json().catch(function(){ return {}; }).then(function(j){
+        if (!r.ok || !j || !j.ok) throw new Error('sin confirmacion');
+        guardar(d);
+        terminar(card, F, boton, original, true, d);
+      });
+    }).catch(function(){
+      clearTimeout(reloj);
+      guardar(d);
+      terminar(card, F, boton, original, false, d);
+    });
+  }, true);
+
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('.pre-retry')){
+      e.preventDefault();
+      var card = t.closest('.pre-card');
+      var F = card && card.querySelector('form');
+      var caja = card && card.querySelector('.pre-err');
+      var ok = card && card.querySelector('.pre-ok');
+      if (caja) caja.style.display = 'none';
+      if (ok) ok.style.display = 'none';
+      if (F){ F.style.display = ''; var b = F.querySelector('[type=submit]'); if (b) b.disabled = false; }
+    }
   }, true);
 })();</script>
 </body> </html>
