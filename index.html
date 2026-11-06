@@ -115,21 +115,21 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 @media(max-width:560px){}
 .legal{border-top:1px solid rgba(0,0,0,.06);margin-top:3rem;padding-top:1.5rem;max-width:72rem;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;text-align:center}
 .legal p{font-size:11px;color:rgba(0,0,0,.35);line-height:1.6}
-.plogos{margin-top:2.5rem}
+.plogos{margin-top:3rem}
 .pl-ttl{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,0,0,.4);display:block;margin-bottom:1.2rem;text-align:center}
 .plogos-box{background:#fafbfa;border:1px solid #e8eae8;border-radius:16px;padding:2rem 1.6rem;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.plogos-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:.9rem}
-.plogos-grid + .plogos-grid{margin-top:.5rem}
-.plogo{display:inline-flex;align-items:center;justify-content:center;min-height:64px;padding:.5rem 1.4rem;background:#fff;border:1px solid #eeefee;border-radius:12px;transition:border-color .22s,box-shadow .22s,transform .22s}
-.plogo img{height:30px;width:auto;filter:grayscale(100%) opacity(.55);transition:filter .22s}
+.plogos-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:.9rem}
+.plogos-grid + .plogos-grid{margin-top:.9rem}
+.plogo{display:flex;width:100%;align-items:center;justify-content:center;min-height:78px;padding:.6rem 1rem;background:#fff;border:1px solid #eeefee;border-radius:12px;transition:border-color .22s,box-shadow .22s,transform .22s}
+.plogo img{height:30px;width:auto;max-width:82%;object-fit:contain;filter:grayscale(100%) opacity(.55);transition:filter .22s}
 .plogo.ustar img{height:15px}
 .plogo.changer img{height:26px}
 .plogo:hover img{filter:grayscale(0) opacity(1)}
 .plogo:hover{border-color:#e0e3e0}
 
 .lang-sel:hover{border-color:#22C55E}
-@media(max-width:900px){.hero-art{display:none}.grid7{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.baskets{grid-template-columns:1fr}.partners{grid-template-columns:repeat(2,1fr)}.foot-in{grid-template-columns:1fr}.nav-links{display:none}.plogos-box{padding:1.6rem 1.1rem}.plogos-grid{gap:.75rem}}
-@media(max-width:560px){.nav-in{padding:.7rem 1rem}.hero{padding:8rem 0 3.5rem}.hero h1{font-size:clamp(2.2rem,12vw,3rem)}.hero-meta{flex-direction:column;gap:1rem;margin-top:2rem}.grid7{grid-template-columns:1fr}.partners{grid-template-columns:1fr}.plogos-box{padding:1.2rem .8rem}.plogos-grid{justify-content:center;gap:.65rem}.plogo{min-height:56px;padding:.45rem 1rem}.plogo img{height:24px}.trust h2{font-size:clamp(1.8rem,8vw,2.6rem)}.nav-cta{font-size:11px;padding:.5rem .8rem}.lang-sel{margin-left:.5rem}} .operation{padding:6rem 0}
+@media(max-width:900px){.hero-art{display:none}.grid7{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.baskets{grid-template-columns:1fr}.partners{grid-template-columns:repeat(2,1fr)}.foot-in{grid-template-columns:1fr}.nav-links{display:none}.plogos-box{padding:1.6rem 1.1rem}.plogos-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}}
+@media(max-width:560px){.nav-in{padding:.7rem 1rem}.hero{padding:8rem 0 3.5rem}.hero h1{font-size:clamp(2.2rem,12vw,3rem)}.hero-meta{flex-direction:column;gap:1rem;margin-top:2rem}.grid7{grid-template-columns:1fr}.partners{grid-template-columns:1fr}.plogos-box{padding:1.2rem .8rem}.plogos-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}.plogo{min-height:64px;padding:.45rem .7rem}.plogo img{height:24px;max-width:84%}.trust h2{font-size:clamp(1.8rem,8vw,2.6rem)}.nav-cta{font-size:11px;padding:.5rem .8rem}.lang-sel{margin-left:.5rem}} .operation{padding:6rem 0}
 .operation h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.95}
 .operation h2 .outline{color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.3)}
 .operation .lede{margin-top:1.5rem;font-size:15px;font-weight:300;color:rgba(0,0,0,.6);max-width:36rem}
@@ -525,6 +525,7 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <p class="lede" data-rv="up"><span data-i18n="World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is">World-class partners guarantee every step. Physical truth. Licensed custody. Instant settlement. And a registered title deed. Trust is not promised. It is</span> <b data-i18n="programmed.">programmed.</b></p> <div class="partners">
 <div class="partner" data-rv="up"><div class="nm">PayTheFly</div><div class="rl" data-i18n="Digital Assets → AED Settlement">Digital Assets → AED Settlement</div><p data-i18n="Licensed payment infrastructure converting USDT and BNB into AED in seconds. The instant fiat leg of every purchase.">Licensed payment infrastructure converting USDT and BNB into AED in seconds. The instant fiat leg of every purchase.</p></div>
 <div class="partner" data-rv="up"><div class="nm">DLD</div><div class="rl" data-i18n="Title Registration">Title Registration</div><p data-i18n="Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.">Dubai Land Department issues and transfers the title deed in your name. The legal backbone of every sale.</p></div> <div class="partner" data-rv="up"><div class="nm">Verysset</div><div class="rl" data-i18n="Physical Oracle">Physical Oracle</div><p data-i18n="Every asset is scanned audited and turned into a digital twin before it enters the marketplace.">Every property is audited and verified before it enters the marketplace.</p></div>
+</div>
 <p class="tagline" data-rv="up"><span data-i18n="BlockEstate is not a bank, custodian, broker or auditor. It is the ">BlockEstate is not a bank, custodian, broker or auditor. It is the</span> <span class="green" data-i18n="gateway and orchestrator">gateway and orchestrator</span> <span data-i18n="that connects these licensed and technology providers into one seamless purchase.">that connects these licensed and technology providers into one seamless purchase.</span></p>
 <p class="ndc-line" data-rv="up"><span data-i18n="Powered by">Powered by <b>NDC</b></span> <span data-i18n="· Executed on Proven Infrastructure">· Executed on Proven Infrastructure</span></p>
 <div class="plogos" data-rv="up">
@@ -541,7 +542,6 @@ footer{border-top:1px solid rgba(0,0,0,.08);padding:4rem 0;background:#f7f7f7}
 <a class="plogo" href="https://www.dvaex.io/" target="_blank" rel="noopener" aria-label="DVA"><img src="img/dva.png" alt="DVA"/></a>
 <a class="plogo ustar" href="https://ustarmax.com/" target="_blank" rel="noopener" aria-label="UStar"><img src="img/ustar-logo.png" alt="UStar"/></a>
 <a class="plogo changer" href="https://changer.ae/" target="_blank" rel="noopener" aria-label="Changer"><img src="img/changer.svg" alt="Changer"/></a>
-</div>
 </div>
 </div>
 </div></section>
