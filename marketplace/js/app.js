@@ -52,6 +52,7 @@ const GRUPOS_MENU = [
     ['List a property', '#/register'],
     ['Broker desk', '#/broker'],
     ['Creator desk', '#/creator'],
+    ['Creator Agency', 'https://api.blockestate.ae/app'],
   ]],
   ['Company', [
     ['Newsroom', '#/news'],
