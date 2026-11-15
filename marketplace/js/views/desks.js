@@ -951,7 +951,12 @@ export async function viewNdc({ query } = {}) {
     cuerpo: `
       ${kpis([
     ['Network GDV', aed(r.gdv_fils), `${r.desarrolladores ?? 0} developers`, true],
-    ['Fee generated', aed(caja.fee_fils), `${pct(caja.coste_pb)} of the price`, true],
+    // Most of this book predates the per-deal fee snapshot, so the rate is stated over the deals that
+    // carry one instead of being diluted by the ones that never had a fee written down.
+    ['Fee generated', aed(caja.fee_fils),
+      caja.comisiones && caja.con_snapshot < caja.comisiones
+        ? `${pct(caja.coste_pb)} of the price, on ${caja.con_snapshot} of ${caja.comisiones} deals with a fee`
+        : `${pct(caja.coste_pb)} of the price`, true],
     ['NDC line', aed(r.ndc_fils), `${propia.deals ?? 0} attributed deals`, true],
     ['Waiting on KYC', String(kyc.pendientes ?? 0), `${kyc.tarde ?? 0} late`],
   ])}
