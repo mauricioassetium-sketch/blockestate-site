@@ -115,7 +115,13 @@ async function entrar(sesion) {
   store.save({ sesion });
   await store.refresh();
   toast(`Welcome, ${store.usuario()?.nombre ?? ''}.`.trim(), 'ok');
-  go(store.favs.size ? '/favorites' : '/');
+  // A desk belongs to a role, so a person of the construction side lands on their own book: sending
+  // an agency to the catalogue would leave it looking for a door that is already open.
+  const rol = store.rol() ?? '';
+  if (rol === 'agencia') return go('/agency');
+  if (rol === 'broker') return go('/broker');
+  if (rol.startsWith('developer')) return go('/dev');
+  return go(store.favs.size ? '/favorites' : '/');
 }
 
 /* ------------------------------------------------------------------ favourites */

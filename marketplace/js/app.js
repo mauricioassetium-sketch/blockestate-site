@@ -14,7 +14,8 @@ import { store } from './store.js';
 import { esc, empty, hidratarTarjetas, ICO, initSelectorActivo, marcarActivo, pintarPreciosCripto, selectorActivo, toast } from './ui.js';
 import { viewAreas } from './views/areas.js';
 import { viewCatalog, viewSearch } from './views/catalog.js';
-import { viewBroker, viewCreador } from './views/escritorios.js';
+import { viewCreador } from './views/escritorios.js';
+import { viewAgencia, viewBrokerDesk, viewDevAgencias, viewDevCanales, viewInvitacion, viewNdc } from './views/desks.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
 import { viewNews, viewNoticia } from './views/news.js';
 import { viewAuth, viewFavorites, viewNotifications, viewPortfolio, viewPurchase, viewRegister } from './views/me.js';
@@ -49,8 +50,10 @@ const GRUPOS_MENU = [
   ]],
   ['Sell and develop', [
     ['Developer portal', '#/dev'],
-    ['List a property', '#/register'],
+    ['Agency desk', '#/agency'],
     ['Broker desk', '#/broker'],
+    ['NDC network console', '#/ndc'],
+    ['List a property', '#/register'],
     ['Creator desk', '#/creator'],
     ['Creator Agency', 'https://api.blockestate.ae/app'],
   ]],
@@ -260,8 +263,15 @@ route('/notifications', () => viewNotifications());
 route('/dev', () => viewDeveloper());
 route('/dev/properties', () => viewDevProperties());
 route('/dev/properties/nueva', () => viewDevNuevaPropiedad());
+route('/dev/channels', () => viewDevCanales());
+route('/dev/agencies', () => viewDevAgencias());
 // The two desks. The broker works inside a developer's organisation; the creator rides alone on a code.
-route('/broker', () => viewBroker());
+route('/broker', ({ query }) => viewBrokerDesk({ query }));
+// The agency's own book, and the console of the principal agency: the same product, another book.
+route('/agency', ({ query }) => viewAgencia({ query }));
+route('/ndc', ({ query }) => viewNdc({ query }));
+// The public landing of a link. No session: the link is the permission.
+route('/invite/:token', ({ params }) => viewInvitacion({ params }));
 route('/creator', () => viewCreador());
 route('/dev/projects', () => viewDevProjects());
 route('/dev/listings', () => viewDevListings());

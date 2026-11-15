@@ -7,19 +7,25 @@
  * is sent as a bearer header.
  */
 const params = new URLSearchParams(location.search);
-const local = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
 
 // En producción el marketplace es estático (blockestate.ae) y la API vive en su propio subdominio, así
 // que `location.origin` no sirve: apuntaría al sitio, no al backend. `?api=` sigue mandando.
 const PRODUCCION_API = 'https://api.blockestate.ae/api';
+const PRODUCCION_HOSTS = ['blockestate.ae', 'www.blockestate.ae'];
+
+/**
+ * The production pair is the only one that splits site and API: there the page is static on the
+ * apex and the data lives in the api subdomain. Everywhere else this build is mounted on the API
+ * itself (a droplet, an IP, a demo subdomain), so the page talks to its own origin and a wrong or
+ * missing certificate on a subdomain can never take the catalogue down again.
+ */
+const aparte = PRODUCCION_HOSTS.includes(location.hostname);
 
 export const API_BASE =
   params.get('api') ??
-  (location.port === '3000'
-    ? location.origin
-    : local
-      ? 'http://127.0.0.1:3000'
-      : PRODUCCION_API);
+  (aparte && location.port !== '3000'
+    ? PRODUCCION_API
+    : location.origin);
 
 /** What the buyer reads for the values the API returns as codes. */
 export const TIPOS = {

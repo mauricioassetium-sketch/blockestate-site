@@ -148,6 +148,25 @@ export const api = {
     for (const [k, v] of Object.entries(meta ?? {})) if (v) fd.append(k, String(v));
     return req('POST', '/documents/upload', { body: fd });
   },
+  // The construction side: what each channel costs the developer, the panel of agencies that sells
+  // for it, the agency's own book, the broker's book inside that agency, and NDC's network console.
+  // Every one of them is scoped by the session on the server.
+  devChannels: () => req('GET', '/me/developer/channels'),
+  devAgencies: () => req('GET', '/me/developer/agencies'),
+  devAgencyAdd: (body) => req('POST', '/me/developer/agencies', { body }),
+  devAgencyUpdate: (id, body) => req('PATCH', `/me/developer/agencies/${id}`, { body }),
+  devAgencyArchive: (id) => req('DELETE', `/me/developer/agencies/${id}`),
+  agencyMe: () => req('GET', '/me/agency'),
+  brokerMe: () => req('GET', '/me/broker'),
+  ndcMe: () => req('GET', '/me/ndc'),
+  // The links that open a desk: one use, a deadline and an issuer. The public pair is what the
+  // person who receives the link sees before they have an account.
+  invites: () => req('GET', '/invites'),
+  inviteCreate: (body) => req('POST', '/invites', { body }),
+  inviteRevoke: (id) => req('POST', `/invites/${id}/revoke`),
+  inviteView: (token) => req('GET', `/public/invites/${encodeURIComponent(token)}`, { auth: false }),
+  inviteAccept: (token, body) => req('POST', `/public/invites/${encodeURIComponent(token)}/accept`, { body, auth: false }),
+
   // The rail: the developers with published stock and the significant projects.
   developers: () => req('GET', '/catalog/developers', { auth: false }),
   // The referral code: public, and it says who brought the buyer.

@@ -106,6 +106,8 @@ const GRUPOS = [
   ]],
   ['Who sells for you', [
     ['#/dev/brokers', 'Brokers', 'grupo'],
+    ['#/dev/agencies', 'Agencies', 'sello'],
+    ['#/dev/channels', 'Channels', 'moneda'],
     ['#/dev/agency', 'The agency', 'llave'],
   ]],
   ['The organisation', [
@@ -140,7 +142,7 @@ let DATOS = null;
  * ask the API again: the book is the same in all of them, and re-asking would only make the desks
  * feel slow.
  */
-async function cargar() {
+export async function cargar() {
   if (DATOS) return DATOS;
   const [yo, unidades, ventas, proyectos, avisos, codigos, marketing] = await Promise.all([
     api.devMe(), api.devUnits(), api.devSales(), api.devProjects(),
@@ -190,7 +192,7 @@ function tituloDe(activo) {
  * groups, and the desk of the day on the right. Every screen has a title, and the title comes from
  * the same list as the menu.
  */
-function cascaron(d, activo, cuerpo, acciones = '', titulo = '') {
+export function cascaron(d, activo, cuerpo, acciones = '', titulo = '') {
   const { yo } = d;
   const cuenta = cuentas(d);
   const aprobada = yo.estado === 'approved' && yo.activo;

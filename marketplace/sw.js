@@ -1,10 +1,11 @@
 /* The shell of the app, for when the network is not there.
    The API is never cached: a price or an availability served from a cache would be a lie. */
-const CACHE = 'blockestate-shell-v3';
+const CACHE = 'blockestate-shell-v4';
 const SHELL = [
   './',
   './index.html',
   './css/app.css',
+  './css/dev-v2.css',
   './js/app.js',
   './js/api.js',
   './js/cambio.js',
@@ -14,11 +15,13 @@ const SHELL = [
   './js/ui.js',
   './js/views/catalog.js',
   './js/views/dev.js',
+  './js/views/desks.js',
   './js/views/escritorios.js',
   './js/views/galeria.js',
   './js/views/map.js',
   './js/views/me.js',
   './js/views/rail.js',
+  './js/views/graficas.js',
   './js/views/unit.js',
   './js/views/verysset.js',
   './icons/icon.svg',
