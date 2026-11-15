@@ -954,9 +954,14 @@ export async function viewNdc({ query } = {}) {
     // Most of this book predates the per-deal fee snapshot, so the rate is stated over the deals that
     // carry one instead of being diluted by the ones that never had a fee written down.
     ['Fee generated', aed(caja.fee_fils),
-      caja.comisiones && caja.con_snapshot < caja.comisiones
-        ? `${pct(caja.coste_pb)} of the price, on ${caja.con_snapshot} of ${caja.comisiones} deals with a fee`
-        : `${pct(caja.coste_pb)} of the price`, true],
+      (() => {
+        // The API rounds the rate to whole basis points; with a book this size that rounds to zero,
+        // so the rate is worked out from the money itself before it is printed.
+        const pb = caja.coste_pb || (r.gdv_fils ? (caja.fee_fils / r.gdv_fils) * 10000 : 0);
+        return caja.comisiones && caja.con_snapshot < caja.comisiones
+          ? `${pct(pb)} of the price, on ${caja.con_snapshot} of ${caja.comisiones} deals with a fee`
+          : `${pct(pb)} of the price`;
+      })(), true],
     ['NDC line', aed(r.ndc_fils), `${propia.deals ?? 0} attributed deals`, true],
     ['Waiting on KYC', String(kyc.pendientes ?? 0), `${kyc.tarde ?? 0} late`],
   ])}
