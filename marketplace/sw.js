@@ -1,6 +1,6 @@
 /* The shell of the app, for when the network is not there.
    The API is never cached: a price or an availability served from a cache would be a lie. */
-const CACHE = 'blockestate-shell-v4';
+const CACHE = 'blockestate-shell-v5';
 const SHELL = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
 
