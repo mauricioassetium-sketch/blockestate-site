@@ -20,7 +20,12 @@ const view = () => document.getElementById('view');
 const filas = (arr) => (Array.isArray(arr) ? arr : []);
 
 const aed = (fils) => money(fils ?? 0);
-const pct = (pb) => `${(Number(pb ?? 0) / 100).toFixed(2)} %`;
+/** Basis points to a percentage. A real cost that would print as 0.00 % says so instead. */
+const pct = (pb) => {
+  const v = Number(pb ?? 0) / 100;
+  if (v > 0 && v < 0.01) return '< 0.01 %';
+  return `${v.toFixed(2)} %`;
+};
 const sello = (texto, tono = '') => `<span class="tag${tono ? ` ${tono}` : ''}">${esc(texto)}</span>`;
 /** The API stores the kind of unit as the catalogue does, lower case; a desk shows it as a name. */
 const tipo = (t) => {
