@@ -382,7 +382,7 @@
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td .sello-vss{transform:scale(.92); transform-origin:left center}
 /* el sello dentro de una celda: una pieza suya, y el texto del alcance debajo, nunca encima */
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-celda{display:block; margin-bottom:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-vss{padding-right:14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-vss{padding-right:16px; letter-spacing:.06em}
 
 @media (max-width:900px){
   :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-shell{grid-template-columns:minmax(0,1fr)}

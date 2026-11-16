@@ -1508,8 +1508,8 @@ function filaSellada(u) {
   const lectura = u.iot?.ultima_lectura;
   const dispositivo = u.iot
     ? `<code>${esc(u.iot.serie)}</code>
-       <small>since ${esc(fechaCorta(u.iot.instalado_en))} · ${esc(String(u.iot.durabilidad_anios ?? 10))} years</small>
-       <small>battery ${esc(String(u.iot.bateria_pct ?? ''))} %${lectura ? ' ·' : ''} ${lectura
+       <small>since ${esc(fechaCorta(u.iot.instalado_en))} · battery ${esc(String(u.iot.bateria_pct ?? ''))} %</small>
+       <small>${lectura
         ? `air ${esc(String(lectura.aire_aqi ?? ''))} · ${esc(String(lectura.temperatura_c ?? ''))} °C · ${esc(String(lectura.humedad_pct ?? ''))} % RH`
         : 'no reading yet'}</small>`
     : '<span class="muted">no device on record</span>';
