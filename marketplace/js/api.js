@@ -212,4 +212,22 @@ export const api = {
   cancel: (id, motivo) => req('POST', `/purchases/${id}/cancel`, { body: { motivo } }),
   receipt: (id) => req('POST', `/purchases/${id}/receipt`),
   receiptGet: (id) => req('GET', `/purchases/${id}/receipt`),
+
+  // The purchase in crypto. The developer opens it, hands the client the changer's payment link,
+  // and the house that link belongs to accepts the conversion by hand.
+  devPurchases: () => req('GET', '/me/developer/purchases'),
+  devPurchaseOptions: () => req('GET', '/me/developer/purchases/options'),
+  devPurchaseCreate: (body) => req('POST', '/me/developer/purchases', { body }),
+  devPurchaseLink: (id, body) => req('POST', `/me/developer/purchases/${id}/link`, { body }),
+  devPurchaseSend: (id) => req('POST', `/me/developer/purchases/${id}/send`),
+  devPurchasePaid: (id, body) => req('POST', `/me/developer/purchases/${id}/paid`, { body }),
+  devPurchaseForward: (id) => req('POST', `/me/developer/purchases/${id}/forward`),
+  devPurchaseSettle: (id) => req('POST', `/me/developer/purchases/${id}/settle`),
+  // The client's page, behind their own token: no session, the link is the permission.
+  payView: (token) => req('GET', `/public/pay/${encodeURIComponent(token)}`, { auth: false }),
+  // The exchange house's queue.
+  changerQueue: () => req('GET', '/me/changer'),
+  changerAccept: (id) => req('POST', `/me/changer/requests/${id}/accept`),
+  changerConvert: (id, body) => req('POST', `/me/changer/requests/${id}/convert`, { body }),
+  changerDecline: (id, motivo) => req('POST', `/me/changer/requests/${id}/decline`, { body: { motivo } }),
 };

@@ -120,6 +120,7 @@ async function entrar(sesion) {
   const rol = store.rol() ?? '';
   if (rol === 'agencia') return go('/agency');
   if (rol === 'broker') return go('/broker');
+  if (rol === 'changer') return go('/changer');
   if (rol.startsWith('developer')) return go('/dev');
   return go(store.favs.size ? '/favorites' : '/');
 }

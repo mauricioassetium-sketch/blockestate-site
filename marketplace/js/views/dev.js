@@ -103,6 +103,8 @@ const GRUPOS = [
   ['Money', [
     ['#/dev/sales', 'Sales', 'trato'],
     ['#/dev/collections', 'Collections', 'banco'],
+    // Buying in crypto: its own file per purchase, because the money moves outside the platform.
+    ['#/dev/purchases', 'Crypto purchases', 'moneda'],
   ]],
   // Who sells for you is the developer's to watch: the panel of agencies and what each channel costs
   // him. The brokers are the agency's to designate, in its own portal, so #/dev/brokers answers with a

@@ -16,6 +16,7 @@ import { viewAreas } from './views/areas.js';
 import { viewCatalog, viewSearch } from './views/catalog.js';
 import { viewCreador } from './views/escritorios.js';
 import { viewAgencia, viewBrokerDesk, viewDevAgencias, viewDevCanales, viewInvitacion, viewNdc } from './views/desks.js';
+import { viewChanger, viewDevPurchase, viewDevPurchases, viewPay } from './views/compra.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
 import { viewNews, viewNoticia } from './views/news.js';
 import { viewAuth, viewFavorites, viewNotifications, viewPortfolio, viewPurchase, viewRegister } from './views/me.js';
@@ -286,6 +287,12 @@ route('/dev/brokers', () => viewDevPuertaAgencia());
 // bookmark does not land on a screen that no longer has a door of its own.
 route('/dev/agency', () => viewDevAgencias());
 route('/dev/org', () => viewDevOrg());
+// The purchase in crypto: the developer's desk and the file of one purchase, the client's own page
+// (no session: the token is the permission) and the exchange house's queue.
+route('/dev/purchases', () => viewDevPurchases());
+route('/dev/purchase/:id', ({ params }) => viewDevPurchase(params.id));
+route('/pay/:token', ({ params }) => viewPay(params.token));
+route('/changer', () => viewChanger());
 route('/dev/sale/:id', ({ params }) => viewDevSale(params.id));
 // The desk went from «Inventory» to «Properties» when the menu grew: the old address still works.
 route('/dev/inventory', () => go('/dev/properties'));

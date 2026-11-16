@@ -1,0 +1,166 @@
+/* ============================================================================
+   BlockEstate · the purchase in crypto and the client's page.
+
+   Two screens that do not look like the rest on purpose: the file of a purchase is a walk with
+   steps, and the buyer's page is a single sheet of paper that opens from an email. Both are read by
+   people under pressure — somebody paying a house a large sum of money — so the type is one notch
+   larger than the desks, the figures are the biggest thing on the screen, and nothing moves.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- the file of a purchase */
+
+.cmp-volver{display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+  margin:0 0 1rem; font-size:13px; color:var(--ink-60)}
+.cmp-volver a{color:var(--green-dark); font-weight:700}
+
+.cmp-doctrina{background:rgba(34,197,94,.06); border-left:3px solid var(--green);
+  padding:.9rem 1.1rem; border-radius:0 10px 10px 0; font-size:13.5px; color:var(--ink-72)}
+
+.cmp-cabeza{display:flex; align-items:flex-start; justify-content:space-between; gap:1.4rem; flex-wrap:wrap}
+.cmp-cabeza h3{font-size:1.3rem; letter-spacing:-.03em}
+.cmp-cabeza h3 small{font-weight:400; font-size:.8rem; color:var(--ink-45); letter-spacing:0}
+.cmp-cabeza-cifra{display:flex; flex-direction:column; align-items:flex-end; gap:.35rem; text-align:right}
+.cmp-cabeza-cifra b{font-size:1.6rem; font-weight:900; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
+.cmp-cabeza-cifra span{font-size:12.5px; color:var(--ink-60); font-variant-numeric:tabular-nums}
+
+/* the walk: seven steps, the one we are in marked, the ones behind ticked */
+.cmp-pasos{list-style:none; display:flex; gap:.35rem; margin:1rem 0 1.2rem; padding:0; flex-wrap:wrap}
+.cmp-pasos li{flex:1 1 0; min-width:104px; display:flex; align-items:flex-start; gap:.45rem; padding:.55rem .6rem;
+  background:var(--card); border:1px solid var(--line); border-radius:9px; min-width:0}
+.cmp-pasos .cmp-paso-n{display:grid; place-items:center; width:20px; height:20px; flex:0 0 20px;
+  border-radius:50%; background:#fff; border:1px solid var(--line-2); font-size:11px; font-weight:800;
+  color:var(--ink-45)}
+.cmp-pasos .cmp-paso-t{font-size:11px; font-weight:700; letter-spacing:.01em; color:var(--ink-60);
+  line-height:1.25; overflow-wrap:break-word}
+.cmp-pasos li.hecho{background:rgba(34,197,94,.10); border-color:rgba(34,197,94,.3)}
+.cmp-pasos li.hecho .cmp-paso-n{background:var(--green-deep); border-color:var(--green-deep); color:#fff}
+.cmp-pasos li.hecho .cmp-paso-t{color:var(--green-dark)}
+.cmp-pasos li.aqui{background:#fff; border-color:var(--green); box-shadow:var(--ring)}
+.cmp-pasos li.aqui .cmp-paso-n{background:var(--green); border-color:var(--green); color:#fff}
+.cmp-pasos li.aqui .cmp-paso-t{color:var(--ink)}
+
+/* the actions of the step: one green button, and the facts it needs beside it */
+.cmp-accion{display:flex; flex-direction:column; align-items:stretch; gap:.55rem; padding:1rem 1.1rem;
+  margin:0 0 1rem; background:#fff; border:1px solid var(--line-2); border-radius:12px}
+/* A button keeps the width of its words: stretched across a card it reads as a banner, not a step. */
+.cmp-accion > .btn, .cmp-accion > button, .cmp-botones > .btn{align-self:flex-start}
+.cmp-accion > label{font-size:12px; font-weight:700; color:var(--ink-45); text-transform:uppercase;
+  letter-spacing:.10em; display:flex; flex-direction:column; gap:.3rem}
+.cmp-accion input{font-weight:400; letter-spacing:0; text-transform:none; font-size:14px}
+.cmp-accion .note{text-transform:none; letter-spacing:0; font-weight:400; color:var(--ink-60)}
+.cmp-botones{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center}
+.cmp-hilo{border:0; border-top:1px solid var(--line); margin:.9rem 0 .2rem}
+.cmp-ancho{grid-column:1 / -1}
+.cmp-suf{font-weight:400; color:var(--ink-45); text-transform:none; letter-spacing:0; font-size:11px}
+
+/* A note inside a dev-form label keeps the sentence's own case: the label is uppercase, the sentence
+   under it is not, and a whole paragraph in capitals is not a label, it is shouting. */
+.dev-form label .note, .dev-form label span.note{text-transform:none; letter-spacing:0; font-weight:400;
+  font-size:11.5px; line-height:1.5; color:var(--ink-60); display:block; margin-top:.25rem}
+.cmp-ancho .note{max-width:78ch}
+/* A property's name does not wrap in two letters a line: the first column of the table gets room. */
+#cmp-alta + .mod .dev-tabla th:first-child, .dev-tabla td:first-child{min-width:190px}
+
+/* the wallet, explained where it is chosen */
+.cmp-cartera{display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  margin:.4rem 0 .2rem; padding:.85rem 1rem; border:1px dashed rgba(34,197,94,.45);
+  border-radius:11px; background:rgba(34,197,94,.04)}
+.cmp-cartera-txt{display:flex; flex-direction:column; gap:.2rem; max-width:60ch}
+.cmp-cartera-txt b{display:flex; align-items:center; gap:.4rem; font-size:13px}
+.cmp-cartera-txt span{font-size:12.5px; color:var(--ink-60)}
+.cmp-cartera-btns{display:flex; gap:.5rem; flex-wrap:wrap}
+.cmp-previa{margin:.2rem 0 .6rem; font-size:13px; color:var(--ink-60)}
+.cmp-previa b{font-size:1.15rem; color:var(--ink); font-weight:900; letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+
+/* the trail: what happened, who did it, in order */
+.cmp-trail{list-style:none; margin:.2rem 0 0; padding:0 0 0 .9rem; border-left:2px solid var(--line-2);
+  display:flex; flex-direction:column; gap:.85rem}
+.cmp-trail li{position:relative; display:flex; flex-direction:column; gap:.1rem; font-size:13px}
+.cmp-trail li::before{content:""; position:absolute; left:-1.25rem; top:.45rem; width:8px; height:8px;
+  border-radius:50%; background:#fff; border:2px solid var(--green-deep)}
+.cmp-trail b{font-size:12.5px; letter-spacing:.01em}
+.cmp-trail span{font-size:12px; color:var(--ink-60)}
+.cmp-trail small{font-size:11.5px; color:var(--ink-45); overflow-wrap:anywhere}
+.cmp-copiar{margin-left:.5rem; padding:.1rem .5rem; font-size:11px}
+
+/* ---------------------------------------------------------------- the buyer's page */
+
+/* The buyer's sheet is not a page of the marketplace: it opens from an email, it is read once, and
+   it carries nothing that would send the reader somewhere else. The bar and the footer are of the
+   catalogue, so they are not drawn here. */
+body[data-ruta="pay"] #barra, body[data-ruta="pay"] .foot{display:none}
+/* The rate selector is of the catalogue: a desk works in dirhams and a bar full of empty rate fields
+   is a question nobody at the desk can answer. */
+body[data-ruta="dev"] .sel-activo, body[data-ruta="changer"] .sel-activo,
+body[data-ruta="agency"] .sel-activo, body[data-ruta="broker"] .sel-activo,
+body[data-ruta="ndc"] .sel-activo{display:none}
+/* The desk tables keep their figures on one line: a price broken in two lines reads as two prices. */
+.dev-tabla td.num small{display:block; font-size:11px; color:var(--ink-45)}
+.dev-tabla td small{display:block; font-size:11.5px; color:var(--ink-45)}
+body[data-ruta="pay"] .main{padding-bottom:0}
+body[data-ruta="pay"]{background:#f7f9f8}
+
+.pay-caja{max-width:660px; margin:0 auto; padding:1.6rem 1rem 3rem; display:flex;
+  flex-direction:column; gap:1.1rem}
+.pay-marca{display:flex; align-items:center; gap:.6rem}
+.pay-marca .mark{width:30px; height:30px}
+.pay-marca span{display:flex; flex-direction:column; line-height:1.15}
+.pay-marca b{font-size:15px; letter-spacing:-.02em}
+.pay-marca i{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--green-dark);
+  font-style:normal; font-weight:700}
+
+.pay-tarjeta{background:#fff; border:1px solid var(--line-2); border-radius:18px; padding:1.6rem 1.5rem 1.4rem;
+  box-shadow:var(--shadow); display:flex; flex-direction:column; gap:.35rem}
+.pay-estado{display:flex; align-items:center; gap:10px; margin:2px 0 22px; padding:12px 16px;
+  background:#fff; border:1px solid var(--linea); border-radius:12px}
+.pay-estado span{font-size:13px; color:var(--ink-70)}
+.pay-ref{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-45);
+  font-weight:700; margin:0}
+.pay-tarjeta h1{font-size:clamp(1.5rem,4vw,2.05rem); letter-spacing:-.04em; margin:.2rem 0 0}
+
+.pay-cifra{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin:1.1rem 0 .3rem}
+.pay-cifra > div{display:flex; flex-direction:column; gap:.15rem; padding:.85rem .95rem;
+  background:var(--card); border-radius:12px}
+.pay-cifra span{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-45);
+  font-weight:700}
+.pay-cifra b{font-size:1.28rem; font-weight:900; letter-spacing:-.035em; font-variant-numeric:tabular-nums}
+
+.pay-wallet{display:flex; flex-direction:column; gap:.35rem; margin:.7rem 0 .2rem; padding:1rem;
+  border:1px solid var(--line-2); border-radius:12px; background:#fbfcfb}
+.pay-wallet > span{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-45);
+  font-weight:700}
+.pay-wallet code{font-family:"SF Mono",ui-monospace,Menlo,monospace; font-size:13px; line-height:1.5;
+  word-break:break-all; color:var(--ink)}
+.pay-wallet small{font-size:11.5px; color:var(--ink-60)}
+.pay-wallet .btn{align-self:flex-start; margin-top:.2rem}
+
+.pay-cta{margin:1.2rem 0 .2rem; display:flex; flex-direction:column; gap:.45rem}
+.pay-cta small{font-size:11.5px; color:var(--ink-60)}
+.pay-boton{width:100%; justify-content:center; padding:.95rem 1.2rem; font-size:15px; font-weight:800;
+  box-shadow:var(--shadow-green)}
+
+.pay-pasos{list-style:none; counter-reset:pay; margin:1.3rem 0 .2rem; padding:0;
+  display:flex; flex-direction:column; gap:.05rem}
+.pay-pasos li{counter-increment:pay; position:relative; padding:.6rem .2rem .6rem 2.1rem;
+  border-top:1px solid var(--line); display:flex; flex-direction:column; gap:.1rem}
+.pay-pasos li::before{content:counter(pay); position:absolute; left:0; top:.62rem;
+  width:21px; height:21px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--line-2); background:#fff; font-size:11px; font-weight:800; color:var(--ink-45)}
+.pay-pasos b{font-size:13px}
+.pay-pasos span{font-size:12px; color:var(--ink-60)}
+.pay-pasos li.hecho::before{content:"✓"; background:var(--green-deep); border-color:var(--green-deep); color:#fff}
+.pay-pasos li.aqui b{color:var(--green-dark)}
+.pay-pasos li.aqui::before{background:var(--green); border-color:var(--green); color:#fff;
+  box-shadow:var(--ring)}
+
+.pay-nota{font-size:11.5px; color:var(--ink-60); border-top:1px solid var(--line); padding-top:.9rem;
+  margin:.9rem 0 0}
+.pay-pie{text-align:center; font-size:11.5px; color:var(--ink-45); margin:0}
+.pay-pie a{color:var(--green-dark); font-weight:700}
+
+@media (max-width:640px){
+  .pay-cifra{grid-template-columns:1fr}
+  .cmp-pasos li{flex:1 1 46%}
+  .cmp-cabeza-cifra{align-items:flex-start; text-align:left}
+}
