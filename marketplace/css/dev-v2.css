@@ -11,7 +11,7 @@
    tocar la portada, el buscador ni la ficha del comprador.
    ========================================================================== */
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]){
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]){
   /* los mismos tokens que el panel, con los mismos nombres */
   --brand:#22C55E; --brand-deep:#16A34A; --brand-dark:#15803D;
   --bg:#f5f7fa; --surface:#ffffff; --surface-2:#eff2f6; --surface-3:#e3e6ed;
@@ -26,197 +26,197 @@
   background:var(--bg);
 }
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .lab{font-size:var(--fs-xs); letter-spacing:.14em; color:var(--soft);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .lab{font-size:var(--fs-xs); letter-spacing:.14em; color:var(--soft);
   margin-bottom:6px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .lab .dash{background:var(--line-2)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .lab .dash{background:var(--line-2)}
 
 /* ------------------------------- la barra de la organización (barra superior) */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar{position:sticky; top:0; z-index:20; display:flex; align-items:center;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar{position:sticky; top:0; z-index:20; display:flex; align-items:center;
   gap:12px; min-height:var(--barra); padding:8px 20px; background:rgba(255,255,255,.94);
   border-bottom:1px solid var(--line); backdrop-filter:saturate(180%) blur(6px); margin:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-org{display:flex; align-items:center; gap:10px; min-width:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-marca{width:32px; height:32px; flex:none; display:grid; place-items:center;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-org{display:flex; align-items:center; gap:10px; min-width:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-marca{width:32px; height:32px; flex:none; display:grid; place-items:center;
   border-radius:var(--r); background:var(--ok-bg); color:var(--ok); border:1px solid var(--ok-bd)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-txt{display:flex; flex-direction:column; line-height:1.2; min-width:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-txt b{font-size:var(--fs-md); font-weight:700; color:var(--ink);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-txt{display:flex; flex-direction:column; line-height:1.2; min-width:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-txt b{font-size:var(--fs-md); font-weight:700; color:var(--ink);
   letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-txt small{display:flex; align-items:center; gap:8px; font-size:var(--fs-xs);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-txt small{display:flex; align-items:center; gap:8px; font-size:var(--fs-xs);
   color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-txt small i{font-style:normal; color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-bar-acciones{margin-left:auto; display:flex; align-items:center; gap:8px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-txt small i{font-style:normal; color:var(--soft)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-bar-acciones{margin-left:auto; display:flex; align-items:center; gap:8px}
 
 /* ------------------------------------------- barra lateral (254 px) + lienzo */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-shell{display:grid; grid-template-columns:var(--lado) minmax(0,1fr);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-shell{display:grid; grid-template-columns:var(--lado) minmax(0,1fr);
   align-items:start; margin:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav{position:sticky; top:var(--barra); height:calc(100vh - var(--barra));
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav{position:sticky; top:var(--barra); height:calc(100vh - var(--barra));
   overflow-y:auto; display:flex; flex-direction:column; gap:18px; padding:14px 10px 24px;
   background:var(--surface); border-right:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav-grupo{display:flex; flex-direction:column; gap:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav-lab{display:block; padding:0 10px 6px; font-size:var(--fs-xs);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav-grupo{display:flex; flex-direction:column; gap:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav-lab{display:block; padding:0 10px 6px; font-size:var(--fs-xs);
   font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a{display:flex; align-items:center; gap:9px; padding:7px 10px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a{display:flex; align-items:center; gap:9px; padding:7px 10px;
   border-radius:var(--r); color:var(--body); font-size:var(--fs); font-weight:600; text-decoration:none;
   transition:background .12s ease, color .12s ease}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a svg{flex:none; color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a:hover{background:var(--surface-2); color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a:hover svg{color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a.on{background:var(--ok-bg); color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a.on svg{color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a .n{margin-left:auto; font-style:normal; font-size:var(--fs-xs);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a svg{flex:none; color:var(--soft)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a:hover{background:var(--surface-2); color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a:hover svg{color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a.on{background:var(--ok-bg); color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a.on svg{color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a .n{margin-left:auto; font-style:normal; font-size:var(--fs-xs);
   font-weight:700; padding:2px 7px; border-radius:var(--r-xs); background:var(--surface-2); color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a.on .n{background:#fff; color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-main{min-width:0; padding:22px var(--pad) 64px; background:var(--bg)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a.on .n{background:#fff; color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-main{min-width:0; padding:22px var(--pad) 64px; background:var(--bg)}
 
 /* ------------------------------------------------------------- las tarjetas */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod{display:flex; flex-direction:column; background:var(--surface);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod{display:flex; flex-direction:column; background:var(--surface);
   border:1px solid var(--borde); border-radius:var(--r); box-shadow:none; padding:0; overflow:hidden;
   margin:0 0 14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header{display:flex; align-items:center; gap:8px; padding:11px 16px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header{display:flex; align-items:center; gap:8px; padding:11px 16px;
   border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
   letter-spacing:-.01em}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header h4{margin:0; font-size:var(--fs-t); font-weight:700; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header svg{color:var(--brand-deep); flex:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header a{margin-left:auto; font-size:var(--fs-sm); font-weight:650;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header h4{margin:0; font-size:var(--fs-t); font-weight:700; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header svg{color:var(--brand-deep); flex:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header a{margin-left:auto; font-size:var(--fs-sm); font-weight:650;
   color:var(--brand-dark); text-decoration:none; white-space:nowrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header a:hover{text-decoration:underline}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .list{padding:10px 16px 12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod .list .item b{font-size:var(--fs); font-weight:650; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod .list .item .muted{font-size:var(--fs-sm)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod .list .item .when{font-size:var(--fs-xs); color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barras-nota{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header a:hover{text-decoration:underline}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .list{padding:10px 16px 12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod .list .item b{font-size:var(--fs); font-weight:650; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod .list .item .muted{font-size:var(--fs-sm)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod .list .item .when{font-size:var(--fs-xs); color:var(--soft)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barras-nota{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
   color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > p,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .note{padding:12px 16px; margin:0; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > p,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .note{padding:12px 16px; margin:0; font-size:var(--fs-sm); color:var(--muted)}
 /* A note that says «go there» has to look like a door, not like another line of grey text. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .note a{color:var(--green-deep); font-weight:600; text-decoration:underline; text-underline-offset:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .note a:hover{color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .note a{color:var(--green-deep); font-weight:600; text-decoration:underline; text-underline-offset:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .note a:hover{color:var(--brand)}
 /* La regla que evita el fallo de verdad: TODO lo que va suelto dentro de una tarjeta lleva el mismo
    relleno a los lados. Solo piden la excepción los bloques que ya traen el suyo o que se pintan a
    sangre, y así el texto no puede acabar pegado al borde por olvido. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > *{padding-left:16px; padding-right:16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .kv,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .dev-tabla-caja,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .dev-dos,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .lay{padding-left:0; padding-right:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > *{padding-left:16px; padding-right:16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .kv,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .dev-tabla-caja,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .dev-dos,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .lay{padding-left:0; padding-right:0}
 /* el formulario que no usa grupos: su contenido también va dentro de los mismos 16 px */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form{padding:0 16px 14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form > fieldset{margin:0 -16px; padding:14px 16px 16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form > .dev-form-pie{margin:0 -16px; padding:12px 16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form > p,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form > .note{margin:0 -16px; padding:12px 16px 0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > form > *:last-child{padding-bottom:12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form{padding:0 16px 14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form > fieldset{margin:0 -16px; padding:14px 16px 16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form > .dev-form-pie{margin:0 -16px; padding:12px 16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form > p,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form > .note{margin:0 -16px; padding:12px 16px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > form > *:last-child{padding-bottom:12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px; align-items:stretch; margin:0 0 12px}
 /* Dos paneles en la misma fila que NO acaban a la misma altura se leen como un descuido: se estiran
    los dos y el contenido se reparte solo (la cifra o la gráfica arriba, la nota o la leyenda abajo).
    Dos columnas y no tres: a tres, una tarjeta se queda en 266 px y ahí no cabe ni una cifra con su
    etiqueta sin pegarse a los bordes. Cuando un panel necesita la fila entera, la pide. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos > .mod{height:100%; margin:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos-c > .mod:first-child{grid-column:1/-1}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos > .mod{height:100%; margin:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos-c > .mod:first-child{grid-column:1/-1}
 /* cuando una columna lleva varias piezas de alto distinto, estirarlas deja un hueco muerto al final */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos-arriba{align-items:start}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos > div > .mod:last-child,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos > div > .mod:only-child{margin-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos-arriba{align-items:start}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos > div > .mod:last-child,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos > div > .mod:only-child{margin-bottom:0}
 
 /* --------------------------------------------------- las cifras de un vistazo */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px; background:none; border:0; padding:0; margin:0 0 14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest{display:flex; flex-direction:column; gap:2px; background:var(--surface);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados .dest{display:flex; flex-direction:column; gap:2px; background:var(--surface);
   border:1px solid var(--borde); border-radius:var(--r); padding:12px 14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
   color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.15}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest b.chico{font-size:var(--fs-t); font-weight:650;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados .dest b.chico{font-size:var(--fs-t); font-weight:650;
   letter-spacing:-.02em; white-space:nowrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-carga{margin-top:12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header > .muted,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header > span:not(:first-child){margin-left:auto; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-carga{margin-top:12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header > .muted,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > header > span:not(:first-child){margin-left:auto; font-size:var(--fs-sm);
   color:var(--muted); font-weight:500}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest-lab{font-size:var(--fs-xs); font-weight:700; letter-spacing:.09em;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados .dest-lab{font-size:var(--fs-xs); font-weight:700; letter-spacing:.09em;
   text-transform:uppercase; color:var(--muted)}
 
 /* --------------------------------------------------------------- las tablas */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla-caja{overflow-x:auto; border-radius:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla{width:100%; border-collapse:collapse; font-size:var(--fs-md)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla th{position:sticky; top:0; background:var(--surface-2); text-align:left;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla-caja{overflow-x:auto; border-radius:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla{width:100%; border-collapse:collapse; font-size:var(--fs-md)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla th{position:sticky; top:0; background:var(--surface-2); text-align:left;
   padding:8px 16px; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
   color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td{padding:10px 16px; border-bottom:1px solid var(--line); color:var(--body);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td{padding:10px 16px; border-bottom:1px solid var(--line); color:var(--body);
   vertical-align:middle}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla tbody tr:last-child td{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla tbody tr:hover td{background:#fbfdfe}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td b{display:block; font-size:var(--fs-md); font-weight:650; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td small{display:block; margin-top:1px; font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td.num,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla th.num{text-align:right; font-variant-numeric:tabular-nums;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla tbody tr:last-child td{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla tbody tr:hover td{background:#fbfdfe}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td b{display:block; font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td small{display:block; margin-top:1px; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td.num,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla th.num{text-align:right; font-variant-numeric:tabular-nums;
   font-weight:650; color:var(--ink); white-space:nowrap; width:1%}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td.abrir{width:28px; text-align:right; color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla tbody tr{cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla tbody tr:hover td.abrir{color:var(--brand-deep)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td.abrir{width:28px; text-align:right; color:var(--soft)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla tbody tr{cursor:pointer}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla tbody tr:hover td.abrir{color:var(--brand-deep)}
 
 /* las etiquetas de estado: color solo cuando significa algo */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .tag{display:inline-flex; align-items:center; gap:4px; padding:2px 8px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .tag{display:inline-flex; align-items:center; gap:4px; padding:2px 8px;
   border-radius:var(--r-xs); font-size:var(--fs-xs); font-weight:700; letter-spacing:.03em;
   background:var(--surface-2); color:var(--dim); border:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .tag.green{background:var(--ok-bg); color:var(--ok); border-color:var(--ok-bd)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .tag.coin{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-bd)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .tag.err{background:var(--bad-bg); color:var(--bad); border-color:var(--bad-bd)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .tag.green{background:var(--ok-bg); color:var(--ok); border-color:var(--ok-bd)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .tag.coin{background:var(--warn-bg); color:var(--warn); border-color:var(--warn-bd)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .tag.err{background:var(--bad-bg); color:var(--bad); border-color:var(--bad-bd)}
 
 /* --------------------------------------------- las barras y las listas de datos */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barras{padding:12px 16px 14px; flex:1}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barras{padding:12px 16px 14px; flex:1}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px;
   align-items:center; padding:9px 0; border-bottom:1px solid var(--line); text-decoration:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra:last-child{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra b{font-size:var(--fs-md); font-weight:650; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra i.n{font-style:normal; font-size:var(--fs-sm); font-weight:700; color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra .pista{grid-column:1/-1; display:block; height:6px; border-radius:999px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra:last-child{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra b{font-size:var(--fs-md); font-weight:650; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra i.n{font-style:normal; font-size:var(--fs-sm); font-weight:700; color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra .pista{grid-column:1/-1; display:block; height:6px; border-radius:999px;
   background:var(--surface-2); overflow:hidden}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra .relleno{display:block; height:100%; border-radius:999px; background:var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-barra small{grid-column:1/-1; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra .relleno{display:block; height:100%; border-radius:999px; background:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-barra small{grid-column:1/-1; font-size:var(--fs-sm); color:var(--muted)}
 
 /* --------------------------------------------------- avisos, notas y respuestas */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .msg{padding:10px 14px; border-radius:var(--r); font-size:var(--fs); margin:0 0 14px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .msg{padding:10px 14px; border-radius:var(--r); font-size:var(--fs); margin:0 0 14px;
   border:1px solid var(--line); background:var(--surface)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .msg.err{background:var(--bad-bg); border-color:var(--bad-bd); color:#7a1d18}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .msg.warn{background:var(--warn-bg); border-color:var(--warn-bd); color:#7c3d06}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .msg.ok{background:var(--ok-bg); border-color:var(--ok-bd); color:#0f5c2c}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .msg.err{background:var(--bad-bg); border-color:var(--bad-bd); color:#7a1d18}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .msg.warn{background:var(--warn-bg); border-color:var(--warn-bd); color:#7c3d06}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .msg.ok{background:var(--ok-bg); border-color:var(--ok-bd); color:#0f5c2c}
 
 /* ------------------------------------------------------------- los formularios */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) form{padding:14px 16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) label{display:block; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) form{padding:14px 16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) label{display:block; font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em;
   text-transform:uppercase; color:var(--muted); margin-bottom:4px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) input,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) select,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) textarea{
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) input,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) select,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) textarea{
   width:100%; min-height:38px; padding:6px 10px; font-size:var(--fs-md); color:var(--ink);
   background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) input:focus,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) select:focus,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) textarea:focus{
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) input:focus,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) select:focus,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) textarea:focus{
   outline:none; border-color:var(--brand-deep); box-shadow:0 0 0 3px rgba(34,197,94,.16)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn{display:inline-flex; align-items:center; justify-content:center; gap:7px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn{display:inline-flex; align-items:center; justify-content:center; gap:7px;
   min-height:38px; padding:0 14px; border-radius:var(--r-sm); border:1px solid var(--line-2);
   background:var(--surface); color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer;
   text-decoration:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.green{background:var(--brand); border-color:var(--brand); color:#04140c}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.green:hover{background:var(--brand-deep); border-color:var(--brand-deep); color:#04140c}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.green svg,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.green path{color:#04140c; fill:currentColor}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.green{background:var(--brand); border-color:var(--brand); color:#04140c}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.green:hover{background:var(--brand-deep); border-color:var(--brand-deep); color:#04140c}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.green svg,:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.green path{color:#04140c; fill:currentColor}
 
 /* las pestañas de una sección, como las del panel */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-sec{display:flex; gap:4px; flex-wrap:wrap; padding:10px 16px 0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-sec{display:flex; gap:4px; flex-wrap:wrap; padding:10px 16px 0;
   border-bottom:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-sec button{display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-sec button{display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
   background:none; border:0; border-bottom:2px solid transparent; color:var(--muted);
   font-size:var(--fs); font-weight:650; cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-sec button:hover{color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-sec button.on{color:var(--brand-dark); border-color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-sec button:hover{color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-sec button.on{color:var(--brand-dark); border-color:var(--brand)}
 
 /* ------------------------------------------------------------- las gráficas */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-grafica{display:flex; flex-direction:column; gap:10px; flex:1;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-grafica{display:flex; flex-direction:column; gap:10px; flex:1;
   padding:12px 16px 14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-grafica canvas{display:block; width:100%; height:190px; flex:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-grafica-nota{margin:auto 0 0; font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-leyenda{display:flex; flex-wrap:wrap; gap:8px 16px; margin:auto 0 0; padding:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-grafica canvas{display:block; width:100%; height:190px; flex:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-grafica-nota{margin:auto 0 0; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-leyenda{display:flex; flex-wrap:wrap; gap:8px 16px; margin:auto 0 0; padding:0;
   list-style:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-leyenda li{display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-leyenda li{display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-sm);
   color:var(--body)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-leyenda i{width:9px; height:9px; border-radius:2px; background:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-leyenda i{width:9px; height:9px; border-radius:2px; background:var(--brand)}
 
 /* en el teléfono el portal se apila: la barra lateral pasa arriba, en una fila que se desliza */
 /* ============================================================================
@@ -229,175 +229,175 @@
    a los listados, a los formularios y a las herramientas.
    ========================================================================== */
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-ancho{grid-column:1/-1}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .row-between{display:flex; align-items:center; justify-content:space-between;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-ancho{grid-column:1/-1}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .row-between{display:flex; align-items:center; justify-content:space-between;
   gap:12px; flex-wrap:wrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) h1{margin:0 0 6px; font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) h1{margin:0 0 6px; font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
   color:var(--ink); line-height:1.15}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-titulo{margin:0 0 14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-titulo{margin:0 0 14px}
 
 /* ------------------- las dos columnas de una ficha: el contenido y el carril */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .lay{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .lay{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:12px;
   align-items:start; margin-top:12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail{position:sticky; top:calc(var(--barra) + 12px); display:grid; gap:12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box{background:var(--surface); border:1px solid var(--borde);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail{position:sticky; top:calc(var(--barra) + 12px); display:grid; gap:12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box{background:var(--surface); border:1px solid var(--borde);
   border-radius:var(--r); overflow:hidden}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > h3{display:flex; align-items:center; gap:8px; margin:0; padding:11px 16px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > h3{display:flex; align-items:center; gap:8px; margin:0; padding:11px 16px;
   border-bottom:1px solid var(--line); font-size:var(--fs-t); font-weight:700; color:var(--ink);
   letter-spacing:-.01em}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > h3 svg{color:var(--brand-deep); flex:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > p,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > .note{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > h3 svg{color:var(--brand-deep); flex:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > p,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > .note{margin:0; padding:12px 16px 0; font-size:var(--fs-sm);
   color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > p:last-child{padding-bottom:14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > .kv{padding:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > .dev-mini,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > a,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail-box > .btn{margin:12px 16px 14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > p:last-child{padding-bottom:14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > .kv{padding:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > .dev-mini,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > a,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail-box > .btn{margin:12px 16px 14px}
 
 /* ---------------------------------------- el dato y su valor, en filas de filete */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv{display:grid; grid-template-columns:auto minmax(0,1fr); margin:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv{display:grid; grid-template-columns:auto minmax(0,1fr); margin:0;
   font-size:var(--fs-md)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv dt{display:flex; align-items:center; padding:9px 12px 9px 16px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv dt{display:flex; align-items:center; padding:9px 12px 9px 16px;
   font-size:var(--fs-xs); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
   color:var(--muted); border-bottom:1px solid var(--line); white-space:nowrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv dd{display:flex; align-items:center; justify-content:flex-end; gap:6px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv dd{display:flex; align-items:center; justify-content:flex-end; gap:6px;
   margin:0; padding:9px 16px; border-bottom:1px solid var(--line); color:var(--ink); font-weight:650;
   text-align:right; font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv dt:nth-last-of-type(1),
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv dd:last-of-type{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .kv .dev-mono{font-variant-numeric:normal}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv dt:nth-last-of-type(1),
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv dd:last-of-type{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .kv .dev-mono{font-variant-numeric:normal}
 
 /* --------------------- los pasos de una venta: una línea de tiempo, con jerarquía */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso{display:grid; grid-template-columns:16px minmax(0,1fr); gap:10px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso{display:grid; grid-template-columns:16px minmax(0,1fr); gap:10px;
   align-items:center; padding:7px 16px; border-bottom:1px solid var(--line); font-size:var(--fs);
   color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso:last-child{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso .punto{justify-self:center; width:9px; height:9px; border-radius:50%;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso:last-child{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso .punto{justify-self:center; width:9px; height:9px; border-radius:50%;
   background:var(--surface); border:2px solid var(--line-2)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso.hecho{color:var(--body)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso.hecho .punto{background:var(--brand); border-color:var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso.aqui{background:var(--ok-bg); color:var(--ink); font-weight:650}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-paso.aqui .punto{background:var(--brand-deep); border-color:var(--brand-deep);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso.hecho{color:var(--body)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso.hecho .punto{background:var(--brand); border-color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso.aqui{background:var(--ok-bg); color:var(--ink); font-weight:650}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-paso.aqui .punto{background:var(--brand-deep); border-color:var(--brand-deep);
   box-shadow:0 0 0 3px rgba(34,197,94,.2)}
 
 /* ------------------------------------------------------------- los formularios */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form{display:grid; gap:14px; margin:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form fieldset{margin:0; padding:14px 16px 16px; border:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form{display:grid; gap:14px; margin:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form fieldset{margin:0; padding:14px 16px 16px; border:0;
   border-top:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form fieldset:first-of-type{border-top:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form legend{padding:0 0 10px; font-size:var(--fs-t); font-weight:700;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form fieldset:first-of-type{border-top:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form legend{padding:0 0 10px; font-size:var(--fs-t); font-weight:700;
   color:var(--ink); letter-spacing:-.01em}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-2{display:grid; grid-template-columns:1fr 1fr; gap:14px 16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-2 label:only-child{grid-column:1/-1}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form-2{display:grid; grid-template-columns:1fr 1fr; gap:14px 16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form-2 label:only-child{grid-column:1/-1}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   padding:12px 16px; border-top:1px solid var(--line); background:#fbfdfe}
 /* lo que cuesta el trámite, a la izquierda del botón que lo pide y en la misma línea */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-coste{flex:1 1 auto; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form-coste{flex:1 1 auto; font-size:var(--fs-sm);
   font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-pie .note{flex:1 1 260px; margin:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-etiqueta{display:block; margin:0 0 4px; font-size:var(--fs-xs); font-weight:700;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-form-pie .note{flex:1 1 260px; margin:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-etiqueta{display:block; margin:0 0 4px; font-size:var(--fs-xs); font-weight:700;
   letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-mini{display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-mini{display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px;
   font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-mini b{color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-mini b{color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
   font-size:var(--fs-sm); color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .note{font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .muted{color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .note{font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .muted{color:var(--muted)}
 
 /* -------------------------------------------------- los archivos y sus etiquetas */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-archivo{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .archivo-dicho{font-size:var(--fs-sm); color:var(--muted); line-height:1.5}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-archivo{margin-top:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn-archivo{display:inline-flex; align-items:center; gap:7px; min-height:38px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-archivo{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .archivo-dicho{font-size:var(--fs-sm); color:var(--muted); line-height:1.5}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-archivo{margin-top:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn-archivo{display:inline-flex; align-items:center; gap:7px; min-height:38px;
   padding:0 14px; border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
   color:var(--body); font-size:var(--fs); font-weight:650; cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn-archivo:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.ghost{background:transparent}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn-archivo:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.ghost{background:transparent}
 /* escondido de verdad: un campo que no se ve pero ocupa 197 px descoloca la fila que lo contiene */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .solo-lector{position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .solo-lector{position:absolute; width:1px; height:1px; margin:-1px; padding:0;
   overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0}
 
 /* ------------------------------------------- las herramientas de una lista larga */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-find{display:flex; align-items:center; gap:8px; flex:1 1 240px; min-width:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-find{display:flex; align-items:center; gap:8px; flex:1 1 240px; min-width:0;
   padding:0 12px; background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-sm)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-find svg{color:var(--soft); flex:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-find input{width:100%; min-height:38px; padding:0; border:0; outline:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-find svg{color:var(--soft); flex:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-find input{width:100%; min-height:38px; padding:0; border:0; outline:0;
   background:none; font-size:var(--fs-md); color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-chips{display:flex; gap:6px; flex-wrap:wrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .chip-f{min-height:34px; padding:0 12px; border:1px solid var(--line-2);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-chips{display:flex; gap:6px; flex-wrap:wrap}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .chip-f{min-height:34px; padding:0 12px; border:1px solid var(--line-2);
   border-radius:var(--r-sm); background:var(--surface); color:var(--body); font-size:var(--fs);
   font-weight:650; cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .chip-f:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .chip-f.on,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .chip-f[aria-pressed="true"]{background:var(--ok-bg); border-color:var(--ok-bd);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .chip-f:hover{border-color:var(--brand-deep); color:var(--brand-dark)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .chip-f.on,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .chip-f[aria-pressed="true"]{background:var(--ok-bg); border-color:var(--ok-bd);
   color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-orden select{width:auto; min-height:38px; padding:0 10px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-orden select{width:auto; min-height:38px; padding:0 10px;
   border:1px solid var(--line-2); border-radius:var(--r-sm); background:var(--surface);
   font-size:var(--fs); color:var(--body)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-cuenta{margin-left:auto; font-size:var(--fs-sm); color:var(--muted);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-cuenta{margin-left:auto; font-size:var(--fs-sm); color:var(--muted);
   font-variant-numeric:tabular-nums}
 
 /* ----------------------------------------------- la calculadora y lo que repasa */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc{margin:0; padding:14px 16px; border-top:1px solid var(--line);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc{margin:0; padding:14px 16px; border-top:1px solid var(--line);
   background:#fbfdfe; font-size:var(--fs-sm); color:var(--body)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-tasas{display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 2px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-tasas{display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 2px;
   font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-salida,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-vuelta{display:flex; align-items:baseline; justify-content:space-between;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-salida,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-vuelta{display:flex; align-items:baseline; justify-content:space-between;
   gap:12px; padding:6px 0; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-salida:last-child{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-activo{font-size:var(--fs); font-weight:650; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-aviso{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-marcas{display:flex; flex-wrap:wrap; gap:6px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-marca-caja{margin:0; padding:0; border:0; font-size:var(--fs-sm)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-repaso{display:grid; gap:4px; margin-top:8px; font-size:var(--fs-sm)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-repaso .si{color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-progreso{list-style:none; display:grid; gap:3px; margin:10px 0 0; padding:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-salida:last-child{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-activo{font-size:var(--fs); font-weight:650; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-aviso{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-marcas{display:flex; flex-wrap:wrap; gap:6px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-marca-caja{margin:0; padding:0; border:0; font-size:var(--fs-sm)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-repaso{display:grid; gap:4px; margin-top:8px; font-size:var(--fs-sm)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-repaso .si{color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-progreso{list-style:none; display:grid; gap:3px; margin:10px 0 0; padding:0;
   font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-progreso li{position:relative; padding-left:16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-progreso li::before{content:''; position:absolute; left:0; top:.42em;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-progreso li{position:relative; padding-left:16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-progreso li::before{content:''; position:absolute; left:0; top:.42em;
   width:7px; height:7px; border-radius:50%; background:var(--line-2)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-progreso li.si::before{background:var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-vista{display:flex; align-items:center; gap:10px; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-progreso li.si::before{background:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-vista{display:flex; align-items:center; gap:10px; font-size:var(--fs-sm);
   color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-vista img{width:40px; height:40px; border-radius:var(--r);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-vista img{width:40px; height:40px; border-radius:var(--r);
   object-fit:cover; border:1px solid var(--line-2)}
 
 /* la calculadora y el repaso también dentro de una tarjeta con relleno */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .dev-calc,
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .dev-tools{margin:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .dev-calc,
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .mod > .dev-tools{margin:0}
 
 /* ------------------------- las tres piezas de una explicación (qué hace, qué no, qué deja) ---- */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px;
   margin:12px 0 4px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres > div{background:#fbfdfe; border:1px solid var(--line);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres > div{background:#fbfdfe; border:1px solid var(--line);
   border-radius:var(--r); padding:11px 13px}
 /* Solo el título de la pieza es una línea propia; las negritas de dentro son énfasis del texto. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres > div > b:first-child{display:block; margin-bottom:4px; font-size:var(--fs-xs);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres > div > b:first-child{display:block; margin-bottom:4px; font-size:var(--fs-xs);
   font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres span b{font-weight:650; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres span{font-size:var(--fs); color:var(--body); line-height:1.5}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres span b{font-weight:650; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres span{font-size:var(--fs); color:var(--body); line-height:1.5}
 /* el alcance del sello, debajo del sello que lo firma */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .alcance{display:block; margin-top:4px; font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td .sello-vss{transform:scale(.92); transform-origin:left center}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .alcance{display:block; margin-top:4px; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td .sello-vss{transform:scale(.92); transform-origin:left center}
 /* el sello dentro de una celda: una pieza suya, y el texto del alcance debajo, nunca encima */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-celda{display:block; margin-bottom:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-vss{padding-right:16px; letter-spacing:.06em}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla .sello-celda{display:block; margin-bottom:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla .sello-vss{padding-right:16px; letter-spacing:.06em}
 
 @media (max-width:900px){
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-shell{grid-template-columns:minmax(0,1fr)}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav{position:static; height:auto; flex-direction:row; gap:12px;
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-shell{grid-template-columns:minmax(0,1fr)}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav{position:static; height:auto; flex-direction:row; gap:12px;
     overflow-x:auto; padding:10px 12px; border-right:0; border-bottom:1px solid var(--line)}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav-grupo{flex-direction:row; align-items:center; gap:6px}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav-lab{display:none}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav a{white-space:nowrap}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-main{padding:16px 12px 48px}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados{grid-template-columns:repeat(2,minmax(0,1fr))}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres{grid-template-columns:minmax(0,1fr)}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-dos{grid-template-columns:minmax(0,1fr)}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav-grupo{flex-direction:row; align-items:center; gap:6px}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav-lab{display:none}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav a{white-space:nowrap}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-main{padding:16px 12px 48px}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .destacados{grid-template-columns:repeat(2,minmax(0,1fr))}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tres{grid-template-columns:minmax(0,1fr)}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-dos{grid-template-columns:minmax(0,1fr)}
 }
 
 /* ---------- ancho perdido en móvil ----------
@@ -615,17 +615,17 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 }
 /* El portal del desarrollador es una mesa de trabajo, pero se usa desde el teléfono. */
 @media (max-width:620px){
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-nav-grupo a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .nav a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .rail a,
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) aside a{min-height:44px; display:flex; align-items:center}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn.sm, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .btn{min-height:44px; padding-top:0; padding-bottom:0}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) input, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) select, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) textarea{min-height:44px}
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .pestanas button, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .seg button{min-height:44px}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-nav-grupo a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .nav a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .rail a,
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) aside a{min-height:44px; display:flex; align-items:center}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn.sm, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .btn{min-height:44px; padding-top:0; padding-bottom:0}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) input, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) select, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) textarea{min-height:44px}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .pestanas button, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .seg button{min-height:44px}
   /* Los «See all →» de las cabeceras de panel son enlaces sueltos, sin clase: se alcanzan por su
      posición (el último enlace del encabezado), que es lo único que los distingue. */
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) header a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .encabezado a,
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .link-btn{min-height:44px; display:inline-flex; align-items:center}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) header a, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .encabezado a,
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .link-btn{min-height:44px; display:inline-flex; align-items:center}
   /* Los dos que quedaban: el buscador y el orden de la tabla de ventas. */
-  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-find input, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-orden select{min-height:44px}
+  :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-find input, :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-orden select{min-height:44px}
 }
 
 /* Un enlace de texto que va solo en su línea es un control, y en móvil llega al suelo de 44: el
@@ -801,133 +801,133 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
    se imprime dos veces, la segunda más pequeña y en gris, para que no compitan. Debajo, en el mismo
    punto de cobro, el enlace que abre la calculadora de volumen. */
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td .usd{display:block; margin-top:1px; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-tabla td .usd{display:block; margin-top:1px; font-size:var(--fs-sm);
   font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums; letter-spacing:.01em}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dest-usd{display:block; margin:-3px 0 2px; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dest-usd{display:block; margin:-3px 0 2px; font-size:var(--fs-sm);
   font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn{display:inline-block; margin-top:5px; padding:0; border:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-btn{display:inline-block; margin-top:5px; padding:0; border:0;
   background:none; font:inherit; font-size:var(--fs-sm); font-weight:700; color:var(--brand-dark); cursor:pointer;
   text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; text-decoration-color:var(--ok-bd)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn:hover{color:var(--ok); text-decoration-color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-btn:hover{color:var(--ok); text-decoration-color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-btn:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:2px}
 
 /* ------------------------------------------------ la calculadora (un <dialog> del navegador) */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal{position:fixed; inset:0; margin:auto;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal{position:fixed; inset:0; margin:auto;
   width:min(580px, calc(100% - 32px)); max-height:calc(100vh - 48px); padding:0; overflow:auto;
   border:1px solid var(--line-2); border-radius:14px; background:var(--surface); color:var(--body);
   box-shadow:0 24px 60px rgba(16,24,40,.3)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal::backdrop{background:rgba(12,18,28,.52); backdrop-filter:blur(3px)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal::backdrop{background:rgba(12,18,28,.52); backdrop-filter:blur(3px)}
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab{display:flex; align-items:flex-start; gap:12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab{display:flex; align-items:flex-start; gap:12px;
   padding:15px 18px 12px; border-bottom:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-kicker{display:block; font-size:var(--fs-xs); font-weight:700;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-kicker{display:block; font-size:var(--fs-xs); font-weight:700;
   letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab h4{margin:2px 0 3px; font-size:var(--fs-t); font-weight:700;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab h4{margin:2px 0 3px; font-size:var(--fs-t); font-weight:700;
   color:var(--ink); letter-spacing:-.01em}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab small{font-size:var(--fs-sm); color:var(--muted);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab small{font-size:var(--fs-sm); color:var(--muted);
   font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-x{margin-left:auto; width:28px; height:28px; flex:none;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-x{margin-left:auto; width:28px; height:28px; flex:none;
   display:grid; place-items:center; border-radius:var(--r-sm); border:1px solid var(--line); background:var(--surface);
   color:var(--muted); font-size:17px; line-height:1; cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-x:hover{background:var(--surface-2); color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-x:hover{background:var(--surface-2); color:var(--ink)}
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cuerpo{padding:14px 18px 0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-pedido{display:flex; align-items:center;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cuerpo{padding:14px 18px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-pedido{display:flex; align-items:center;
   justify-content:space-between; gap:12px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-pedido label{font-size:var(--fs-sm); font-weight:700;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-pedido label{font-size:var(--fs-sm); font-weight:700;
   letter-spacing:.08em; text-transform:uppercase; color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma{display:flex; align-items:center;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-suma{display:flex; align-items:center;
   border:1px solid var(--line-2); border-radius:var(--r); overflow:hidden; background:var(--surface)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma button{width:32px; height:34px; border:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-suma button{width:32px; height:34px; border:0;
   background:var(--surface-2); color:var(--ink); font-size:15px; font-weight:700; cursor:pointer}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma button:hover{background:var(--surface-3)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma input{width:84px; height:34px; border:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-suma button:hover{background:var(--surface-3)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-suma input{width:84px; height:34px; border:0;
   border-inline:1px solid var(--line); text-align:center; font:inherit; font-size:var(--fs-md); font-weight:700;
   color:var(--ink); font-variant-numeric:tabular-nums; background:var(--surface)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma input:focus{outline:2px solid var(--brand);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-suma input:focus{outline:2px solid var(--brand);
   outline-offset:-2px}
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-atajos{display:flex; align-items:center; gap:6px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-atajos{display:flex; align-items:center; gap:6px;
   margin-top:10px; flex-wrap:wrap}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-atajos .muted{font-size:var(--fs-xs); margin-left:2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-chip{padding:3px 11px; border-radius:999px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-atajos .muted{font-size:var(--fs-xs); margin-left:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-chip{padding:3px 11px; border-radius:999px;
   border:1px solid var(--line-2); background:var(--surface); color:var(--body); font:inherit; font-size:var(--fs-sm);
   font-weight:700; cursor:pointer; font-variant-numeric:tabular-nums}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-chip:hover{border-color:var(--brand);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-chip:hover{border-color:var(--brand);
   color:var(--brand-dark); background:var(--ok-bg)}
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera{list-style:none; margin:14px 0 0; padding:0;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera{list-style:none; margin:14px 0 0; padding:0;
   border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li{display:flex; align-items:center;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li{display:flex; align-items:center;
   justify-content:space-between; gap:10px; padding:6px 10px; font-size:var(--fs); border-bottom:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li:last-child{border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li b{font-variant-numeric:tabular-nums;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li:last-child{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li b{font-variant-numeric:tabular-nums;
   color:var(--dim); font-weight:700}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo{background:var(--ok-bg);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li.activo{background:var(--ok-bg);
   box-shadow:inset 3px 0 0 var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo span{font-weight:700; color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo b{color:var(--ok); font-weight:800}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li.activo span{font-weight:700; color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-escalera li.activo b{color:var(--ok); font-weight:800}
 
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-totales{margin-top:10px; padding-top:8px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-totales{margin-top:10px; padding-top:8px;
   border-top:1px dashed var(--line-2)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea{display:flex; align-items:baseline;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea{display:flex; align-items:baseline;
   justify-content:space-between; gap:12px; padding:4px 0; font-size:var(--fs)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > span{color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > b{display:flex; flex-direction:column;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea > span{color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea > b{display:flex; flex-direction:column;
   align-items:flex-end; font-variant-numeric:tabular-nums; color:var(--ink)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > b small{font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea > b small{font-size:var(--fs-sm);
   font-weight:600; color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.menos > b{color:var(--warn)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total{margin-top:4px; padding-top:9px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea.menos > b{color:var(--warn)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea.total{margin-top:4px; padding-top:9px;
   border-top:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total > span{font-weight:700; color:var(--ink);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea.total > span{font-weight:700; color:var(--ink);
   font-size:var(--fs-md)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total > b{font-size:var(--fs-t); font-weight:800;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-linea.total > b{font-size:var(--fs-t); font-weight:800;
   color:var(--ok)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-siguiente{margin:10px 0 0; padding:8px 10px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-siguiente{margin:10px 0 0; padding:8px 10px;
   border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line); font-size:var(--fs-sm);
   line-height:1.5; color:var(--dim)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-siguiente:empty{display:none}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-pie{display:flex; align-items:center; gap:12px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-siguiente:empty{display:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-pie{display:flex; align-items:center; gap:12px;
   padding:12px 18px 16px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-pie .note{margin:0; flex:1; font-size:var(--fs-xs)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-pie .note{margin:0; flex:1; font-size:var(--fs-xs)}
 /* the line that says there is no discount yet, in the same place the discount would be */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-sin{margin:2px 0 4px; font-size:var(--fs-sm);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-calc-sin{margin:2px 0 4px; font-size:var(--fs-sm);
   color:var(--muted)}
 
 /* ---- Quién trajo la venta ---------------------------------------------------------------------
    El canal era una palabra suelta («Creator»). Una palabra no dice quién: el desarrollador tiene que
    poder abrirla y ver la ficha de quien trajo la venta, y si fueron varios, todas. El disparador se
    lee como un dato más de la tabla —mismo tamaño, misma fila— no como un botón de acción. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien{display:inline-flex; align-items:center; gap:7px; margin:-3px 0 -3px 0; padding:3px 11px 3px 9px;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien{display:inline-flex; align-items:center; gap:7px; margin:-3px 0 -3px 0; padding:3px 11px 3px 9px;
   border:1px solid var(--line); border-radius:999px; background:var(--surface-2); font:inherit;
   font-weight:650; font-size:var(--fs); color:var(--ink); cursor:pointer;
   transition:border-color .15s ease, background .15s ease, box-shadow .15s ease}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien svg{flex:none; color:var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien small{font-size:var(--fs-xs); font-weight:600; letter-spacing:.02em; color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:hover{border-color:var(--brand); background:var(--surface-3);
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien svg{flex:none; color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien small{font-size:var(--fs-xs); font-weight:600; letter-spacing:.02em; color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien:hover{border-color:var(--brand); background:var(--surface-3);
   box-shadow:0 1px 2px rgba(12,18,28,.06)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:hover small{color:var(--brand)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:focus-visible{outline:2px solid var(--brand); outline-offset:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien:hover small{color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien:focus-visible{outline:2px solid var(--brand); outline-offset:2px}
 
 /* Una ficha por interviniente. Separadas por una línea y no por cajas: en una venta mixta se leen
    como una lista de personas, que es lo que son, y no como tres tarjetas que compiten. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista{display:flex; flex-direction:column; max-height:min(74vh,700px); overflow:auto;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien-lista{display:flex; flex-direction:column; max-height:min(74vh,700px); overflow:auto;
   padding-bottom:14px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil{padding:14px 0 2px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista .dev-perfil:first-child{padding-top:4px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil + .dev-perfil{border-top:1px solid var(--line)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-cab{display:flex; align-items:center; gap:11px; margin-bottom:6px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-ini{width:40px; height:40px; flex:none; display:grid; place-items:center; border-radius:50%;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil{padding:14px 0 2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-quien-lista .dev-perfil:first-child{padding-top:4px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil + .dev-perfil{border-top:1px solid var(--line)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil-cab{display:flex; align-items:center; gap:11px; margin-bottom:6px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil-ini{width:40px; height:40px; flex:none; display:grid; place-items:center; border-radius:50%;
   background:linear-gradient(140deg,#2f6b4f,#1d4536); color:#fff; font-size:var(--fs-sm); font-weight:800;
   letter-spacing:.06em; text-transform:uppercase}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien{flex:1; min-width:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien b{display:block; font-size:var(--fs-t); font-weight:700; color:var(--ink); line-height:1.2}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien small{display:block; margin-top:2px; font-size:var(--fs-sm); color:var(--muted)}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv{border-top:1px solid var(--line); border-bottom:0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv dt{padding:7px 12px 7px 0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv dd{padding:7px 0}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .note{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil-quien{flex:1; min-width:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil-quien b{display:block; font-size:var(--fs-t); font-weight:700; color:var(--ink); line-height:1.2}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil-quien small{display:block; margin-top:2px; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil .kv{border-top:1px solid var(--line); border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil .kv dt{padding:7px 12px 7px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil .kv dd{padding:7px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-perfil .note{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
 /* A person's name is written as it is spelled: the global h4 rule shouts everything it touches, and
    in the title of this pop-up that rule turns a name into a headline. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab h4{text-transform:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab h4{text-transform:none}
