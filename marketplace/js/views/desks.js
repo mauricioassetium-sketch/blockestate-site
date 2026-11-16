@@ -142,6 +142,11 @@ function donaSegura(canvas, partes, opciones) {
  * What each channel costs. The 4 % envelope is a flat line and a traditional agency is its negotiated
  * commission plus the toll: this is the screen where the developer decides who sells for him.
  */
+/**
+ * Unrouted on purpose: what each channel of the developer's book costs him is analytics of the
+ * agency's work, not a desk the developer keeps. `#/dev/channels` answers with the gate in
+ * `viewDevPuertaAgencia`.
+ */
 export async function viewDevCanales() {
   let d;
   let c;
@@ -228,6 +233,10 @@ export async function viewDevCanales() {
 }
 
 /** The panel: who sells for the developer, on what terms, and which links are still open. */
+/**
+ * Unrouted on purpose: the developer does not bring agencies in — the agency is appointed between
+ * BlockEstate and the developer, and NDC keeps that book. `#/dev/agencies` answers with the gate.
+ */
 export async function viewDevAgencias() {
   let d;
   let p;

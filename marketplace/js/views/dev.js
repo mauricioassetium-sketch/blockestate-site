@@ -104,12 +104,9 @@ const GRUPOS = [
     ['#/dev/sales', 'Sales', 'trato'],
     ['#/dev/collections', 'Collections', 'banco'],
   ]],
-  ['Who sells for you', [
-    ['#/dev/brokers', 'Brokers', 'grupo'],
-    ['#/dev/agencies', 'Agencies', 'sello'],
-    ['#/dev/channels', 'Channels', 'moneda'],
-    ['#/dev/agency', 'The agency', 'llave'],
-  ]],
+  // No «who sells for you» here, on purpose. The developer sells through its own desk; the agency is
+  // the one that designates brokers and creators, and it does so in its own portal. The addresses of
+  // those desks still exist, and they answer with a gate that says whose they are.
   ['The organisation', [
     ['#/dev/org', 'Profile and approval', 'sello'],
   ]],
@@ -183,8 +180,6 @@ function cuentas(d) {
     '#/dev/listings': u.filter((x) => x.anuncio).length,
     '#/dev/verification': u.filter((x) => x.anuncio?.badge_alcance).length,
     '#/dev/sales': v.length,
-    // Only when the desk could read them: a zero for «you may not see them» would read as «none».
-    '#/dev/brokers': d.codigos.permitido === false ? undefined : (d.codigos.codigos ?? []).length,
   };
 }
 
@@ -2148,8 +2143,38 @@ export async function viewDevCollections() {
   });
 }
 
+/* ---------------------------------------------------------------- lo que no es de este portal */
+
+/**
+ * Who designates brokers, agencies and channels is the agency, and it does it in its own portal. The
+ * developer's menu no longer carries those desks; their four addresses still exist, so they answer
+ * here instead of rendering a desk that belongs to another organisation. A gate that explains is
+ * better than a 404: it says where that work lives and what the developer does see of it — a sale
+ * still names the hand that brought it, and opening the channel opens that person's profile.
+ */
+export async function viewDevPuertaAgencia() {
+  await conDatos('#/dev/brokers', () => `
+    <section class="mod">
+      <header>${ico('grupo', 15)}<h4>This desk is the agency's</h4></header>
+      <p class="note"><b>The developer sells; the agency designates.</b> Who brings a broker, an
+        agency or a creator into the book, and the code each of them carries, is decided in the
+        agency's portal — never from here. That is why this portal has no brokers, no agencies and
+        no channels of its own.</p>
+      <p class="note">What is yours is the other half of the story: every sale in this book says who
+        brought it. Open a sale and the channel opens the profile behind it — the code, where that
+        person publishes, their audience, their identity check. What each of them is paid stays out
+        of it: the reparto is BlockEstate's ledger, not the developer's.</p>
+      <p class="note"><a href="#/dev/sales">Go to the sales</a> · <a href="#/dev">back to the overview</a></p>
+    </section>`, '', 'Who sells for you');
+}
+
 /* ---------------------------------------------------------------- Brokers */
 
+/**
+ * Unrouted on purpose: the developer does not designate brokers — the agency does, in its own
+ * portal. The address `#/dev/brokers` answers with the gate in `viewDevPuertaAgencia`; this markup
+ * stays beside the desk it belongs to rather than being deleted and rewritten for the agency.
+ */
 export async function viewDevBrokers() {
   await conDatos('#/dev/brokers', (x) => {
     const codigos = x.codigos.codigos ?? [];
@@ -2273,6 +2298,11 @@ export async function viewDevBrokers() {
 
 /* ---------------------------------------------------------------- La agencia */
 
+/**
+ * Unrouted on purpose: the fee the agency keeps is set between the developer and the agency, and the
+ * screen that explains it lives with the rest of the deal. The address `#/dev/agency` answers with
+ * the gate in `viewDevPuertaAgencia`.
+ */
 export async function viewDevAgency() {
   await conDatos('#/dev/agency', (x) => {
     const ventas = x.ventas.ventas ?? [];
