@@ -104,13 +104,12 @@ const GRUPOS = [
     ['#/dev/sales', 'Sales', 'trato'],
     ['#/dev/collections', 'Collections', 'banco'],
   ]],
-  // Who sells for you is half the developer's: he keeps the panel of agencies, what each channel costs
-  // him and the deal with the principal agency. The brokers are the other half — the agency designates
-  // them in its own portal — so the group holds three doors and the broker's answers with a gate.
+  // Who sells for you is the developer's to watch: the panel of agencies and what each channel costs
+  // him. The brokers are the agency's to designate, in its own portal, so #/dev/brokers answers with a
+  // gate instead of a desk. «The agency» is no door of its own either: the deal is a row in the panel.
   ['Who sells for you', [
     ['#/dev/agencies', 'Agencies', 'sello'],
     ['#/dev/channels', 'Channels', 'moneda'],
-    ['#/dev/agency', 'The agency', 'llave'],
   ]],
   ['The organisation', [
     ['#/dev/org', 'Profile and approval', 'sello'],
@@ -2166,8 +2165,8 @@ export async function viewDevPuertaAgencia() {
         joins and which code each one gets, in its own portal. That is why this portal has no brokers
         of its own.</p>
       <p class="note">What is yours is beside it: the <a href="#/dev/agencies">panel of agencies</a>
-        and what each one brings, <a href="#/dev/channels">what every channel costs you</a>, and
-        <a href="#/dev/agency">the deal with the principal agency</a>. What the developer sees of a
+        and what each one brings — with the deal it runs on, its fee and its toll, as a row of that
+        panel — and <a href="#/dev/channels">what every channel costs you</a>. What the developer sees of a
         broker is what a sale already tells him: open a sale and the channel opens that profile — the
         code, where he publishes, his audience, his identity check. What he is paid stays out of it;
         the reparto is BlockEstate's ledger, not the developer's.</p>
@@ -2306,8 +2305,9 @@ export async function viewDevBrokers() {
 /* ---------------------------------------------------------------- La agencia */
 
 /**
- * The deal with the principal agency: what it keeps, what the developer keeps, and the terms the
- * appointment runs on. It is the developer's own contract, so it stays in the developer's portal.
+ * Unrouted on purpose: the deal with the agency — what it keeps, what the developer keeps, its fee and
+ * its toll — is a row of the panel of agencies, and a screen of its own made the same numbers look
+ * like two different things. `#/dev/agency` sends the reader to the panel.
  */
 export async function viewDevAgency() {
   await conDatos('#/dev/agency', (x) => {

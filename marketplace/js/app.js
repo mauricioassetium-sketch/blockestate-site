@@ -21,8 +21,8 @@ import { viewNews, viewNoticia } from './views/news.js';
 import { viewAuth, viewFavorites, viewNotifications, viewPortfolio, viewPurchase, viewRegister } from './views/me.js';
 import { viewProject, viewUnit } from './views/unit.js';
 import {
-  viewDeveloper, viewDevAgency, viewDevCollections, viewDevListings, viewDevNuevaPropiedad,
-  viewDevOrg, viewDevProjects, viewDevProperties, viewDevPuertaAgencia, viewDevSale, viewDevSales,
+  viewDeveloper, viewDevCollections, viewDevListings, viewDevNuevaPropiedad, viewDevOrg,
+  viewDevProjects, viewDevProperties, viewDevPuertaAgencia, viewDevSale, viewDevSales,
   viewDevVerification,
 } from './views/dev.js';
 
@@ -282,7 +282,9 @@ route('/dev/verification', () => viewDevVerification());
 route('/dev/sales', () => viewDevSales());
 route('/dev/collections', () => viewDevCollections());
 route('/dev/brokers', () => viewDevPuertaAgencia());
-route('/dev/agency', () => viewDevAgency());
+// The deal with the agency is a row of the panel; the address keeps pointing at the panel so a
+// bookmark does not land on a screen that no longer has a door of its own.
+route('/dev/agency', () => viewDevAgencias());
 route('/dev/org', () => viewDevOrg());
 route('/dev/sale/:id', ({ params }) => viewDevSale(params.id));
 // The desk went from «Inventory» to «Properties» when the menu grew: the old address still works.
