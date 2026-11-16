@@ -1612,7 +1612,7 @@ export async function viewDevVerification() {
     const cuerpoEspera = esperando.length
       ? esperando.map((u) => filaEnEspera(u, tarifas)).join('')
       : '<tr><td colspan="4" class="note">Every unit in the book carries the seal.</td></tr>';
-    const sinSello = Number(r.en_curso ?? 0) + Number(r.pendientes ?? 0);
+    const sinSello = esperando.length;
     const cuerpoTarifas = (v.tarifas ?? []).map(filaTarifa).join('');
     const cuerpoVisitas = visitas.map((vis) => filaVisita(vis, filas)).join('');
 
