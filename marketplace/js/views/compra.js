@@ -464,7 +464,9 @@ export async function viewDevPurchase(id) {
             ${dato('Asset', `${c.activo} · ${c.red}`)}
             ${dato('Amount', cripto(c.monto_cripto, c.activo))}
             ${dato('Exchange house', c.changer ? `${c.changer}${c.changer_licencia ? ` · ${c.changer_licencia}` : ''}` : '')}
-            ${datoHtml('Payment link', c.enlace ? `<a href="${esc(c.enlace)}" target="_blank" rel="noopener">${esc(c.enlace)}</a>` : '')}
+            ${datoHtml('Payment link', c.enlace
+              ? `<a href="${esc(c.enlace)}" target="_blank" rel="noopener">${esc(String(c.enlace).replace(/^https?:\/\//, ''))}</a>`
+              : '')}
             ${datoHtml('The buyer\'s page', `<a href="#/pay/${esc(c.token)}" target="_blank" rel="noopener">Open it</a>
               <button class="btn ghost cmp-copiar" type="button" data-copiar="${esc(`${location.origin}${location.pathname}#/pay/${c.token}`)}">Copy</button>`)}
           </dl>
