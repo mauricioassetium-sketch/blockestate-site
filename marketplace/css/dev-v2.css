@@ -791,7 +791,7 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
   button, [role="button"], a.btn, .chip, select, summary{min-height:44px}
   .ctrl, .hero-filtros .ctrl, .control.compacto .ctrl,
   .hero-q input, .seg button, .medios-sel .ms,
-  .sel-activo button, .sel-activo .sel-tasa input{min-height:44px}
+  .sel-activo button{min-height:44px}
   .foot-redes .red{width:44px; height:44px}
 }
 

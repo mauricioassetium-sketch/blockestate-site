@@ -1,6 +1,6 @@
 /** The property page and the project page. */
 import { api, urlDeMedio } from '../api.js';
-import { cifraCripto } from '../cambio.js';
+import { cifraCripto, cifrasCripto } from '../cambio.js';
 import { go } from '../router.js';
 import { store } from '../store.js';
 import { amenLabel, areaTxt, date, empty, error, esc, ico, money, obraLabel, photoInner, selloVerysset, specs, tipoLabel } from '../ui.js';
@@ -269,7 +269,7 @@ export async function viewUnit(id) {
         <aside class="panel">
           <div id="precio-panel">
             <div class="price">${esc(money(d.precio_fils))}</div>
-            ${cifraCripto(d) ? `<div class="price-cripto"><b>${esc(cifraCripto(d))}</b>
+            ${cifrasCripto(d) ? `<div class="price-cripto"><b>${esc(cifrasCripto(d))}</b>
               <i>indicative</i></div>` : ''}
           </div>
           ${d.dld_modo === 'desarrollador' ? `

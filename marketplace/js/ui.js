@@ -1,5 +1,5 @@
 /** Small view helpers: escaping, money, cards, toasts. No framework, no build step. */
-import { ACTIVOS_VER, activoElegido, cifraCripto, cifrasCripto, elegirActivo, equivalenteTexto, filsDe, fijarTasa, tasa, tasaPlausible, tasaTexto, fuenteTasa, cuando, unidadElegida } from './cambio.js';
+import { ACTIVOS_VER, activoElegido, cifrasCripto, elegirActivo, filsDe, unidadElegida } from './cambio.js';
 import { render } from './router.js';
 import { AMENIDADES, ESTADOS_OBRA, TIPOS, label } from './config.js';
 import { store } from './store.js';
@@ -99,21 +99,13 @@ export function specs(r) {
  */
 export function selectorActivo() {
   const activo = activoElegido();
-  // Without a rate there is nothing to show, so the bar asks for it instead of printing an empty
-  // line: the platform has no feed yet, and a made-up number is worse than an empty space.
-  const falta = ACTIVOS_VER.filter((a) => tasa(a) === null);
-  // A saved rate that cannot be a rate is worse than no rate: it paints nonsense prices. It is named
-  // here so whoever saved it can see what is wrong instead of watching the figures go mad.
-  const raras = ACTIVOS_VER.filter((a) => tasa(a) !== null && !tasaPlausible(a));
+  // The bar carries the choice and nothing else. The rate is read from the feed, never typed here:
+  // a field asking the visitor for the dirham price of a coin turned a price into a form to fill in,
+  // and the conversion belongs under each price, where it is read, not in the bar.
   return `<div class="sel-activo" role="group" aria-label="Show prices in">
     <span>Prices in</span>
     ${ACTIVOS_VER.map((a) => `<button type="button" class="${a === activo ? 'on' : ''}"
       data-activo="${a}" aria-pressed="${a === activo}">${a}</button>`).join('')}
-    ${raras.map((a) => `<label class="sel-tasa mal" title="This rate cannot be right">1 ${esc(a)} =
-      <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED
-      <span>· the ${esc(String(tasa(a)))} you saved cannot be right, write it again</span></label>`).join('')}
-    ${falta.map((a) => `<label class="sel-tasa" title="The rate you are reading with">1 ${esc(a)} =
-      <input type="number" step="0.0001" min="0" data-tasa="${esc(a)}" placeholder="0.00"> AED</label>`).join('')}
   </div>`;
 }
 
@@ -133,7 +125,7 @@ export function pintarPreciosCripto() {
     if (!enPrecio) return;
     const n = Number(String(enPrecio.textContent).replace(/[^0-9.]/g, ''));
     const fils = Number.isFinite(n) && n > 0 ? Math.round(n * 100) : null;
-    const texto = fils ? cifraCripto({ precio_fils: fils }) : '';
+    const texto = fils ? cifrasCripto({ precio_fils: fils }) : '';
     let linea = c.querySelector('.price-cripto');
     if (!texto) {
       if (linea) linea.hidden = true;
@@ -164,16 +156,6 @@ export function marcarActivo(activo) {
 
 /** Wires it wherever it was painted: one listener per page, by delegation. */
 export function initSelectorActivo() {
-  document.addEventListener('input', (e) => {
-    if (!e.target.dataset?.tasa) return;
-    const activo = e.target.dataset.tasa;
-    const valor = Number(e.target.value);
-    // Only when the field has a number worth keeping: typing «3» does not repaint the whole catalogue.
-    if (Number.isFinite(valor) && valor > 0) fijarTasa(activo, valor);
-  });
-  document.addEventListener('change', (e) => {
-    if (e.target.dataset?.tasa) pintarPreciosCripto();
-  });
   document.addEventListener('click', (e) => {
     const b = e.target.closest?.('[data-activo]');
     if (!b) return;
@@ -221,7 +203,7 @@ export function card(r) {
       <div class="precio">
         <span class="price">${esc(r.precio_aed ?? money(r.precio_fils))}</span>
       </div>
-      ${cifraCripto(r) ? `<div class="price-cripto"><b>${esc(cifraCripto(r))}</b><i>indicative</i></div>` : ''}
+      ${cifrasCripto(r) ? `<div class="price-cripto"><b>${esc(cifrasCripto(r))}</b><i>indicative</i></div>` : ''}
       <div class="tipo">${esc(tipo)}</div>
       <h3><a href="${enlace}">${esc(r.titulo)}</a></h3>
       <div class="specs">${specs(r)}</div>
