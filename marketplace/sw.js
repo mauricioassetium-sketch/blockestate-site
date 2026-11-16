@@ -1,6 +1,6 @@
 /* The shell of the app, for when the network is not there.
    The API is never cached: a price or an availability served from a cache would be a lie. */
-const CACHE = 'blockestate-shell-v18';
+const CACHE = 'blockestate-shell-v19';
 const SHELL = [
   './',
   './index.html',
@@ -55,11 +55,15 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   // Anything that is not our own shell (the API, the fonts, the photos) goes to the network.
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-  e.respondWith(
-    caches.match(e.request).then((hit) => hit ?? fetch(e.request).then((res) => {
-      // A navigation that is not cached falls back to the shell: the router decides what to show.
-      if (e.request.mode === 'navigate') return caches.match('./index.html');
-      return res;
-    }).catch(() => caches.match('./index.html'))),
-  );
+
+  // A page goes to the network first. The shell is a few kilobytes, and a stale shell is a worse bug
+  // than a slow one; the cache is the answer only when the network is not there. Cached-first here
+  // also had a sharp edge: with an empty cache, the old handler answered a navigation with nothing
+  // at all, and the browser showed «this site can't be reached» instead of the app.
+  if (e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).catch(() => caches.match('./index.html')));
+    return;
+  }
+
+  e.respondWith(caches.match(e.request).then((hit) => hit || fetch(e.request)));
 });
