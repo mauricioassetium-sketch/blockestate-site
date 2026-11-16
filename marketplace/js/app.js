@@ -15,6 +15,7 @@ import { esc, empty, hidratarTarjetas, ICO, initSelectorActivo, marcarActivo, pi
 import { viewAreas } from './views/areas.js';
 import { viewCatalog, viewSearch } from './views/catalog.js';
 import { viewCreador } from './views/escritorios.js';
+import { viewCreadorAgencia } from './views/creador-agencia.js';
 import { viewAgencia, viewBrokerDesk, viewDevAgencias, viewDevCanales, viewInvitacion, viewNdc } from './views/desks.js';
 import { viewChanger, viewDevPurchase, viewDevPurchases, viewPay } from './views/compra.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
@@ -56,7 +57,7 @@ const GRUPOS_MENU = [
     ['NDC network console', '#/ndc'],
     ['List a property', '#/register'],
     ['Creator desk', '#/creator'],
-    ['Creator Agency', 'https://api.blockestate.ae/app'],
+    ['Creator Agency', '#/creator-agency'],
   ]],
   ['Company', [
     ['Newsroom', '#/news'],
@@ -277,6 +278,8 @@ route('/ndc', ({ query }) => viewNdc({ query }));
 // The public landing of a link. No session: the link is the permission.
 route('/invite/:token', ({ params }) => viewInvitacion({ params }));
 route('/creator', () => viewCreador());
+// The creator agency: the partner's own panel, inside the market instead of beside it.
+route('/creator-agency', ({ query }) => viewCreadorAgencia({ query }));
 route('/dev/projects', () => viewDevProjects());
 route('/dev/listings', () => viewDevListings());
 route('/dev/verification', () => viewDevVerification());
