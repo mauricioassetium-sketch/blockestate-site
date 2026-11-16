@@ -123,7 +123,7 @@
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest b{font-size:var(--fs-h1); font-weight:600; letter-spacing:var(--tr);
   color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.15}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .destacados .dest b.chico{font-size:var(--fs-t); font-weight:650;
-  letter-spacing:-.02em}
+  letter-spacing:-.02em; white-space:nowrap}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-carga{margin-top:12px}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header > .muted,
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > header > span:not(:first-child){margin-left:auto; font-size:var(--fs-sm);
@@ -289,6 +289,9 @@
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-2 label:only-child{grid-column:1/-1}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-pie{display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   padding:12px 16px; border-top:1px solid var(--line); background:#fbfdfe}
+/* lo que cuesta el trámite, a la izquierda del botón que lo pide y en la misma línea */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-coste{flex:1 1 auto; font-size:var(--fs-sm);
+  font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-form-pie .note{flex:1 1 260px; margin:0}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-etiqueta{display:block; margin:0 0 4px; font-size:var(--fs-xs); font-weight:700;
   letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
@@ -369,12 +372,16 @@
   margin:12px 0 4px}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres > div{background:#fbfdfe; border:1px solid var(--line);
   border-radius:var(--r); padding:11px 13px}
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres b{display:block; margin-bottom:4px; font-size:var(--fs-xs);
+/* Solo el título de la pieza es una línea propia; las negritas de dentro son énfasis del texto. */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres > div > b:first-child{display:block; margin-bottom:4px; font-size:var(--fs-xs);
   font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres span b{font-weight:650; color:var(--ink)}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tres span{font-size:var(--fs); color:var(--body); line-height:1.5}
 /* el alcance del sello, debajo del sello que lo firma */
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .alcance{display:block; margin-top:4px; font-size:var(--fs-sm); color:var(--muted)}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td .sello-vss{transform:scale(.92); transform-origin:left center}
+/* el sello dentro de una celda: una pieza suya, y el texto del alcance debajo, nunca encima */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla .sello-celda{display:block; margin-bottom:2px}
 
 @media (max-width:900px){
   :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-shell{grid-template-columns:minmax(0,1fr)}

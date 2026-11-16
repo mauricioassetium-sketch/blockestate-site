@@ -151,6 +151,10 @@ export const api = {
   // The construction side: what each channel costs the developer, the panel of agencies that sells
   // for it, the agency's own book, the broker's book inside that agency, and NDC's network console.
   // Every one of them is scoped by the session on the server.
+  // Verysset from the developer's side: the device in the flat, the visits and what each costs.
+  devVerysset: () => req('GET', '/me/developer/verysset'),
+  devVisita: (body) => req('POST', '/me/developer/verysset/visits', { body }),
+  devVisitaCancelar: (id) => req('DELETE', `/me/developer/verysset/visits/${id}`),
   devChannels: () => req('GET', '/me/developer/channels'),
   devAgencies: () => req('GET', '/me/developer/agencies'),
   devAgencyAdd: (body) => req('POST', '/me/developer/agencies', { body }),

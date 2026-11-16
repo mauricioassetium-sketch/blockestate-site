@@ -144,7 +144,7 @@ let DATOS = null;
  */
 export async function cargar() {
   if (DATOS) return DATOS;
-  const [yo, unidades, ventas, proyectos, avisos, codigos, marketing] = await Promise.all([
+  const [yo, unidades, ventas, proyectos, avisos, codigos, marketing, verysset] = await Promise.all([
     api.devMe(), api.devUnits(), api.devSales(), api.devProjects(),
     // The `dev` flag only tells the offline capture of the preview apart from the buyer's inbox:
     // the live API ignores a parameter it does not know.
@@ -157,8 +157,11 @@ export async function cargar() {
       .catch((e) => ({ codigos: [], permitido: false, motivo: e?.message ?? '' })),
     // La cuenta de marketing: cuánto queda, cuántos leads y a qué precio salió cada venta.
     api.devMarketing().catch(() => null),
+    // Verysset: el dispositivo, la visita y lo que cuesta cada verificación. Si el desk no puede
+    // leerlo, la pantalla de verificación enseña el sello del listing y dice que la tarifa no llegó.
+    api.devVerysset().catch(() => null),
   ]);
-  DATOS = { yo, unidades, ventas, proyectos, avisos, codigos, marketing };
+  DATOS = { yo, unidades, ventas, proyectos, avisos, codigos, marketing, verysset };
   return DATOS;
 }
 
@@ -499,6 +502,12 @@ function serieDeMeses(ventas) {
   return meses;
 }
 
+/** '2026-11' → 'Nov', the label the month charts carry. */
+function mesCorto(periodo) {
+  const f = new Date(`${periodo}-01T00:00:00Z`);
+  return Number.isNaN(f.getTime()) ? String(periodo) : f.toLocaleString('en', { month: 'short', timeZone: 'UTC' });
+}
+
 /**
  * Pinta TODAS las gráficas de la pantalla que se acaba de armar, cada una con los datos que ya están
  * cargados. Un solo sitio, para que añadir una gráfica a una pantalla sea pedirla en el marcado y
@@ -520,6 +529,21 @@ function pintarGraficas(d) {
     'dev-grafica-unidades': (c) => donaDeEstados(c, estadosDelLibro(r)),
     'dev-grafica-proyectos': (c) => barrasDeCategorias(c, porProyecto(unidades), { formato: (n) => String(n) }),
     'dev-grafica-anuncios': (c) => donaDeEstados(c, porAnuncio(unidades)),
+    // The devices Verysset has installed, month by month, and where the book stands against the seal.
+    // The installed base: each month adds to the one before, so the line only goes up and a flat
+    // month reads as «nothing new», not as «the base fell to zero».
+    'dev-grafica-iot': (c) => {
+      let base = 0;
+      return lineaDeMeses(c, (d.verysset?.serie ?? []).map((m) => {
+        base += Number(m.instalados ?? 0);
+        return [mesCorto(m.periodo), base];
+      }), { formato: (n) => String(n) });
+    },
+    'dev-grafica-cobertura': (c) => donaDeEstados(c, [
+      ['Sealed', d.verysset?.resumen?.verificadas ?? 0, COLORES.publicado],
+      ['In progress', d.verysset?.resumen?.en_curso ?? 0, COLORES.revision],
+      ['Waiting', d.verysset?.resumen?.pendientes ?? 0, COLORES.sinAnuncio],
+    ], { etiqueta: 'UNITS' }),
     'dev-grafica-verificacion': (c) => donaDeEstados(c, [
       ['With evidence', unidades.filter((u) => u.anuncio?.badge_alcance).length, COLORES.publicado],
       ['Without evidence', unidades.filter((u) => !u.anuncio?.badge_alcance).length, COLORES.sinAnuncio],
@@ -1437,97 +1461,366 @@ export async function viewDevListings() {
 
 /* ---------------------------------------------------------------- Verification (Verysset) */
 
+/**
+ * The seal, and the work behind it.
+ *
+ * A badge on a listing says the asset was checked. This screen says how: the device Verysset leaves
+ * inside the flat (air, temperature, humidity and location, ten years of life, its own battery), the
+ * person who walks the asset (off plan: photographs the works and measures the progress; ready: the
+ * rooms against the data handed over), and the record that comes out of it, anchored on chain.
+ *
+ * The developer sees, unit by unit, which assets carry the seal and which are still waiting, what
+ * each verification costs, and asks for a visit without leaving the portal. Every money-shaped
+ * figure comes from the price table in the API: this file prints what the table says.
+ */
+
+/** The four kinds of work Verysset does, in the words of the desk. */
+const QUE_HACE = {
+  dispositivo: 'The device goes in',
+  avance_obra: 'A walk of the works',
+  espacios: 'A walk of the rooms',
+  reverificacion: 'Re-verification',
+  // The price table speaks in the names of the work; the desk names the errand.
+  visita_obra: 'A walk of the works',
+  visita_espacios: 'A walk of the rooms',
+};
+
+/** The visit the desk asks for, and the row of the price table that pays for it. */
+const TARIFA_DE = {
+  dispositivo: 'dispositivo',
+  avance_obra: 'visita_obra',
+  espacios: 'visita_espacios',
+  reverificacion: 'reverificacion',
+};
+
+/** '2026-11-24' → '24 Nov 2026'. A date in a table reads better than an ISO string. */
+function fechaCorta(iso) {
+  if (!iso) return '';
+  const f = new Date(`${String(iso).slice(0, 10)}T00:00:00Z`);
+  return Number.isNaN(f.getTime()) ? String(iso)
+    : f.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
+
+const pctDe = (pb) => `${(Number(pb ?? 0) / 100).toFixed(1)} %`;
+
+/** One row of the sealed book: the device, what it reads, and the seal with its transaction. */
+function filaSellada(u) {
+  const lectura = u.iot?.ultima_lectura;
+  const dispositivo = u.iot
+    ? `<code>${esc(u.iot.serie)}</code>
+       <small>since ${esc(fechaCorta(u.iot.instalado_en))} · ${esc(String(u.iot.durabilidad_anios ?? 10))} years
+         · battery ${esc(String(u.iot.bateria_pct ?? ''))} %</small>
+       <small>${lectura
+        ? `air ${esc(String(lectura.aire_aqi ?? ''))} · ${esc(String(lectura.temperatura_c ?? ''))} °C · ${esc(String(lectura.humedad_pct ?? ''))} % RH`
+        : 'no reading yet'}</small>`
+    : '<span class="muted">no device on record</span>';
+  const sello = u.sello
+    ? `<span class="sello-celda">${selloVerysset('Verified by Verysset')}</span>
+       <small class="alcance">${esc(u.sello.alcance ?? '')}${u.sello.valido_hasta ? ` · holds until ${esc(fechaCorta(u.sello.valido_hasta))}` : ''}</small>
+       ${u.sello.tx ? `<small><code title="${esc(u.sello.tx)}">${esc(String(u.sello.tx).slice(0, 12))}…</code> ${esc(u.sello.red ?? '')}</small>` : ''}`
+    : etiqueta('Without evidence');
+  return `
+    <tr>
+      <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
+        <small>${esc(u.proyecto)} · ${esc(u.estado_obra === 'off_plan' ? 'Off plan' : 'Ready')}</small></td>
+      <td>${dispositivo}</td>
+      <td>${sello}</td>
+      <td><a class="btn ghost sm" href="#/unit/${esc(u.unidad_id)}">Open the report</a></td>
+    </tr>`;
+}
+
+/** One row of the ones still waiting: what is missing, what it costs, and the button that asks. */
+function filaEnEspera(u, tarifas) {
+  const tipo = u.estado_obra === 'off_plan' ? 'avance_obra' : (u.iot ? 'espacios' : 'dispositivo');
+  const coste = tarifas[TARIFA_DE[tipo]]?.precio_aed ?? money(0);
+  const falta = u.visita
+    ? `${etiqueta(u.visita.estado === 'agendada' ? 'Visit booked' : 'Visit asked', 'coin')}
+       <small>${esc(QUE_HACE[u.visita.tipo] ?? u.visita.tipo)}${u.visita.fecha ? ` · ${esc(fechaCorta(u.visita.fecha))}` : ''}${u.visita.franja ? `, ${esc(u.visita.franja)}` : ''}${u.visita.tecnico ? ` · ${esc(u.visita.tecnico)}` : ''}</small>`
+    : `${etiqueta(u.iot ? 'No visit yet' : 'No device, no visit')}
+       <small>${u.iot ? 'The device is in; the walk of the rooms is what is missing.' : 'A device goes in first, then the visit.'}</small>`;
+  const accion = u.visita
+    ? `<button class="btn ghost sm" type="button" data-cancelar="${esc(u.visita.id)}">Withdraw</button>`
+    : `<button class="btn green sm" type="button" data-agendar="${esc(u.unidad_id)}" data-tipo="${esc(tipo)}">Book a visit</button>`;
+  return `
+    <tr>
+      <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
+        <small>${esc(u.proyecto)} · ${esc(u.estado_obra === 'off_plan' ? 'Off plan' : 'Ready')}</small></td>
+      <td>${falta}</td>
+      <td class="num">${esc(coste)}</td>
+      <td>${accion}</td>
+    </tr>`;
+}
+
+/** One row of the visits already on the way. */
+function filaVisita(vis, filas) {
+  const u = filas.find((f) => f.unidad_id === vis.unidad_id);
+  const quien = u
+    ? `${tipoLabel(u.tipo)}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''} · ${u.proyecto}`
+    : vis.proyecto;
+  return `
+    <tr>
+      <td><b>${esc(vis.fecha ? fechaCorta(vis.fecha) : 'to be confirmed')}</b><small>${esc(vis.franja ?? '')} · ${esc(vis.estado)}</small></td>
+      <td>${esc(quien)}</td>
+      <td>${esc(QUE_HACE[vis.tipo] ?? vis.tipo)}${vis.tecnico ? `<small>${esc(vis.tecnico)}</small>` : ''}</td>
+      <td class="num">${esc(vis.coste_aed)}</td>
+      <td><button class="btn ghost sm" type="button" data-cancelar="${esc(vis.id)}">Withdraw</button></td>
+    </tr>`;
+}
+
+/** One row of the price list. */
+function filaTarifa(t) {
+  return `
+    <tr>
+      <td><b>${esc(QUE_HACE[t.concepto] ?? t.concepto)}</b></td>
+      <td><small>${esc(t.incluye)}</small></td>
+      <td class="num">${esc(String(t.sla_dias))}</td>
+      <td class="num">${esc(t.precio_aed)}</td>
+    </tr>`;
+}
+
 export async function viewDevVerification() {
-  await conDatos('#/dev/verification', (x) => {
+  const d = await conDatos('#/dev/verification', (x) => {
+    const v = x.verysset;
     const suyas = x.unidades.unidades ?? [];
     const conBadge = suyas.filter((u) => u.anuncio?.badge_alcance);
+
+    // Without the Verysset desk the screen still states the seal it can read from the listing, and
+    // says plainly that the price list did not arrive instead of printing a zero that looks like one.
+    if (!v) {
+      return `
+        ${avisosDeCabecera(x.yo)}
+        <section class="mod">
+          <header>${ico('sello', 15)}<h4>Verysset, the hand that verifies</h4></header>
+          <p class="msg err">The price list and the devices did not arrive from the API. What is shown
+            below is the seal written on each listing; the rest of the desk is not readable right now.</p>
+          <p class="note"><b>${conBadge.length} of ${suyas.length}</b> units carry Verysset's evidence.</p>
+        </section>`;
+    }
+
+    const r = v.resumen ?? {};
+    const filas = v.unidades ?? [];
+    const tarifas = Object.fromEntries((v.tarifas ?? []).map((t) => [t.concepto, t]));
+    const selladas = filas.filter((u) => u.estado_verificacion === 'verificada');
+    const enMarcha = filas.filter((u) => u.estado_verificacion === 'en_curso');
+    const pendientes = filas.filter((u) => u.estado_verificacion === 'pendiente');
+    const esperando = [...enMarcha, ...pendientes];
+    const hoy = new Date().toISOString().slice(0, 10);
+    const visitas = v.visitas ?? [];
+
+    const cuerpoSelladas = selladas.length
+      ? selladas.map(filaSellada).join('')
+      : '<tr><td colspan="4" class="note">No unit carries the seal yet.</td></tr>';
+    const cuerpoEspera = esperando.length
+      ? esperando.map((u) => filaEnEspera(u, tarifas)).join('')
+      : '<tr><td colspan="4" class="note">Every unit in the book carries the seal.</td></tr>';
+    const cuerpoTarifas = (v.tarifas ?? []).map(filaTarifa).join('');
+    const cuerpoVisitas = visitas.map((vis) => filaVisita(vis, filas)).join('');
+
+    const listaUnidades = filas.filter((u) => u.estado_verificacion !== 'verificada').map((u) =>
+      `<option value="${esc(u.unidad_id)}">${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''} · ${esc(u.proyecto)}</option>`).join('');
+    const listaSelladas = selladas.map((u) =>
+      `<option value="${esc(u.unidad_id)}">${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''} · ${esc(u.proyecto)} (re-verification)</option>`).join('');
+
+    const bloqueVisitas = visitas.length
+      ? `<h5 class="dev-sub">Visits on the way</h5>
+         ${tabla([['Day', ''], ['Unit', ''], ['What', ''], ['Price', 'num'], ['', '']], cuerpoVisitas)}`
+      : '';
+
     return `
       ${avisosDeCabecera(x.yo)}
+      <section class="mod destacados">
+        ${destacado(`${r.verificadas ?? 0} of ${r.unidades ?? 0}`, 'Sealed by Verysset')}
+        ${destacado(r.con_dispositivo ?? 0, 'Devices inside the flats')}
+        ${destacado(pctDe(r.cobertura_pb), 'Coverage of the book')}
+        ${destacado(r.coste_unidad_aed ?? money(0), 'Per verification', true)}
+      </section>
+
       <section class="mod">
-        <header>${ico('sello', 15)}<h4>Verysset, the hand that verifies</h4>
-          ${selloVerysset(conBadge.length ? 'Verysset verifies' : 'Waiting for Verysset')}</header>
-        <p class="note"><b>Verysset is not the platform and it is not the seller.</b> It is the hand
-          that checks the asset and signs what it saw. Everything this screen shows about evidence
-          comes from what Verysset signed; the portal only reads it, and nothing here approves,
-          publishes or pays anything.</p>
+        <header>${ico('sello', 15)}<h4>How an asset is verified</h4>
+          <span class="muted">Verysset verifies ${conBadge.length} of ${suyas.length}</span></header>
+        <p class="note"><b>Verysset is not the platform and it is not the seller.</b> It is the hand that
+          checks the asset and signs what it saw. Three things happen, in this order, and the seal is
+          worth what those three are worth.</p>
         <div class="dev-tres">
           <div>
-            <b>What it checks</b>
-            <span>The thing built against the papers, and the place against the plans: what it is,
-              where it is, and that the file and the building say the same thing.</span>
+            <b>1 · The device goes in</b>
+            <span>Verysset installs a sensor inside the apartment. It measures <b>air, temperature,
+              humidity</b> and <b>where the asset is</b>, it lives <b>ten years</b> on its own battery,
+              and it reports by itself: the reading is the device's, not a form's. That is what makes
+              the data of the asset precise and current instead of a photograph from the day of the sale.</span>
           </div>
           <div>
-            <b>What it issues</b>
-            <span>Signed evidence: the date, the scope of what was checked, the hash anchored on
-              chain, and the digital twin of the building.</span>
+            <b>2 · A person walks the asset</b>
+            <span><b>Off plan:</b> a person goes to the site, photographs the construction as it stands
+              and measures how far the building has got, so the progress is a walk and not a promise.
+              <b>Ready:</b> the same walk matches each room against the data the developer handed over:
+              what the visuals show is what is there.</span>
           </div>
           <div>
-            <b>What it never does</b>
-            <span>It does not set a price, it does not publish and it does not sign a closing. Those
-              are other hands, and none of them is a machine's.</span>
+            <b>3 · The record is anchored</b>
+            <span>What the visit found is signed and written to chain: hash, network and transaction.
+              The badge states <b>what was checked</b> and <b>until when it holds</b>. It is evidence of
+              a check, not an unconditional guarantee, and this portal only reads it.</span>
           </div>
         </div>
-        <p class="note">The badge states its scope and the date it was issued: it is evidence of what
-          was checked, <b>not an unconditional guarantee</b>, and it is valid for the window it
-          declares, not forever. Open any unit and its seal opens the full report: what was checked,
-          the hash, and where the building stands.</p>
+        <p class="note">Devices report on their own; the in-person visit is what proves the rest. A unit
+          with a device and no visit is measured, not verified, and the seal says so.</p>
       </section>
+
       <div class="dev-dos">
-        ${tarjetaGrafica({ titulo: 'Evidence, unit by unit', icono: 'permiso', id: 'dev-grafica-verificacion',
-          nota: 'A unit either carries Verysset\'s evidence or it does not. There is no halfway badge.',
-          leyenda: leyendaDe([['With evidence', conBadge.length, COLORES.publicado],
-            ['Without evidence', suyas.length - conBadge.length, COLORES.sinAnuncio]]) })}
-        ${tarjetaGrafica({ titulo: 'The book, by state', icono: 'pulso', id: 'dev-grafica-unidades',
-          leyenda: leyendaDe(estadosDelLibro(x.unidades.resumen ?? {})) })}
+        ${tarjetaGrafica({ titulo: 'Devices in the flats', icono: 'pulso', id: 'dev-grafica-iot',
+          nota: `The base, month by month: every device already installed stays counted. Last three months against the three before: ${pctDe(r.crecimiento_pb)}.` })}
+        ${tarjetaGrafica({ titulo: 'Where the book stands', icono: 'permiso', id: 'dev-grafica-cobertura',
+          leyenda: leyendaDe([['Sealed', r.verificadas ?? 0, COLORES.publicado],
+            ['In progress', r.en_curso ?? 0, COLORES.revision],
+            ['Waiting', r.pendientes ?? 0, COLORES.sinAnuncio]]) })}
       </div>
+
       <section class="mod">
-        <header>${ico('permiso', 15)}<h4>Verification</h4>
-          <span class="muted">${conBadge.length} of ${suyas.length} verified</span></header>
-        <p class="note"><b>Verysset is the one who verifies.</b> It checks the asset, the physical
-          thing, the papers and the place, and issues signed evidence: the date, the scope of what
-          was checked, the hash that anchors it, and the digital twin of the building. The badge is
-          valid for the window it states, not forever, and this portal only reads it.</p>
-        ${barraHerramientas({ sitio: 'Unit or project',
-          estados: [['verificado', 'Verified'], ['sin', 'Without evidence']],
-          orden: [['nombre', 'Unit A–Z'], ['precio_desc', 'Price ↓']] })}
-        <div id="dev-filas-caja"></div>
+        <header>${ico('sello', 15)}<h4>Sealed by Verysset</h4>
+          <span class="muted">${selladas.length} ${selladas.length === 1 ? 'unit' : 'units'} ·
+            ${r.anclados ?? 0} anchored on chain</span></header>
+        <p class="note">One button per property: the seal opens the report it was issued with, what was
+          checked, and the transaction that holds it.</p>
+        ${tabla([['Unit', ''], ['Device and what it reads', ''], ['Seal', ''], ['', '']], cuerpoSelladas)}
+      </section>
+
+      <section class="mod">
+        <header>${ico('permiso', 15)}<h4>Waiting for Verysset</h4>
+          <span class="muted">${esperando.length} of ${filas.length} left</span></header>
+        <p class="note">A unit without a seal is not published as verified: it is published, and the
+          badge is missing. Here are the ones missing it, what is left to do and what a visit costs.</p>
+        ${tabla([['Unit', ''], ['What is missing', ''], ['Cost', 'num'], ['', '']], cuerpoEspera)}
+      </section>
+
+      <section class="mod" id="dev-visita">
+        <header>${ico('pin', 15)}<h4>Book a visit</h4>
+          <span class="muted">Verysset staff · you choose the day, it confirms the person</span></header>
+        <p class="note">A visit is a person from Verysset at the asset, on the day you ask for. The price
+          comes from the table below and is what Verysset charges for that work; nothing is charged on
+          this screen and no money moves here.</p>
+        <form class="dev-form" id="dev-visita-form">
+          <div class="dev-form-2">
+            <label>The unit
+              <select name="unidad_id" required>
+                <option value="">Pick a unit</option>
+                ${listaUnidades}
+                ${listaSelladas}
+              </select></label>
+            <label>What for
+              <select name="tipo" required>
+                <option value="dispositivo">The device goes in</option>
+                <option value="avance_obra">A walk of the works (off plan)</option>
+                <option value="espacios">A walk of the rooms (ready)</option>
+                <option value="reverificacion">Re-verification of an existing seal</option>
+              </select></label>
+            <label>The day <input name="fecha" type="date" min="${hoy}" required></label>
+            <label>When
+              <select name="franja">
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+              </select></label>
+          </div>
+          <label>For the person who comes
+            <input name="nota" maxlength="500" placeholder="Access, who opens, what has to be photographed"></label>
+          <div class="dev-form-pie">
+            <span class="dev-form-coste" id="dev-visita-coste">Price on the table below</span>
+            <button class="btn green" type="submit">Ask for the visit</button>
+          </div>
+          <p class="msg ok" id="dev-visita-ok" hidden></p>
+          <p class="msg err" id="dev-visita-err" hidden></p>
+        </form>
+        ${bloqueVisitas}
+      </section>
+
+      <section class="mod">
+        <header>${ico('etiqueta', 15)}<h4>What a verification costs</h4>
+          <span class="muted">from the Verysset price table</span></header>
+        <p class="note">Charged per visit and per device, not a percentage of the price of the asset: a
+          cheap flat and an expensive one cost the same to check. The price list is data, so a change
+          in it is a row and not a release.</p>
+        ${tabla([['Work', ''], ['What it includes', ''], ['Days', 'num'], ['Price', 'num']], cuerpoTarifas +
+          `<tr><td><b>One unit, from nothing</b></td>
+             <td><small>The device plus the walk of the rooms, which is what a ready unit needs to carry the seal.</small></td>
+             <td class="num"></td><td class="num"><b>${esc(r.coste_unidad_aed ?? money(0))}</b></td></tr>
+           <tr><td><b>What is still owed</b></td>
+             <td><small>${esc(String(r.pendientes ?? 0))} ${Number(r.pendientes ?? 0) === 1 ? 'unit' : 'units'} without the seal, at that price today.</small></td>
+             <td class="num"></td><td class="num"><b>${esc(r.coste_pendiente_aed ?? money(0))}</b></td></tr>`)}
       </section>`;
   });
 
-  const suyas = (DATOS.unidades.unidades ?? []).map((u) => ({
-    ...u, precio_num: Number(String(u.precio_aed ?? '').replace(/[^0-9.]/g, '')) || 0,
-    verificado: u.anuncio?.badge_alcance ? 'verificado' : 'sin',
-  }));
-  const caja = view().querySelector('#dev-filas-caja');
-  herramientas(view().querySelector('.dev-main'), {
-    datos: suyas,
-    estado: (u) => u.verificado,
-    texto: (u) => `${tipoLabel(u.tipo)} ${u.proyecto?.nombre ?? ''} ${u.comunidad ?? ''}`,
-    pintar: (filas) => {
-      caja.innerHTML = tabla(
-        [['Unit', ''], ['Scope', ''], ['Valid', ''], ['Anchor', ''], ['Price', 'num']],
-        filas.length ? filas.map((u) => `
-          <tr data-ir="#/unit/${esc(u.unidad_id)}">
-            <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
-              <small>${esc(u.proyecto?.nombre ?? '')} · ${esc(u.comunidad ?? '')}</small></td>
-            <td>${u.anuncio?.badge_alcance
-              ? `${selloVerysset()}<small class="alcance">${esc(u.anuncio.badge_alcance)}</small>`
-              : etiqueta('Without evidence')}</td>
-            <td>${u.anuncio?.badge_valido_hasta ? `<small>until ${esc(u.anuncio.badge_valido_hasta)}</small>` : '<span class="muted">, </span>'}</td>
-            <td>${u.anuncio?.badge_evidencia_hash
-              ? `<code title="${esc(u.anuncio.badge_evidencia_hash)}">${esc(String(u.anuncio.badge_evidencia_hash).slice(0, 14))}…</code>`
-              : '<span class="muted">, </span>'}</td>
-            <td class="num">${esc(u.precio_aed)}</td>
-            <td class="abrir">${ico('derecha', 15)}</td>
-          </tr>`).join('') : '<tr><td colspan="6" class="note">Nothing matches those tools.</td></tr>');
-    },
-    csv: (filas) => [
-      ['unit', 'project', 'scope', 'valid_until', 'evidence_hash', 'network', 'tx'],
-      ...filas.map((u) => [tipoLabel(u.tipo), u.proyecto?.nombre ?? '', u.anuncio?.badge_alcance ?? '',
-        u.anuncio?.badge_valido_hasta ?? '', u.anuncio?.badge_evidencia_hash ?? '',
-        u.anuncio?.badge_evidencia_red ?? '', u.anuncio?.badge_evidencia_tx ?? '']),
-    ],
+  if (!d || !d.verysset) return;
+  const v = d.verysset;
+  const raiz = view();
+  const form = raiz.querySelector('#dev-visita-form');
+  const coste = raiz.querySelector('#dev-visita-coste');
+  const ok = raiz.querySelector('#dev-visita-ok');
+  const err = raiz.querySelector('#dev-visita-err');
+  const precio = Object.fromEntries((v.tarifas ?? []).map((t) => [t.concepto, t.precio_aed]));
+
+  const decir = (texto) => {
+    if (coste) coste.textContent = `This visit: ${texto}`;
+  };
+  const tipoSel = form?.querySelector('select[name="tipo"]');
+  tipoSel?.addEventListener('change', () => decir(precio[tipoSel.value] ?? 'price on the table'));
+  if (tipoSel && precio[tipoSel.value]) decir(precio[tipoSel.value]);
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (ok) ok.hidden = true;
+    if (err) err.hidden = true;
+    const datos = Object.fromEntries(new FormData(form).entries());
+    if (!datos.unidad_id) {
+      if (err) { err.textContent = 'Pick the unit the visit is for.'; err.hidden = false; }
+      return;
+    }
+    const boton = form.querySelector('button[type="submit"]');
+    if (boton) { boton.disabled = true; boton.textContent = 'Asking…'; }
+    try {
+      const r = await api.devVisita({
+        unidad_id: datos.unidad_id,
+        tipo: datos.tipo,
+        fecha: datos.fecha || undefined,
+        franja: datos.franja || undefined,
+        nota: datos.nota || undefined,
+      });
+      DATOS = null;
+      await viewDevVerification();
+      const nuevo = view().querySelector('#dev-visita');
+      const msg = nuevo?.querySelector('#dev-visita-ok');
+      if (msg) {
+        msg.textContent = `Asked. ${r.coste_aed} for the visit; Verysset confirms the day and the person.`;
+        msg.hidden = false;
+      }
+      nuevo?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e2) {
+      if (boton) { boton.disabled = false; boton.textContent = 'Ask for the visit'; }
+      if (err) { err.textContent = e2?.message ?? 'The visit could not be asked for.'; err.hidden = false; }
+    }
   });
+
+  // One button per row: it fills the form with the unit it belongs to and takes the person there.
+  raiz.querySelectorAll('[data-agendar]').forEach((b) => b.addEventListener('click', () => {
+    const sel = form?.querySelector('select[name="unidad_id"]');
+    if (sel) sel.value = b.dataset.agendar;
+    if (tipoSel && b.dataset.tipo) {
+      tipoSel.value = b.dataset.tipo;
+      decir(precio[b.dataset.tipo] ?? 'price on the table');
+    }
+    raiz.querySelector('#dev-visita')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    form?.querySelector('input[name="fecha"]')?.focus();
+  }));
+
+  raiz.querySelectorAll('[data-cancelar]').forEach((b) => b.addEventListener('click', async () => {
+    if (!confirm('Withdraw this visit?')) return;
+    try {
+      await api.devVisitaCancelar(b.dataset.cancelar);
+      DATOS = null;
+      await viewDevVerification();
+    } catch (e2) {
+      if (err) { err.textContent = e2?.message ?? 'The visit could not be withdrawn.'; err.hidden = false; }
+    }
+  }));
 }
 
 /* ---------------------------------------------------------------- Sales */
