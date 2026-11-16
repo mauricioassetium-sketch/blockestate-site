@@ -1,6 +1,6 @@
 /* The shell of the app, for when the network is not there.
    The API is never cached: a price or an availability served from a cache would be a lie. */
-const CACHE = 'blockestate-shell-v17';
+const CACHE = 'blockestate-shell-v18';
 const SHELL = [
   './',
   './index.html',
@@ -28,9 +28,19 @@ const SHELL = [
   './manifest.webmanifest',
 ];
 
+// The shell is precached with `cache: 'reload'` on purpose. `addAll` fetches through the browser's
+// HTTP cache, so a page that was open when the files changed could install the *new* worker with the
+// *old* shell inside it — and then serve that stale shell for a week. Asking for a fresh copy costs a
+// few hundred kilobytes once, when the version changes, and removes a whole class of «I published it
+// and it is not there» bugs.
 self.addEventListener('install', (e) => {
   self.skipWaiting();
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then((c) => Promise.all(SHELL.map((u) =>
+        fetch(new Request(u, { cache: 'reload' })).then((r) => (r.ok ? c.put(u, r) : null)).catch(() => null))))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener('activate', (e) => {
