@@ -2431,10 +2431,8 @@ function oficioDe(q) {
  * whether their identity was checked. Never what they are paid — the split is BlockEstate's book,
  * and this screen is the developer's.
  *
- * `conNombre` is false when the name is already the title of the pop-up: printing it twice on the
- * same card would read like two different people.
  */
-function fichaDe(q, conNombre = true) {
+function fichaDe(q) {
   const seguidores = q.seguidores === null || q.seguidores === undefined ? ''
     : `${Number(q.seguidores).toLocaleString('en-GB')} followers`;
   const propio = q.rol === 'desarrollador';
@@ -2443,8 +2441,8 @@ function fichaDe(q, conNombre = true) {
       <header class="dev-perfil-cab">
         <span class="dev-perfil-ini" aria-hidden="true">${esc(iniciales(q.nombre))}</span>
         <div class="dev-perfil-quien">
-          ${conNombre ? `<b>${esc(q.nombre)}</b>` : ''}
-          ${conNombre ? `<small>${esc(oficioDe(q))}</small>` : ''}
+          <b>${esc(q.nombre)}</b>
+          <small>${esc(oficioDe(q))}</small>
         </div>
         ${etiqueta(q.rol_etiqueta, ROL_TONO[q.rol] ?? '')}
       </header>
@@ -2475,14 +2473,17 @@ function bloqueQuien(quienes) {
         <header class="dev-modal-cab">
           <div>
             <span class="dev-modal-kicker">Who brought the sale</span>
-            <h4>${n === 1 ? esc(quienes[0].nombre) : esc(`${n} people on this sale`)}</h4>
-            <small class="muted">${n === 1 ? esc(oficioDe(quienes[0]))
-              : 'A mixed sale: every hand that touched it, with the role it had.'}</small>
+            <h4>${n === 1 ? esc(quienes[0].rol_etiqueta) : esc(`${n} people on this sale`)}</h4>
+            <small class="muted">${n > 1
+              ? 'A mixed sale: every hand that touched it, with the role it had.'
+              : quienes[0].rol === 'desarrollador'
+                ? 'No code outside the house brought this sale.'
+                : ''}</small>
           </div>
           <button class="dev-modal-x" type="button" data-cerrar aria-label="Close">×</button>
         </header>
         <div class="dev-modal-cuerpo dev-quien-lista">
-          ${quienes.map((q) => fichaDe(q, n > 1)).join('')}
+          ${quienes.map((q) => fichaDe(q)).join('')}
         </div>
         <footer class="dev-modal-pie">
           <p class="note">${quienes.every((q) => q.rol === 'desarrollador')
