@@ -891,3 +891,40 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 /* the line that says there is no discount yet, in the same place the discount would be */
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-sin{margin:2px 0 4px; font-size:var(--fs-sm);
   color:var(--muted)}
+
+/* ---- Quién trajo la venta ---------------------------------------------------------------------
+   El canal era una palabra suelta («Creator»). Una palabra no dice quién: el desarrollador tiene que
+   poder abrirla y ver la ficha de quien trajo la venta, y si fueron varios, todas. El disparador se
+   lee como un dato más de la tabla —mismo tamaño, misma fila— no como un botón de acción. */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien{display:inline-flex; align-items:center; gap:7px; margin:-3px 0 -3px 0; padding:3px 11px 3px 9px;
+  border:1px solid var(--line); border-radius:999px; background:var(--surface-2); font:inherit;
+  font-weight:650; font-size:var(--fs); color:var(--ink); cursor:pointer;
+  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien svg{flex:none; color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien small{font-size:var(--fs-xs); font-weight:600; letter-spacing:.02em; color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:hover{border-color:var(--brand); background:var(--surface-3);
+  box-shadow:0 1px 2px rgba(12,18,28,.06)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:hover small{color:var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien:focus-visible{outline:2px solid var(--brand); outline-offset:2px}
+
+/* Una ficha por interviniente. Separadas por una línea y no por cajas: en una venta mixta se leen
+   como una lista de personas, que es lo que son, y no como tres tarjetas que compiten. */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista{display:flex; flex-direction:column; max-height:min(64vh,560px); overflow:auto;
+  padding-bottom:14px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil{padding:14px 0 2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista .dev-perfil:first-child{padding-top:4px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil + .dev-perfil{border-top:1px solid var(--line)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-cab{display:flex; align-items:center; gap:11px; margin-bottom:6px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-ini{width:40px; height:40px; flex:none; display:grid; place-items:center; border-radius:50%;
+  background:linear-gradient(140deg,#2f6b4f,#1d4536); color:#fff; font-size:var(--fs-sm); font-weight:800;
+  letter-spacing:.06em; text-transform:uppercase}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien{flex:1; min-width:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien b{display:block; font-size:var(--fs-t); font-weight:700; color:var(--ink); line-height:1.2}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil-quien small{display:block; margin-top:2px; font-size:var(--fs-sm); color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv{border-top:1px solid var(--line); border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv dt{padding:7px 12px 7px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .kv dd{padding:7px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil .note{margin:8px 0 0; font-size:var(--fs-xs); color:var(--muted)}
+/* A person's name is written as it is spelled: the global h4 rule shouts everything it touches, and
+   in the title of this pop-up that rule turns a name into a headline. */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab h4{text-transform:none}

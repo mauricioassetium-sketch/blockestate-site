@@ -124,6 +124,13 @@ const destacado = (valor, etiqueta, chico = false, debajo = '') => `
 const dato = (k, v, mono = false) => (v === null || v === undefined || v === '')
   ? '' : `<dt>${esc(k)}</dt><dd${mono ? ' class="dev-mono"' : ''}>${esc(v)}</dd>`;
 
+/**
+ * The same row as `dato`, for a value that carries markup: a chip, a link, a number in its own type.
+ * `dato` escapes because a raw row must never become HTML; here the caller builds the markup and is
+ * the one that escapes what goes inside.
+ */
+const datoHtml = (k, html) => (html ? `<dt>${esc(k)}</dt><dd>${html}</dd>` : '');
+
 const etiqueta = (texto, tono = '') => `<span class="tag${tono ? ` ${tono}` : ''}">${esc(texto)}</span>`;
 
 /** The tag of a state: green when it is finished or published, coin when a person must look at it. */
@@ -2384,11 +2391,124 @@ export async function viewDevSale(id) {
   }
   const nombre = `${tipoLabel(v.unidad?.tipo)} in ${v.proyecto ?? ''}`;
   await conDatos('#/dev/sales', (x) => cuerpoVenta(v, x), '', nombre);
+
+  // The channel is a word until it is opened: the profile of whoever brought the sale is one click
+  // away, and a sale with several hands opens them all.
+  const quien = view().querySelector('#dev-quien');
+  view().querySelector('[data-quien]')?.addEventListener('click', () => quien?.showModal());
+  quien?.querySelectorAll('[data-cerrar]').forEach((b) => b.addEventListener('click', () => quien.close()));
+  quien?.addEventListener('click', (e) => { if (e.target === quien) quien.close(); });
+}
+
+/* ---- who brought the sale: the name behind the channel -------------------------------------- */
+
+/** The tone of each role's tag, so the eye separates a creator from a house broker at a glance. */
+const ROL_TONO = { creador: 'green', introductor: 'coin', agencia: '', desarrollador: '' };
+
+/** Two letters of the name for the round mark. No avatar is invented for a person who never sent one. */
+function iniciales(nombre) {
+  const partes = String(nombre ?? '?').trim().split(/\s+/).filter(Boolean).slice(0, 2);
+  const letras = partes.map((p) => p[0] ?? '').join('');
+  return (letras || '?').toUpperCase();
+}
+
+/**
+ * The line under the name, built from the fields and never from the free-text title: the title is
+ * whatever an operator typed into the code, and half of it is not in English.
+ */
+function oficioDe(q) {
+  if (q.rol === 'desarrollador') return "The developer's own sales desk";
+  if (q.rol === 'agencia') return q.agencia ? `Agency · ${q.agencia}` : 'Agency';
+  if (q.rol === 'introductor') {
+    const casa = q.licencia ?? q.agencia;
+    return casa ? `Broker at ${casa}` : 'Broker, introduced the buyer';
+  }
+  return q.plataforma ? `Publishes on ${q.plataforma}` : 'Content creator';
+}
+
+/**
+ * One profile, as the developer is allowed to see it: who they are, what they sell through and
+ * whether their identity was checked. Never what they are paid — the split is BlockEstate's book,
+ * and this screen is the developer's.
+ *
+ * `conNombre` is false when the name is already the title of the pop-up: printing it twice on the
+ * same card would read like two different people.
+ */
+function fichaDe(q, conNombre = true) {
+  const seguidores = q.seguidores === null || q.seguidores === undefined ? ''
+    : `${Number(q.seguidores).toLocaleString('en-GB')} followers`;
+  const propio = q.rol === 'desarrollador';
+  return `
+    <article class="dev-perfil">
+      <header class="dev-perfil-cab">
+        <span class="dev-perfil-ini" aria-hidden="true">${esc(iniciales(q.nombre))}</span>
+        <div class="dev-perfil-quien">
+          ${conNombre ? `<b>${esc(q.nombre)}</b>` : ''}
+          ${conNombre ? `<small>${esc(oficioDe(q))}</small>` : ''}
+        </div>
+        ${etiqueta(q.rol_etiqueta, ROL_TONO[q.rol] ?? '')}
+      </header>
+      <dl class="kv">
+        ${q.codigo ? dato('Code', q.codigo, true) : ''}
+        ${dato('Platform', q.plataforma)}
+        ${dato('Handle', q.handle, true)}
+        ${dato('Audience', seguidores)}
+        ${dato('Country', q.pais)}
+        ${dato('Niche', q.industria)}
+        ${q.kyc ? datoHtml('Identity check', etiqueta(q.kyc, q.kyc === 'Approved' ? 'green' : 'coin')) : ''}
+        ${dato('Agency', q.agencia)}
+        ${dato('Licensed broker', q.licencia)}
+        ${dato('RERA number', q.rera_numero, true)}
+        ${dato('Commercial licence', q.licencia_comercial, true)}
+        ${dato('Registration', q.registro, true)}
+        ${q.activo === false ? datoHtml('Status', etiqueta('Switched off', 'coin')) : ''}
+      </dl>
+    </article>`;
+}
+
+/** The pop-up: every hand that took part, one under another, because a sale can come from more than one. */
+function bloqueQuien(quienes) {
+  const n = quienes.length;
+  return `
+    <dialog class="dev-modal" id="dev-quien">
+      <div class="dev-modal-caja">
+        <header class="dev-modal-cab">
+          <div>
+            <span class="dev-modal-kicker">Who brought the sale</span>
+            <h4>${n === 1 ? esc(quienes[0].nombre) : esc(`${n} people on this sale`)}</h4>
+            <small class="muted">${n === 1 ? esc(oficioDe(quienes[0]))
+              : 'A mixed sale: every hand that touched it, with the role it had.'}</small>
+          </div>
+          <button class="dev-modal-x" type="button" data-cerrar aria-label="Close">×</button>
+        </header>
+        <div class="dev-modal-cuerpo dev-quien-lista">
+          ${quienes.map((q) => fichaDe(q, n > 1)).join('')}
+        </div>
+        <footer class="dev-modal-pie">
+          <p class="note">${quienes.every((q) => q.rol === 'desarrollador')
+            ? 'No outside code brought this sale, so there is no commission on it: the buyer came to the house.'
+            : `Who brought a sale is the developer's business, and this is who it was.
+               What each of them is paid is not: the commission split stays between BlockEstate and them.`}</p>
+          <button class="btn ghost" type="button" data-cerrar>Close</button>
+        </footer>
+      </div>
+    </dialog>`;
 }
 
 /** El cuerpo de una venta: qué se vendió, por dónde va, y qué parte del dinero es suya. */
 function cuerpoVenta(v, x) {
   const c = v.cobro ?? {};
+  const quienes = v.intervinientes ?? [];
+  const roles = [...new Set(quienes.map((q) => q.rol_etiqueta))];
+  // The word for the channel, and the way in to the people behind it: one name, or a list if the
+  // sale came from more than one hand.
+  const canal = CANAL[c.canal] ?? roles.join(' + ') ?? '';
+  const canalCelda = quienes.length
+    ? `<button class="dev-quien" type="button" data-quien aria-haspopup="dialog">
+        ${ico('grupo', 13)}<span>${esc(roles.join(' + ') || canal)}</span>
+        <small>${esc(quienes.length === 1 ? 'see the profile' : `see the ${quienes.length} profiles`)}</small>
+      </button>`
+    : esc(canal);
   const aqui = PASOS.indexOf(v.estado);
   const linea = PASOS.map((p, i) => `
     <div class="dev-paso${i === aqui ? ' aqui' : ''}${i < aqui ? ' hecho' : ''}">
@@ -2412,7 +2532,7 @@ function cuerpoVenta(v, x) {
               v.unidad?.habitaciones ? `${v.unidad.habitaciones} bed` : null,
               v.unidad?.superficie_sqft ? `${v.unidad.superficie_sqft.toLocaleString('en-GB')} sqft` : null].filter(Boolean).join(' · '))}
             ${dato('Where', [v.unidad?.comunidad ?? v.proyecto, v.unidad?.emirato].filter(Boolean).join(' · '))}
-            ${dato('Channel', CANAL[c.canal] ?? c.canal)}
+            ${datoHtml('Channel', canalCelda)}
             ${dato('Registration', v.estado_registro === 'registered'
               ? 'Registered with the Land Department' : 'Not registered yet')}
           </dl>
@@ -2454,5 +2574,6 @@ function cuerpoVenta(v, x) {
           ${v.unidad_id ? `<a class="btn ghost" href="#/unit/${esc(v.unidad_id)}">Open the unit</a>` : ''}
         </div>
       </aside>
-    </div>`;
+    </div>
+    ${quienes.length ? bloqueQuien(quienes) : ''}`;
 }
