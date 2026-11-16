@@ -1508,9 +1508,8 @@ function filaSellada(u) {
   const lectura = u.iot?.ultima_lectura;
   const dispositivo = u.iot
     ? `<code>${esc(u.iot.serie)}</code>
-       <small>since ${esc(fechaCorta(u.iot.instalado_en))} · ${esc(String(u.iot.durabilidad_anios ?? 10))} years
-         · battery ${esc(String(u.iot.bateria_pct ?? ''))} %</small>
-       <small>${lectura
+       <small>since ${esc(fechaCorta(u.iot.instalado_en))} · ${esc(String(u.iot.durabilidad_anios ?? 10))} years</small>
+       <small>battery ${esc(String(u.iot.bateria_pct ?? ''))} %${lectura ? ' ·' : ''} ${lectura
         ? `air ${esc(String(lectura.aire_aqi ?? ''))} · ${esc(String(lectura.temperatura_c ?? ''))} °C · ${esc(String(lectura.humedad_pct ?? ''))} % RH`
         : 'no reading yet'}</small>`
     : '<span class="muted">no device on record</span>';
@@ -1613,6 +1612,7 @@ export async function viewDevVerification() {
     const cuerpoEspera = esperando.length
       ? esperando.map((u) => filaEnEspera(u, tarifas)).join('')
       : '<tr><td colspan="4" class="note">Every unit in the book carries the seal.</td></tr>';
+    const sinSello = Number(r.en_curso ?? 0) + Number(r.pendientes ?? 0);
     const cuerpoTarifas = (v.tarifas ?? []).map(filaTarifa).join('');
     const cuerpoVisitas = visitas.map((vis) => filaVisita(vis, filas)).join('');
 
@@ -1740,11 +1740,11 @@ export async function viewDevVerification() {
           cheap flat and an expensive one cost the same to check. The price list is data, so a change
           in it is a row and not a release.</p>
         ${tabla([['Work', ''], ['What it includes', ''], ['Days', 'num'], ['Price', 'num']], cuerpoTarifas +
-          `<tr><td><b>One unit, from nothing</b></td>
+          `<tr><td><b>One ready unit, from zero</b></td>
              <td><small>The device plus the walk of the rooms, which is what a ready unit needs to carry the seal.</small></td>
              <td class="num"></td><td class="num"><b>${esc(r.coste_unidad_aed ?? money(0))}</b></td></tr>
            <tr><td><b>What is still owed</b></td>
-             <td><small>${esc(String(r.pendientes ?? 0))} ${Number(r.pendientes ?? 0) === 1 ? 'unit' : 'units'} without the seal, at that price today.</small></td>
+             <td><small>${esc(String(sinSello))} ${sinSello === 1 ? 'unit' : 'units'} without the seal, at that price today.</small></td>
              <td class="num"></td><td class="num"><b>${esc(r.coste_pendiente_aed ?? money(0))}</b></td></tr>`)}
       </section>`;
   });
