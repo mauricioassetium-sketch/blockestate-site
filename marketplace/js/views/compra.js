@@ -36,6 +36,10 @@ const ESTADO = {
   rejected: 'Declined',
 };
 const PASOS = ['draft', 'link_ready', 'sent', 'paid', 'conversion_requested', 'converted', 'settled'];
+const PASO_CORTO = {
+  draft: 'Draft', link_ready: 'Link', sent: 'Sent to the buyer', paid: 'Paid',
+  conversion_requested: 'At the house', converted: 'In dirhams', settled: 'Settled',
+};
 const ACTIVOS = [['USDT', 'USDT · Tether'], ['ETH', 'ETH · Ether'], ['BTC', 'BTC · Bitcoin']];
 const RED_DE = { USDT: 'ERC20', ETH: 'ERC20', BTC: 'Bitcoin' };
 
@@ -320,7 +324,7 @@ function pasos(compra) {
   return `<ol class="cmp-pasos">
     ${PASOS.map((p, i) => `<li class="${i < actual || cerrada ? 'hecho' : i === actual ? 'aqui' : ''}">
       <span class="cmp-paso-n">${i < actual || cerrada ? '✓' : i + 1}</span>
-      <span class="cmp-paso-t">${esc(ESTADO[p])}</span></li>`).join('')}
+      <span class="cmp-paso-t">${esc(PASO_CORTO[p] ?? ESTADO[p])}</span></li>`).join('')}
   </ol>`;
 }
 
