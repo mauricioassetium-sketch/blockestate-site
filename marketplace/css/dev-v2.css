@@ -909,7 +909,7 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 
 /* Una ficha por interviniente. Separadas por una línea y no por cajas: en una venta mixta se leen
    como una lista de personas, que es lo que son, y no como tres tarjetas que compiten. */
-:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista{display:flex; flex-direction:column; max-height:min(64vh,560px); overflow:auto;
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista{display:flex; flex-direction:column; max-height:min(74vh,700px); overflow:auto;
   padding-bottom:14px}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-perfil{padding:14px 0 2px}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-quien-lista .dev-perfil:first-child{padding-top:4px}
