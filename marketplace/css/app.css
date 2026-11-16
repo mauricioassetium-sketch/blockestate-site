@@ -383,7 +383,7 @@ html,body{overflow-x:clip}
 /* The two lines of a price: the crypto first, what the buyer pays with, and the contract price in
    dirhams under it. The second is never hidden: it is the one that counts (BR-001). */
 .price-cripto{display:flex; align-items:baseline; gap:.4rem; flex-wrap:wrap}
-.price-cripto b{font-size:1.26rem; font-weight:700; letter-spacing:-.015em; color:var(--green-deep);
+.price-cripto b{font-size:1.06rem; font-weight:700; letter-spacing:-.015em; color:var(--green-deep);
   font-variant-numeric:tabular-nums}
 .price-cripto i{font-style:normal; font-size:.84rem; font-weight:500; color:var(--ink-45)}
 /* One choice for the whole site, in the bar. */
@@ -394,11 +394,6 @@ html,body{overflow-x:clip}
 .sel-activo button{min-height:28px; padding:0 .6rem; border:0; border-radius:999px; background:none;
   font:inherit; font-size:.75rem; font-weight:700; color:var(--ink-60); cursor:pointer}
 .sel-activo button.on{background:var(--teal); color:#fff}
-.sel-activo .sel-tasa{display:inline-flex; align-items:center; gap:4px; padding:0 6px 0 8px;
-  border-left:1px solid var(--line-2); font-size:.72rem; font-weight:700; color:var(--ink-45)}
-.sel-activo .sel-tasa.mal{border-left:0; color:#991b1b; background:#fdecec; border-radius:999px; padding:4px 10px}
-.sel-activo .sel-tasa input{width:70px; min-height:26px; padding:0 4px; border:1px solid var(--line-2);
-  border-radius:.3rem; font:inherit; font-size:.75rem}
 .card .tipo{font-size:1.02rem; color:var(--ink-60); margin-top:-3px}
 .card h3{font-size:1.22rem; font-weight:600; letter-spacing:-.01em}
 .card h3 a:hover{color:var(--green-deep)}
