@@ -257,7 +257,7 @@ export async function viewDevAgencias() {
     ['Sold through agencies', aed(agencias.reduce((s, a2) => s + Number(a2.gdv_fils ?? 0), 0)), 'on their codes', true],
   ])}
     <section class="mod">
-      <header>${ico('grupo', 15)}<h4>The panel</h4><span>${agencias.length} agencies</span></header>
+      <header>${ico('grupo', 15)}<h4>The panel</h4><span>${agencias.length} agenc${agencias.length === 1 ? 'y' : 'ies'}</span></header>
       <div class="dev-tabla-caja">
         <table class="dev-tabla">
           <thead><tr><th>Agency</th><th>Terms</th><th class="num">Brokers</th>
