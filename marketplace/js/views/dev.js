@@ -1842,8 +1842,9 @@ export async function viewDevVerification() {
           (${esc(String(v.tipos_cambio?.aed_por_usdt ?? ''))} AED per USDT): the buyer settles in crypto,
           so the cost of the seal is written in the money it will be paid in. And because a developer
           that verifies a building does not pay the price of one flat, each charge point carries its own
-          <b>volume calculator</b>: ${esc(textoEscalera(v.descuentos ?? []))}, and never more than
-          <b>${esc(String((v.descuento_tope_pb ?? 0) / 100))} %</b> off.</p>
+          <b>volume calculator</b> that reads the same ladder: ${esc(textoEscalera(v.descuentos ?? []))}.
+          Nothing goes above <b>${esc(String((v.descuento_tope_pb ?? 0) / 100))} %</b> off, and the table
+          refuses a row that tries.</p>
         ${tabla([['Work', ''], ['What it includes', ''], ['Days', 'num'], ['Price', 'num']], cuerpoTarifas +
           `<tr><td><b>One ready unit, from zero</b></td>
              <td><small>The device plus the walk of the rooms, which is what a ready unit needs to carry the seal.</small></td>
