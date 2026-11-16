@@ -41,6 +41,11 @@ const PASO_CORTO = {
   conversion_requested: 'At the house', converted: 'In dirhams', settled: 'Settled',
 };
 const ACTIVOS = [['USDT', 'USDT · Tether'], ['ETH', 'ETH · Ether'], ['BTC', 'BTC · Bitcoin']];
+/* On the buyer's page the states are said with the buyer's words: the client is reading it. */
+const ESTADO_COMPRADOR = {
+  sent: 'Waiting for your payment', paid: 'Your crypto arrived', conversion_requested: 'In conversion',
+  converted: 'Ready in dirhams', settled: 'Settled',
+};
 const RED_DE = { USDT: 'ERC20', ETH: 'ERC20', BTC: 'Bitcoin' };
 
 const tag = (estado) => `<span class="tag${estado === 'settled' || estado === 'converted'
@@ -598,7 +603,7 @@ export async function viewPay(token) {
         <p class="pay-ref">Reference ${esc(p.referencia)} · ${esc(date(p.creado_en))}</p>
         <h1>${esc(p.proyecto ?? 'Your property')}${p.unidad?.tipo ? ` · ${esc(p.unidad.tipo)}` : ''}</h1>
         <p class="note">${p.unidad?.habitaciones ? `${p.unidad.habitaciones} bed · ` : ''}Sold by ${esc(p.desarrollador)}</p>
-        <p class="pay-estado">${tag(p.estado)}<span>${esc(pagado
+        <p class="pay-estado"><span class="tag${['converted', 'settled'].includes(p.estado) ? ' green' : p.estado === 'paid' ? ' coin' : ''}">${esc(ESTADO_COMPRADOR[p.estado] ?? p.estado)}</span><span>${esc(pagado
           ? (p.estado === 'settled' ? 'The purchase is complete.' : 'The crypto has been received — nothing more is due from you.')
           : 'Nothing has been paid yet.')}</span></p>
 
