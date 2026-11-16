@@ -87,6 +87,9 @@
   color:var(--muted)}
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > p,
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .mod > .note{padding:12px 16px; margin:0; font-size:var(--fs-sm); color:var(--muted)}
+/* A note that says «go there» has to look like a door, not like another line of grey text. */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .note a{color:var(--green-deep); font-weight:600; text-decoration:underline; text-underline-offset:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .note a:hover{color:var(--brand)}
 /* La regla que evita el fallo de verdad: TODO lo que va suelto dentro de una tarjeta lleva el mismo
    relleno a los lados. Solo piden la excepción los bloques que ya traen el suyo o que se pintan a
    sangre, y así el texto no puede acabar pegado al borde por olvido. */
