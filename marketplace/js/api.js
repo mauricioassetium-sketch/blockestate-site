@@ -155,6 +155,9 @@ export const api = {
   devVerysset: () => req('GET', '/me/developer/verysset'),
   devVisita: (body) => req('POST', '/me/developer/verysset/visits', { body }),
   devVisitaCancelar: (id) => req('DELETE', `/me/developer/verysset/visits/${id}`),
+  // The volume calculator asks the API and prints the answer: one ladder, one set of numbers.
+  devCotizacion: (concepto, unidades) =>
+    req('GET', `/me/developer/verysset/quote?concepto=${encodeURIComponent(concepto)}&unidades=${Number(unidades)}`),
   devChannels: () => req('GET', '/me/developer/channels'),
   devAgencies: () => req('GET', '/me/developer/agencies'),
   devAgencyAdd: (body) => req('POST', '/me/developer/agencies', { body }),

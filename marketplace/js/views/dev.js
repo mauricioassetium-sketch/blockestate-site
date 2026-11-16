@@ -116,8 +116,9 @@ const GRUPOS = [
 ];
 
 /** A figure of a first look: the number in bold, the word underneath. Same shape as the unit sheet. */
-const destacado = (valor, etiqueta, chico = false) => `
+const destacado = (valor, etiqueta, chico = false, debajo = '') => `
   <div class="dest"><b${chico ? ' class="chico"' : ''}>${esc(valor)}</b>
+    ${debajo ? `<span class="dest-usd">${esc(debajo)}</span>` : ''}
     <span class="dest-lab">${esc(etiqueta)}</span></div>`;
 
 const dato = (k, v, mono = false) => (v === null || v === undefined || v === '')
@@ -1531,7 +1532,12 @@ function filaSellada(u) {
 /** One row of the ones still waiting: what is missing, what it costs, and the button that asks. */
 function filaEnEspera(u, tarifas) {
   const tipo = u.estado_obra === 'off_plan' ? 'avance_obra' : (u.iot ? 'espacios' : 'dispositivo');
-  const coste = tarifas[TARIFA_DE[tipo]]?.precio_aed ?? money(0);
+  const tar = tarifas[TARIFA_DE[tipo]];
+  const coste = tar?.precio_aed ?? money(0);
+  const costeUsdt = tar?.precio_usdt ?? '';
+  const calc = (concepto, trabajo, unitario) => `
+    <button class="dev-calc-btn" type="button" data-calc="${esc(concepto)}" data-trabajo="${esc(trabajo)}"
+      data-unitario="${esc(unitario)}">Volume calculator</button>`;
   const falta = u.visita
     ? `${etiqueta(u.visita.estado === 'agendada' ? 'Visit booked' : 'Visit asked', 'coin')}
        <small>${esc(QUE_HACE[u.visita.tipo] ?? u.visita.tipo)}${u.visita.fecha ? ` · ${esc(fechaCorta(u.visita.fecha))}` : ''}${u.visita.franja ? `, ${esc(u.visita.franja)}` : ''}${u.visita.tecnico ? ` · ${esc(u.visita.tecnico)}` : ''}</small>`
@@ -1545,7 +1551,8 @@ function filaEnEspera(u, tarifas) {
       <td><b>${esc(tipoLabel(u.tipo))}${u.habitaciones ? ` · ${u.habitaciones} bed` : ''}</b>
         <small>${esc(u.proyecto)} · ${esc(u.estado_obra === 'off_plan' ? 'Off plan' : 'Ready')}</small></td>
       <td>${falta}</td>
-      <td class="num">${esc(coste)}</td>
+      <td class="num"><b>${esc(coste)}</b><small class="usd">${esc(costeUsdt)}</small>
+        ${calc(TARIFA_DE[tipo], QUE_HACE[tipo] ?? tipo, `${coste} · ${costeUsdt} per unit`)}</td>
       <td>${accion}</td>
     </tr>`;
 }
@@ -1561,20 +1568,112 @@ function filaVisita(vis, filas) {
       <td><b>${esc(vis.fecha ? fechaCorta(vis.fecha) : 'to be confirmed')}</b><small>${esc(vis.franja ?? '')} · ${esc(vis.estado)}</small></td>
       <td>${esc(quien)}</td>
       <td>${esc(QUE_HACE[vis.tipo] ?? vis.tipo)}${vis.tecnico ? `<small>${esc(vis.tecnico)}</small>` : ''}</td>
-      <td class="num">${esc(vis.coste_aed)}</td>
+      <td class="num"><b>${esc(vis.coste_aed)}</b><small class="usd">${esc(vis.coste_usdt ?? '')}</small></td>
       <td><button class="btn ghost sm" type="button" data-cancelar="${esc(vis.id)}">Withdraw</button></td>
     </tr>`;
 }
 
-/** One row of the price list. */
+/**
+ * One row of the price list. Every charge point carries its own calculator: the dev who is about to
+ * ask for forty walks should be able to see what forty cost before asking, on the row he is reading.
+ */
 function filaTarifa(t) {
+  const trabajo = QUE_HACE[t.concepto] ?? t.concepto;
   return `
     <tr>
-      <td><b>${esc(QUE_HACE[t.concepto] ?? t.concepto)}</b></td>
+      <td><b>${esc(trabajo)}</b></td>
       <td><small>${esc(t.incluye)}</small></td>
       <td class="num">${esc(String(t.sla_dias))}</td>
-      <td class="num">${esc(t.precio_aed)}</td>
+      <td class="num"><b>${esc(t.precio_aed)}</b><small class="usd">${esc(t.precio_usdt ?? '')}</small>
+        <button class="dev-calc-btn" type="button" data-calc="${esc(t.concepto)}" data-trabajo="${esc(trabajo)}"
+          data-unitario="${esc(`${t.precio_aed} · ${t.precio_usdt ?? ''} per unit · ${t.sla_dias} days`)}">Volume calculator</button></td>
     </tr>`;
+}
+
+/** The ladder in one line, for the note above the table: `5 to 19 units at 8 %, …`. */
+function textoEscalera(descuentos) {
+  if (!descuentos.length) return 'no volume steps are published';
+  const primero = Number(descuentos[0].desde_unidades);
+  const dicho = [];
+  if (primero > 1) dicho.push(`one to ${primero - 1} units at the list price`);
+  descuentos.forEach((d, i) => {
+    const sig = descuentos[i + 1];
+    const pct = Number(d.porcentaje ?? Number(d.descuento_pb) / 100);
+    dicho.push(sig
+      ? `${d.desde_unidades} to ${Number(sig.desde_unidades) - 1} units at ${pct} %`
+      : `${d.desde_unidades} units and over at ${pct} %`);
+  });
+  return dicho.join(', ');
+}
+
+/** The ladder as a list, with the step in force marked. Built from the table, not from constants. */
+function escaleraLi(descuentos, desdeActivo, topePb) {
+  const filas = [];
+  const primero = descuentos.length ? Number(descuentos[0].desde_unidades) : 0;
+  if (primero > 1) filas.push({ rango: `1 to ${primero - 1} units`, pct: 0, desde: 0 });
+  descuentos.forEach((d, i) => {
+    const sig = descuentos[i + 1];
+    filas.push({
+      rango: sig ? `${d.desde_unidades} to ${Number(sig.desde_unidades) - 1} units` : `${d.desde_unidades} units and over`,
+      pct: Number(d.porcentaje ?? Number(d.descuento_pb) / 100),
+      desde: Number(d.desde_unidades),
+    });
+  });
+  return filas.map((f) => {
+    const tope = topePb > 0 && Math.round(f.pct * 100) === topePb;
+    return `
+      <li${f.desde === desdeActivo ? ' class="activo"' : ''}${tope ? ' data-tope="1"' : ''}>
+        <span>${esc(f.rango)}</span>
+        <b>${f.pct ? `−${esc(String(f.pct))} %` : 'list price'}${tope ? ' · ceiling' : ''}</b>
+      </li>`;
+  }).join('');
+}
+
+/**
+ * The calculator, one pop-up shared by every charge point.
+ *
+ * It computes nothing: it asks the API what the order costs and prints the answer, so the number a
+ * developer reads here is the number the price list and the ladder give. The ceiling of 30 % is not
+ * written here either — it comes from the ladder in the database.
+ */
+function bloqueCalculadora(v) {
+  const tope = (v.descuento_tope_pb ?? 0) / 100;
+  const atajos = (v.descuentos ?? []).map((d) => Number(d.desde_unidades));
+  return `
+    <dialog class="dev-modal" id="dev-calc">
+      <div class="dev-modal-caja">
+        <header class="dev-modal-cab">
+          <div>
+            <span class="dev-modal-kicker">Volume calculator</span>
+            <h4 id="dev-calc-titulo">—</h4>
+            <small class="muted" id="dev-calc-unitario"></small>
+          </div>
+          <button class="dev-modal-x" type="button" data-cerrar aria-label="Close">×</button>
+        </header>
+        <div class="dev-modal-cuerpo">
+          <div class="dev-calc-pedido">
+            <label for="dev-calc-unidades">Units to verify</label>
+            <div class="dev-calc-suma">
+              <button type="button" data-paso="-1" aria-label="One fewer">−</button>
+              <input id="dev-calc-unidades" type="number" min="1" max="5000" step="1" value="20" inputmode="numeric">
+              <button type="button" data-paso="1" aria-label="One more">+</button>
+            </div>
+          </div>
+          <div class="dev-calc-atajos">
+            ${atajos.map((n) => `<button type="button" class="dev-calc-chip" data-unidades="${esc(String(n))}">${esc(String(n))}</button>`).join('')}
+            <span class="muted">steps of the ladder</span>
+          </div>
+          <ul class="dev-escalera" id="dev-calc-escalera"></ul>
+          <div class="dev-calc-totales" id="dev-calc-totales"></div>
+          <p class="dev-calc-siguiente" id="dev-calc-siguiente"></p>
+        </div>
+        <footer class="dev-modal-pie">
+          <p class="note">Read from the Verysset price table and its ladder. Nothing is booked and no money
+            moves here: the calculator answers what an order of this size would cost.</p>
+          <button class="btn ghost" type="button" data-cerrar>Close</button>
+        </footer>
+      </div>
+    </dialog>`;
 }
 
 export async function viewDevVerification() {
@@ -1632,7 +1731,7 @@ export async function viewDevVerification() {
         ${destacado(`${r.verificadas ?? 0} of ${r.unidades ?? 0}`, 'Sealed by Verysset')}
         ${destacado(r.con_dispositivo ?? 0, 'Devices inside the flats')}
         ${destacado(pctDe(r.cobertura_pb), 'Coverage of the book')}
-        ${destacado(r.coste_unidad_aed ?? money(0), 'Per verification', true)}
+        ${destacado(r.coste_unidad_aed ?? money(0), 'Per verification', true, r.coste_unidad_usdt ?? '')}
       </section>
 
       <section class="mod">
@@ -1739,14 +1838,26 @@ export async function viewDevVerification() {
         <p class="note">Charged per visit and per device, not a percentage of the price of the asset: a
           cheap flat and an expensive one cost the same to check. The price list is data, so a change
           in it is a row and not a release.</p>
+        <p class="note">Every amount is stated twice, in dirhams and in USDT at the peg
+          (${esc(String(v.tipos_cambio?.aed_por_usdt ?? ''))} AED per USDT): the buyer settles in crypto,
+          so the cost of the seal is written in the money it will be paid in. And because a developer
+          that verifies a building does not pay the price of one flat, each charge point carries its own
+          <b>volume calculator</b>: ${esc(textoEscalera(v.descuentos ?? []))}, and never more than
+          <b>${esc(String((v.descuento_tope_pb ?? 0) / 100))} %</b> off.</p>
         ${tabla([['Work', ''], ['What it includes', ''], ['Days', 'num'], ['Price', 'num']], cuerpoTarifas +
           `<tr><td><b>One ready unit, from zero</b></td>
              <td><small>The device plus the walk of the rooms, which is what a ready unit needs to carry the seal.</small></td>
-             <td class="num"></td><td class="num"><b>${esc(r.coste_unidad_aed ?? money(0))}</b></td></tr>
+             <td class="num"></td><td class="num"><b>${esc(r.coste_unidad_aed ?? money(0))}</b>
+               <small class="usd">${esc(r.coste_unidad_usdt ?? '')}</small>
+               <button class="dev-calc-btn" type="button" data-calc="unidad_lista" data-trabajo="One ready unit, from zero"
+                 data-unitario="${esc(`${r.coste_unidad_aed ?? ''} · ${r.coste_unidad_usdt ?? ''} per unit`)}">Volume calculator</button></td></tr>
            <tr><td><b>What is still owed</b></td>
              <td><small>${esc(String(sinSello))} ${sinSello === 1 ? 'unit' : 'units'} without the seal, at that price today.</small></td>
-             <td class="num"></td><td class="num"><b>${esc(r.coste_pendiente_aed ?? money(0))}</b></td></tr>`)}
-      </section>`;
+             <td class="num"></td><td class="num"><b>${esc(r.coste_pendiente_aed ?? money(0))}</b>
+               <small class="usd">${esc(r.coste_pendiente_usdt ?? '')}</small></td></tr>`)}
+      </section>
+
+      ${bloqueCalculadora(v)}`;
   });
 
   if (!d || !d.verysset) return;
@@ -1756,7 +1867,8 @@ export async function viewDevVerification() {
   const coste = raiz.querySelector('#dev-visita-coste');
   const ok = raiz.querySelector('#dev-visita-ok');
   const err = raiz.querySelector('#dev-visita-err');
-  const precio = Object.fromEntries((v.tarifas ?? []).map((t) => [t.concepto, t.precio_aed]));
+  const precio = Object.fromEntries((v.tarifas ?? []).map((t) => [t.concepto,
+    t.precio_usdt ? `${t.precio_aed} · ${t.precio_usdt}` : t.precio_aed]));
 
   const decir = (texto) => {
     if (coste) coste.textContent = `This visit: ${texto}`;
@@ -1789,7 +1901,7 @@ export async function viewDevVerification() {
       const nuevo = view().querySelector('#dev-visita');
       const msg = nuevo?.querySelector('#dev-visita-ok');
       if (msg) {
-        msg.textContent = `Asked. ${r.coste_aed} for the visit; Verysset confirms the day and the person.`;
+        msg.textContent = `Asked. ${r.coste_aed}${r.coste_usdt ? ` · ${r.coste_usdt}` : ''} for the visit; Verysset confirms the day and the person.`;
         msg.hidden = false;
       }
       nuevo?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1821,6 +1933,96 @@ export async function viewDevVerification() {
       if (err) { err.textContent = e2?.message ?? 'The visit could not be withdrawn.'; err.hidden = false; }
     }
   }));
+
+  // ---- The volume calculator: one pop-up, opened from any charge point on the screen -----------
+  const modal = raiz.querySelector('#dev-calc');
+  const calcUnidades = raiz.querySelector('#dev-calc-unidades');
+  const calcEscalera = raiz.querySelector('#dev-calc-escalera');
+  const calcTotales = raiz.querySelector('#dev-calc-totales');
+  const calcSiguiente = raiz.querySelector('#dev-calc-siguiente');
+  const calcTitulo = raiz.querySelector('#dev-calc-titulo');
+  const calcUnitario = raiz.querySelector('#dev-calc-unitario');
+  const escalera = v.descuentos ?? [];
+  const topePb = Number(v.descuento_tope_pb ?? 0);
+  let calcConcepto = null;
+  let calcPidio = 0;
+  let calcTimer = null;
+
+  // Below the first step there is no discount to show, and a line of zeros is not a discount.
+  const lineas = (q) => `
+    <div class="dev-calc-linea"><span>${esc(String(q.unidades))} × ${esc(q.precio_unitario_aed)}</span>
+      <b>${esc(q.bruto_aed)}<small>${esc(q.bruto_usdt)}</small></b></div>
+    ${Number(q.descuento_pb) === 0 ? `<p class="dev-calc-sin">List price: the ladder starts at
+      ${esc(String((escalera[0]?.desde_unidades ?? 0)))} units.</p>` : `<div class="dev-calc-linea menos"><span>Volume discount ${esc(String(q.descuento_porcentaje))} %</span>
+      <b>−${esc(q.descuento_aed)}<small>−${esc(q.descuento_usdt)}</small></b></div>`}
+    <div class="dev-calc-linea total"><span>You pay</span>
+      <b>${esc(q.total_aed)}<small>${esc(q.total_usdt)}</small></b></div>
+    <div class="dev-calc-linea"><span>Per unit</span>
+      <b>${esc(q.por_unidad_aed)}<small>${esc(q.por_unidad_usdt)}</small></b></div>`;
+
+  const siguienteTexto = (q) => {
+    const s = q.siguiente;
+    if (!s) {
+      return `This is the top of the ladder: <b>${esc(String(q.descuento_porcentaje))} %</b> off, the ceiling.`;
+    }
+    return `<b>${esc(String(s.faltan))} more ${s.faltan === 1 ? 'unit' : 'units'}</b> and the step becomes
+      <b>${esc(String(s.porcentaje))} %</b>: the same order would be ${esc(s.total_aed)}
+      (${esc(s.total_usdt)}), ${esc(s.ahorro_extra_aed)} less.`;
+  };
+
+  const cotizar = async () => {
+    if (!calcConcepto || !calcUnidades) return;
+    const unidades = Math.max(1, Math.min(5000, Math.trunc(Number(calcUnidades.value) || 1)));
+    if (String(unidades) !== calcUnidades.value) calcUnidades.value = String(unidades);
+    const pedido = ++calcPidio;
+    try {
+      const q = await api.devCotizacion(calcConcepto, unidades);
+      if (pedido !== calcPidio) return; // an older answer arriving late must not overwrite a newer one
+      if (calcEscalera) calcEscalera.innerHTML = escaleraLi(escalera, q.tramo?.desde_unidades ?? 0, topePb);
+      if (calcTotales) calcTotales.innerHTML = lineas(q);
+      if (calcSiguiente) calcSiguiente.innerHTML = siguienteTexto(q);
+    } catch (e2) {
+      if (pedido !== calcPidio) return;
+      if (calcTotales) {
+        calcTotales.innerHTML = `<p class="msg err">${esc(e2?.message ?? 'The quote did not arrive.')}</p>`;
+      }
+    }
+  };
+
+  const abrirCalculadora = (concepto, trabajo, unitario) => {
+    if (!modal) return;
+    calcConcepto = concepto;
+    if (calcTitulo) calcTitulo.textContent = trabajo;
+    if (calcUnitario) calcUnitario.textContent = unitario;
+    if (calcUnidades) calcUnidades.value = '20';
+    if (calcEscalera) calcEscalera.innerHTML = escaleraLi(escalera, 0, topePb);
+    if (calcSiguiente) calcSiguiente.textContent = '';
+    modal.showModal();
+    cotizar();
+    setTimeout(() => calcUnidades?.focus(), 40);
+  };
+
+  raiz.querySelectorAll('[data-calc]').forEach((b) => b.addEventListener('click', () => {
+    abrirCalculadora(b.dataset.calc, b.dataset.trabajo ?? '', b.dataset.unitario ?? '');
+  }));
+  modal?.querySelectorAll('[data-cerrar]').forEach((b) => b.addEventListener('click', () => modal.close()));
+  modal?.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+  modal?.querySelectorAll('[data-paso]').forEach((b) => b.addEventListener('click', () => {
+    if (!calcUnidades) return;
+    const ahora = Math.trunc(Number(calcUnidades.value) || 1);
+    calcUnidades.value = String(Math.max(1, Math.min(5000, ahora + Number(b.dataset.paso))));
+    cotizar();
+  }));
+  modal?.querySelectorAll('[data-unidades]').forEach((b) => b.addEventListener('click', () => {
+    if (!calcUnidades) return;
+    calcUnidades.value = b.dataset.unidades ?? '1';
+    cotizar();
+  }));
+  calcUnidades?.addEventListener('input', () => {
+    if (calcTimer) clearTimeout(calcTimer);
+    calcTimer = setTimeout(cotizar, 260);
+  });
+
 }
 
 /* ---------------------------------------------------------------- Sales */

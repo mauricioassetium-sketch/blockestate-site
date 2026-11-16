@@ -791,3 +791,103 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
   .sel-activo button, .sel-activo .sel-tasa input{min-height:44px}
   .foot-redes .red{width:44px; height:44px}
 }
+
+/* ============================ El importe en las dos monedas, y su calculadora
+
+   El comprador liquida en USDT y el desarrollador piensa en dirhams: cada cifra de esta pantalla
+   se imprime dos veces, la segunda más pequeña y en gris, para que no compitan. Debajo, en el mismo
+   punto de cobro, el enlace que abre la calculadora de volumen. */
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-tabla td .usd{display:block; margin-top:1px; font-size:var(--fs-sm);
+  font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums; letter-spacing:.01em}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dest-usd{display:block; margin:-3px 0 2px; font-size:var(--fs-sm);
+  font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn{display:inline-block; margin-top:5px; padding:0; border:0;
+  background:none; font:inherit; font-size:var(--fs-sm); font-weight:700; color:var(--brand-dark); cursor:pointer;
+  text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; text-decoration-color:var(--ok-bd)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn:hover{color:var(--ok); text-decoration-color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-btn:focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:2px}
+
+/* ------------------------------------------------ la calculadora (un <dialog> del navegador) */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal{position:fixed; inset:0; margin:auto;
+  width:min(580px, calc(100% - 32px)); max-height:calc(100vh - 48px); padding:0; overflow:auto;
+  border:1px solid var(--line-2); border-radius:14px; background:var(--surface); color:var(--body);
+  box-shadow:0 24px 60px rgba(16,24,40,.3)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal::backdrop{background:rgba(12,18,28,.52); backdrop-filter:blur(3px)}
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab{display:flex; align-items:flex-start; gap:12px;
+  padding:15px 18px 12px; border-bottom:1px solid var(--line)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-kicker{display:block; font-size:var(--fs-xs); font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab h4{margin:2px 0 3px; font-size:var(--fs-t); font-weight:700;
+  color:var(--ink); letter-spacing:-.01em}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cab small{font-size:var(--fs-sm); color:var(--muted);
+  font-variant-numeric:tabular-nums}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-x{margin-left:auto; width:28px; height:28px; flex:none;
+  display:grid; place-items:center; border-radius:var(--r-sm); border:1px solid var(--line); background:var(--surface);
+  color:var(--muted); font-size:17px; line-height:1; cursor:pointer}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-x:hover{background:var(--surface-2); color:var(--ink)}
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-cuerpo{padding:14px 18px 0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-pedido{display:flex; align-items:center;
+  justify-content:space-between; gap:12px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-pedido label{font-size:var(--fs-sm); font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma{display:flex; align-items:center;
+  border:1px solid var(--line-2); border-radius:var(--r); overflow:hidden; background:var(--surface)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma button{width:32px; height:34px; border:0;
+  background:var(--surface-2); color:var(--ink); font-size:15px; font-weight:700; cursor:pointer}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma button:hover{background:var(--surface-3)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma input{width:84px; height:34px; border:0;
+  border-inline:1px solid var(--line); text-align:center; font:inherit; font-size:var(--fs-md); font-weight:700;
+  color:var(--ink); font-variant-numeric:tabular-nums; background:var(--surface)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-suma input:focus{outline:2px solid var(--brand);
+  outline-offset:-2px}
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-atajos{display:flex; align-items:center; gap:6px;
+  margin-top:10px; flex-wrap:wrap}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-atajos .muted{font-size:var(--fs-xs); margin-left:2px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-chip{padding:3px 11px; border-radius:999px;
+  border:1px solid var(--line-2); background:var(--surface); color:var(--body); font:inherit; font-size:var(--fs-sm);
+  font-weight:700; cursor:pointer; font-variant-numeric:tabular-nums}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-chip:hover{border-color:var(--brand);
+  color:var(--brand-dark); background:var(--ok-bg)}
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera{list-style:none; margin:14px 0 0; padding:0;
+  border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li{display:flex; align-items:center;
+  justify-content:space-between; gap:10px; padding:6px 10px; font-size:var(--fs); border-bottom:1px solid var(--line)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li:last-child{border-bottom:0}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li b{font-variant-numeric:tabular-nums;
+  color:var(--dim); font-weight:700}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo{background:var(--ok-bg);
+  box-shadow:inset 3px 0 0 var(--brand)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo span{font-weight:700; color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-escalera li.activo b{color:var(--ok); font-weight:800}
+
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-totales{margin-top:10px; padding-top:8px;
+  border-top:1px dashed var(--line-2)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea{display:flex; align-items:baseline;
+  justify-content:space-between; gap:12px; padding:4px 0; font-size:var(--fs)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > span{color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > b{display:flex; flex-direction:column;
+  align-items:flex-end; font-variant-numeric:tabular-nums; color:var(--ink)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea > b small{font-size:var(--fs-sm);
+  font-weight:600; color:var(--muted)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.menos > b{color:var(--warn)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total{margin-top:4px; padding-top:9px;
+  border-top:1px solid var(--line)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total > span{font-weight:700; color:var(--ink);
+  font-size:var(--fs-md)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-linea.total > b{font-size:var(--fs-t); font-weight:800;
+  color:var(--ok)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-siguiente{margin:10px 0 0; padding:8px 10px;
+  border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line); font-size:var(--fs-sm);
+  line-height:1.5; color:var(--dim)}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-siguiente:empty{display:none}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-pie{display:flex; align-items:center; gap:12px;
+  padding:12px 18px 16px}
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-modal-pie .note{margin:0; flex:1; font-size:var(--fs-xs)}
+/* the line that says there is no discount yet, in the same place the discount would be */
+:is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"]) .dev-calc-sin{margin:2px 0 4px; font-size:var(--fs-sm);
+  color:var(--muted)}
