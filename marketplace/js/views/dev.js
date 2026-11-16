@@ -104,9 +104,14 @@ const GRUPOS = [
     ['#/dev/sales', 'Sales', 'trato'],
     ['#/dev/collections', 'Collections', 'banco'],
   ]],
-  // No «who sells for you» here, on purpose. The developer sells through its own desk; the agency is
-  // the one that designates brokers and creators, and it does so in its own portal. The addresses of
-  // those desks still exist, and they answer with a gate that says whose they are.
+  // Who sells for you is half the developer's: he keeps the panel of agencies, what each channel costs
+  // him and the deal with the principal agency. The brokers are the other half — the agency designates
+  // them in its own portal — so the group holds three doors and the broker's answers with a gate.
+  ['Who sells for you', [
+    ['#/dev/agencies', 'Agencies', 'sello'],
+    ['#/dev/channels', 'Channels', 'moneda'],
+    ['#/dev/agency', 'The agency', 'llave'],
+  ]],
   ['The organisation', [
     ['#/dev/org', 'Profile and approval', 'sello'],
   ]],
@@ -2146,26 +2151,28 @@ export async function viewDevCollections() {
 /* ---------------------------------------------------------------- lo que no es de este portal */
 
 /**
- * Who designates brokers, agencies and channels is the agency, and it does it in its own portal. The
- * developer's menu no longer carries those desks; their four addresses still exist, so they answer
- * here instead of rendering a desk that belongs to another organisation. A gate that explains is
- * better than a 404: it says where that work lives and what the developer does see of it — a sale
- * still names the hand that brought it, and opening the channel opens that person's profile.
+ * The one door of «who sells for you» that is not the developer's: the broker. Brokers do not sit on
+ * the developer's book — they sit under an agency, and the agency designates them in its own portal.
+ * The address stays alive so a bookmark answers with this gate instead of a desk nobody here can
+ * work; the panel of agencies, the channels and the deal with the principal agency are one click
+ * away, and those the developer does keep.
  */
 export async function viewDevPuertaAgencia() {
-  await conDatos('#/dev/brokers', () => `
+  await conDatos('#/dev/agencies', () => `
     <section class="mod">
-      <header>${ico('grupo', 15)}<h4>This desk is the agency's</h4></header>
-      <p class="note"><b>The developer sells; the agency designates.</b> Who brings a broker, an
-        agency or a creator into the book, and the code each of them carries, is decided in the
-        agency's portal — never from here. That is why this portal has no brokers, no agencies and
-        no channels of its own.</p>
-      <p class="note">What is yours is the other half of the story: every sale in this book says who
-        brought it. Open a sale and the channel opens the profile behind it — the code, where that
-        person publishes, their audience, their identity check. What each of them is paid stays out
-        of it: the reparto is BlockEstate's ledger, not the developer's.</p>
-      <p class="note"><a href="#/dev/sales">Go to the sales</a> · <a href="#/dev">back to the overview</a></p>
-    </section>`, '', 'Who sells for you');
+      <header>${ico('grupo', 15)}<h4>Brokers are the agency's to designate</h4></header>
+      <p class="note"><b>The developer sells; the agency designates.</b> A broker never sits on the
+        developer's book — he sits under an agency and carries its licence, and the agency decides who
+        joins and which code each one gets, in its own portal. That is why this portal has no brokers
+        of its own.</p>
+      <p class="note">What is yours is beside it: the <a href="#/dev/agencies">panel of agencies</a>
+        and what each one brings, <a href="#/dev/channels">what every channel costs you</a>, and
+        <a href="#/dev/agency">the deal with the principal agency</a>. What the developer sees of a
+        broker is what a sale already tells him: open a sale and the channel opens that profile — the
+        code, where he publishes, his audience, his identity check. What he is paid stays out of it;
+        the reparto is BlockEstate's ledger, not the developer's.</p>
+      <p class="note"><a href="#/dev/agencies">Go to the agencies</a> · <a href="#/dev/sales">the sales</a> · <a href="#/dev">back to the overview</a></p>
+    </section>`, '', 'Agencies');
 }
 
 /* ---------------------------------------------------------------- Brokers */
@@ -2299,9 +2306,8 @@ export async function viewDevBrokers() {
 /* ---------------------------------------------------------------- La agencia */
 
 /**
- * Unrouted on purpose: the fee the agency keeps is set between the developer and the agency, and the
- * screen that explains it lives with the rest of the deal. The address `#/dev/agency` answers with
- * the gate in `viewDevPuertaAgencia`.
+ * The deal with the principal agency: what it keeps, what the developer keeps, and the terms the
+ * appointment runs on. It is the developer's own contract, so it stays in the developer's portal.
  */
 export async function viewDevAgency() {
   await conDatos('#/dev/agency', (x) => {

@@ -15,14 +15,14 @@ import { esc, empty, hidratarTarjetas, ICO, initSelectorActivo, marcarActivo, pi
 import { viewAreas } from './views/areas.js';
 import { viewCatalog, viewSearch } from './views/catalog.js';
 import { viewCreador } from './views/escritorios.js';
-import { viewAgencia, viewBrokerDesk, viewInvitacion, viewNdc } from './views/desks.js';
+import { viewAgencia, viewBrokerDesk, viewDevAgencias, viewDevCanales, viewInvitacion, viewNdc } from './views/desks.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
 import { viewNews, viewNoticia } from './views/news.js';
 import { viewAuth, viewFavorites, viewNotifications, viewPortfolio, viewPurchase, viewRegister } from './views/me.js';
 import { viewProject, viewUnit } from './views/unit.js';
 import {
-  viewDeveloper, viewDevCollections, viewDevListings, viewDevNuevaPropiedad, viewDevOrg,
-  viewDevProjects, viewDevProperties, viewDevPuertaAgencia, viewDevSale, viewDevSales,
+  viewDeveloper, viewDevAgency, viewDevCollections, viewDevListings, viewDevNuevaPropiedad,
+  viewDevOrg, viewDevProjects, viewDevProperties, viewDevPuertaAgencia, viewDevSale, viewDevSales,
   viewDevVerification,
 } from './views/dev.js';
 
@@ -263,10 +263,11 @@ route('/notifications', () => viewNotifications());
 route('/dev', () => viewDeveloper());
 route('/dev/properties', () => viewDevProperties());
 route('/dev/properties/nueva', () => viewDevNuevaPropiedad());
-// The desks of who-sells-for-you are the agency's, not the developer's: the addresses survive so a
-// bookmark does not fall into a 404, and they say so instead of showing another organisation's desk.
-route('/dev/channels', () => viewDevPuertaAgencia());
-route('/dev/agencies', () => viewDevPuertaAgencia());
+// The developer keeps the agency's desk — who sells for him, on what terms, and what each channel
+// costs him. The one thing it does not keep is the broker: the agency designates brokers, in its own
+// portal, and that address answers with a gate instead of a desk the developer cannot work.
+route('/dev/channels', () => viewDevCanales());
+route('/dev/agencies', () => viewDevAgencias());
 // The two desks. The broker works inside a developer's organisation; the creator rides alone on a code.
 route('/broker', ({ query }) => viewBrokerDesk({ query }));
 // The agency's own book, and the console of the principal agency: the same product, another book.
@@ -281,7 +282,7 @@ route('/dev/verification', () => viewDevVerification());
 route('/dev/sales', () => viewDevSales());
 route('/dev/collections', () => viewDevCollections());
 route('/dev/brokers', () => viewDevPuertaAgencia());
-route('/dev/agency', () => viewDevPuertaAgencia());
+route('/dev/agency', () => viewDevAgency());
 route('/dev/org', () => viewDevOrg());
 route('/dev/sale/:id', ({ params }) => viewDevSale(params.id));
 // The desk went from «Inventory» to «Properties» when the menu grew: the old address still works.
