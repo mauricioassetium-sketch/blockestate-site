@@ -813,6 +813,7 @@ export async function viewNdc({ query } = {}) {
   const canales = filas(d.canales);
   const alertas = filas(d.alertas);
   const tab = query?.get?.('t') ?? 'network';
+  const miles = (x) => Number(x ?? 0).toLocaleString('en-US');
 
   const grupos = [
     ['The network', [
@@ -821,13 +822,36 @@ export async function viewNdc({ query } = {}) {
     ]],
     ['Who sells', [
       ['#/ndc?t=agencies', 'Agencies', 'grupo', agencias.length],
+      ['#/ndc?t=creators', 'Creators', 'pluma'],
+    ]],
+    ['Demand', [
+      ['#/ndc?t=leads', 'Leads', 'lupa'],
+    ]],
+    ['Money', [
+      ['#/ndc?t=wallet', 'Wallet', 'moneda'],
+    ]],
+    ['Inventory', [
+      ['#/ndc?t=projects', 'Projects', 'casa'],
     ]],
     ['Obligation', [
       ['#/ndc?t=kyc', 'Compliance', 'sello', kyc.pendientes || undefined],
     ]],
   ];
 
+  // One book at a time: each page reads a different part of the network, and pulling all four to show
+  // one would make every visit pay for the three nobody asked for.
+  const intentar = async (f) => {
+    try { return await f(); } catch (e) { return { error: e.message }; }
+  };
+
   let cuerpo;
+  const extra = {
+    creators: tab === 'creators' ? await intentar(api.ndcCreators) : null,
+    leads: tab === 'leads' ? await intentar(api.ndcLeads) : null,
+    wallet: tab === 'wallet' ? await intentar(api.ndcWallet) : null,
+    projects: tab === 'projects' ? await intentar(api.ndcProjects) : null,
+    kyc: tab === 'kyc' ? await intentar(api.ndcKyc) : null,
+  };
   if (tab === 'developers') {
     cuerpo = `<section class="mod">
       <header>${ico('edificio', 15)}<h4>The developers of the network</h4><span>${red.length}</span></header>
@@ -872,6 +896,9 @@ export async function viewNdc({ query } = {}) {
         several seats with different developers, and its RERA number is one for all of them.</p>
     </section>`;
   } else if (tab === 'kyc') {
+    // The queue is read apart from the counts above: the counts come from the whole book — developers
+    // and agencies too — and the queue is only the buyers a person has to decide on today.
+    const kycq = extra.kyc ?? {};
     cuerpo = `
       ${kpis([
     ['Buyers checked', String(kyc.compradores_aprobados ?? 0), `of ${kyc.compradores ?? 0} in the book`],
@@ -879,6 +906,36 @@ export async function viewNdc({ query } = {}) {
     ['Oldest case', `${kyc.horas_el_mas_viejo ?? 0} h`, `the promise is ${kyc.sla_horas ?? 72} h`],
     ['Developers pending', String(kyc.desarrolladores_pendientes ?? 0), `${kyc.desarrolladores_aprobados ?? 0} approved`, true],
   ])}
+      <section class="mod">
+        <header>${ico('sello', 15)}<h4>Buyers waiting on a decision</h4><span>${Number(kycq.resumen?.abiertos ?? 0)}</span></header>
+        ${kycq.error ? `<p>${esc(kycq.error)}</p>` : `
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla">
+            <thead><tr><th>Buyer</th><th>Declared</th><th>Purchase</th><th class="num">Waiting</th><th>Reason</th><th></th></tr></thead>
+            <tbody>
+              ${filas(kycq.casos).length ? filas(kycq.casos).map((k) => `
+                <tr>
+                  <td><b>${esc(k.comprador)}</b><small>${esc(k.nombre_legal ?? '')}</small></td>
+                  <td>${esc(k.documento ?? '—')}<small>${esc(k.pais ?? '')} · ${esc(k.red ?? '')} ${esc(String(k.wallet ?? '').slice(0, 12))}</small></td>
+                  <td>${esc(k.proyecto ?? '—')}<small>${esc(k.unidad ?? '')} · ${k.precio_aed}</small></td>
+                  <td class="num">${k.horas} h${k.horas > 72 ? '<small class="late">past the promise</small>' : ''}</td>
+                  <td>${k.segunda_aprobacion
+    ? `<input class="ndc-motivo" placeholder="reason" maxlength="200"><small>rejection waiting for a second person</small>`
+    : `<input class="ndc-motivo" placeholder="reason" maxlength="200">`}</td>
+                  <td class="abrir">${k.segunda_aprobacion
+    ? `<button class="btn ghost sm" type="button" data-kyc-confirmar="${esc(k.intencion_id)}">Confirm</button>`
+    : `<button class="btn green sm" type="button" data-kyc="approved" data-id="${esc(k.intencion_id)}">Approve</button>
+                     <button class="btn ghost sm" type="button" data-kyc="rejected" data-id="${esc(k.intencion_id)}">Reject</button>`}</td>
+                </tr>`).join('')
+    : '<tr><td colspan="6" class="muted">No buyer is waiting on a decision. A declaration sent before the purchase reaches the KYC step appears here when it does.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">A buyer declares who they are and which wallet the money comes from; the decision is
+          NDC's, taken by a person and with a reason. An approval applies at once. A rejection needs a second
+          person, so the case stays here until somebody else confirms it.</p>
+        <div id="respuesta-kyc" class="msg" hidden></div>`}
+      </section>
       <section class="mod">
         <header>${ico('campana', 15)}<h4>What needs a person</h4><span>${alertas.length}</span></header>
         <div class="dev-tabla-caja">
@@ -896,9 +953,338 @@ export async function viewNdc({ query } = {}) {
           licence cannot be activated. Both are the principal agency’s obligation, and both are decided by a
           person: no job approves a case.</p>
       </section>`;
+  } else if (tab === 'creators') {
+    const c = extra.creators ?? {};
+    if (c.error) {
+      cuerpo = `<section class="mod"><header>${ico('campana', 15)}<h4>The creators</h4></header>
+        <p>${esc(c.error)}</p></section>`;
+    } else {
+      const rs = c.resumen ?? {};
+      const lista = filas(c.creadores);
+      cuerpo = `
+        ${kpis([
+    ['Signed with NDC', String(rs.firmados_ndc ?? 0), `of ${rs.creadores ?? 0} creators`, true],
+    ['Fully signed', String(rs.completos ?? 0), 'the three contracts in place'],
+    ['Waiting on NDC', String(rs.sin_firma_ndc ?? 0), 'the brokerage has not signed'],
+    ['Audience', miles(rs.audiencia ?? 0), `${miles(rs.visitas_30d ?? 0)} visits in 30 days`],
+    ['Creators earned', aed(rs.devengado_fils), 'their share of the fee', true],
+  ])}
+        <section class="mod">
+          <header>${ico('pluma', 15)}<h4>The creators who sign with NDC</h4><span>${lista.length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Creator</th><th>Where</th><th>KYC</th><th class="num">Codes</th>
+                <th>NDC</th><th>BlockEstate</th><th>USTAR</th><th class="num">Visits</th>
+                <th class="num">Deals</th><th class="num">Earned</th><th></th></tr></thead>
+              <tbody>
+                ${lista.length ? lista.map((x) => {
+    const firma = (k) => {
+      const t = filas(x.contratos).find((y) => y.actor === k) ?? {};
+      return t.estado === 'firmado'
+        ? `<span class="tag green">signed</span><small>${esc(date(t.firmado_en))}</small>`
+        : `<span class="tag">${esc(t.estado ?? 'pending')}</span>`;
+    };
+    const propia = filas(x.contratos).find((y) => y.actor === 'ndc') ?? {};
+    const accion = propia.estado === 'firmado'
+      ? `<button class="btn ghost sm" type="button" data-firma="revocado" data-id="${esc(x.beneficiario_id)}">Withdraw</button>`
+      : `<button class="btn green sm" type="button" data-firma="firmado" data-id="${esc(x.beneficiario_id)}">${ico('pluma', 13)} Sign</button>`;
+    return `
+                  <tr>
+                    <td><b>${esc(x.nombre)}</b><small>${esc(x.handle ?? x.correo ?? '')}</small></td>
+                    <td>${esc(x.plataforma ?? '—')}<small>${miles(x.seguidores)} followers</small></td>
+                    <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
+                    <td class="num">${filas(x.codigos).length}</td>
+                    <td>${firma('ndc')}</td><td>${firma('blockestate')}</td><td>${firma('ustar')}</td>
+                    <td class="num">${miles(x.visitas_30d)}</td>
+                    <td class="num">${x.deals}</td>
+                    <td class="num">${aed(x.devengado_fils)}</td>
+                    <td class="abrir">${accion}</td>
+                  </tr>`;
+  }).join('')
+    : '<tr><td colspan="11" class="muted">No creator has signed with the network yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+          <p class="note">A creator is paid on a deal only when the three contracts exist: the brokerage’s,
+            which NDC signs here; BlockEstate’s, which the platform signs; and USTAR’s, which the agency signs.
+            Withdrawing NDC’s signature stops every code of that creator from paying from that moment; the two
+            already signed are left as they were, because this console does not speak for them.</p>
+          <div id="respuesta-creador" class="msg" hidden></div>
+        </section>`;
+    }
+  } else if (tab === 'leads') {
+    const l = extra.leads ?? {};
+    if (l.error) {
+      cuerpo = `<section class="mod"><header>${ico('campana', 15)}<h4>The leads</h4></header>
+        <p>${esc(l.error)}</p></section>`;
+    } else {
+      const rs = l.resumen ?? {};
+      const lista = filas(l.leads);
+      const tope = lista.slice(0, 80);
+      cuerpo = `
+        ${kpis([
+    ['Leads', miles(rs.leads ?? 0), 'buyers who committed to a price'],
+    ['Pipeline', rs.valor_aed ?? aed(0), 'what they are worth together', true],
+    ['Without a source', miles(rs.sin_fuente ?? 0), 'no code on the record', true],
+    ['KYC to start', miles(rs.kyc_pendientes ?? 0), 'before any money moves'],
+  ])}
+        <section class="mod">
+          <header>${ico('moneda', 15)}<h4>Where they come from</h4><span>${filas(rs.canales).length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Channel</th><th class="num">Leads</th><th class="num">Value</th></tr></thead>
+              <tbody>
+                ${filas(rs.canales).map((x) => `<tr><td>${esc(x.label)}</td><td class="num">${miles(x.deals)}</td>
+                  <td class="num">${x.valor_aed}</td></tr>`).join('')
+    || '<tr><td colspan="3" class="muted">No lead yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="mod">
+          <header>${ico('lupa', 15)}<h4>${tope.length === lista.length ? 'Every lead' : `The last ${tope.length}`}</h4>
+            <span>${miles(lista.length)}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Buyer</th><th>Purchase</th><th>Channel</th><th>Code</th>
+                <th class="num">Price</th><th>KYC</th><th>State</th><th>When</th></tr></thead>
+              <tbody>
+                ${tope.length ? tope.map((x) => `
+                  <tr>
+                    <td><b>${esc(x.comprador ?? '—')}</b><small>${esc(x.email ?? '')}</small></td>
+                    <td>${esc(x.proyecto ?? '—')}<small>${esc(x.unidad ?? '')} · ${esc(x.desarrollador ?? '')}</small></td>
+                    <td>${sello(x.canal ?? '—')}</td>
+                    <td>${x.codigo ? `<code class="dev-mono">${esc(x.codigo)}</code><small>${esc(x.fuente ?? '')}</small>`
+    : '<span class="muted">not recorded</span>'}</td>
+                    <td class="num">${x.precio_aed}</td>
+                    <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
+                    <td>${sello(x.estado ?? '—')}</td>
+                    <td>${esc(date(x.creada_en))}</td>
+                  </tr>`).join('')
+    : '<tr><td colspan="8" class="muted">No buyer has committed to a price yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+          <p class="note">A lead is a buyer who committed to a price on a unit — not a name that filled a form.
+            The code is read from the sale’s own snapshot, so a lead that closed says which creator or broker
+            was paid on it; the ones still open only know their channel, and say so rather than name a party
+            the books never recorded.</p>
+        </section>`;
+    }
+  } else if (tab === 'wallet') {
+    const w = extra.wallet ?? {};
+    if (w.error) {
+      cuerpo = `<section class="mod"><header>${ico('campana', 15)}<h4>The money</h4></header>
+        <p>${esc(w.error)}</p></section>`;
+    } else {
+      const li = w.linea ?? {};
+      const te = w.tesoreria ?? {};
+      cuerpo = `
+        ${kpis([
+    ['Earned', li.devengado_aed ?? aed(0), 'commission plus the network’s share', true],
+    ['Paid out', li.pagado_aed ?? aed(0), `${li.extractos ?? 0} statements`],
+    ['Available', li.disponible_aed ?? aed(0), 'owed and not yet paid'],
+    ['Crypto received', te.cripto_aed ?? aed(0), `${te.monedas ?? 0} assets`, true],
+    ['Settled to AED', te.liquidado_aed ?? aed(0), 'through the OTC desk'],
+  ])}
+        <div class="dev-dos">
+          <section class="mod">
+            <header>${ico('moneda', 15)}<h4>NDC’s line</h4></header>
+            <dl class="kv">
+              <dt>NDC deals</dt><dd>${miles(li.deals ?? 0)}<small>attributed to its own seats</small></dd>
+              <dt>Deals with a fee</dt><dd>${miles(li.con_snapshot ?? 0)}<small>the whole network, where the line is read</small></dd>
+              <dt>GDV behind them</dt><dd>${li.gdv_aed ?? aed(0)}</dd>
+              <dt>Commission</dt><dd>${li.comision_aed ?? aed(0)}</dd>
+              <dt>Share of the distribution</dt><dd>${li.reparto_aed ?? aed(0)}</dd>
+              <dt>Owed</dt><dd><b>${li.devengado_aed ?? aed(0)}</b></dd>
+              <dt>Already paid</dt><dd>${li.pagado_aed ?? aed(0)}</dd>
+            </dl>
+            <p class="note">Commission is read from each sale’s own snapshot, never recomputed here: what the
+              engine wrote on the day of the deal is what the line says today.</p>
+          </section>
+          ${tarjeta({
+    titulo: 'Treasury by asset', icono: 'moneda', id: 'n-activos',
+    nota: 'What arrived on-chain, by asset, at the conversion of the day.',
+  })}
+        </div>
+        <section class="mod">
+          <header>${ico('moneda', 15)}<h4>By asset</h4><span>${filas(w.por_activo).length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Asset</th><th>Network</th><th class="num">Payments</th><th class="num">Received</th><th>Last</th></tr></thead>
+              <tbody>
+                ${filas(w.por_activo).map((a) => `<tr><td><b>${esc(String(a.activo ?? '').toUpperCase())}</b></td>
+                  <td>${esc(a.red ?? '—')}</td><td class="num">${miles(a.n)}</td>
+                  <td class="num">${a.recibido_aed}</td><td>${esc(date(a.ultimo))}</td></tr>`).join('')
+    || '<tr><td colspan="5" class="muted">Nothing has arrived on-chain yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="mod">
+          <header>${ico('pulso', 15)}<h4>The last movements</h4><span>${filas(w.movimientos).length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Serial</th><th>Concept</th><th>Asset</th><th class="num">Amount</th><th>State</th><th>When</th></tr></thead>
+              <tbody>
+                ${filas(w.movimientos).map((m) => `
+                  <tr>
+                    <td><code class="dev-mono">${esc(m.serial_no ?? '')}</code>
+                      <small>${esc(String(m.tx_hash ?? '').slice(0, 14))}${m.tx_hash ? '…' : ''}</small></td>
+                    <td>${esc(m.concepto ?? '—')}</td>
+                    <td>${esc(String(m.activo ?? '').toUpperCase())}<small>${esc(m.red ?? '')}</small></td>
+                    <td class="num">${m.monto_aed}</td>
+                    <td>${sello(m.estado ?? '—', m.estado === 'settled' ? 'green' : '')}</td>
+                    <td>${esc(date(m.creado_en))}</td>
+                  </tr>`).join('')
+    || '<tr><td colspan="6" class="muted">No payment recorded yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="mod">
+          <header>${ico('banco', 15)}<h4>Settlements to the bank</h4><span>${filas(w.settlements).length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Provider</th><th>Bank</th><th class="num">Amount</th><th>State</th><th>When</th></tr></thead>
+              <tbody>
+                ${filas(w.settlements).map((s) => `<tr><td>${esc(s.proveedor ?? '—')}</td>
+                  <td>${esc(s.banco ?? '—')}</td><td class="num">${s.aed}</td>
+                  <td>${sello(s.estado ?? '—', String(s.estado) === 'settled' ? 'green' : '')}</td>
+                  <td>${esc(date(s.creado_en))}</td></tr>`).join('')
+    || '<tr><td colspan="5" class="muted">Nothing settled yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+          <p class="note">Two ledgers, never one: what the network is owed is read from the commission snapshots,
+            and what it has been paid is read from the statements. The difference is the available line, and it is
+            only ever as good as the statements behind it.</p>
+        </section>`;
+    }
+  } else if (tab === 'projects') {
+    const pj = extra.projects ?? {};
+    if (pj.error) {
+      cuerpo = `<section class="mod"><header>${ico('campana', 15)}<h4>The inventory</h4></header>
+        <p>${esc(pj.error)}</p></section>`;
+    } else {
+      const rs = pj.resumen ?? {};
+      const proyectos = filas(pj.proyectos);
+      const devs = filas(pj.desarrolladores);
+      cuerpo = `
+        ${kpis([
+    ['Projects', String(rs.proyectos ?? 0), `${rs.desarrolladores ?? 0} developers`, true],
+    ['Units', miles(rs.unidades ?? 0), `${miles(rs.vendidas ?? 0)} sold`],
+    ['Inventory value', rs.valor_aed ?? aed(0), 'at the list price', true],
+    ['Listed', miles(rs.listings ?? 0), 'units the market can see'],
+  ])}
+        <section class="mod">
+          <header>${ico('edificio', 15)}<h4>What the network carries</h4><span>${proyectos.length}</span></header>
+          <div class="dev-tabla-caja">
+            <table class="dev-tabla">
+              <thead><tr><th>Project</th><th>Developer</th><th>Where</th><th>State</th>
+                <th class="num">Units</th><th class="num">Sold</th><th class="num">Value</th>
+                <th class="num">Listed</th><th></th></tr></thead>
+              <tbody>
+                ${proyectos.length ? proyectos.map((x) => `
+                  <tr>
+                    <td><b>${esc(x.nombre)}</b><small>${esc(date(x.creado_en))}</small></td>
+                    <td>${esc(x.desarrollador)}</td>
+                    <td>${esc(x.ciudad ?? '—')}<small>${esc(x.emirato ?? '')}</small></td>
+                    <td>${sello(x.estado ?? '—', x.estado === 'published' ? 'green' : '')}</td>
+                    <td class="num">${miles(x.unidades)}</td>
+                    <td class="num">${miles(x.vendidas)}</td>
+                    <td class="num">${x.valor_aed}</td>
+                    <td class="num">${miles(x.listings)}</td>
+                    <td class="abrir"><button class="btn ghost sm" type="button" data-unidad="${esc(x.proyecto_id)}">Add a unit</button></td>
+                  </tr>`).join('')
+    : '<tr><td colspan="9" class="muted">No project in the network yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <div class="dev-dos">
+          <section class="mod">
+            <header>${ico('edificio', 15)}<h4>Open a project</h4></header>
+            <form class="dev-form" id="ndc-proyecto">
+              <div class="dev-form-sec">
+                <label for="ndc-dev">For which developer</label>
+                <select id="ndc-dev" name="desarrollador_id" required>
+                  <option value="">— pick one —</option>
+                  ${devs.map((d) => `<option value="${esc(d.desarrollador_id)}"${d.kyb === 'approved' && d.estado === 'true' ? '' : ' disabled'}>${esc(d.nombre)} · ${esc(d.kyb ?? 'pending')}${d.estado === 'true' ? '' : ' · inactive'}</option>`).join('')}
+                </select>
+                <p class="note">Only an organisation whose KYB is approved and that is active can carry
+                  inventory. The ones that cannot are listed and greyed out: the console shows why a project
+                  will be refused before the form is filled.</p>
+              </div>
+              <div class="dev-form-2">
+                <div><label for="ndc-nombre">Project name</label>
+                  <input id="ndc-nombre" name="nombre" required maxlength="120" placeholder="e.g. Palm Residences II"></div>
+                <div><label for="ndc-ciudad">City</label>
+                  <input id="ndc-ciudad" name="ciudad" required maxlength="80" placeholder="Dubai"></div>
+              </div>
+              <div class="dev-form-2">
+                <div><label for="ndc-emirato">Emirate</label>
+                  <select id="ndc-emirato" name="emirato" required>
+                    ${['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain']
+    .map((e) => `<option value="${e}">${e}</option>`).join('')}
+                  </select></div>
+                <div><label for="ndc-comunidad">Community (optional)</label>
+                  <input id="ndc-comunidad" name="comunidad" maxlength="80" placeholder="Dubai Marina"></div>
+              </div>
+              <div class="dev-form-pie">
+                <button class="btn green" type="submit">${ico('edificio', 15)} Open the project</button>
+              </div>
+            </form>
+            <div id="respuesta-proyecto" class="msg" hidden></div>
+          </section>
+          <section class="mod">
+            <header>${ico('casa', 15)}<h4>Add a unit</h4></header>
+            <form class="dev-form" id="ndc-unidad">
+              <div class="dev-form-sec">
+                <label for="ndc-proyecto-sel">To which project</label>
+                <select id="ndc-proyecto-sel" name="proyecto_id" required>
+                  ${proyectos.map((x) => `<option value="${esc(x.proyecto_id)}">${esc(x.nombre)} · ${esc(x.desarrollador)}</option>`).join('')}
+                </select>
+              </div>
+              <div class="dev-form-2">
+                <div><label for="ndc-tipo">Type</label>
+                  <select id="ndc-tipo" name="tipo" required>
+                    <option value="apartment">Apartment</option>
+                    <option value="villa">Villa</option>
+                    <option value="office">Office</option>
+                    <option value="retail">Retail</option>
+                    <option value="hotel">Hotel unit</option>
+                  </select></div>
+                <div><label for="ndc-obra">State</label>
+                  <select id="ndc-obra" name="estado_obra" required>
+                    <option value="ready">Ready</option>
+                    <option value="off_plan">Off plan</option>
+                  </select></div>
+              </div>
+              <div class="dev-form-2">
+                <div><label for="ndc-dorm">Bedrooms</label>
+                  <input id="ndc-dorm" name="dormitorios" type="number" min="0" max="12" step="1" value="2"></div>
+                <div><label for="ndc-sqft">Interior (sqft)</label>
+                  <input id="ndc-sqft" name="sqft" type="number" min="0" step="1" value="900"></div>
+              </div>
+              <div class="dev-form-sec">
+                <label for="ndc-precio">Price (AED)</label>
+                <input id="ndc-precio" name="precio_aed" type="number" min="1" step="1000" required placeholder="1500000">
+                <p class="note">The price the buyer sees, in dirhams. It is stored in fils, so nothing is lost
+                  to rounding when the fee is written on the sale.</p>
+              </div>
+              <div class="dev-form-pie">
+                <button class="btn green" type="submit">${ico('casa', 15)} Add the unit</button>
+              </div>
+            </form>
+            <div id="respuesta-unidad" class="msg" hidden></div>
+          </section>
+        </div>`;
+    }
   } else {
     cuerpo = `
       <div class="dev-dos">
+
         ${tarjeta({
     titulo: 'Network GDV by month', icono: 'pulso', id: 'n-gdv',
     nota: 'Everything written in the network, every developer together.',
@@ -951,7 +1337,16 @@ export async function viewNdc({ query } = {}) {
     sub: 'the 4 % envelope · the KYC obligation · the whole network',
     grupos,
     activo: tab === 'network' ? '#/ndc' : `#/ndc?t=${tab}`,
-    titulo: tab === 'network' ? 'The network' : tab === 'developers' ? 'Developers' : tab === 'agencies' ? 'Agencies' : 'Compliance',
+    titulo: {
+      network: 'The network',
+      developers: 'Developers',
+      agencies: 'Agencies',
+      creators: 'Creators',
+      leads: 'Leads',
+      wallet: 'Wallet',
+      projects: 'Projects',
+      kyc: 'Compliance',
+    }[tab] ?? 'The network',
     cuerpo: `
       ${kpis([
     ['Network GDV', aed(r.gdv_fils), `${r.desarrolladores ?? 0} developers`, true],
@@ -988,6 +1383,130 @@ export async function viewNdc({ query } = {}) {
           COLORES.serie[i % COLORES.serie.length]]);
       donaSegura(dn, partes, { etiqueta: 'PAID OUT', formato: formAed });
     }
+  }
+
+  if (tab === 'wallet') {
+    const dc = lienzo('n-activos');
+    const activos = filas(extra.wallet?.por_activo);
+    if (dc && activos.length) {
+      donaSegura(dc, activos.map((a, i) => [String(a.activo ?? '').toUpperCase(), Number(a.recibido_fils ?? 0) / 100,
+        COLORES.serie[i % COLORES.serie.length]]), { etiqueta: 'RECEIVED', formato: formAed });
+    }
+  }
+
+  // A signature is NDC's alone. The button says what it will do before it is pressed, and the desk is
+  // re-read afterwards: the count of signed creators and the money behind them both move with it.
+  if (tab === 'creators') {
+    const decir = (texto, ok) => {
+      const r = view().querySelector('#respuesta-creador');
+      if (!r) return;
+      r.hidden = false;
+      r.className = `msg ${ok ? 'ok' : 'err'}`;
+      r.textContent = texto;
+    };
+    view().querySelectorAll('[data-firma]').forEach((b) => b.addEventListener('click', async () => {
+      b.disabled = true;
+      const estado = b.dataset.firma;
+      try {
+        await api.ndcSignContract(b.dataset.id, { estado });
+        toast(estado === 'firmado' ? 'Contract signed' : 'Signature withdrawn');
+        await viewNdc({ query });
+      } catch (e) { b.disabled = false; decir(e.message, false); }
+    }));
+  }
+
+  if (tab === 'kyc') {
+    const decir = (texto, ok) => {
+      const r = view().querySelector('#respuesta-kyc');
+      if (!r) return;
+      r.hidden = false;
+      r.className = `msg ${ok ? 'ok' : 'err'}`;
+      r.textContent = texto;
+    };
+    view().querySelectorAll('[data-kyc]').forEach((b) => b.addEventListener('click', async () => {
+      const fila = b.closest('tr');
+      const motivo = (fila?.querySelector('.ndc-motivo')?.value ?? '').trim();
+      if (motivo.length < 4) { decir('A decision needs a reason of at least four characters.', false); return; }
+      b.disabled = true;
+      try {
+        const r = await api.kycDecide(b.dataset.id, { decision: b.dataset.kyc, motivo });
+        toast(r && r.aplicada === false
+          ? 'Rejection recorded: a second person has to confirm it'
+          : 'Decision applied');
+        await viewNdc({ query });
+      } catch (e) { b.disabled = false; decir(e.message, false); }
+    }));
+    view().querySelectorAll('[data-kyc-confirmar]').forEach((b) => b.addEventListener('click', async () => {
+      const fila = b.closest('tr');
+      const motivo = (fila?.querySelector('.ndc-motivo')?.value ?? '').trim();
+      b.disabled = true;
+      try {
+        await api.kycConfirm(b.dataset.kycConfirmar, motivo ? { motivo } : {});
+        toast('Rejection confirmed');
+        await viewNdc({ query });
+      } catch (e) { b.disabled = false; decir(e.message, false); }
+    }));
+  }
+
+  if (tab === 'projects') {
+    const decir = (sel, texto, ok) => {
+      const r = view().querySelector(sel);
+      if (!r) return;
+      r.hidden = false;
+      r.className = `msg ${ok ? 'ok' : 'err'}`;
+      r.textContent = texto;
+    };
+    const fp = view().querySelector('#ndc-proyecto');
+    fp?.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const dev = fp.desarrollador_id.value;
+      if (!dev) { decir('#respuesta-proyecto', 'Pick the developer the project is for.', false); return; }
+      const cuerpo = {
+        desarrollador_id: dev,
+        nombre: fp.nombre.value.trim(),
+        ciudad: fp.ciudad.value.trim(),
+        emirato: fp.emirato.value,
+      };
+      const comunidad = fp.comunidad.value.trim();
+      if (comunidad) cuerpo.comunidad = comunidad;
+      try {
+        await api.ndcProjectAdd(cuerpo);
+        toast('Project opened');
+        await viewNdc({ query });
+      } catch (e) { decir('#respuesta-proyecto', e.message, false); }
+    });
+
+    // The row's button only points the form at that project: nothing is created until the form is sent.
+    view().querySelectorAll('[data-unidad]').forEach((b) => b.addEventListener('click', () => {
+      const f = view().querySelector('#ndc-unidad');
+      if (!f) return;
+      f.proyecto_id.value = b.dataset.unidad;
+      f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      f.precio_aed.focus({ preventScroll: true });
+    }));
+
+    const fu = view().querySelector('#ndc-unidad');
+    fu?.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const proyecto = filas(extra.projects?.proyectos).find((x) => x.proyecto_id === fu.proyecto_id.value) ?? {};
+      if (!fu.proyecto_id.value) { decir('#respuesta-unidad', 'There is no project to add the unit to.', false); return; }
+      const precio = Number(fu.precio_aed.value);
+      if (!Number.isFinite(precio) || precio <= 0) { decir('#respuesta-unidad', 'A unit needs a price in dirhams.', false); return; }
+      try {
+        await api.ndcUnitAdd(fu.proyecto_id.value, {
+          tipo: fu.tipo.value,
+          estado_obra: fu.estado_obra.value,
+          // The unit sits in the project's own emirate: the form never invents a location.
+          emirato: proyecto.emirato ?? 'Dubai',
+          precio_fils: Math.round(precio * 100),
+          // The API names the shape of a unit in its own words: rooms and interior in sqft.
+          habitaciones: Number(fu.dormitorios.value) || 0,
+          superficie_sqft: Number(fu.sqft.value) || 0,
+        });
+        toast('Unit added');
+        await viewNdc({ query });
+      } catch (e) { decir('#respuesta-unidad', e.message, false); }
+    });
   }
 }
 

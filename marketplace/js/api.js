@@ -166,6 +166,16 @@ export const api = {
   agencyMe: () => req('GET', '/me/agency'),
   brokerMe: () => req('GET', '/me/broker'),
   ndcMe: () => req('GET', '/me/ndc'),
+  // The four pages of the network console: the creators who sign with it, the leads it produces,
+  // the money and the inventory it carries.
+  ndcCreators: () => req('GET', '/me/ndc/creators'),
+  ndcSignContract: (id, body) => req('POST', `/me/ndc/creators/${id}/contract`, { body }),
+  ndcLeads: () => req('GET', '/me/ndc/leads'),
+  ndcKyc: () => req('GET', '/me/ndc/kyc'),
+  ndcWallet: () => req('GET', '/me/ndc/wallet'),
+  ndcProjects: () => req('GET', '/me/ndc/projects'),
+  ndcProjectAdd: (body) => req('POST', '/me/ndc/projects', { body }),
+  ndcUnitAdd: (id, body) => req('POST', `/me/ndc/projects/${id}/units`, { body }),
   // The links that open a desk: one use, a deadline and an issuer. The public pair is what the
   // person who receives the link sees before they have an account.
   invites: () => req('GET', '/invites'),
@@ -206,6 +216,10 @@ export const api = {
   // come from. It can be corrected while the case is still open.
   kycDeclare: (id, body) => req('PUT', `/purchases/${id}/kyc/declaration`, { body }),
   kycDeclaration: (id) => req('GET', `/purchases/${id}/kyc/declaration`),
+  // The decision is taken here, on the purchase itself: an approval applies at once, a rejection
+  // waits for a second person that this same route confirms.
+  kycDecide: (id, body) => req('POST', `/purchases/${id}/kyc/decision`, { body }),
+  kycConfirm: (id, body) => req('POST', `/purchases/${id}/kyc/decision/confirm`, { body }),
   quote: (id, body) => req('POST', `/purchases/${id}/quote`, { body }),
   paymentOrder: (id, concepto) => req('POST', `/purchases/${id}/payment-order`, { body: { concepto } }),
   payment: (serialNo) => req('GET', `/payments/${serialNo}`),
