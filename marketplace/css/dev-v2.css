@@ -931,3 +931,11 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 /* A person's name is written as it is spelled: the global h4 rule shouts everything it touches, and
    in the title of this pop-up that rule turns a name into a headline. */
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab h4{text-transform:none}
+/* Una tabla con muchas columnas: mismo dato, menos aire, para que entre sin scroll en un portátil */
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th,
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada td{padding-left:9px; padding-right:9px}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada{font-size:var(--fs-sm)}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th{letter-spacing:.04em}
+:is(body[data-ruta="ndc"]) .dev-tabla td.ndc-quien{white-space:nowrap}
+:is(body[data-ruta="ndc"]) .dev-tabla td.ndc-quien small{display:block}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th{white-space:normal; line-height:1.25}

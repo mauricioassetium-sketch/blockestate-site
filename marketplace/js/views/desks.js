@@ -532,7 +532,7 @@ export async function viewAgencia({ query } = {}) {
             <tbody>
               ${paneles.length ? paneles.map((x) => `
                 <tr>
-                  <td><b>${esc(x.desarrollador)}</b><small>KYB ${esc(x.kyc_estado ?? 'not started')}</small></td>
+                  <td><b>${esc(x.desarrollador)}</b><small>KYB ${esc(enEstado(x.kyc_estado ?? 'not started'))}</small></td>
                   <td>${esc(x.proyecto ?? 'all inventory')}</td>
                   <td class="num">${pct(x.monto_pb)}</td>
                   <td class="num">${pct(x.peaje_pb)}</td>
@@ -814,6 +814,21 @@ export async function viewNdc({ query } = {}) {
   const alertas = filas(d.alertas);
   const tab = query?.get?.('t') ?? 'network';
   const miles = (x) => Number(x ?? 0).toLocaleString('en-US');
+  // El libro guarda el estado en el idioma del código ('aprobado', 'pendiente'): el desk lo dice en inglés,
+  // que es el idioma del producto, y deja intacto cualquier valor que no conozca.
+  const enEstado = (e) => ({
+    aprobado: 'approved', aprobada: 'approved',
+    pendiente: 'pending', firmado: 'signed', firmada: 'signed',
+    rechazado: 'rejected', rechazada: 'rejected', borrador: 'draft',
+    'en revisión': 'in review', 'en_revision': 'in review',
+  }[String(e ?? '').toLowerCase()] ?? String(e ?? '—').replace(/_/g, ' '));
+  // Para las columnas estrechas: 3,9 M se lee de un vistazo donde 3.900.000 no cabe.
+  const compacto = (x) => {
+    const n = Number(x ?? 0);
+    if (n >= 1e6) return `${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}M`;
+    if (n >= 1e3) return `${(n / 1e3).toFixed(n >= 1e4 ? 0 : 1)}k`;
+    return String(n);
+  };
 
   const grupos = [
     ['The network', [
@@ -972,9 +987,9 @@ export async function viewNdc({ query } = {}) {
         <section class="mod">
           <header>${ico('pluma', 15)}<h4>The creators who sign with NDC</h4><span>${lista.length}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
-              <thead><tr><th>Creator</th><th>Where</th><th>KYC</th><th class="num">Codes</th>
-                <th>NDC</th><th>BlockEstate</th><th>USTAR</th><th class="num">Visits</th>
+            <table class="dev-tabla apretada">
+              <thead><tr><th>Creator</th><th>Where</th>
+                <th>NDC</th><th>BlockEstate</th><th>USTAR</th>
                 <th class="num">Deals</th><th class="num">Earned</th><th></th></tr></thead>
               <tbody>
                 ${lista.length ? lista.map((x) => {
@@ -982,7 +997,7 @@ export async function viewNdc({ query } = {}) {
       const t = filas(x.contratos).find((y) => y.actor === k) ?? {};
       return t.estado === 'firmado'
         ? `<span class="tag green">signed</span><small>${esc(date(t.firmado_en))}</small>`
-        : `<span class="tag">${esc(t.estado ?? 'pending')}</span>`;
+        : `<span class="tag">${esc(enEstado(t.estado ?? 'pendiente'))}</span>`;
     };
     const propia = filas(x.contratos).find((y) => y.actor === 'ndc') ?? {};
     const accion = propia.estado === 'firmado'
@@ -990,18 +1005,18 @@ export async function viewNdc({ query } = {}) {
       : `<button class="btn green sm" type="button" data-firma="firmado" data-id="${esc(x.beneficiario_id)}">${ico('pluma', 13)} Sign</button>`;
     return `
                   <tr>
-                    <td><b>${esc(x.nombre)}</b><small>${esc(x.handle ?? x.correo ?? '')}</small></td>
-                    <td>${esc(x.plataforma ?? '—')}<small>${miles(x.seguidores)} followers</small></td>
-                    <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
-                    <td class="num">${filas(x.codigos).length}</td>
+                    <td class="ndc-quien"><b>${esc(x.nombre)}</b> ${enEstado(x.kyc_estado) === 'approved' ? sello('approved', 'green') : sello(enEstado(x.kyc_estado))}
+                      <small>${esc(x.handle ?? x.correo ?? '')}${
+    filas(x.codigos).length ? ` · ${filas(x.codigos).length} ${filas(x.codigos).length === 1 ? 'code' : 'codes'}` : ''}</small></td>
+                    <td>${esc(x.plataforma ?? '—')}<small>${compacto(x.seguidores)} followers${
+    x.visitas_30d ? ` · ${miles(x.visitas_30d)} visits` : ''}</small></td>
                     <td>${firma('ndc')}</td><td>${firma('blockestate')}</td><td>${firma('ustar')}</td>
-                    <td class="num">${miles(x.visitas_30d)}</td>
                     <td class="num">${x.deals}</td>
                     <td class="num">${aed(x.devengado_fils)}</td>
                     <td class="abrir">${accion}</td>
                   </tr>`;
   }).join('')
-    : '<tr><td colspan="11" class="muted">No creator has signed with the network yet.</td></tr>'}
+    : '<tr><td colspan="8" class="muted">No creator has signed with the network yet.</td></tr>'}
               </tbody>
             </table>
           </div>
@@ -1020,7 +1035,19 @@ export async function viewNdc({ query } = {}) {
     } else {
       const rs = l.resumen ?? {};
       const lista = filas(l.leads);
-      const tope = lista.slice(0, 80);
+      // Thirty rows is what a person reads on a screen; the counts above are the whole book.
+      const tope = lista.slice(0, 30);
+      // The book names the state in full because it is the code's word, not a sentence for a desk.
+      const corto = (e) => ({
+        business_completion_approved: 'completion',
+        payment_pending: 'payment',
+        kyc_pending: 'KYC',
+        kyc_approved: 'KYC done',
+        payment_received: 'paid',
+        held: 'hold',
+        draft: 'draft',
+        cancelled: 'cancelled',
+      }[e] ?? String(e ?? '—').replace(/_/g, ' '));
       cuerpo = `
         ${kpis([
     ['Leads', miles(rs.leads ?? 0), 'buyers who committed to a price'],
@@ -1045,20 +1072,20 @@ export async function viewNdc({ query } = {}) {
           <header>${ico('lupa', 15)}<h4>${tope.length === lista.length ? 'Every lead' : `The last ${tope.length}`}</h4>
             <span>${miles(lista.length)}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
+            <table class="dev-tabla apretada">
               <thead><tr><th>Buyer</th><th>Purchase</th><th>Channel</th><th>Code</th>
                 <th class="num">Price</th><th>KYC</th><th>State</th><th>When</th></tr></thead>
               <tbody>
                 ${tope.length ? tope.map((x) => `
                   <tr>
                     <td><b>${esc(x.comprador ?? '—')}</b><small>${esc(x.email ?? '')}</small></td>
-                    <td>${esc(x.proyecto ?? '—')}<small>${esc(x.unidad ?? '')} · ${esc(x.desarrollador ?? '')}</small></td>
+                    <td>${esc(x.proyecto ?? '—')}<small>${esc([x.unidad, x.desarrollador].filter(Boolean).join(' · '))}</small></td>
                     <td>${sello(x.canal ?? '—')}</td>
                     <td>${x.codigo ? `<code class="dev-mono">${esc(x.codigo)}</code><small>${esc(x.fuente ?? '')}</small>`
     : '<span class="muted">not recorded</span>'}</td>
                     <td class="num">${x.precio_aed}</td>
                     <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
-                    <td>${sello(x.estado ?? '—')}</td>
+                    <td title="${esc(x.estado ?? '')}">${sello(corto(x.estado))}</td>
                     <td>${esc(date(x.creada_en))}</td>
                   </tr>`).join('')
     : '<tr><td colspan="8" class="muted">No buyer has committed to a price yet.</td></tr>'}
@@ -1180,10 +1207,9 @@ export async function viewNdc({ query } = {}) {
         <section class="mod">
           <header>${ico('edificio', 15)}<h4>What the network carries</h4><span>${proyectos.length}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
+            <table class="dev-tabla apretada">
               <thead><tr><th>Project</th><th>Developer</th><th>Where</th><th>State</th>
-                <th class="num">Units</th><th class="num">Sold</th><th class="num">Value</th>
-                <th class="num">Listed</th><th></th></tr></thead>
+                <th class="num">Units</th><th class="num">Sold</th><th class="num">Value</th><th></th></tr></thead>
               <tbody>
                 ${proyectos.length ? proyectos.map((x) => `
                   <tr>
@@ -1191,13 +1217,12 @@ export async function viewNdc({ query } = {}) {
                     <td>${esc(x.desarrollador)}</td>
                     <td>${esc(x.ciudad ?? '—')}<small>${esc(x.emirato ?? '')}</small></td>
                     <td>${sello(x.estado ?? '—', x.estado === 'published' ? 'green' : '')}</td>
-                    <td class="num">${miles(x.unidades)}</td>
+                    <td class="num">${miles(x.unidades)}<small>${miles(x.listings)} on the market</small></td>
                     <td class="num">${miles(x.vendidas)}</td>
                     <td class="num">${x.valor_aed}</td>
-                    <td class="num">${miles(x.listings)}</td>
                     <td class="abrir"><button class="btn ghost sm" type="button" data-unidad="${esc(x.proyecto_id)}">Add a unit</button></td>
                   </tr>`).join('')
-    : '<tr><td colspan="9" class="muted">No project in the network yet.</td></tr>'}
+    : '<tr><td colspan="8" class="muted">No project in the network yet.</td></tr>'}
               </tbody>
             </table>
           </div>
