@@ -1641,6 +1641,11 @@ a.dato:hover{border-color:var(--ink-60); transform:translateY(-1px)}
 /* The identity strip on the desk: a line and a link, not a box the height of a paragraph. */
 .buyer-aviso{margin:0 0 20px; padding:14px 18px; border-radius:14px; font-size:.86rem}
 .buyer-aviso p{flex:1 1 380px; margin:0; max-width:92ch}
+@media(max-width:1039px){
+  /* The strip of chips is the only bar over the content on these widths, so it is opaque: a hero
+     card showing through the menu makes the menu look like part of the hero. */
+  .buyer-nav{background:#fff}
+}
 @media(max-width:640px){
   /* On a phone the strip stacks: the sentence, then a button that is the width of the thumb. */
   .buyer-aviso .btn-ghost{display:block; width:100%; text-align:center; margin-top:12px}
