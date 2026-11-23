@@ -1562,6 +1562,97 @@ body.sin-scroll{overflow:hidden}
 .kyc-chip.green i{background:var(--green)}
 .kyc-chip.rojo{border-color:rgba(220,38,38,.35); color:#B91C1C}
 .kyc-chip.rojo i{background:#DC2626}
+
+/* ---------- the buyer's desk: a rail of sections, not a page that ends ---------------------------
+   A buyer with money on the table asks six questions, and each one gets a name in the rail at the
+   top. On a wide screen it is a column that stays put while the section scrolls; on a phone it is a
+   strip of chips under the header, because a vertical menu on a phone is a menu nobody reaches. */
+.buyer-shell{display:grid; grid-template-columns:1fr; gap:16px; align-items:start}
+.buyer-nav{display:flex; gap:6px; overflow-x:auto; padding:7px; border:1px solid var(--line-2);
+  border-radius:14px; background:rgba(255,255,255,.94); backdrop-filter:blur(10px);
+  position:sticky; top:calc(var(--bar) + 6px); z-index:12; scrollbar-width:none;
+  box-shadow:0 6px 18px rgba(0,0,0,.05)}
+.buyer-nav::-webkit-scrollbar{display:none}
+.buyer-nav-titulo{display:none}
+.buyer-nav a{flex:none; display:flex; align-items:center; gap:8px; padding:9px 12px; border-radius:10px;
+  color:var(--ink-72); text-decoration:none; font-size:.9rem; font-weight:650; white-space:nowrap;
+  border:1px solid transparent; transition:background .16s, color .16s, border-color .16s}
+.buyer-nav a svg{width:16px; height:16px; flex:none; opacity:.5; stroke:currentColor; fill:none;
+  stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.buyer-nav a:hover{background:var(--card); color:var(--ink)}
+.buyer-nav a[aria-current="page"]{background:rgba(34,197,94,.11); color:var(--green-dark);
+  border-color:rgba(34,197,94,.24)}
+.buyer-nav a[aria-current="page"] svg{opacity:1}
+.buyer-nav .cuenta{margin-left:auto; min-width:20px; padding:1px 6px; border-radius:999px; text-align:center;
+  font-size:.7rem; font-weight:800; background:var(--line-2); color:var(--ink-60);
+  font-variant-numeric:tabular-nums}
+.buyer-nav .cuenta.alerta{background:#F59E0B; color:#1A1A1A}
+.buyer-nav a[aria-current="page"] .cuenta{background:var(--green); color:#fff}
+.buyer-main{min-width:0}
+@media(min-width:1040px){
+  .buyer-shell{grid-template-columns:244px minmax(0,1fr); gap:28px}
+  .buyer-nav{flex-direction:column; overflow:visible; padding:12px; border-radius:18px;
+    top:calc(var(--bar) + 18px); box-shadow:0 1px 2px rgba(0,0,0,.03), 0 18px 40px rgba(0,0,0,.05)}
+  .buyer-nav-titulo{display:block; margin:0; padding:2px 10px 9px; font-size:10px; letter-spacing:.18em;
+    text-transform:uppercase; font-weight:800; color:var(--ink-45)}
+  .buyer-nav a{padding:10px 11px}
+}
+/* The next thing to do, on a dark card, because it is the answer to the only question that matters. */
+.buyer-next{position:relative; overflow:hidden; border-radius:18px; padding:20px 22px 22px; color:#fff;
+  background:radial-gradient(130% 150% at 100% 0%, #1C5347 0%, #10222B 58%); margin-bottom:20px;
+  display:grid; gap:6px; box-shadow:0 18px 40px rgba(16,34,43,.22)}
+.buyer-next::after{content:""; position:absolute; right:-60px; top:-70px; width:230px; height:230px;
+  border-radius:50%; background:radial-gradient(circle,rgba(34,197,94,.28),transparent 70%); pointer-events:none}
+.buyer-next .et{font-size:10px; letter-spacing:.18em; text-transform:uppercase; font-weight:800;
+  color:rgba(255,255,255,.6)}
+.buyer-next h3{margin:0; font-size:1.2rem; letter-spacing:-.01em; max-width:44ch}
+.buyer-next p{margin:0; font-size:.87rem; color:rgba(255,255,255,.74)}
+.buyer-next .fila{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:12px}
+.buyer-next .btn.green{background:var(--green); color:#fff; border-color:var(--green);
+  box-shadow:0 8px 20px rgba(34,197,94,.3)}
+.buyer-next .btn-ghost{color:#fff; border-color:rgba(255,255,255,.28)}
+.buyer-next-reloj{display:inline-flex; align-items:center; gap:8px; font-size:.84rem; font-weight:750;
+  color:#FDE68A}
+.buyer-next-reloj i{width:7px; height:7px; border-radius:50%; background:#FBBF24;
+  box-shadow:0 0 0 4px rgba(251,191,36,.18); animation:buyer-lateo 2.4s ease-in-out infinite}
+@keyframes buyer-lateo{0%,100%{box-shadow:0 0 0 3px rgba(251,191,36,.16)}50%{box-shadow:0 0 0 6px rgba(251,191,36,.04)}}
+/* The counters are doors: a number that cannot be opened is a number you stop reading. */
+.desk-datos .dato{display:block; text-decoration:none; color:inherit; transition:border-color .16s, transform .16s}
+a.dato:hover{border-color:var(--ink-60); transform:translateY(-1px)}
+.desk-datos.desk-pagos{grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); margin-bottom:0}
+/* A filter row inside a section: same chips as the catalogue, one size quieter. */
+.buyer-chips{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 14px}
+.buyer-chip{display:inline-flex; align-items:center; height:32px; padding:0 14px; border-radius:999px;
+  border:1px solid var(--line-2); background:#fff; color:var(--ink-72); text-decoration:none;
+  font-size:.82rem; font-weight:700; font-variant-numeric:tabular-nums}
+.buyer-chip:hover{border-color:var(--ink-60); color:var(--ink)}
+.buyer-chip.on{background:var(--teal); border-color:var(--teal); color:#fff}
+.buyer-sec-titulo{display:flex; align-items:baseline; justify-content:space-between; gap:14px;
+  flex-wrap:wrap; margin:0 0 12px}
+.buyer-sec-titulo h2{margin:0; font-size:1.26rem; letter-spacing:-.015em}
+/* An alert is a line of news, not a card: the inbox holds seven of them and they must fit on one
+   screen, because an alert nobody scrolls to is an alert nobody reads. */
+.list-tight{gap:10px}
+.list-tight .item{padding:13px 16px; gap:3px}
+/* The footnote that explains the rails without becoming a paragraph nobody reads. */
+.buyer-nota{margin:20px 0 0; padding:14px 16px; border-radius:14px; border:1px dashed var(--line-2);
+  background:rgba(0,0,0,.015); font-size:.85rem; line-height:1.6; color:var(--ink-72)}
+.buyer-nota b{color:var(--ink)}
+/* The identity strip on the desk: a line and a link, not a box the height of a paragraph. */
+.buyer-aviso{margin:0 0 20px; padding:14px 18px; border-radius:14px; font-size:.86rem}
+.buyer-aviso p{flex:1 1 380px; margin:0; max-width:92ch}
+@media(max-width:1039px){
+  /* The strip of chips is the only bar over the content on these widths, so it is opaque: a hero
+     card showing through the menu makes the menu look like part of the hero. */
+  .buyer-nav{background:#fff}
+}
+@media(max-width:640px){
+  /* On a phone the strip stacks: the sentence, then a button that is the width of the thumb. */
+  .buyer-aviso .btn-ghost{display:block; width:100%; text-align:center; margin-top:12px}
+  .buyer-next{padding:18px}
+  .buyer-next h3{font-size:1.08rem}
+  .desk-head h1{font-size:1.4rem}
+}
 .tabla{width:100%; border-collapse:collapse; font-size:.88rem; margin-top:8px}
 .tabla th{text-align:left; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45);
   padding:6px 8px; border-bottom:1px solid var(--line-2)}

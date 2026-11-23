@@ -260,6 +260,9 @@ route('/news', ({ query }) => viewNews({ etiqueta: query.get('etiqueta') || '' }
 route('/news/:slug', ({ params }) => viewNoticia(params.slug));
 route('/favorites', () => viewFavorites());
 route('/buyer', () => viewComprador());
+// The desk's sections are routes of their own: a buyer can send "my reservations" to someone, and
+// the back button walks the rail instead of leaving the page.
+route('/buyer/:seccion', ({ params }) => viewComprador(params.seccion));
 route('/portfolio', () => viewPortfolio());
 route('/portfolio/:id', ({ params }) => viewPurchase(params.id));
 route('/notifications', () => viewNotifications());
