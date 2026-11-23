@@ -1642,6 +1642,8 @@ a.dato:hover{border-color:var(--ink-60); transform:translateY(-1px)}
 .buyer-aviso{margin:0 0 20px; padding:14px 18px; border-radius:14px; font-size:.86rem}
 .buyer-aviso p{flex:1 1 380px; margin:0; max-width:92ch}
 @media(max-width:640px){
+  /* On a phone the strip stacks: the sentence, then a button that is the width of the thumb. */
+  .buyer-aviso .btn-ghost{display:block; width:100%; text-align:center; margin-top:12px}
   .buyer-next{padding:18px}
   .buyer-next h3{font-size:1.08rem}
   .desk-head h1{font-size:1.4rem}
