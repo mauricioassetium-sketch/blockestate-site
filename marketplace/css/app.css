@@ -40,6 +40,9 @@ p{margin:.6rem 0}
 .muted{color:var(--ink-60)}
 .wrap{width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:18px}
 .main{min-height:60vh; padding-bottom:64px}
+/* The router brings the view to the top of the window, and the window has a bar over it: without
+   this the first line of every desk lands behind the bar. */
+#view{scroll-margin-top:calc(var(--bar) + 18px)}
 .lab{display:flex; align-items:center; gap:.6rem; color:var(--green-deep);
   font-size:11px; font-weight:700; letter-spacing:.32em; text-transform:uppercase; margin-bottom:.5rem}
 .lab .dash{flex:1; height:1px; background:linear-gradient(90deg,var(--green),rgba(34,197,94,0))}
@@ -1489,6 +1492,9 @@ body.sin-scroll{overflow:hidden}
 .desk-aviso{border:1px solid rgba(16,110,90,.3); background:rgba(16,110,90,.07); border-radius:.9rem;
   padding:12px 14px; font-size:.86rem; color:var(--ink-72); margin-bottom:16px}
 .desk-aviso b{color:var(--ink)}
+.desk-aviso p{margin:0}
+.desk-aviso:has(.btn-ghost){display:flex; align-items:center; gap:18px; justify-content:space-between; flex-wrap:wrap}
+.desk-aviso .btn-ghost{margin-left:auto}
 .desk-datos{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-bottom:22px}
 .desk-datos .dato{border:1px solid var(--line-2); border-radius:1rem; padding:14px 16px; background:var(--card)}
 .desk-datos .dato span{display:block; font-size:10px; letter-spacing:.16em; text-transform:uppercase;
@@ -1500,7 +1506,62 @@ body.sin-scroll{overflow:hidden}
   border-radius:.9rem; padding:12px 14px; margin:.5rem 0 14px; background:var(--card)}
 .desk-codigo b{font-size:1.15rem; letter-spacing:.04em; color:var(--teal)}
 .desk-codigo span{font-size:.8rem; color:var(--ink-45)}
-.desk-volver{margin:26px 0 10px; display:flex; gap:10px}
+.desk-volver{margin:26px 0 10px; display:flex; gap:10px; flex-wrap:wrap}
+/* The buyer's desk: the initial, and the small line that says where a purchase stands. */
+.desk-iniciales{flex:none; width:46px; height:46px; border-radius:14px; display:grid; place-items:center;
+  background:var(--teal); color:#fff; font-weight:800; font-size:.95rem; letter-spacing:.02em}
+.desk-avance{margin-top:7px; display:grid; gap:5px}
+.desk-avance-linea{height:5px; border-radius:999px; background:var(--line-2); overflow:hidden}
+.desk-avance-linea i{display:block; height:100%; border-radius:999px;
+  background:linear-gradient(90deg,var(--green),var(--green-deep))}
+.desk-avance-pie{font-size:.78rem; color:var(--ink-45)}
+.desk-avance-pie b{color:var(--ink)}
+.tag.rojo{background:#DC2626; color:#fff}
+/* Six counters read as two rows of three, or one row on a wide screen: never four and a pair. */
+.desk-datos.desk-seis{grid-template-columns:repeat(2,1fr)}
+@media(min-width:720px){.desk-datos.desk-seis{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1180px){.desk-datos.desk-seis{grid-template-columns:repeat(6,1fr)}}
+.desk-rol{display:block; font-size:.66rem; font-weight:800; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-45); margin-bottom:2px}
+/* The empty desk, said once and as steps instead of four times as nothing. */
+.desk-inicio{border:1px solid var(--line-2); border-radius:18px; background:var(--card);
+  padding:22px 24px 24px}
+.desk-inicio h3{margin:0 0 10px; font-size:1.05rem}
+.desk-inicio ol{margin:0 0 16px; padding-left:1.2rem; display:grid; gap:9px;
+  font-size:.9rem; line-height:1.55; color:var(--ink-72)}
+.desk-inicio b{color:var(--ink)}
+.desk-inicio .btn.green{background:var(--green); color:#fff; border-color:var(--green)}
+/* A reservation on its clock: the only line on the desk that can be lost by waiting. */
+.desk-reserva-pie{display:flex; align-items:center; justify-content:space-between; gap:12px;
+  flex-wrap:wrap; margin-top:10px}
+.desk-reloj{display:inline-flex; align-items:center; gap:7px; font-size:.82rem; font-weight:700;
+  color:#B45309}
+.desk-reloj i{width:7px; height:7px; border-radius:50%; background:#F59E0B;
+  box-shadow:0 0 0 3px rgba(245,158,11,.16)}
+/* The shortlist on the desk: four lines, not four posters. */
+.desk-favs{display:grid; gap:10px}
+.desk-fav{display:grid; grid-template-columns:64px 1fr auto; align-items:center; gap:14px;
+  border:1px solid var(--line-2); border-radius:14px; background:#fff; padding:10px 14px 10px 10px;
+  text-decoration:none; color:inherit}
+.desk-fav:hover{border-color:var(--ink-60)}
+.desk-fav img, .desk-fav-sin{width:64px; height:56px; border-radius:9px; object-fit:cover; display:block;
+  background:linear-gradient(135deg,#0F2E2A,#123B33)}
+.desk-fav-txt{display:grid; gap:2px; min-width:0}
+.desk-fav-txt b{font-size:.94rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.desk-fav-txt .muted{font-size:.82rem}
+.desk-fav-precio{font-size:.95rem; font-variant-numeric:tabular-nums; white-space:nowrap}
+/* A section that exists but has nothing in it yet: says why, without a hole in the page. */
+.desk-nada{margin:0; padding:15px 18px; border:1px dashed var(--line-2); border-radius:14px;
+  background:#fff; font-size:.86rem; line-height:1.55}
+/* The identity chip: a dot and a sentence, the size of a chip — not a button next to one. */
+.kyc-chip{display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 14px;
+  border-radius:999px; border:1px solid var(--line-2); background:#fff;
+  font-size:.74rem; font-weight:750; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-60)}
+.kyc-chip i{width:7px; height:7px; border-radius:50%; background:#F59E0B}
+.kyc-chip.green{border-color:rgba(34,197,94,.4); color:var(--green-dark)}
+.kyc-chip.green i{background:var(--green)}
+.kyc-chip.rojo{border-color:rgba(220,38,38,.35); color:#B91C1C}
+.kyc-chip.rojo i{background:#DC2626}
 .tabla{width:100%; border-collapse:collapse; font-size:.88rem; margin-top:8px}
 .tabla th{text-align:left; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-45);
   padding:6px 8px; border-bottom:1px solid var(--line-2)}
@@ -1822,6 +1883,8 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
 .desk-saldo{background:#fff; border:1px solid var(--line-2); border-radius:.6rem; margin:0 0 14px;
   overflow:hidden}
 .desk-saldo-fila{display:grid; grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Una fila de tres, para los resúmenes que no llevan la cuarta cifra. */
+.desk-saldo-fila.tres{grid-template-columns:repeat(3,minmax(0,1fr))}
 .desk-bloque{display:flex; flex-direction:column; gap:3px; padding:16px 18px;
   border-right:1px solid var(--line-2)}
 .desk-bloque:last-child{border-right:0}
@@ -1843,6 +1906,8 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
 .desk-panel > header .muted{margin-left:auto; font-size:.74rem; font-weight:500}
 @media (max-width:900px){
   .desk-saldo-fila{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .desk-saldo-fila.tres{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .desk-saldo-fila.tres .desk-bloque:last-child{grid-column:span 2; border-right:0}
   .desk-bloque{border-bottom:1px solid var(--line-2)}
   .desk-bloque:nth-child(2n){border-right:0}
   .desk-bloque.total{border-bottom:0}
@@ -1915,3 +1980,43 @@ body:not([data-ruta="inicio"]) .rail-box .dev-row .logo.marca[data-dev="marina"]
   border-radius:10px;background:#ECFDF5;border:1px solid #A7F3D0}
 .dld-nota b{font-size:.9rem;color:#065F46}
 .dld-nota span{font-size:.8rem;color:#047857}
+
+/* ---- The creator's account inside the desk: messages, wallet, identification ---- */
+.desk-bloque small{font-size:.75rem; color:var(--ink-60); line-height:1.35}
+.desk-bloque.total small{color:rgba(255,255,255,.7)}
+
+.msg-hilo{list-style:none; margin:0; padding:14px 16px; display:flex; flex-direction:column; gap:10px}
+.msg{border:1px solid var(--line-2); border-left:3px solid var(--green-deep); border-radius:.4rem;
+  padding:11px 14px; background:#fff; max-width:44rem}
+.msg-mio{border-left-color:#c9d3d8; background:#f7f9fa; margin-left:auto}
+.msg-cab{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.msg-cab b{font-size:.84rem; letter-spacing:.02em}
+.msg-cab span{font-size:.72rem; color:var(--ink-60)}
+.msg-asunto{display:block; margin-top:5px; font-size:.74rem; font-weight:800; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-60)}
+.msg-cuerpo{margin:.35rem 0 0; font-size:.9rem; line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere}
+.msg-adj{margin:.5rem 0 0; font-size:.8rem}
+.msg-adj a{color:#0f766e}
+
+.cuenta-par{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
+.cuenta-lab{display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:800;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-60)}
+.cuenta-lab input,.cuenta-lab select,.cuenta-lab textarea{font-weight:400; letter-spacing:0;
+  text-transform:none; font-size:.9rem; color:var(--ink); width:100%; min-height:40px;
+  padding:.4rem .6rem; border:1px solid var(--line-2); border-radius:var(--radius-sm); background:#fff}
+.cuenta-lab input[type=file]{min-height:auto; padding:.45rem .5rem; font-size:.82rem}
+.dev-form .cuenta-lab{gap:4px}
+.cuenta-falta{margin:0 0 12px; padding-left:18px; font-size:.86rem; color:#8a5a00}
+.cuenta-falta li{margin:.15rem 0}
+
+.cuenta-ficha{display:flex; gap:18px; align-items:center; padding:16px}
+.cuenta-cara{position:relative; flex:0 0 auto; width:88px; height:88px; border-radius:50%;
+  background:linear-gradient(135deg,#0f2b35,#123d4a); color:#fff; display:flex; align-items:center;
+  justify-content:center; font-size:1.5rem; font-weight:700; overflow:hidden}
+.cuenta-cara img{width:100%; height:100%; object-fit:cover}
+.cuenta-foto{position:absolute; inset:auto 0 -2px 0; text-align:center; font-size:.6rem; letter-spacing:.06em;
+  text-transform:uppercase; padding:3px 0; background:rgba(16,34,43,.82); color:#fff; cursor:pointer}
+@media (max-width:720px){
+  .cuenta-par{grid-template-columns:1fr}
+  .msg{max-width:100%}
+}

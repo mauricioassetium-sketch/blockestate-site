@@ -11,7 +11,7 @@
  */
 import { api } from '../api.js';
 import { store } from '../store.js';
-import { go } from '../router.js';
+import { go, render } from '../router.js';
 import { esc, date, ico, money, toast } from '../ui.js';
 import { COLORES, barrasDeCategorias, donaDeEstados, lineaDeMeses } from './graficas.js';
 import { cargar, cascaron } from './dev.js';
@@ -411,11 +411,25 @@ export async function viewDevAgencias() {
 
 /* -------------------------------------------------------------------- the agency */
 
+/**
+ * The agency seat, in five screens: what it sold, how each sale happened, who sells for it, the
+ * projects it can hand to a client with a link, and the wallet where the split is actually paid.
+ *
+ * Nothing here guesses an owner: the API scopes every row to the seat of the signed-in agency, and
+ * the screens only draw what came back.
+ */
 export async function viewAgencia({ query } = {}) {
+  const tab = query?.get?.('t') ?? 'book';
   let d;
   let inv;
+  let sales;
+  let proys;
+  let wal;
   try {
     [d, inv] = await Promise.all([api.agencyMe(), api.invites().catch(() => ({ invitaciones: [] }))]);
+    if (tab === 'deals') sales = await api.agencySales();
+    if (tab === 'projects') proys = await api.agencyProjects();
+    if (tab === 'wallet') wal = await api.agencyWallet();
   } catch (e) { puerta(e, 'Agency desk'); return; }
 
   const p = d.perfil ?? {};
@@ -425,23 +439,282 @@ export async function viewAgencia({ query } = {}) {
   const brokers = filas(d.brokers);
   const deals = filas(d.deals);
   const abiertas = filas(inv.invitaciones).filter((i) => i.tipo === 'broker' && i.estado === 'pending');
-  const tab = query?.get?.('t') ?? 'book';
+  const ventas = filas(sales?.ventas);
+  const sr = sales?.resumen ?? {};
+  const proyectos = filas(proys?.proyectos);
+  const pr = proys?.resumen ?? {};
+  const linea = wal?.linea ?? {};
+  const bolsaBrokers = filas(wal?.brokers);
+  const bolsaCreadores = filas(wal?.influencers);
+  const pagos = filas(wal?.pagos);
 
   const grupos = [
     ['Your book', [
       ['#/agency', 'Book', 'pulso'],
-      ['#/agency?t=deals', 'Deals', 'trato'],
+      ['#/agency?t=deals', 'Sales', 'trato', r.deals ?? null],
     ]],
     ['Who sells for you', [
       ['#/agency?t=brokers', 'Brokers', 'grupo', brokers.length],
     ]],
-    ['Where you sell', [
-      ['#/agency?t=panels', 'Panels', 'edificio', paneles.length],
+    ['What you sell', [
+      ['#/agency?t=projects', 'Projects', 'edificio', paneles.length],
+      ['#/agency?t=panels', 'Panels', 'mapa', paneles.length],
+    ]],
+    ['The money', [
+      ['#/agency?t=wallet', 'Wallet', 'moneda'],
     ]],
   ];
 
+  /* --------------------------------------------------------------- sales */
+
+  const pasos = (v) => `
+    <ol class="a-tl">
+      ${v.proceso.map((s) => `
+        <li class="${s.hecho ? 'on' : ''}">
+          <span class="dot">${s.hecho ? '✓' : ''}</span>
+          <b>${esc(s.paso)}</b>
+          <small>${esc(s.detalle)}</small>
+          <time>${s.ts ? esc(date(s.ts)) : '—'}</time>
+        </li>`).join('')}
+    </ol>`;
+
+  const proceso = (v) => `
+    <div class="a-proc">
+      <div class="a-proc-head">
+        <div>
+          <b>${esc(tipo(v.unidad))} ${esc(v.unidad_ref ?? '')}</b>
+          <small>${esc(v.proyecto)} · ${esc(v.desarrollador)} · ${esc(date(v.fecha))}</small>
+        </div>
+        <div class="a-proc-pie">
+          <span>${esc(v.estado_etiqueta)}</span>
+          <b>${esc(v.precio_aed)}</b>
+        </div>
+      </div>
+      ${pasos(v)}
+      <div class="a-who">
+        <div><span>Code</span><b><code class="dev-mono">${esc(v.codigo ?? '—')}</code></b>
+          <small>${esc(v.broker ? `Broker · ${v.broker}` : v.codigo ? 'Agency code' : 'Direct, no code')}</small></div>
+        <div><span>Influencer on the sale</span>${v.influencer
+    ? `<b>${esc(v.influencer.nombre)}</b><small>${esc(v.influencer.handle ?? '')} · ${esc(v.influencer.monto_aed)} at ${pct(v.influencer.pb)} · ${esc(v.influencer.estado ?? '')}</small>`
+    : '<b class="muted">None</b><small>The buyer came through a code with no creator behind it.</small>'}</div>
+        <div><span>Your side</span><b>${esc(v.neto_aed)}</b><small>of ${esc(v.comision_aed)} gross · ${esc(v.peaje_aed)} toll</small></div>
+      </div>
+      ${v.historial.length ? `<div class="a-hist"><span>Every step recorded</span>${v.historial.map((h) => `
+        <div><code class="dev-mono">${esc(h.etiqueta)}</code><time>${esc(date(h.ts))}</time></div>`).join('')}</div>` : ''}
+    </div>`;
+
+  /* ------------------------------------------------------------ projects */
+
+  const urlDe = (proyectoId, codigo, token) => {
+    const base = `${location.origin}${location.pathname}`;
+    const q = [];
+    if (codigo) q.push(`ref=${encodeURIComponent(codigo)}`);
+    if (token) q.push(`ag=${encodeURIComponent(token)}`);
+    return `${base}#/project/${proyectoId}${q.length ? `?${q.join('&')}` : ''}`;
+  };
+
+  const tarjetaProyecto = (x) => {
+    // A revoked link is not a link: it is shown as revoked, with the way to issue a new one.
+    const vivo = x.enlace && x.enlace_activo !== false;
+    const enlace = vivo ? urlDe(x.proyecto_id, x.codigo_agencia, x.enlace) : null;
+    return `
+    <section class="mod a-proj">
+      <header>${ico('edificio', 15)}<h4>${esc(x.proyecto)}</h4>
+        <span>${esc(x.desarrollador)}</span></header>
+      <div class="a-proj-meta">
+        <div><span>Commission</span><b>${pct(x.monto_pb)}</b><small>toll ${pct(x.peaje_pb)} · you keep ${pct(x.neto_pb)}</small></div>
+        <div><span>Inventory</span><b>${x.disponibles} / ${x.unidades}</b><small>${x.vendidas} sold · ${x.deals} deals on record</small></div>
+        <div><span>Panel</span><b>${esc(x.panel_estado ?? '—')}</b><small>${x.exclusivo_hasta ? `exclusive until ${esc(date(x.exclusivo_hasta))}` : 'no exclusivity on file'}</small></div>
+        <div><span>Link</span><b>${vivo ? `${x.visitas} opens` : x.enlace ? 'revoked' : 'not created'}</b><small>${vivo ? `live since ${esc(date(x.enlace_desde))}` : x.enlace ? 'send it again with a new one' : 'make one to share the project'}</small></div>
+      </div>
+      ${enlace ? `
+        <div class="a-link">
+          <label for="lnk-${esc(x.proyecto_id)}">Shareable link</label>
+          <div class="a-link-row">
+            <input id="lnk-${esc(x.proyecto_id)}" class="dev-mono" readonly value="${esc(enlace)}">
+            <button class="btn green sm" type="button" data-copiar="${esc(enlace)}" data-que="Link">Copy</button>
+          </div>
+          <div class="a-share">
+            <a class="btn ghost sm" href="https://wa.me/?text=${encodeURIComponent(`Have a look at ${x.proyecto} in ${x.ciudad ?? 'Dubai'}: ${enlace}`)}" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn ghost sm" href="mailto:?subject=${encodeURIComponent(`${x.proyecto} — ${x.desarrollador}`)}&body=${encodeURIComponent(`Hello,\n\nHave a look at ${x.proyecto} in ${x.ciudad ?? 'Dubai'} (${x.desarrollador}). ${x.disponibles} units available.\n\n${enlace}\n\nBest,`)}">Email</a>
+            <button class="btn ghost sm" type="button" data-copiar="${esc(`Have a look at ${x.proyecto} in ${x.ciudad ?? 'Dubai'} (${x.desarrollador}). ${x.disponibles} units available. ${enlace}`)}" data-que="Message">Copy message</button>
+            ${x.enlace_activo === false ? `<button class="btn ghost sm" type="button" data-rotar="${esc(x.proyecto_id)}" data-nombre="${esc(x.proyecto)}">Issue a new link</button>` : ''}
+            <button class="btn ghost sm danger" type="button" data-revocar-enlace="${esc(x.proyecto_id)}">Revoke</button>
+          </div>
+          ${x.codigos_broker.length ? `
+            <div class="a-link-row a-link-broker">
+              <label for="brk-${esc(x.proyecto_id)}">A broker’s own link</label>
+              <select id="brk-${esc(x.proyecto_id)}">
+                ${x.codigos_broker.map((b) => `<option value="${esc(urlDe(x.proyecto_id, b.codigo, x.enlace))}">${esc(b.broker ?? 'Broker')} · ${esc(b.codigo)}</option>`).join('')}
+              </select>
+              <button class="btn ghost sm" type="button" data-copiar-select="brk-${esc(x.proyecto_id)}" data-que="Broker link">Copy broker link</button>
+            </div>` : ''}
+        </div>` : `
+        <div class="dev-form-pie">
+          <button class="btn green" type="button" ${x.enlace ? `data-rotar="${esc(x.proyecto_id)}"` : `data-crear-enlace="${esc(x.proyecto_id)}"`}>${ico('pluma', 15)} ${x.enlace ? 'Issue a new link' : 'Create the link'}</button>
+        </div>
+        <p class="note">The link carries your seat and your code, so a client who opens it lands on your book —
+          and your brokers each have their own variant, so a sale still splits the way it was agreed.</p>`}
+    </section>`;
+  };
+
+  /* -------------------------------------------------------------- wallet */
+
+  const pagoForm = `
+    <form class="dev-form" id="forma-pago">
+      <div class="dev-form-2">
+        <div><label for="pago-quien">Pay</label>
+          <select id="pago-quien" name="quien">
+            <optgroup label="Brokers">${bolsaBrokers.filter((b) => b.disponible_fils > 0).map((b) => `<option value="broker:${esc(b.broker_id)}">${esc(b.nombre)} — ${esc(b.disponible_aed)} available</option>`).join('')}</optgroup>
+            <optgroup label="Creators">${bolsaCreadores.filter((i) => i.disponible_fils > 0).map((i) => `<option value="influencer:${esc(i.beneficiario_id)}">${esc(i.nombre)} — ${esc(i.disponible_aed)} available</option>`).join('')}</optgroup>
+          </select></div>
+        <div><label for="pago-monto">Amount (AED)</label>
+          <input id="pago-monto" name="monto" inputmode="decimal" placeholder="6000.00"></div>
+      </div>
+      <div class="dev-form-2">
+        <div><label for="pago-concepto">Concept</label>
+          <input id="pago-concepto" name="concepto" maxlength="200" placeholder="e.g. NDC Hills — first half"></div>
+        <div class="a-pago-pie"><button class="btn green" type="submit">${ico('moneda', 15)} Record the payout</button></div>
+      </div>
+    </form>
+    <div id="respuesta-pago" class="msg" hidden></div>`;
+
   let cuerpo;
-  if (tab === 'brokers') {
+  if (tab === 'deals') {
+    cuerpo = `
+      ${kpis([
+    ['Sales', String(sr.deals ?? 0), `${sr.cerradas ?? 0} completed`],
+    ['GDV sold', sr.gdv_aed ?? aed(0), 'on your codes', true],
+    ['With an influencer', String(sr.con_influencer ?? 0), 'creator carried the buyer'],
+    ['With a broker', String(sr.con_broker ?? 0), 'sold by your licences'],
+  ])}
+      <section class="mod">
+        <header>${ico('trato', 15)}<h4>Every sale, and how it happened</h4><span>${ventas.length}</span></header>
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla a-tabla">
+            <thead><tr><th>When</th><th>Unit</th><th>Who brought it</th>
+              <th class="num">Price</th><th class="num">Your net</th><th>State</th></tr></thead>
+            <tbody>
+              ${ventas.length ? ventas.map((v) => `
+                <tr class="a-fila" data-proceso="${esc(v.intencion_id)}" title="Open the sale's process">
+                  <td>${esc(date(v.fecha))}</td>
+                  <td><b>${esc(tipo(v.unidad))}</b><small>${esc(v.proyecto ?? '')} · ${esc(v.desarrollador ?? '')}</small></td>
+                  <td><code class="dev-mono">${esc(v.codigo ?? 'direct')}</code>
+                    <small>${esc(v.broker ?? 'agency code')}${v.influencer ? ` · ${v.influencer.nombre}` : ''}</small>
+                    ${v.influencer ? `<i class="a-chip">${ico('estrella', 11)} creator</i>` : ''}</td>
+                  <td class="num">${esc(v.precio_aed)}</td>
+                  <td class="num"><b>${esc(v.neto_aed)}</b><small>${esc(v.comision_aed)} less toll</small></td>
+                  <td>${sello(v.estado_etiqueta, v.estado === 'business_completion_approved' ? 'green' : '')}</td>
+                </tr>`).join('')
+    : '<tr><td colspan="6" class="muted">No sale attributed to your codes yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Click a sale to open its process. A sale is yours when the code that brought it belongs to you or to one of your brokers.
+          The process is the same one the buyer sees: reserved, held, KYC, paid, registered — and it names the
+          creator when one carried the buyer, because the split has to know.</p>
+      </section>
+      <section class="mod" id="a-proceso" hidden></section>`;
+  } else if (tab === 'projects') {
+    cuerpo = `
+      ${kpis([
+    ['Projects', String(pr.proyectos ?? 0), `${pr.desarrolladores ?? 0} developer${pr.desarrolladores === 1 ? '' : 's'}`],
+    ['Open links', String(pr.con_enlace ?? 0), 'one per project'],
+    ['Link opens', String(pr.visitas ?? 0), 'clients who arrived'],
+    ['Units available', String(pr.disponibles ?? 0), 'across your panels'],
+  ])}
+      ${proyectos.length ? proyectos.map(tarjetaProyecto).join('')
+    : `<section class="mod"><header>${ico('edificio', 15)}<h4>No project yet</h4></header>
+         <p>A project shows up here when a developer puts you on a panel. Until then there is nothing to share.</p></section>`}`;
+  } else if (tab === 'wallet') {
+    cuerpo = `
+      ${kpis([
+    ['Net earned', linea.neto_aed ?? aed(0), `${linea.deals ?? 0} sale${linea.deals === 1 ? '' : 's'}`, true],
+    ['To brokers', linea.a_brokers_aed ?? aed(0), 'their agreed split'],
+    ['To creators', linea.a_creadores_aed ?? aed(0), 'influencers on the sale'],
+    ['Yours', linea.propio_aed ?? aed(0), 'after every split', true],
+  ])}
+      <section class="mod">
+        <header>${ico('grupo', 15)}<h4>Brokers</h4><span>${bolsaBrokers.length}</span></header>
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla a-tabla">
+            <thead><tr><th>Broker</th><th class="num">Split</th><th class="num">Deals</th>
+              <th class="num">Earned</th><th class="num">Paid</th><th class="num">Pending</th>
+              <th class="num">Available</th><th></th></tr></thead>
+            <tbody>
+              ${bolsaBrokers.length ? bolsaBrokers.map((b) => `
+                <tr>
+                  <td><b>${esc(b.nombre)}</b></td>
+                  <td class="num">${pct(b.parte_pb)}</td>
+                  <td class="num">${b.deals}</td>
+                  <td class="num">${esc(b.base_aed)}</td>
+                  <td class="num">${esc(b.pagado_aed)}</td>
+                  <td class="num">${esc(b.pendiente_aed)}</td>
+                  <td class="num"><b>${esc(b.disponible_aed)}</b></td>
+                  <td class="abrir"><button class="btn ghost sm" type="button" data-pagar="broker:${esc(b.broker_id)}"
+                    ${b.disponible_fils > 0 ? '' : 'disabled'}>Pay</button></td>
+                </tr>`).join('')
+    : '<tr><td colspan="8" class="muted">No broker has sold on your codes yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="mod">
+        <header>${ico('estrella', 15)}<h4>Creators</h4><span>${bolsaCreadores.length}</span></header>
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla a-tabla">
+            <thead><tr><th>Creator</th><th class="num">Sales</th><th class="num">Earned</th>
+              <th class="num">Paid</th><th class="num">Pending</th><th class="num">Available</th><th></th></tr></thead>
+            <tbody>
+              ${bolsaCreadores.length ? bolsaCreadores.map((i) => `
+                <tr>
+                  <td><b>${esc(i.nombre)}</b><small>${esc(i.handle ?? '')}</small></td>
+                  <td class="num">${i.deals}</td>
+                  <td class="num">${esc(i.base_aed)}</td>
+                  <td class="num">${esc(i.pagado_aed)}</td>
+                  <td class="num">${esc(i.pendiente_aed)}</td>
+                  <td class="num"><b>${esc(i.disponible_aed)}</b></td>
+                  <td class="abrir"><button class="btn ghost sm" type="button" data-pagar="influencer:${esc(i.beneficiario_id)}"
+                    ${i.disponible_fils > 0 ? '' : 'disabled'}>Pay</button></td>
+                </tr>`).join('')
+    : '<tr><td colspan="7" class="muted">No creator on your sales yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Their commission is the one the marketplace signed with the creator, off the price of the sale.
+          It comes out of your gross before the toll is settled.</p>
+      </section>
+      <section class="mod">
+        <header>${ico('moneda', 15)}<h4>Record a payout</h4></header>
+        ${pagoForm}
+        <p class="note">A payout is recorded, then settled when the transfer is done. The desk refuses an amount
+          above what the payee has earned: no negative balances, no reconciliation by hand.</p>
+      </section>
+      <section class="mod">
+        <header>${ico('fecha', 15)}<h4>Payouts</h4><span>${pagos.length}</span></header>
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla a-tabla">
+            <thead><tr><th>When</th><th>Payee</th><th>Type</th><th>Concept</th>
+              <th class="num">Amount</th><th>State</th><th></th></tr></thead>
+            <tbody>
+              ${pagos.length ? pagos.map((x) => `
+                <tr>
+                  <td>${esc(date(x.creado_en))}</td>
+                  <td><b>${esc(x.nombre)}</b></td>
+                  <td>${esc(x.tipo === 'broker' ? 'Broker' : 'Creator')}</td>
+                  <td>${esc(x.concepto ?? '—')}</td>
+                  <td class="num">${esc(x.monto_aed)}</td>
+                  <td>${x.estado === 'paid' ? sello('paid', 'green') : x.estado === 'pending' ? sello('pending') : sello('cancelled')}</td>
+                  <td class="abrir">${x.estado === 'pending' ? `
+                    <button class="btn ghost sm" type="button" data-liquidar="${esc(x.id)}">Mark paid</button>
+                    <button class="btn ghost sm" type="button" data-anular="${esc(x.id)}">Cancel</button>` : ''}</td>
+                </tr>`).join('')
+    : '<tr><td colspan="7" class="muted">Nothing paid out yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+  } else if (tab === 'brokers') {
     cuerpo = `
       <section class="mod">
         <header>${ico('grupo', 15)}<h4>Your brokers</h4><span>${brokers.length}</span></header>
@@ -452,35 +725,47 @@ export async function viewAgencia({ query } = {}) {
             <div><label for="broker-email">Email</label>
               <input id="broker-email" name="email" type="email" placeholder="broker@agency.ae"></div>
           </div>
-          <div class="dev-form-pie"><button class="btn green" type="submit">${ico('pluma', 15)} Send the link</button></div>
+          <div class="dev-form-2">
+            <div><label for="broker-rera">RERA card</label>
+              <input id="broker-rera" name="rera" maxlength="60" placeholder="e.g. BRK-44120"></div>
+            <div><label for="broker-parte">His split of your commission (%)</label>
+              <input id="broker-parte" name="parte" inputmode="decimal" value="70"></div>
+          </div>
+          <div class="dev-form-pie">
+            <button class="btn green" type="submit">${ico('grupo', 15)} Add the broker</button>
+            <button class="btn ghost" type="button" id="mandar-link">${ico('pluma', 15)} Send the join link instead</button>
+          </div>
         </form>
         <div id="respuesta-broker" class="msg" hidden></div>
         <div class="dev-tabla-caja">
-          <table class="dev-tabla">
-            <thead><tr><th>Broker</th><th>RERA card</th><th>Panel</th>
-              <th class="num">Codes</th><th>With you since</th><th>State</th></tr></thead>
+          <table class="dev-tabla a-tabla">
+            <thead><tr><th>Broker</th><th>RERA card</th><th class="num">Split</th>
+              <th class="num">Codes</th><th>Since</th><th>State</th><th></th></tr></thead>
             <tbody>
               ${brokers.length ? brokers.map((b) => `
                 <tr>
                   <td><b>${esc(b.nombre)}</b><small>${esc(b.correo ?? '')}</small></td>
                   <td><code class="dev-mono">${esc(b.rera_numero ?? '—')}</code></td>
-                  <td>${esc(b.panel ?? '—')}</td>
+                  <td class="num"><input class="a-parte" type="number" min="0" max="100" step="1"
+                    value="${(Number(b.parte_pb ?? 7000) / 100).toFixed(0)}" data-parte="${esc(b.broker_id)}" aria-label="Split for ${esc(b.nombre)}"></td>
                   <td class="num">${b.codigos}</td>
                   <td>${esc(date(b.desde))}</td>
                   <td>${b.activo ? sello('active', 'green') : sello('archived')}</td>
+                  <td class="abrir"><button class="btn ghost sm" type="button" data-estado="${esc(b.broker_id)}" data-activo="${b.activo ? '0' : '1'}">
+                    ${b.activo ? 'Pause' : 'Reactivate'}</button></td>
                 </tr>`).join('')
-    : '<tr><td colspan="6" class="muted">No broker yet: the seat is the agency, and a broker is how it multiplies.</td></tr>'}
+    : '<tr><td colspan="7" class="muted">No broker yet: the seat is the agency, and a broker is how it multiplies.</td></tr>'}
             </tbody>
           </table>
         </div>
-        <p class="note">A broker joins under <b>your</b> licence with a link you send, and the platform issues his
-          code the moment he signs. He sees his own deals and nothing else: not your whole book, not the
-          buyer’s papers.</p>
+        <p class="note">A broker sells under <b>your</b> licence. Add him here and the platform issues his code on
+          every panel at once — or send a join link and he signs himself. The split is agreed one by one: it is
+          what the wallet pays him, of your gross commission on his own sales.</p>
       </section>
       ${abiertas.length ? `<section class="mod">
         <header>${ico('almohadilla', 15)}<h4>Broker links open</h4><span>${abiertas.length}</span></header>
         <div class="dev-tabla-caja">
-          <table class="dev-tabla">
+          <table class="dev-tabla a-tabla">
             <thead><tr><th>Who</th><th class="num">Uses</th><th>Expires</th><th></th></tr></thead>
             <tbody>
               ${abiertas.map((i) => `<tr><td><b>${esc(i.nombre ?? i.email ?? '—')}</b><small>${esc(i.email ?? '')}</small></td>
@@ -494,45 +779,18 @@ export async function viewAgencia({ query } = {}) {
     titulo: 'What each broker brought', icono: 'trato', id: 'a-brokers',
     nota: 'Their commission, deal by deal. The split with each one is yours to agree; it is paid out of your net.',
   })}`;
-  } else if (tab === 'deals') {
-    cuerpo = `
-      <section class="mod">
-        <header>${ico('trato', 15)}<h4>Your deals</h4><span>${deals.length} in the book</span></header>
-        <div class="dev-tabla-caja">
-          <table class="dev-tabla">
-            <thead><tr><th>When</th><th>Unit</th><th>Developer</th><th>Code</th>
-              <th class="num">Price</th><th class="num">Your commission</th><th>State</th></tr></thead>
-            <tbody>
-              ${deals.length ? deals.map((x) => `
-                <tr>
-                  <td>${esc(date(x.fecha))}</td>
-                  <td><b>${esc(tipo(x.unidad))}</b><small>${esc(x.proyecto ?? '')}</small></td>
-                  <td>${esc(x.desarrollador ?? '')}</td>
-                  <td><code class="dev-mono">${esc(x.codigo ?? '—')}</code><small>${esc(x.broker ?? 'agency code')}</small></td>
-                  <td class="num">${aed(x.precio_fils)}</td>
-                  <td class="num">${aed(x.comision_fils)}</td>
-                  <td>${sello(x.estado)}</td>
-                </tr>`).join('')
-    : '<tr><td colspan="7" class="muted">No deal attributed to your codes yet.</td></tr>'}
-            </tbody>
-          </table>
-        </div>
-        <p class="note">A deal is yours when the code that brought it belongs to you or to one of your brokers.
-          When a developer works with several agencies, only attributed codes count: nobody is guessed into
-          somebody else’s commission.</p>
-      </section>`;
   } else if (tab === 'panels') {
     cuerpo = `
       <section class="mod">
         <header>${ico('edificio', 15)}<h4>The panels you sell on</h4><span>${paneles.length}</span></header>
         <div class="dev-tabla-caja">
-          <table class="dev-tabla">
+          <table class="dev-tabla a-tabla">
             <thead><tr><th>Developer</th><th>Project</th><th class="num">Commission</th>
               <th class="num">Toll</th><th class="num">You keep</th><th>State</th></tr></thead>
             <tbody>
               ${paneles.length ? paneles.map((x) => `
                 <tr>
-                  <td><b>${esc(x.desarrollador)}</b><small>KYB ${esc(x.kyc_estado ?? 'not started')}</small></td>
+                  <td><b>${esc(x.desarrollador)}</b><small>KYB ${esc(enEstado(x.kyc_estado ?? 'not started'))}</small></td>
                   <td>${esc(x.proyecto ?? 'all inventory')}</td>
                   <td class="num">${pct(x.monto_pb)}</td>
                   <td class="num">${pct(x.peaje_pb)}</td>
@@ -560,9 +818,9 @@ export async function viewAgencia({ query } = {}) {
   })}
       </div>
       <section class="mod">
-        <header>${ico('trato', 15)}<h4>The latest deals</h4></header>
+        <header>${ico('trato', 15)}<h4>The latest sales</h4><span><a href="#/agency?t=deals">All sales</a></span></header>
         <div class="dev-tabla-caja">
-          <table class="dev-tabla">
+          <table class="dev-tabla a-tabla">
             <thead><tr><th>When</th><th>Unit</th><th>Developer</th><th>Code</th>
               <th class="num">Price</th><th class="num">Your commission</th></tr></thead>
             <tbody>
@@ -586,8 +844,8 @@ export async function viewAgencia({ query } = {}) {
     sub: `${p.rera_numero ? `RERA ${esc(p.rera_numero)}` : 'RERA not stated'} · ${p.verificada ? sello('verified', 'green') : sello('being checked')}`,
     grupos,
     activo: tab === 'book' ? '#/agency' : `#/agency?t=${tab}`,
-    titulo: tab === 'book' ? 'Your book' : tab === 'brokers' ? 'Brokers' : tab === 'deals' ? 'Deals' : 'Panels',
-    cuerpo: `
+    titulo: { book: 'Your book', deals: 'Sales', brokers: 'Brokers', projects: 'Projects', panels: 'Panels', wallet: 'Wallet' }[tab] ?? 'Your book',
+    cuerpo: tab === 'book' ? `
       ${kpis([
     ['Deals', String(r.deals ?? 0), `${brokers.length} broker${brokers.length === 1 ? '' : 's'}`],
     ['GDV sold', aed(r.gdv_fils), 'on your codes', true],
@@ -595,8 +853,15 @@ export async function viewAgencia({ query } = {}) {
     ['Net to you', aed(c.neto_fils), 'after the toll', true],
   ])}
       ${cuerpo}
-    `,
+    ` : cuerpo,
   });
+
+  const claro = (el, clase, texto) => {
+    if (!el) return;
+    el.hidden = false;
+    el.className = `msg ${clase}`;
+    el.textContent = texto;
+  };
 
   if (tab === 'book') {
     const m = lienzo('a-mes');
@@ -609,40 +874,138 @@ export async function viewAgencia({ query } = {}) {
       ], { etiqueta: 'COMMISSION', formato: formAed });
     }
   }
+
+  if (tab === 'deals') {
+    const caja = view().querySelector('#a-proceso');
+    view().querySelectorAll('[data-proceso]').forEach((b) => b.addEventListener('click', () => {
+      const v = ventas.find((x) => x.intencion_id === b.dataset.proceso);
+      if (!v) return;
+      caja.hidden = false;
+      caja.innerHTML = `<header>${ico('fecha', 15)}<h4>The sale, step by step</h4><span>${esc(v.estado_etiqueta)}</span></header>${proceso(v)}`;
+      caja.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
+  }
+
+  if (tab === 'projects') {
+    const copiar = async (texto, que) => {
+      try { await navigator.clipboard.writeText(texto); toast(`${que} copied`); } catch { toast('Copy it by hand: the clipboard is blocked'); }
+    };
+    view().querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', () => copiar(b.dataset.copiar, b.dataset.que ?? 'Link')));
+    view().querySelectorAll('[data-copiar-select]').forEach((b) => b.addEventListener('click', () => {
+      const s = view().querySelector(`#${b.dataset.copiarSelect}`);
+      if (s) copiar(s.value, b.dataset.que ?? 'Link');
+    }));
+    view().querySelectorAll('[data-crear-enlace],[data-rotar]').forEach((b) => b.addEventListener('click', async () => {
+      const id = b.dataset.crearEnlace ?? b.dataset.rotar;
+      b.disabled = true;
+      try {
+        await api.agencyProjectLink(id);
+        toast(b.dataset.rotar ? 'New link issued — the revoked one stays dead' : 'Link created');
+        render();
+      } catch (e) { toast(e.message); b.disabled = false; }
+    }));
+    view().querySelectorAll('[data-revocar-enlace]').forEach((b) => b.addEventListener('click', async () => {
+      try { await api.agencyProjectUnlink(b.dataset.revocarEnlace); toast('Link revoked'); render(); } catch (e) { toast(e.message); }
+    }));
+  }
+
+  if (tab === 'wallet') {
+    const resp = view().querySelector('#respuesta-pago');
+    const forma = view().querySelector('#forma-pago');
+    const preset = (valor) => {
+      if (!forma) return;
+      const sel = forma.querySelector('#pago-quien');
+      if (!valor || !sel) return;
+      const hay = [...sel.options].some((o) => o.value === valor);
+      if (hay) sel.value = valor;
+    };
+    const abrirPago = (valor) => {
+      preset(valor);
+      forma?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      forma?.querySelector('#pago-monto')?.focus();
+    };
+    view().querySelectorAll('[data-pagar]').forEach((b) => b.addEventListener('click', () => abrirPago(b.dataset.pagar)));
+
+    forma?.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const [tipo, id] = String(forma.quien.value).split(':');
+      const monto = Math.round(Number(String(forma.monto.value).replace(/,/g, '')) * 100);
+      if (!tipo || !id) return claro(resp, 'err', 'No payee with money available yet.');
+      if (!Number.isFinite(monto) || monto <= 0) return claro(resp, 'err', 'An amount in AED, please.');
+      try {
+        await api.agencyPayout({
+          tipo,
+          ...(tipo === 'broker' ? { broker_id: id } : { beneficiario_id: id }),
+          monto_fils: monto,
+          ...(forma.concepto.value.trim() ? { concepto: forma.concepto.value.trim() } : {}),
+        });
+        toast('Payout recorded');
+        render();
+      } catch (e) { claro(resp, 'err', e.message); }
+    });
+
+    view().querySelectorAll('[data-liquidar]').forEach((b) => b.addEventListener('click', async () => {
+      try { await api.agencyPayoutSettle(b.dataset.liquidar); toast('Marked paid'); render(); } catch (e) { toast(e.message); }
+    }));
+    view().querySelectorAll('[data-anular]').forEach((b) => b.addEventListener('click', async () => {
+      try { await api.agencyPayoutCancel(b.dataset.anular); toast('Payout cancelled'); render(); } catch (e) { toast(e.message); }
+    }));
+  }
+
   if (tab === 'brokers') {
     const b = lienzo('a-brokers');
     if (b) {
       barrasDeCategorias(b, filas(c.por_broker).map((x, i) => [x.nombre, Number(x.comision_fils ?? 0) / 100, COLORES.serie[i % COLORES.serie.length]]),
         { formato: formAed });
     }
+
     const form = view().querySelector('#alta-broker');
     const resp = view().querySelector('#respuesta-broker');
-    form?.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
+    const alta = async (conEmail) => {
       const nombre = form.nombre.value.trim();
-      const email = form.email.value.trim();
-      if (!nombre) {
-        resp.hidden = false;
-        resp.className = 'msg err';
-        resp.textContent = 'The name on the RERA card is what makes the licence.';
-        return;
-      }
+      if (!nombre) return claro(resp, 'err', 'The name on the RERA card is what makes the licence.');
+      const parte = Number(form.parte.value);
+      const cuerpo = {
+        nombre,
+        ...(form.email.value.trim() ? { email: form.email.value.trim() } : {}),
+        ...(form.rera.value.trim() ? { rera_numero: form.rera.value.trim() } : {}),
+        ...(Number.isFinite(parte) ? { parte_pb: Math.round(parte * 100) } : {}),
+      };
       try {
-        const x = await api.inviteCreate({ tipo: 'broker', nombre, ...(email ? { email } : {}) });
-        const enlace = `${location.origin}${location.pathname}#/invite/${x.token}`;
-        resp.hidden = false;
-        resp.className = 'msg ok';
-        resp.textContent = `Link open until ${date(x.expira_en)}, one use. The platform issues his code the moment he signs: ${enlace}`;
-        try { await navigator.clipboard.writeText(enlace); toast('Link copied'); } catch { /* no clipboard */ }
+        if (conEmail) {
+          const x = await api.inviteCreate({ tipo: 'broker', nombre, ...(cuerpo.email ? { email: cuerpo.email } : {}) });
+          const enlace = `${location.origin}${location.pathname}#/invite/${x.token}`;
+          claro(resp, 'ok', `Link open until ${date(x.expira_en)}, one use: ${enlace}`);
+          try { await navigator.clipboard.writeText(enlace); toast('Link copied'); } catch { /* no clipboard */ }
+          return;
+        }
+        const x = await api.agencyBrokerAdd(cuerpo);
+        claro(resp, 'ok', `${x.nombre} is on your licence with ${x.codigos.length} code${x.codigos.length === 1 ? '' : 's'} (${x.codigos.join(', ')}) and a ${pct(x.parte_pb)} split.`);
         form.reset();
-      } catch (e) {
-        resp.hidden = false;
-        resp.className = 'msg err';
-        resp.textContent = e.message;
-      }
-    });
+        setTimeout(() => render(), 900);
+      } catch (e) { claro(resp, 'err', e.message); }
+    };
+    form?.addEventListener('submit', (ev) => { ev.preventDefault(); alta(false); });
+    view().querySelector('#mandar-link')?.addEventListener('click', () => alta(true));
+
+    view().querySelectorAll('[data-estado]').forEach((b) => b.addEventListener('click', async () => {
+      try {
+        await api.agencyBrokerPatch(b.dataset.estado, { activo: b.dataset.activo === '1' });
+        toast(b.dataset.activo === '1' ? 'Broker reactivated' : 'Broker paused — his codes stop selling');
+        render();
+      } catch (e) { toast(e.message); }
+    }));
+    // The split is edited in place: it is a number the agency changes, not a form it fills.
+    view().querySelectorAll('[data-parte]').forEach((i) => i.addEventListener('change', async () => {
+      const v = Number(i.value);
+      if (!Number.isFinite(v) || v < 0 || v > 100) { toast('A share between 0 and 100'); return; }
+      try {
+        await api.agencyBrokerPatch(i.dataset.parte, { parte_pb: Math.round(v * 100) });
+        toast(`Split set to ${v.toFixed(0)} %`);
+      } catch (e) { toast(e.message); }
+    }));
     view().querySelectorAll('[data-revocar]').forEach((b2) => b2.addEventListener('click', async () => {
-      try { await api.inviteRevoke(b2.dataset.revocar); toast('Link revoked'); go('#/agency?t=brokers'); } catch (e) { toast(e.message); }
+      try { await api.inviteRevoke(b2.dataset.revocar); toast('Link revoked'); render(); } catch (e) { toast(e.message); }
     }));
   }
 }
@@ -814,6 +1177,21 @@ export async function viewNdc({ query } = {}) {
   const alertas = filas(d.alertas);
   const tab = query?.get?.('t') ?? 'network';
   const miles = (x) => Number(x ?? 0).toLocaleString('en-US');
+  // El libro guarda el estado en el idioma del código ('aprobado', 'pendiente'): el desk lo dice en inglés,
+  // que es el idioma del producto, y deja intacto cualquier valor que no conozca.
+  const enEstado = (e) => ({
+    aprobado: 'approved', aprobada: 'approved',
+    pendiente: 'pending', firmado: 'signed', firmada: 'signed',
+    rechazado: 'rejected', rechazada: 'rejected', borrador: 'draft',
+    'en revisión': 'in review', 'en_revision': 'in review',
+  }[String(e ?? '').toLowerCase()] ?? String(e ?? '—').replace(/_/g, ' '));
+  // Para las columnas estrechas: 3,9 M se lee de un vistazo donde 3.900.000 no cabe.
+  const compacto = (x) => {
+    const n = Number(x ?? 0);
+    if (n >= 1e6) return `${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}M`;
+    if (n >= 1e3) return `${(n / 1e3).toFixed(n >= 1e4 ? 0 : 1)}k`;
+    return String(n);
+  };
 
   const grupos = [
     ['The network', [
@@ -823,6 +1201,7 @@ export async function viewNdc({ query } = {}) {
     ['Who sells', [
       ['#/ndc?t=agencies', 'Agencies', 'grupo', agencias.length],
       ['#/ndc?t=creators', 'Creators', 'pluma'],
+      ['#/ndc?t=creator-kyc', "Creators' KYC", 'permiso'],
     ]],
     ['Demand', [
       ['#/ndc?t=leads', 'Leads', 'lupa'],
@@ -851,6 +1230,7 @@ export async function viewNdc({ query } = {}) {
     wallet: tab === 'wallet' ? await intentar(api.ndcWallet) : null,
     projects: tab === 'projects' ? await intentar(api.ndcProjects) : null,
     kyc: tab === 'kyc' ? await intentar(api.ndcKyc) : null,
+    cartera: tab === 'creator-kyc' ? await intentar(api.ndcCreadoresCola) : null,
   };
   if (tab === 'developers') {
     cuerpo = `<section class="mod">
@@ -895,6 +1275,93 @@ export async function viewNdc({ query } = {}) {
       <p class="note">A seat is one agency on one developer’s panel, with its own terms. The same agency can hold
         several seats with different developers, and its RERA number is one for all of them.</p>
     </section>`;
+  } else if (tab === 'creator-kyc') {
+    // The creator's identity and the money it releases, in one place: the person sends from their own
+    // desk, NDC decides here, and the withdrawal waits 72 hours whatever anybody clicks.
+    const cq = extra.cartera ?? {};
+    const rs = cq.resumen ?? {};
+    const casos = filas(cq.kyc);
+    const retiros = filas(cq.retiros);
+    cuerpo = `
+      <section class="mod">
+        <header>${ico('permiso', 15)}<h4>Identities to identify</h4><span>${casos.length} waiting${rs.kyc_vencidos ? ` · ${rs.kyc_vencidos} past 72 h` : ''}</span></header>
+        ${cq.error ? `<p>${esc(cq.error)}</p>` : `
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla">
+            <thead><tr><th>Person</th><th>Document</th><th>Where</th><th>Waited</th><th>Reason</th><th></th></tr></thead>
+            <tbody>
+              ${casos.length ? casos.map((k) => `
+                <tr>
+                  <td><b>${esc(k.nombre)}</b><small>${esc(k.nombre_legal ?? '')}${k.codigo ? ` · ${esc(k.codigo)}` : ''}</small></td>
+                  <td>${esc(k.documento_tipo ?? '—')} · ${esc(k.documento_numero ?? '')}
+                    <small>${k.foto_url ? `<a href="${esc(k.foto_url)}" target="_blank" rel="noopener">photo</a>` : 'no photo'}${k.documento_url ? ` · <a href="${esc(k.documento_url)}" target="_blank" rel="noopener">scan</a>` : ''}</small></td>
+                  <td>${esc(k.ciudad ?? '—')}<small>${esc(k.pais_residencia ?? '')}${k.telefono ? ` · ${esc(k.telefono)}` : ''}</small></td>
+                  <td class="num">${k.horas} h${k.horas > (cq.horas_efectivo ?? 72) ? '<small class="late">past the promise</small>' : ''}</td>
+                  <td><input class="ndc-motivo" placeholder="reason" maxlength="200"></td>
+                  <td class="abrir">
+                    <button class="btn green sm" type="button" data-cartera-kyc="approved" data-id="${esc(k.id)}">Approve</button>
+                    <button class="btn ghost sm" type="button" data-cartera-kyc="rejected" data-id="${esc(k.id)}">Reject</button>
+                  </td>
+                </tr>`).join('')
+    : '<tr><td colspan="6" class="muted">Nobody is waiting. A creator sends their identification from Profile &amp; KYC in their own desk.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Approving here is what unlocks the creator's wallet: their KYC flag moves with the
+          decision, in the same act. A rejection says why and leaves them able to correct and send again.</p>
+        <div id="respuesta-cartera-kyc" class="msg" hidden></div>`}
+      </section>
+      <section class="mod">
+        <header>${ico('banco', 15)}<h4>Withdrawals to release</h4><span>${retiros.length} open${rs.retiros_listos ? ` · ${rs.retiros_listos} ready` : ''} · ${aed(rs.retiros_fils ?? 0)}</span></header>
+        ${cq.error ? '' : `
+        <div class="dev-tabla-caja">
+          <table class="dev-tabla">
+            <thead><tr><th>Person</th><th class="num">Amount</th><th>Wallet</th><th>Asked</th><th>Effective</th><th>Reason</th><th></th></tr></thead>
+            <tbody>
+              ${retiros.length ? retiros.map((r) => `
+                <tr>
+                  <td><b>${esc(r.nombre)}</b><small>${esc(r.correo ?? '')} · KYC ${esc(r.kyc_estado)}</small></td>
+                  <td class="num">${esc(r.monto_aed)}</td>
+                  <td>${esc(r.red)}<small title="${esc(r.billetera)}">${esc(String(r.billetera).slice(0, 12))}…${esc(String(r.billetera).slice(-6))}</small></td>
+                  <td>${esc(date(r.solicitado_en))}</td>
+                  <td>${r.listo ? sello('ready', 'green') : `<b>${r.horas_restantes} h</b><small>of 72 h</small>`}</td>
+                  <td><input class="ndc-motivo" placeholder="reason" maxlength="200"></td>
+                  <td class="abrir">
+                    ${r.estado === 'solicitado' ? `<button class="btn ghost sm" type="button" data-retiro-ok="approve" data-id="${esc(r.id)}">Approve</button>` : ''}
+                    ${r.listo ? `<button class="btn green sm" type="button" data-retiro-ok="pay" data-id="${esc(r.id)}">Mark paid</button>` : ''}
+                    <button class="btn ghost sm" type="button" data-retiro-ok="reject" data-id="${esc(r.id)}">Reject</button>
+                  </td>
+                </tr>`).join('')
+    : '<tr><td colspan="6" class="muted">No withdrawal waiting.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">The money is effective 72 hours after the request, into the address the creator
+          entered — which the request keeps, even if they change the wallet afterwards. “Mark paid” is only
+          offered once the window has passed; the API refuses before it, so the clock cannot be skipped by
+          clicking a different button.</p>
+        <div id="respuesta-cartera-retiro" class="msg" hidden></div>`}
+      </section>
+      <section class="mod">
+        <header>${ico('pluma', 15)}<h4>Write to a creator</h4><span>lands in their Messages tab</span></header>
+        <div class="dev-form" style="padding:16px">
+          <label class="cuenta-lab">Creator
+            <select id="ndc-msg-destino">
+              ${(cq.creadores ?? []).map((x) => `<option value="${esc(x.beneficiario_id)}">${esc(x.nombre)} · ${esc(x.codigo)}</option>`).join('')}
+            </select>
+          </label>
+          <label class="cuenta-lab">Subject
+            <input id="ndc-msg-asunto" type="text" maxlength="160" placeholder="Campaign, payment, contract…">
+          </label>
+          <label class="cuenta-lab">Message
+            <textarea id="ndc-msg-cuerpo" rows="3" maxlength="4000"></textarea>
+          </label>
+          <div class="desk-acciones">
+            <button class="btn green sm" type="button" id="ndc-msg-enviar">Send as BlockEstate</button>
+          </div>
+        </div>
+        <p class="note">It is signed BlockEstate in the creator's inbox, and it joins the same thread USTAR reads.</p>
+      </section>`;
   } else if (tab === 'kyc') {
     // The queue is read apart from the counts above: the counts come from the whole book — developers
     // and agencies too — and the queue is only the buyers a person has to decide on today.
@@ -972,9 +1439,9 @@ export async function viewNdc({ query } = {}) {
         <section class="mod">
           <header>${ico('pluma', 15)}<h4>The creators who sign with NDC</h4><span>${lista.length}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
-              <thead><tr><th>Creator</th><th>Where</th><th>KYC</th><th class="num">Codes</th>
-                <th>NDC</th><th>BlockEstate</th><th>USTAR</th><th class="num">Visits</th>
+            <table class="dev-tabla apretada">
+              <thead><tr><th>Creator</th><th>Where</th>
+                <th>NDC</th><th>BlockEstate</th><th>USTAR</th>
                 <th class="num">Deals</th><th class="num">Earned</th><th></th></tr></thead>
               <tbody>
                 ${lista.length ? lista.map((x) => {
@@ -982,7 +1449,7 @@ export async function viewNdc({ query } = {}) {
       const t = filas(x.contratos).find((y) => y.actor === k) ?? {};
       return t.estado === 'firmado'
         ? `<span class="tag green">signed</span><small>${esc(date(t.firmado_en))}</small>`
-        : `<span class="tag">${esc(t.estado ?? 'pending')}</span>`;
+        : `<span class="tag">${esc(enEstado(t.estado ?? 'pendiente'))}</span>`;
     };
     const propia = filas(x.contratos).find((y) => y.actor === 'ndc') ?? {};
     const accion = propia.estado === 'firmado'
@@ -990,18 +1457,18 @@ export async function viewNdc({ query } = {}) {
       : `<button class="btn green sm" type="button" data-firma="firmado" data-id="${esc(x.beneficiario_id)}">${ico('pluma', 13)} Sign</button>`;
     return `
                   <tr>
-                    <td><b>${esc(x.nombre)}</b><small>${esc(x.handle ?? x.correo ?? '')}</small></td>
-                    <td>${esc(x.plataforma ?? '—')}<small>${miles(x.seguidores)} followers</small></td>
-                    <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
-                    <td class="num">${filas(x.codigos).length}</td>
+                    <td class="ndc-quien"><b>${esc(x.nombre)}</b> ${enEstado(x.kyc_estado) === 'approved' ? sello('approved', 'green') : sello(enEstado(x.kyc_estado))}
+                      <small>${esc(x.handle ?? x.correo ?? '')}${
+    filas(x.codigos).length ? ` · ${filas(x.codigos).length} ${filas(x.codigos).length === 1 ? 'code' : 'codes'}` : ''}</small></td>
+                    <td>${esc(x.plataforma ?? '—')}<small>${compacto(x.seguidores)} followers${
+    x.visitas_30d ? ` · ${miles(x.visitas_30d)} visits` : ''}</small></td>
                     <td>${firma('ndc')}</td><td>${firma('blockestate')}</td><td>${firma('ustar')}</td>
-                    <td class="num">${miles(x.visitas_30d)}</td>
                     <td class="num">${x.deals}</td>
                     <td class="num">${aed(x.devengado_fils)}</td>
                     <td class="abrir">${accion}</td>
                   </tr>`;
   }).join('')
-    : '<tr><td colspan="11" class="muted">No creator has signed with the network yet.</td></tr>'}
+    : '<tr><td colspan="8" class="muted">No creator has signed with the network yet.</td></tr>'}
               </tbody>
             </table>
           </div>
@@ -1020,7 +1487,19 @@ export async function viewNdc({ query } = {}) {
     } else {
       const rs = l.resumen ?? {};
       const lista = filas(l.leads);
-      const tope = lista.slice(0, 80);
+      // Thirty rows is what a person reads on a screen; the counts above are the whole book.
+      const tope = lista.slice(0, 30);
+      // The book names the state in full because it is the code's word, not a sentence for a desk.
+      const corto = (e) => ({
+        business_completion_approved: 'completion',
+        payment_pending: 'payment',
+        kyc_pending: 'KYC',
+        kyc_approved: 'KYC done',
+        payment_received: 'paid',
+        held: 'hold',
+        draft: 'draft',
+        cancelled: 'cancelled',
+      }[e] ?? String(e ?? '—').replace(/_/g, ' '));
       cuerpo = `
         ${kpis([
     ['Leads', miles(rs.leads ?? 0), 'buyers who committed to a price'],
@@ -1045,20 +1524,20 @@ export async function viewNdc({ query } = {}) {
           <header>${ico('lupa', 15)}<h4>${tope.length === lista.length ? 'Every lead' : `The last ${tope.length}`}</h4>
             <span>${miles(lista.length)}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
+            <table class="dev-tabla apretada">
               <thead><tr><th>Buyer</th><th>Purchase</th><th>Channel</th><th>Code</th>
                 <th class="num">Price</th><th>KYC</th><th>State</th><th>When</th></tr></thead>
               <tbody>
                 ${tope.length ? tope.map((x) => `
                   <tr>
                     <td><b>${esc(x.comprador ?? '—')}</b><small>${esc(x.email ?? '')}</small></td>
-                    <td>${esc(x.proyecto ?? '—')}<small>${esc(x.unidad ?? '')} · ${esc(x.desarrollador ?? '')}</small></td>
+                    <td>${esc(x.proyecto ?? '—')}<small>${esc([x.unidad, x.desarrollador].filter(Boolean).join(' · '))}</small></td>
                     <td>${sello(x.canal ?? '—')}</td>
                     <td>${x.codigo ? `<code class="dev-mono">${esc(x.codigo)}</code><small>${esc(x.fuente ?? '')}</small>`
     : '<span class="muted">not recorded</span>'}</td>
                     <td class="num">${x.precio_aed}</td>
                     <td>${x.kyc_estado === 'approved' ? sello('approved', 'green') : sello(x.kyc_estado ?? 'pending')}</td>
-                    <td>${sello(x.estado ?? '—')}</td>
+                    <td title="${esc(x.estado ?? '')}">${sello(corto(x.estado))}</td>
                     <td>${esc(date(x.creada_en))}</td>
                   </tr>`).join('')
     : '<tr><td colspan="8" class="muted">No buyer has committed to a price yet.</td></tr>'}
@@ -1180,10 +1659,9 @@ export async function viewNdc({ query } = {}) {
         <section class="mod">
           <header>${ico('edificio', 15)}<h4>What the network carries</h4><span>${proyectos.length}</span></header>
           <div class="dev-tabla-caja">
-            <table class="dev-tabla">
+            <table class="dev-tabla apretada">
               <thead><tr><th>Project</th><th>Developer</th><th>Where</th><th>State</th>
-                <th class="num">Units</th><th class="num">Sold</th><th class="num">Value</th>
-                <th class="num">Listed</th><th></th></tr></thead>
+                <th class="num">Units</th><th class="num">Sold</th><th class="num">Value</th><th></th></tr></thead>
               <tbody>
                 ${proyectos.length ? proyectos.map((x) => `
                   <tr>
@@ -1191,13 +1669,12 @@ export async function viewNdc({ query } = {}) {
                     <td>${esc(x.desarrollador)}</td>
                     <td>${esc(x.ciudad ?? '—')}<small>${esc(x.emirato ?? '')}</small></td>
                     <td>${sello(x.estado ?? '—', x.estado === 'published' ? 'green' : '')}</td>
-                    <td class="num">${miles(x.unidades)}</td>
+                    <td class="num">${miles(x.unidades)}<small>${miles(x.listings)} on the market</small></td>
                     <td class="num">${miles(x.vendidas)}</td>
                     <td class="num">${x.valor_aed}</td>
-                    <td class="num">${miles(x.listings)}</td>
                     <td class="abrir"><button class="btn ghost sm" type="button" data-unidad="${esc(x.proyecto_id)}">Add a unit</button></td>
                   </tr>`).join('')
-    : '<tr><td colspan="9" class="muted">No project in the network yet.</td></tr>'}
+    : '<tr><td colspan="8" class="muted">No project in the network yet.</td></tr>'}
               </tbody>
             </table>
           </div>
@@ -1412,6 +1889,65 @@ export async function viewNdc({ query } = {}) {
         toast(estado === 'firmado' ? 'Contract signed' : 'Signature withdrawn');
         await viewNdc({ query });
       } catch (e) { b.disabled = false; decir(e.message, false); }
+    }));
+  }
+
+  if (tab === 'creator-kyc') {
+    const decir = (sel, texto, ok) => {
+      const r = view().querySelector(sel);
+      if (!r) return;
+      r.hidden = false;
+      r.className = `msg ${ok ? 'ok' : 'err'}`;
+      r.textContent = texto;
+    };
+    view().querySelectorAll('[data-cartera-kyc]').forEach((b) => b.addEventListener('click', async () => {
+      const fila = b.closest('tr');
+      const motivo = (fila?.querySelector('.ndc-motivo')?.value ?? '').trim();
+      if (motivo.length < 4) {
+        decir('#respuesta-cartera-kyc', 'A decision needs a reason of at least four characters.', false);
+        return;
+      }
+      b.disabled = true;
+      try {
+        await api.ndcKycCreador(b.dataset.id, { decision: b.dataset.carteraKyc, motivo });
+        toast(b.dataset.carteraKyc === 'approved' ? 'Identity approved' : 'Identity rejected');
+        await viewNdc({ query });
+      } catch (e) { b.disabled = false; decir('#respuesta-cartera-kyc', e.message, false); }
+    }));
+    const enviarMsgCreator = view().querySelector('#ndc-msg-enviar');
+    if (enviarMsgCreator) enviarMsgCreator.addEventListener('click', async () => {
+      const destino = view().querySelector('#ndc-msg-destino')?.value;
+      const asunto = view().querySelector('#ndc-msg-asunto')?.value.trim();
+      const cuerpo = view().querySelector('#ndc-msg-cuerpo')?.value.trim();
+      if (!cuerpo) {
+        decir('#respuesta-cartera-kyc', 'Write the message first.', false);
+        return;
+      }
+      enviarMsgCreator.disabled = true;
+      try {
+        await api.ndcMensajeCreador(destino, { cuerpo, ...(asunto ? { asunto } : {}) });
+        toast('Message sent');
+        await viewNdc({ query });
+      } catch (e) {
+        enviarMsgCreator.disabled = false;
+        decir('#respuesta-cartera-kyc', e.message, false);
+      }
+    });
+
+    view().querySelectorAll('[data-retiro-ok]').forEach((b) => b.addEventListener('click', async () => {
+      const fila = b.closest('tr');
+      const motivo = (fila?.querySelector('.ndc-motivo')?.value ?? '').trim();
+      const decision = b.dataset.retiroOk;
+      if (decision === 'reject' && motivo.length < 4) {
+        decir('#respuesta-cartera-retiro', 'A rejection needs a reason of at least four characters.', false);
+        return;
+      }
+      b.disabled = true;
+      try {
+        await api.ndcRetiroCreador(b.dataset.id, { decision, ...(motivo ? { motivo } : {}) });
+        toast(decision === 'pay' ? 'Withdrawal paid' : decision === 'approve' ? 'Withdrawal approved' : 'Withdrawal rejected');
+        await viewNdc({ query });
+      } catch (e) { b.disabled = false; decir('#respuesta-cartera-retiro', e.message, false); }
     }));
   }
 

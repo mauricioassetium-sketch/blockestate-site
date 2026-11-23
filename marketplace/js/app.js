@@ -18,6 +18,7 @@ import { viewCreador } from './views/escritorios.js';
 import { viewCreadorAgencia } from './views/creador-agencia.js';
 import { viewAgencia, viewBrokerDesk, viewDevAgencias, viewDevCanales, viewInvitacion, viewNdc } from './views/desks.js';
 import { viewChanger, viewDevPurchase, viewDevPurchases, viewPay } from './views/compra.js';
+import { viewComprador } from './views/comprador.js';
 import { viewAbout, viewCareers, viewContact, viewTerms } from './views/informativas.js';
 import { viewNews, viewNoticia } from './views/news.js';
 import { viewAuth, viewFavorites, viewNotifications, viewPortfolio, viewPurchase, viewRegister } from './views/me.js';
@@ -118,6 +119,7 @@ function renderBarra() {
           <div class="menu-bloque">
             ${logged ? `
               <span class="menu-quien">${esc(store.usuario()?.nombre ?? 'Signed in')}</span>
+              ${store.rol() === 'comprador' ? '<a href="#/buyer">My desk</a>' : ''}
               <a href="#/portfolio">My purchases</a>
               <a href="#/favorites">Saved properties</a>
               <a href="#/notifications">Alerts</a>
@@ -252,11 +254,12 @@ route('/', () => viewCatalog());
 route('/search', ({ query }) => viewSearch(query));
 route('/areas', () => viewAreas());
 route('/unit/:id', ({ params }) => viewUnit(params.id));
-route('/project/:id', ({ params }) => viewProject(params.id));
+route('/project/:id', ({ params, query }) => viewProject(params.id, query));
 // La sala de prensa. Debajo de todo lo demás porque no vende nada: se lee.
 route('/news', ({ query }) => viewNews({ etiqueta: query.get('etiqueta') || '' }));
 route('/news/:slug', ({ params }) => viewNoticia(params.slug));
 route('/favorites', () => viewFavorites());
+route('/buyer', () => viewComprador());
 route('/portfolio', () => viewPortfolio());
 route('/portfolio/:id', ({ params }) => viewPurchase(params.id));
 route('/notifications', () => viewNotifications());

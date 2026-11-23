@@ -1,6 +1,8 @@
 /** Sign in, create an account, and the buyer's own pages. */
 
 import { api } from '../api.js';
+import { ACTIVOS, RED } from '../config.js';
+import { PASOS as pasos } from '../estados-compra.js';
 import { go } from '../router.js';
 import { store } from '../store.js';
 import { card, dateTime, empty, error, esc, loading, money, toast } from '../ui.js';
@@ -122,7 +124,14 @@ async function entrar(sesion) {
   if (rol === 'broker') return go('/broker');
   if (rol === 'changer') return go('/changer');
   if (rol.startsWith('developer')) return go('/dev');
-  return go(store.favs.size ? '/favorites' : '/');
+  // The other three seats have a screen of their own too: without this they signed in and landed
+  // on the catalogue, with their desk one link away and nothing pointing at it.
+  if (rol === 'ustar') return go('/creator-agency');
+  if (rol === 'creador_contenido') return go('/creator');
+  if (rol === 'ndc' || rol === 'platform_administrator') return go('/ndc');
+  // The buyer has a desk of their own: the counters, the next step on each purchase and the alerts.
+  if (rol === 'comprador') return go('/buyer');
+  return go('/');
 }
 
 /* ------------------------------------------------------------------ favourites */
@@ -266,22 +275,6 @@ async function viewPurchase(id) {
 }
 
 /** The step the buyer sees, and what only a person inside the platform can do. */
-const pasos = [
-  { clave: 'held', humano: 'Reserved' },
-  { clave: 'kyc_pending', humano: 'Identity check' },
-  { clave: 'kyc_approved', humano: 'Identity approved' },
-  { clave: 'quote_issued', humano: 'Quote issued' },
-  { clave: 'deposit_pending', humano: 'Deposit pending' },
-  { clave: 'deposit_detected', humano: 'Deposit detected' },
-  { clave: 'deposit_confirmed', humano: 'Deposit confirmed' },
-  { clave: 'payment_pending', humano: 'Balance pending' },
-  { clave: 'detected', humano: 'Payment detected' },
-  { clave: 'confirmed', humano: 'Payment confirmed' },
-  { clave: 'aed_settlement_pending', humano: 'Settlement in dirhams' },
-  { clave: 'settled', humano: 'Settled' },
-  { clave: 'business_completion_approved', humano: 'Business completion signed' },
-];
-
 /**
  * What the buyer declares for a purchase: who they are and **which wallet the
  * money will come from**. The wallet is required because the payment is prepared

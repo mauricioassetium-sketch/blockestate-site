@@ -931,3 +931,94 @@ body:not([data-ruta="inicio"]) .progreso > .note{padding:0; border-bottom:0}
 /* A person's name is written as it is spelled: the global h4 rule shouts everything it touches, and
    in the title of this pop-up that rule turns a name into a headline. */
 :is(body[data-ruta="dev"],body[data-ruta="agency"],body[data-ruta="ndc"],body[data-ruta="broker"],body[data-ruta="invite"],body[data-ruta="changer"]) .dev-modal-cab h4{text-transform:none}
+/* Una tabla con muchas columnas: mismo dato, menos aire, para que entre sin scroll en un portátil */
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th,
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada td{padding-left:9px; padding-right:9px}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada{font-size:var(--fs-sm)}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th{letter-spacing:.04em}
+:is(body[data-ruta="ndc"]) .dev-tabla td.ndc-quien{white-space:nowrap}
+:is(body[data-ruta="ndc"]) .dev-tabla td.ndc-quien small{display:block}
+:is(body[data-ruta="ndc"]) .dev-tabla.apretada th{white-space:normal; line-height:1.25}
+
+/* ------------------------------------------------ agency desk: the sale, the link, the wallet */
+
+/* The sale read as a process, not a row: the same five steps the buyer walks. */
+.a-proc{padding:2px 18px 16px}
+.a-proc-head{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; padding:14px 0 12px; border-bottom:1px solid var(--line)}
+.a-proc-head b{display:block; font-size:1.05rem}
+.a-proc-head small{display:block; color:var(--ink-60); font-size:.84rem}
+.a-proc-pie{text-align:right}
+.a-proc-pie span{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45)}
+.a-proc-pie b{font-size:1.15rem}
+.a-tl{list-style:none; margin:16px 0 6px; padding:0; display:grid; grid-template-columns:repeat(5,1fr); gap:10px}
+.a-tl li{position:relative; padding:12px 12px 12px 0; border-top:2px solid var(--line-2)}
+.a-tl li.on{border-top-color:var(--green)}
+.a-tl .dot{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%;
+  border:1px solid var(--line-2); background:#fff; color:#fff; font-size:.7rem; margin-bottom:8px}
+.a-tl li.on .dot{background:var(--green); border-color:var(--green)}
+.a-tl b{display:block; font-size:.86rem}
+.a-tl small{display:block; color:var(--ink-60); font-size:.78rem; line-height:1.35; min-height:2.2em}
+.a-tl time{display:block; margin-top:6px; color:var(--ink-45); font-size:.74rem; font-variant-numeric:tabular-nums}
+.a-who{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.a-who span{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45)}
+.a-who b{display:block; font-size:.95rem; margin-top:2px}
+.a-who small{display:block; color:var(--ink-60); font-size:.78rem}
+.a-who b.muted{color:var(--ink-45); font-weight:400}
+.a-hist{margin-top:14px; padding-top:12px; border-top:1px solid var(--line); font-size:.78rem; color:var(--ink-60)}
+.a-hist>span{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45); margin-bottom:4px}
+.a-hist div{display:flex; justify-content:space-between; gap:12px; padding:2px 0}
+
+/* The creator's mark on a row. */
+.a-chip{display:inline-flex; align-items:center; gap:4px; margin-top:4px; padding:1px 7px; border-radius:999px;
+  background:rgba(34,197,94,.1); color:var(--green-dark); font-size:.68rem; font-style:normal; letter-spacing:.04em; text-transform:uppercase}
+
+/* A project the seat may hand to a client: terms on the left, the link on the right. */
+.a-proj-meta{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:14px 0}
+.a-proj-meta span{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45)}
+.a-proj-meta b{display:block; font-size:1rem; margin-top:2px}
+.a-proj-meta small{display:block; color:var(--ink-60); font-size:.76rem; line-height:1.3}
+.a-link{border-top:1px solid var(--line); padding-top:12px}
+.a-link label{display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45); margin-bottom:5px}
+.a-link-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.a-link-row input{flex:1 1 320px; min-width:220px; padding:9px 11px; border:1px solid var(--line-2); border-radius:8px;
+  background:var(--card); font-size:.8rem}
+.a-link-row select{flex:1 1 320px; min-width:220px; padding:9px 11px; border:1px solid var(--line-2); border-radius:8px; background:#fff; font-size:.84rem}
+.a-link-broker{margin-top:10px}
+.a-share{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+.a-share .btn{padding:6px 12px}
+.a-parte{width:74px; padding:5px 7px; border:1px solid var(--line-2); border-radius:6px; text-align:right; font-size:.84rem}
+.a-pago-pie{display:flex; align-items:flex-end}
+.a-pago-pie .btn{width:100%; justify-content:center}
+
+@media (max-width:900px){
+  .a-tl{grid-template-columns:1fr 1fr}
+  .a-who,.a-proj-meta{grid-template-columns:1fr 1fr}
+}
+
+/* Wallet and broker tables carry eight columns: keep them on one line at desktop width. */
+/* Higher specificity on purpose: the base .dev-tabla rules are scoped through :is(body[data-ruta]) and
+   would otherwise win, leaving the eight-column wallet and sales tables wider than the card. */
+:is(body[data-ruta="agency"]) .a-tabla{font-size:.84rem}
+:is(body[data-ruta="agency"]) .a-tabla th,
+:is(body[data-ruta="agency"]) .a-tabla td{padding:9px 8px}
+:is(body[data-ruta="agency"]) .a-tabla th{font-size:.66rem; letter-spacing:.04em}
+:is(body[data-ruta="agency"]) .a-tabla .num{white-space:nowrap}
+:is(body[data-ruta="agency"]) .a-tabla .abrir{width:1%; white-space:nowrap}
+
+/* The client who opens an agency's project link sees who sent him. */
+.a-agencia{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:26px 0 14px; padding:10px 14px;
+  border:1px solid var(--line); border-left:3px solid var(--green); border-radius:10px; background:#fff}
+.a-agencia span:first-child{font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-45)}
+.a-agencia b{font-size:.95rem}
+.a-agencia small{color:var(--ink-60); font-size:.78rem}
+.a-agencia-com{margin-left:auto; font-size:.78rem; color:var(--green-dark)}
+
+/* The split is edited inline: give the number room, drop the spinner the table width cannot hold. */
+.a-tabla .a-parte{width:76px; min-width:76px; padding:4px 6px; font-variant-numeric:tabular-nums}
+.a-parte{-moz-appearance:textfield; appearance:textfield}
+.a-parte::-webkit-outer-spin-button,.a-parte::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.a-tabla td code{white-space:nowrap}
+
+/* The whole sale row opens its process: no eighth column, and a pointer that says so. */
+:is(body[data-ruta="agency"]) .a-fila{cursor:pointer}
+:is(body[data-ruta="agency"]) .a-fila:hover{background:rgba(34,197,94,.05)}
