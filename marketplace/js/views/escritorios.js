@@ -268,22 +268,21 @@ function viewCreadorPrograma() {
       </div>
 
       <div class="desk-saldo">
-        <div class="desk-saldo-fila">
+        <div class="desk-saldo-fila tres">
           <div class="desk-bloque"><span>Per approved lead</span><b>AED 120</b><i>the month the buyer passes NDC</i></div>
-          <div class="desk-bloque"><span>Per sale</span><b>1.00 %</b><i>of the price, when it closes inside the 90 day window</i></div>
-          <div class="desk-bloque"><span>If someone brought you</span><b>0.80 · 0.20</b><i>0.80 for you, 0.20 for them, inside the same 1.00 %</i></div>
+          <div class="desk-bloque"><span>Per sale</span><b>0.8 %</b><i>of the price, when it closes inside the 90 day window</i></div>
           <div class="desk-bloque total"><span>Leader</span><b>+0.10 %</b><i>for a year</i></div>
         </div>
-        <p class="desk-pie">Two payments: <b>AED 120 for every lead NDC approves</b> and <b>1.00 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. The statement is issued and paid with a bank reference.</p>
+        <p class="desk-pie">Two payments: <b>AED 120 for every lead NDC approves</b> and <b>0.8 % of the price</b> when the sale closes. If the buyer closes outside the 90 day window, the sale belongs to the platform and pays no commission. The statement is issued and paid with a bank reference.</p>
       </div>
 
       <div class="desk-dos">
         <section class="desk-panel">
           <header>${ico('permiso', 15)}<h2>The three roles</h2></header>
           <ul class="desk-aviso-lista">
-            <li><b>Creator</b><span>your code, your leads and your sales. 120 AED per approved lead, 1.00 % when the sale closes.</span></li>
-            <li><b>Team partner</b><span>your own code plus 0.20 % of the creators you bring.</span></li>
-            <li><b>Leader · same rank</b><span>full 1.00 % plus 0.10 % for a year. Whoever brought you takes a one-off bounty, never a cut of your team.</span></li>
+            <li><b>Creator</b><span>your code, your leads and your sales. 120 AED per approved lead, plus 0.8 % when the sale closes.</span></li>
+            <li><b>Team partner</b><span>your own code plus a share of the creators you bring.</span></li>
+            <li><b>Leader · same rank</b><span>the full 0.8 % plus 0.10 % for a year. Whoever brought you takes a one-off bounty, never a cut of your team.</span></li>
           </ul>
         </section>
         <section class="desk-panel">
@@ -291,7 +290,7 @@ function viewCreadorPrograma() {
           <ul class="desk-aviso-lista">
             <li><b>1 · You get a code</b><span>and a link. Quote it at the reservation.</span></li>
             <li><b>2 · The buyer passes NDC</b><span>the lead is approved and 120 AED are accrued to you.</span></li>
-            <li><b>3 · The sale closes</b><span>your 1.00 % is frozen and shows as Pending.</span></li>
+            <li><b>3 · The sale closes</b><span>your 0.8 % is frozen and shows as Pending.</span></li>
             <li><b>4 · You get paid</b><span>leads at the month close, commissions with the statement, always with a reference.</span></li>
             <li><b>There is no tree below you</b><span>if you are a creator: you are paid for your own sales, nobody else's.</span></li>
           </ul>
@@ -550,7 +549,39 @@ function viewCreadorVivo(d) {
   const pct = (pb) => (pb / 100).toFixed(2) + ' %';
   const rol = esLider ? 'Team leader' : esPartner ? 'Team partner' : 'Content creator';
 
-  const estado = { tab: 'overview', filtro: 'todos' };
+  const estado = { tab: 'overview', filtro: 'todos', cuenta: null, inbox: null, panelErr: '', ok: '', docUrl: null, ocupado: false };
+
+  // The account — wallet, identity, withdrawals, messages — is fetched when a tab needs it, so the
+  // overview opens at the speed it always had and a failing queue does not blank the desk.
+  const cargarCuenta = async () => {
+    try {
+      estado.cuenta = await api.creadorCuenta();
+      estado.panelErr = '';
+    } catch (e) {
+      estado.panelErr = e?.message ?? 'The account could not be read.';
+    }
+  };
+  const cargarMensajes = async () => {
+    try {
+      estado.inbox = await api.creadorMensajes();
+      estado.panelErr = '';
+    } catch (e) {
+      estado.panelErr = e?.message ?? 'The inbox could not be read.';
+    }
+  };
+
+  const fecha = (v) => (v ? new Date(v).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
+  const fechaHora = (v) => (v ? new Date(v).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—');
+  const corta = (s, n = 18) => (s && s.length > n * 2 ? `${s.slice(0, n)}…${s.slice(-6)}` : s ?? '');
+
+  const cargando = (que) => `<section class="desk-panel"><p class="muted" style="padding:16px">Reading ${que}…</p></section>`;
+
+  const avisoPanel = () => `${estado.ok
+    ? `<p class="desk-panel-nota" style="color:#2c6b3f">${esc(estado.ok)}</p>`
+    : ''}${estado.panelErr
+    ? `<p class="desk-panel-nota" style="color:#a33">${esc(estado.panelErr)}</p>`
+    : ''}`;
+
 
   const copiar = async (texto, boton) => {
     const etiqueta = boton.dataset.lbl || boton.textContent;
@@ -793,10 +824,269 @@ function viewCreadorVivo(d) {
       </section>
     </div>`;
 
+  /* ---- Messages: the line to USTAR and BlockEstate, inside the desk ---- */
+  const mensajesHTML = () => {
+    const ib = estado.inbox;
+    if (!ib) return cargando('your messages');
+    const msgs = ib.mensajes ?? [];
+    const hilo = msgs.length
+      ? `<ul class="msg-hilo">${msgs.map((m) => `
+          <li class="msg${m.de === 'creador' ? ' msg-mio' : ''}">
+            <div class="msg-cab">
+              <b>${esc(m.de_nombre)}</b>
+              <span class="muted">${fechaHora(m.creada_en)}${m.codigo ? ` · code ${esc(m.codigo)}` : ''}</span>
+            </div>
+            <span class="msg-asunto">${esc(m.asunto)}</span>
+            <p class="msg-cuerpo">${esc(m.cuerpo)}</p>
+            ${(m.adjuntos ?? []).length
+              ? `<p class="msg-adj">${m.adjuntos.map((a) => `<a href="${esc(a.ruta)}" target="_blank" rel="noopener">${esc(a.nombre)}</a>`).join(' · ')}</p>`
+              : ''}
+          </li>`).join('')}</ul>`
+      : `<p class="muted" style="padding:16px">Nothing yet. When USTAR or BlockEstate writes to you, it appears here.</p>`;
+
+    return `
+      ${avisoPanel()}
+      <section class="desk-panel">
+        <header>${ico('campana', 15)}<h2>Messages</h2>
+          <span class="muted" style="margin-left:auto">${msgs.length ? `${msgs.length} in the thread` : 'no messages'}</span>
+        </header>
+        <p class="desk-panel-nota">USTAR and BlockEstate write here. Your reply lands in the same thread the agency already reads.</p>
+        ${hilo}
+      </section>
+      <section class="desk-panel">
+        <header>${ico('pluma', 15)}<h2>Write to USTAR and BlockEstate</h2></header>
+        <div class="dev-form" style="padding:16px">
+          <label class="cuenta-lab">Your message
+            <textarea id="msg-cuerpo" rows="4" maxlength="4000" placeholder="Ask about a statement, a sale, a campaign…"></textarea>
+          </label>
+          <div class="desk-acciones">
+            <button type="button" class="btn-primario" id="msg-enviar"${estado.ocupado ? ' disabled' : ''}>Send message</button>
+          </div>
+        </div>
+      </section>`;
+  };
+
+  /* ---- Wallet: what is there, where it goes, and the 72 hour withdrawal ---- */
+  const carteraHTML = () => {
+    const c = estado.cuenta;
+    if (!c) return cargando('your wallet');
+    const s = c.saldo;
+    const b = c.perfil.billetera;
+    const retiros = c.retiros ?? [];
+    const falta = c.falta_para_retirar ?? [];
+
+    const filas = retiros.length
+      ? retiros.map((r) => `
+          <tr>
+            <td class="num">${esc(r.monto_aed)}</td>
+            <td><b>${esc(r.red)}</b><br><small class="muted">${esc(corta(r.billetera, 12))}</small></td>
+            <td>${fecha(r.solicitado_en)}</td>
+            <td>${r.estado === 'pagado' ? `paid ${fecha(r.pagado_en)}`
+              : r.estado === 'rechazado' ? `<span class="muted">${esc(r.motivo ?? 'rejected')}</span>`
+                : r.horas_restantes > 0 ? `in ${r.horas_restantes} h` : 'ready'}</td>
+            <td><span class="pastilla ${r.estado === 'pagado' ? 'ok' : r.estado === 'rechazado' ? 'amb' : 'neu'}">${esc(r.estado)}</span></td>
+            <td><small class="muted">${esc(r.referencia ?? '—')}</small></td>
+          </tr>`).join('')
+      : '<tr><td colspan="6" class="muted" style="padding:14px 16px">No withdrawal asked for yet.</td></tr>';
+
+    return `
+      ${avisoPanel()}
+      <div class="desk-saldo">
+        <div class="desk-saldo-fila">
+          <div class="desk-bloque total">
+            <span>Available to withdraw</span>
+            <b>${esc(s.disponible_aed)}</b>
+            <small>in a statement, waiting for the money</small>
+          </div>
+          <div class="desk-bloque">
+            <span>Pending</span>
+            <b>${esc(s.pendiente_aed)}</b>
+            <small>sale closed, not yet in a statement</small>
+          </div>
+          <div class="desk-bloque">
+            <span>In flight</span>
+            <b>${esc(s.comprometido_aed)}</b>
+            <small>asked for, not yet in your wallet</small>
+          </div>
+          <div class="desk-bloque">
+            <span>Paid to date</span>
+            <b>${esc(s.pagado_aed)}</b>
+            <small>with a payment reference</small>
+          </div>
+        </div>
+      </div>
+
+      <section class="desk-panel">
+        <header>${ico('banco', 15)}<h2>Your crypto wallet</h2>
+          ${b ? '<span class="pastilla ok" style="margin-left:auto">saved</span>' : '<span class="pastilla amb" style="margin-left:auto">not set</span>'}
+        </header>
+        <p class="desk-panel-nota">The address the money is sent to. Changing it only affects what you ask for next: a request already made keeps the address it was made with.</p>
+        <div class="dev-form" style="padding:16px">
+          <div class="cuenta-par">
+            <label class="cuenta-lab">Network
+              <select id="billetera-red">
+                ${(c.redes ?? []).map((r) => `<option value="${esc(r)}"${b?.red === r ? ' selected' : ''}>${esc(r)}</option>`).join('')}
+              </select>
+            </label>
+            <label class="cuenta-lab">Holder <span class="muted">(as the exchange sees it)</span>
+              <input id="billetera-titular" type="text" maxlength="120" value="${esc(b?.titular ?? c.perfil.nombre ?? '')}">
+            </label>
+          </div>
+          <label class="cuenta-lab">Address
+            <input id="billetera-dir" type="text" spellcheck="false" autocomplete="off" placeholder="${b ? '' : 'the address of your wallet'}" value="${esc(b?.direccion ?? '')}">
+          </label>
+          <div class="desk-acciones">
+            <button type="button" class="btn-primario" id="billetera-guardar"${estado.ocupado ? ' disabled' : ''}>Save wallet</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="desk-panel">
+        <header>${ico('llave', 15)}<h2>Withdraw</h2>
+          <span class="muted" style="margin-left:auto">${c.horas_efectivo} h to land · minimum ${esc(c.minimo_aed)}</span>
+        </header>
+        ${c.puede_retirar
+          ? `<div class="dev-form" style="padding:16px">
+              <label class="cuenta-lab">Amount in AED
+                <input id="retiro-monto" type="number" min="${Number(c.minimo_fils) / 100}" step="0.01" placeholder="0.00">
+              </label>
+              <p class="desk-panel-nota" style="padding-left:0">It will be sent to <b>${esc(b.red)}</b> · <code>${esc(corta(b.direccion, 14))}</code>.</p>
+              <div class="desk-acciones">
+                <button type="button" class="btn-primario" id="retiro-pedir"${estado.ocupado ? ' disabled' : ''}>Request withdrawal</button>
+              </div>
+            </div>`
+          : `<div style="padding:16px">
+              <p style="margin:0 0 10px"><b>You cannot withdraw yet.</b> Still missing:</p>
+              <ul class="cuenta-falta">${falta.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>
+              <div class="desk-acciones">
+                ${c.perfil.kyc_estado !== 'aprobado' ? '<button type="button" class="btn-ghost" id="ir-perfil">Go to Profile &amp; KYC</button>' : ''}
+                ${!b ? '<button type="button" class="btn-ghost" id="ir-billetera">Add your wallet</button>' : ''}
+              </div>
+            </div>`}
+      </section>
+
+      <section class="desk-panel">
+        <header>${ico('descarga', 15)}<h2>Your withdrawals</h2></header>
+        <div class="desk-tablas">
+          <table class="tabla">
+            <thead><tr><th>Amount</th><th>Wallet</th><th>Asked</th><th>Effective</th><th>State</th><th>Reference</th></tr></thead>
+            <tbody>${filas}</tbody>
+          </table>
+        </div>
+      </section>`;
+  };
+
+  /* ---- Profile: the face, the data, and the KYC NDC reviews ---- */
+  const perfilHTML = () => {
+    const c = estado.cuenta;
+    if (!c) return cargando('your profile');
+    const p = c.perfil;
+    const k = c.kyc;
+    const estadoKyc = p.kyc_estado === 'aprobado' ? 'ok' : k?.estado === 'pendiente' ? 'neu' : 'amb';
+    const etiquetaKyc = p.kyc_estado === 'aprobado' ? 'KYC approved'
+      : k?.estado === 'pendiente' ? 'under review by NDC'
+        : k?.estado === 'rechazado' ? 'needs a fix' : 'not sent';
+
+    const iniciales = (p.nombre ?? '')
+      .split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]).join('').toUpperCase();
+
+    const historial = (c.kyc_historial ?? []).length > 1
+      ? `<section class="desk-panel">
+           <header>${ico('fecha', 15)}<h2>Your submissions</h2></header>
+           <div class="desk-tablas"><table class="tabla">
+             <thead><tr><th>Sent</th><th>State</th><th>NDC said</th></tr></thead>
+             <tbody>${c.kyc_historial.map((h) => `<tr><td>${fecha(h.creada_en)}</td>
+               <td><span class="pastilla ${h.estado === 'aprobado' ? 'ok' : h.estado === 'pendiente' ? 'neu' : 'amb'}">${esc(h.estado)}</span></td>
+               <td>${esc(h.motivo ?? '—')}</td></tr>`).join('')}</tbody>
+           </table></div>
+         </section>`
+      : '';
+
+    return `
+      ${avisoPanel()}
+      <section class="desk-panel">
+        <header>${ico('permiso', 15)}<h2>Identification</h2>
+          <span class="pastilla ${estadoKyc}" style="margin-left:auto">${etiquetaKyc}</span>
+        </header>
+        ${k?.estado === 'rechazado' && k.motivo
+          ? `<p class="desk-panel-nota" style="color:#a33">NDC asked for a fix: ${esc(k.motivo)}</p>` : ''}
+        ${k?.estado === 'pendiente'
+          ? `<p class="desk-panel-nota">Sent ${fecha(k.creada_en)}. NDC reviews it by hand; you are told here when they decide.</p>` : ''}
+
+        <div class="cuenta-ficha">
+          <div class="cuenta-cara">
+            ${p.foto_url
+              ? `<img src="${esc(p.foto_url)}" alt="${esc(p.nombre)}">`
+              : `<span>${esc(iniciales || 'AR')}</span>`}
+            <label class="cuenta-foto">Change photo
+              <input id="foto-input" type="file" accept="image/png,image/jpeg" hidden>
+            </label>
+          </div>
+          <div>
+            <h3 style="margin:0 0 4px">${esc(p.nombre)}</h3>
+            <p class="muted" style="margin:0">${esc(p.correo ?? '')}${p.telefono ? ` · ${esc(p.telefono)}` : ''}</p>
+            <p class="muted" style="margin:6px 0 0">${p.direccion ? esc(p.direccion) + ', ' : ''}${esc(p.ciudad ?? '')}${p.pais_residencia ? ', ' + esc(p.pais_residencia) : ''}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="desk-panel">
+        <header>${ico('pluma', 15)}<h2>Your data</h2>
+          <span class="muted" style="margin-left:auto">NDC reviews every change</span>
+        </header>
+        <div class="dev-form" style="padding:16px">
+          <div class="cuenta-par">
+            <label class="cuenta-lab">Legal name
+              <input id="kyc-nombre" type="text" maxlength="120" value="${esc(k?.nombre_legal ?? p.nombre ?? '')}">
+            </label>
+            <label class="cuenta-lab">Date of birth
+              <input id="kyc-nacimiento" type="date" value="${esc(p.fecha_nacimiento ?? '')}">
+            </label>
+          </div>
+          <div class="cuenta-par">
+            <label class="cuenta-lab">Phone
+              <input id="kyc-telefono" type="text" maxlength="40" value="${esc(p.telefono ?? '')}">
+            </label>
+            <label class="cuenta-lab">Country
+              <input id="kyc-pais" type="text" maxlength="2" placeholder="AE" value="${esc(p.pais_residencia ?? 'AE')}">
+            </label>
+          </div>
+          <label class="cuenta-lab">Address
+            <input id="kyc-dir" type="text" maxlength="200" value="${esc(p.direccion ?? '')}">
+          </label>
+          <label class="cuenta-lab">City
+            <input id="kyc-ciudad" type="text" maxlength="80" value="${esc(p.ciudad ?? '')}">
+          </label>
+          <div class="cuenta-par">
+            <label class="cuenta-lab">Document
+              <select id="kyc-tipo">
+                ${[['passport', 'Passport'], ['emirates_id', 'Emirates ID'], ['national_id', 'National ID']]
+                  .map(([v, t]) => `<option value="${v}"${p.documento_tipo === v ? ' selected' : ''}>${t}</option>`).join('')}
+              </select>
+            </label>
+            <label class="cuenta-lab">Number
+              <input id="kyc-numero" type="text" maxlength="40" value="${esc(p.documento_numero ?? '')}">
+            </label>
+          </div>
+          <label class="cuenta-lab">Scan of the document <span class="muted">(photo or PDF picture)</span>
+            <input id="kyc-doc" type="file" accept="image/png,image/jpeg">
+          </label>
+          <p class="muted" id="kyc-doc-estado" style="margin:0">${p.documento_numero ? 'You can send the same document again if it changed.' : 'Upload the page with your photograph and number.'}</p>
+          <div class="desk-acciones">
+            <button type="button" class="btn-primario" id="kyc-enviar"${estado.ocupado ? ' disabled' : ''}>${k?.estado === 'pendiente' ? 'Send it again' : 'Send to NDC'}</button>
+          </div>
+        </div>
+      </section>
+      ${historial}`;
+  };
+
   const contenido = () => (estado.tab === 'ventas' ? ventasHTML()
     : estado.tab === 'equipo' ? equipoHTML()
       : estado.tab === 'pagos' ? pagosHTML()
-        : resumen());
+        : estado.tab === 'mensajes' ? mensajesHTML()
+          : estado.tab === 'cartera' ? carteraHTML()
+            : estado.tab === 'perfil' ? perfilHTML()
+              : resumen());
 
   const render = () => {
     view().innerHTML = `
@@ -819,7 +1109,9 @@ function viewCreadorVivo(d) {
         </div>
 
         <nav class="desk-tabs" role="tablist">
-          ${[['overview', 'Overview'], ['ventas', 'Sales'], ['equipo', 'Team'], ['pagos', 'Payouts']]
+          ${[['overview', 'Overview'], ['ventas', 'Sales'], ['equipo', 'Team'], ['pagos', 'Payouts'],
+            ['mensajes', `Messages${estado.inbox?.sin_leer ? ` · ${estado.inbox.sin_leer}` : ''}`],
+            ['cartera', 'Wallet'], ['perfil', 'Profile & KYC']]
             .filter(([k]) => k !== 'equipo' || conEquipo)
             .map(([k, etiqueta]) => `<button type="button" class="desk-tab${estado.tab === k ? ' on' : ''}" data-tab="${k}" role="tab">${etiqueta}</button>`).join('')}
         </nav>
@@ -830,10 +1122,163 @@ function viewCreadorVivo(d) {
       </div>`;
 
     // pestañas
-    view().querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => {
+    view().querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', async () => {
       estado.tab = b.dataset.tab;
+      estado.ok = '';
+      estado.panelErr = '';
+      // The three account tabs read before they draw: a wallet that shows yesterday's balance is
+      // worse than one that takes half a second longer to appear.
+      if ((estado.tab === 'cartera' || estado.tab === 'perfil') && !estado.cuenta) await cargarCuenta();
+      if (estado.tab === 'mensajes') await cargarMensajes();
       render();
     }));
+
+    // --- Messages: one composer, one thread
+    const enviarMsg = view().querySelector('#msg-enviar');
+    if (enviarMsg) enviarMsg.addEventListener('click', async () => {
+      const cuerpo = view().querySelector('#msg-cuerpo')?.value.trim() ?? '';
+      if (!cuerpo) {
+        estado.panelErr = 'Write the message first.';
+        render();
+        return;
+      }
+      estado.ocupado = true;
+      enviarMsg.disabled = true;
+      enviarMsg.textContent = 'Sending…';
+      try {
+        await api.creadorResponder({ cuerpo });
+        await cargarMensajes();
+        estado.ok = 'Sent. It is in the thread USTAR already reads.';
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The message did not go.';
+      } finally {
+        estado.ocupado = false;
+        render();
+      }
+    });
+
+    // --- Wallet: the address, then the money
+    const guardarB = view().querySelector('#billetera-guardar');
+    if (guardarB) guardarB.addEventListener('click', async () => {
+      const direccion = view().querySelector('#billetera-dir')?.value.trim() ?? '';
+      const red = view().querySelector('#billetera-red')?.value ?? '';
+      const titular = view().querySelector('#billetera-titular')?.value.trim() ?? '';
+      estado.ocupado = true;
+      guardarB.disabled = true;
+      guardarB.textContent = 'Saving…';
+      try {
+        await api.creadorBilletera({ direccion, red, titular });
+        await cargarCuenta();
+        estado.ok = 'Wallet saved. The next withdrawal goes there.';
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The wallet was not saved.';
+      } finally {
+        estado.ocupado = false;
+        render();
+      }
+    });
+
+    const pedirR = view().querySelector('#retiro-pedir');
+    if (pedirR) pedirR.addEventListener('click', async () => {
+      const aed = Number(view().querySelector('#retiro-monto')?.value ?? 0);
+      if (!(aed > 0)) {
+        estado.panelErr = 'Write the amount in AED.';
+        render();
+        return;
+      }
+      estado.ocupado = true;
+      pedirR.disabled = true;
+      pedirR.textContent = 'Requesting…';
+      try {
+        const r = await api.creadorRetiro({ monto_fils: Math.round(aed * 100) });
+        await cargarCuenta();
+        estado.ok = `Withdrawal of ${r.monto_aed} requested. It lands in your wallet in ${r.horas} h.`;
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The withdrawal was not requested.';
+      } finally {
+        estado.ocupado = false;
+        render();
+      }
+    });
+
+    ['#ir-perfil', '#ir-billetera'].forEach((sel) => {
+      const b = view().querySelector(sel);
+      if (b) b.addEventListener('click', () => {
+        estado.tab = sel === '#ir-perfil' ? 'perfil' : 'cartera';
+        estado.panelErr = '';
+        render();
+      });
+    });
+
+    // --- Profile: the face, then the case
+    const fotoInput = view().querySelector('#foto-input');
+    if (fotoInput) fotoInput.addEventListener('change', async () => {
+      const f = fotoInput.files?.[0];
+      if (!f) return;
+      try {
+        const up = await api.subirImagen(f);
+        await api.creadorFoto(up.url);
+        await cargarCuenta();
+        estado.ok = 'Photo updated.';
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The photo did not upload.';
+      }
+      render();
+    });
+
+    const docInput = view().querySelector('#kyc-doc');
+    if (docInput) docInput.addEventListener('change', async () => {
+      const f = docInput.files?.[0];
+      if (!f) return;
+      const etiqueta = view().querySelector('#kyc-doc-estado');
+      try {
+        if (etiqueta) etiqueta.textContent = 'Uploading the document…';
+        const up = await api.subirImagen(f);
+        estado.docUrl = up.url;
+        if (etiqueta) etiqueta.textContent = 'Document uploaded. Send it to NDC below.';
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The document did not upload.';
+        render();
+      }
+    });
+
+    const enviarKyc = view().querySelector('#kyc-enviar');
+    if (enviarKyc) enviarKyc.addEventListener('click', async () => {
+      const val = (sel) => view().querySelector(sel)?.value.trim() ?? '';
+      const cuerpo = {
+        nombre_legal: val('#kyc-nombre'),
+        fecha_nacimiento: val('#kyc-nacimiento') || null,
+        telefono: val('#kyc-telefono') || null,
+        direccion: val('#kyc-dir'),
+        ciudad: val('#kyc-ciudad'),
+        pais_residencia: val('#kyc-pais').toUpperCase(),
+        documento_tipo: val('#kyc-tipo'),
+        documento_numero: val('#kyc-numero'),
+        foto_url: estado.cuenta?.perfil?.foto_url ?? null,
+        documento_url: estado.docUrl,
+      };
+      const falta = ['nombre_legal', 'direccion', 'ciudad', 'pais_residencia', 'documento_numero']
+        .filter((k) => !cuerpo[k]);
+      if (falta.length) {
+        estado.panelErr = `Missing: ${falta.join(', ')}.`;
+        render();
+        return;
+      }
+      estado.ocupado = true;
+      enviarKyc.disabled = true;
+      enviarKyc.textContent = 'Sending…';
+      try {
+        await api.creadorKyc(cuerpo);
+        await cargarCuenta();
+        estado.docUrl = null;
+        estado.ok = 'Sent to NDC. You keep working while they review it; withdrawals unlock when they approve.';
+      } catch (e) {
+        estado.panelErr = e?.message ?? 'The identification was not sent.';
+      } finally {
+        estado.ocupado = false;
+        render();
+      }
+    });
     // copiar
     const cl = view().querySelector('#copiar-link');
     if (cl) cl.addEventListener('click', () => copiar(link, cl));

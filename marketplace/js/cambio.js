@@ -19,6 +19,24 @@ export const ACTIVOS_CAMBIO = [
   ['BNB', 'BNB · BNB Chain'],
 ];
 
+/**
+ * A rate outside this band is not a rate, it is a typo, and a typo must never become a price. With
+ * the rate at 0.0001 AED per USDT, a flat of one and a half million dirhams read as fifteen thousand
+ * million USDT: a number so absurd that the sensible reading is not «the rate is wrong» but «the
+ * marketplace is broken». The band is wide on purpose (BNB sits around 2,400 and USDT around 3.67);
+ * it only catches what cannot possibly be a rate.
+ *
+ * It is declared before the store is read, because the store filters with it: a saved rate that is
+ * not a rate must not come back to life on the next visit.
+ */
+export const BANDA_TASA = [0.5, 100000];
+
+/** A saved figure the band accepts, or nothing. Hoisted: `leer()` runs while the module loads. */
+function aceptable(v) {
+  const n = numero(v);
+  return n !== null && n >= BANDA_TASA[0] && n <= BANDA_TASA[1] ? n : null;
+}
+
 let estadoCambio = leer();
 
 /**
@@ -34,8 +52,8 @@ function leer() {
   try {
     const crudo = JSON.parse(localStorage.getItem(CLAVE) ?? '{}');
     return {
-      usdt: numero(crudo.usdt),
-      bnb: numero(crudo.bnb),
+      usdt: aceptable(crudo.usdt),
+      bnb: aceptable(crudo.bnb),
       ver: crudo.ver ?? null,
       // La unidad en la que el visitante lee las superficies. El mercado cotiza en pies cuadrados;
       // quien viene de fuera lee metros. Es una preferencia, no un dato: el dato son los pies.
@@ -78,14 +96,6 @@ export function elegirUnidad(unidad) {
   return estadoCambio;
 }
 
-/**
- * A rate outside this band is not a rate, it is a typo, and a typo must never become a price. With
- * the rate at 0.0001 AED per USDT, a flat of one and a half million dirhams read as fifteen thousand
- * million USDT: a number so absurd that the sensible reading is not «the rate is wrong» but «the
- * marketplace is broken». The band is wide on purpose (BNB sits around 2,400 and USDT around 3.67);
- * it only catches what cannot possibly be a rate.
- */
-export const BANDA_TASA = [0.5, 100000];
 export function tasaPlausible(activo) {
   const t = tasa(activo);
   return t === null ? false : t >= BANDA_TASA[0] && t <= BANDA_TASA[1];
@@ -123,20 +133,45 @@ export function fijarTasa(activo, valor) {
  */
 const FUENTE = 'https://api.coingecko.com/api/v3/simple/price?ids=tether,binancecoin&vs_currencies=aed';
 
-export async function refrescarTasas() {
+/**
+ * The second source. CoinGecko answers without a key, and that is exactly why on a busy day it also
+ * answers «too many requests»: a price that carries a figure cannot go blank because a free feed had
+ * a bad minute. The dirham is pegged to the dollar at 3.6725, so one BNB/USDT quote is enough to
+ * reach a dirham figure, and the store records which source answered.
+ */
+const RESPALDO = 'https://api.binance.com/api/v3/ticker/price?symbols=%5B%22BNBUSDT%22%5D';
+const DIRHAM_POR_DOLAR = 3.6725;
+
+async function leerFuente(url) {
   try {
-    const r = await fetch(FUENTE, { headers: { accept: 'application/json' } });
-    if (!r.ok) return null;
-    const d = await r.json();
-    const usdt = numero(d?.tether?.aed);
-    const bnb = numero(d?.binancecoin?.aed);
-    if (!usdt || !bnb) return null;
-    estadoCambio = { ...estadoCambio, usdt, bnb, fuente: 'CoinGecko', visto: new Date().toISOString() };
-    guardar();
-    return estadoCambio;
+    const r = await fetch(url, { headers: { accept: 'application/json' } });
+    return r.ok ? await r.json() : null;
   } catch {
     return null;
   }
+}
+
+export async function refrescarTasas() {
+  const d = await leerFuente(FUENTE);
+  const usdt = numero(d?.tether?.aed);
+  const bnb = numero(d?.binancecoin?.aed);
+  if (usdt && bnb) {
+    estadoCambio = { ...estadoCambio, usdt, bnb, fuente: 'CoinGecko', visto: new Date().toISOString() };
+    guardar();
+    return estadoCambio;
+  }
+  const r = await leerFuente(RESPALDO);
+  const bnbUsdt = numero(Number(r?.[0]?.price));
+  if (!bnbUsdt) return null;
+  estadoCambio = {
+    ...estadoCambio,
+    usdt: DIRHAM_POR_DOLAR,
+    bnb: bnbUsdt * DIRHAM_POR_DOLAR,
+    fuente: 'Binance · AED peg',
+    visto: new Date().toISOString(),
+  };
+  guardar();
+  return estadoCambio;
 }
 
 export function fuenteTasa() {

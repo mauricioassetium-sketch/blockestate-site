@@ -24,6 +24,9 @@ async function req(method, path, { body, auth = true } = {}) {
     res = await fetch(API_BASE + path, {
       method,
       headers,
+      // A desk that reads the same book after a payout must not be handed yesterday's copy: without
+      // this the browser is free to answer a repeating GET from its cache and the screen lies.
+      cache: 'no-store',
       body: body === undefined ? undefined : (esForm ? body : JSON.stringify(body)),
     });
   } catch {
@@ -100,6 +103,15 @@ export const api = {
   // scoped to the organisation of the session by the API, never by this layer.
   devMe: () => req('GET', '/me/developer'),
   creadorMe: () => req('GET', '/me/creator'),
+  // The creator's own account: the wallet they are paid into, the identity NDC reviews, and the
+  // withdrawal that lands 72 hours after it is asked for.
+  creadorCuenta: () => req('GET', '/me/creator/account'),
+  creadorBilletera: (body) => req('PUT', '/me/creator/wallet', { body }),
+  creadorKyc: (body) => req('POST', '/me/creator/kyc', { body }),
+  creadorFoto: (url) => req('POST', '/me/creator/photo', { body: { url } }),
+  creadorMensajes: () => req('GET', '/me/creator/messages'),
+  creadorResponder: (body) => req('POST', '/me/creator/messages', { body }),
+  creadorRetiro: (body) => req('POST', '/me/creator/withdrawals', { body }),
   devUnits: (filtros) => req('GET', `/me/units${qs(filtros)}`),
   devProjects: () => req('GET', '/me/projects'),
   devSales: (filtros) => req('GET', `/me/sales${qs(filtros)}`),
@@ -164,6 +176,19 @@ export const api = {
   devAgencyUpdate: (id, body) => req('PATCH', `/me/developer/agencies/${id}`, { body }),
   devAgencyArchive: (id) => req('DELETE', `/me/developer/agencies/${id}`),
   agencyMe: () => req('GET', '/me/agency'),
+  // The rest of the seat: the sale with its steps and whoever carried it, the projects it may put in
+  // front of a client with their links and terms, and the wallet where brokers and creators get paid.
+  agencySales: () => req('GET', '/me/agency/sales'),
+  agencyProjects: () => req('GET', '/me/agency/projects'),
+  agencyProjectLink: (id) => req('POST', `/me/agency/projects/${id}/link`),
+  agencyProjectUnlink: (id) => req('DELETE', `/me/agency/projects/${id}/link`),
+  agencyWallet: () => req('GET', '/me/agency/wallet'),
+  agencyPayout: (body) => req('POST', '/me/agency/payouts', { body }),
+  agencyPayoutSettle: (id) => req('POST', `/me/agency/payouts/${id}/settle`),
+  agencyPayoutCancel: (id) => req('POST', `/me/agency/payouts/${id}/cancel`),
+  agencyBrokerAdd: (body) => req('POST', '/me/agency/brokers', { body }),
+  agencyBrokerPatch: (id, body) => req('PATCH', `/me/agency/brokers/${id}`, { body }),
+  agencyProjectView: (token) => req('GET', `/public/agency-projects/${encodeURIComponent(token)}`, { auth: false }),
   brokerMe: () => req('GET', '/me/broker'),
   ndcMe: () => req('GET', '/me/ndc'),
   // The four pages of the network console: the creators who sign with it, the leads it produces,
@@ -172,6 +197,11 @@ export const api = {
   ndcSignContract: (id, body) => req('POST', `/me/ndc/creators/${id}/contract`, { body }),
   ndcLeads: () => req('GET', '/me/ndc/leads'),
   ndcKyc: () => req('GET', '/me/ndc/kyc'),
+  // The creator's identity and their money, from NDC's side of the desk.
+  ndcCreadoresCola: () => req('GET', '/me/ndc/creators/queue'),
+  ndcKycCreador: (id, body) => req('POST', `/me/ndc/creators/kyc/${id}/decision`, { body }),
+  ndcRetiroCreador: (id, body) => req('POST', `/me/ndc/creators/withdrawals/${id}/decision`, { body }),
+  ndcMensajeCreador: (id, body) => req('POST', `/me/ndc/creators/${id}/messages`, { body }),
   ndcWallet: () => req('GET', '/me/ndc/wallet'),
   ndcProjects: () => req('GET', '/me/ndc/projects'),
   ndcProjectAdd: (body) => req('POST', '/me/ndc/projects', { body }),
@@ -199,6 +229,7 @@ export const api = {
   favorites: () => req('GET', '/me/favorites'),
   addFavorite: (unidad_id) => req('POST', '/me/favorites', { body: { unidad_id } }),
   removeFavorite: (unidad_id) => req('DELETE', `/me/favorites/${unidad_id}`),
+  buyerMe: () => req('GET', '/me/buyer'),
   portfolio: () => req('GET', '/me/portfolio'),
   purchase: (id) => req('GET', `/me/portfolio/${id}`),
   notifications: (filtros) => req('GET', `/me/notifications${qs(filtros)}`),
