@@ -56,7 +56,6 @@ const GRUPOS_MENU = [
     ['Agency desk', '#/agency'],
     ['Broker desk', '#/broker'],
     ['NDC network console', '#/ndc'],
-    ['List a property', '#/register'],
     ['Creator desk', '#/creator'],
     ['Creator Agency', '#/creator-agency'],
   ]],
